@@ -9,8 +9,11 @@ categories:
     # - 画图
     # - Python
     # - LLM
+    # - web
     # - Library
     # - PaperReading
+    # - Study
+    # - Other
 
 ---
 

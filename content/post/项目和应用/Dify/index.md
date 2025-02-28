@@ -2,8 +2,8 @@
 title: Dify
 description: Dify 是一个开源的低代码平台，帮助开发者快速构建和部署自定义应用程序。
 date: 2025-02-28
-slug: Dify/index.md ## 必填，文件夹名/index.md
-image: image/Dify/Dify.png
+slug: Dify/index.md 
+image: Dify.png
 categories:
     # - DeepLearning
     # - 画图
