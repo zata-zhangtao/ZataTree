@@ -175,9 +175,9 @@ In hugo, a folder is a page, then the default language of index.md that you can 
 
 2. 在根目录下面使用hugo -D 命令生成静态页面
 using "hugo -D" command to generate static pages in the root directory
-```bash
-hugo -D
-```
+    ```bash
+    hugo -D
+    ```
 这将生成一个public文件夹
 This will generate a public folder
 
@@ -234,23 +234,23 @@ then you can see your static page
 
 
 ## github 自动部署hugo的静态页面
+automatically deploy hugo's static page by github action
+
 
 https://www.bilibili.com/video/BV1bovfeaEtQ?p=4
 
 
 https://gohugo.io/hosting-and-deployment/hosting-on-github/#build-hugo-with-github-action
 
-automatically deploy hugo's static page by github action
+
 
 这里的自动部署就是。。。。
-
 
 
 1. 在自己的根路径下面创建一个.github/workflows/hugo.yaml文件,并将如下代码复制粘贴进去
 `配置文件中有几点值得注意：`
 - 需要修改你的分支名，我这里是hugo,需要改成你自己的分支名
 - 注意一下版本的问题，这里我默认版本是0.141.0，
-- 注意一下baseurl的问题，我这里是https://zata-zhangtao.github.io/，需要改成你自己的域名
 
 
 ```yaml
@@ -339,7 +339,8 @@ jobs:
 2. 创建一个github仓库，然后进入setting，将build and development 改成Github Action 
 
 
-  ![alt text](images/index/image-6.png)
+    ![alt text](images/index/image-6.png)
+
 
 
 
