@@ -247,6 +247,12 @@ automatically deploy hugo's static page by github action
 
 
 1. 在自己的根路径下面创建一个.github/workflows/hugo.yaml文件,并将如下代码复制粘贴进去
+`配置文件中有几点值得注意：`
+- 需要修改你的分支名，我这里是hugo,需要改成你自己的分支名
+- 注意一下版本的问题，这里我默认版本是0.141.0，
+- 注意一下baseurl的问题，我这里是https://zata-zhangtao.github.io/，需要改成你自己的域名
+
+
 ```yaml
 # Sample workflow for building and deploying a Hugo site to GitHub Pages
 name: Deploy Hugo site to Pages
@@ -255,7 +261,7 @@ on:
   # Runs on pushes targeting the default branch
   push:
     branches:
-      - main
+      - hugo  # 注意要要修改你的分支名
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
