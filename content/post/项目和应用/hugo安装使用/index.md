@@ -11,7 +11,10 @@ categories:
     # - LLM
     # - Library
     # - PaperReading
+    - hugo
     - Study
+tags:
+    - Blog
 
 ---
 
@@ -21,16 +24,7 @@ categories:
 # hugo
 
 
-
-
-
-
-
-
-## hugo安装使用
-
-
-### 常用命令
+## 常用命令
 
 ```bash
 # start the hugo server
@@ -40,6 +34,9 @@ hugo server -D
 hugo -D
 ```
 
+
+
+## hugo在ubuntu系统下安装使用
 
 
 
@@ -62,6 +59,11 @@ sudo apt install hugo
 sudo apt install git-all
 ```
 
+
+
+
+
+## hugo在windwos安装使用
 
 
 ### windows版本 hugo安装
@@ -151,6 +153,83 @@ md文件+图片的组合，文件夹的名称是随意命名的，但文件夹�
 ![alt text](image/index/index.jpg)
 
 ![alt text](image/index/index-1.jpg)
+
+
+
+
+## 使用github部署hugo的静态页面
+
+
+
+### 将hugo的编译成静态页面
+
+1. 修改配置文件中的baseurl,具体如何修改可以看下一节 :[如何对应github静态页面的域名](#push-上一步生成的pulic文件夹到github)
+
+![alt text](images/index/image-4.png)
+
+
+
+2. 在根目录下面使用hugo -D 命令生成静态页面
+using "hugo -D" command to generate static pages in the root directory
+```bash
+hugo -D
+```
+这将生成一个public文件夹
+This will generate a public folder
+
+![alt text](images/index/image.png)
+
+### push 上一步生成的pulic文件夹到github
+
+1. 首先需要在github上创建一个仓库，这个仓库名如果是"[你的用户名].github.io" 那么后续生成的静态页面的地址就不会有后缀，不然就会有后缀，例如我的github名字是zata-zhangtao,我创建了一个仓库为zata-zhangtao.github.io，那么生成的静态页面的地址就是zata-zhangtao.github.io，而如果仓库名为zata-zhangtao, 那么生成的静态页面地址就会是zata-zhangtao.github.io/zata-zhangtao/
+
+First, you need to create a repository on github, and if the repository name is "[your-username].github.io", then the static pages will not have a suffix, otherwise there will be a suffix, for example, my github username is zata-zhangtao, I created a repository named zata-zhangtao.github.io, then the static pages address will be zata-zhangtao.github.io, but if the repository name iszata-zhangtao, then the static pages address will be z
+
+
+![alt text](images/index/image-1.png)
+
+
+
+
+
+  
+
+
+2. 把刚刚的public文件夹push到github上
+
+push the public folder to github
+
+具体的push命令和方式不在具体说明
+
+the specific push command and way are not detailed
+
+
+
+![alt text](images/index/image-2.png)
+
+3. 设置github静态页面
+setting up github pages 
+
+进入仓库的设置页面，然后点击pages,然后再选你那个分支作为你的静态页面，选择完成之后，稍等几分钟，看到页面产生就可以使用了
+into the repository settings page, click pages, then choose your branch as your static page, select complete, wait a few minutes, and see if the page is generated, and you can use it 
+
+`如果你前面配置文件中的baseurl没有配置正确，可能会出现点击域名之后发现页面有问题，解决：`
+重新修改baseurl，并重新编译和push，并且注意编译的时候有没有报错
+if the baseurl in the hogo.yaml is not configured correctly, you will find that the page is not displayed correctly after clicking the domain, solve it by modifying the baseurl, recompiling and pushing, and pay attention to whether there are any errors when compiling 
+
+   
+![alt text](images/index/image-3.png)
+
+
+4. 然后你就可以看见你的静态页面了
+then you can see your static page
+
+![alt text](images/index/image-5.png)
+
+
+
+
+
 
 
 
