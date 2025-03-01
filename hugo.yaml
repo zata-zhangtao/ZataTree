@@ -211,6 +211,7 @@ params:
 ### Custom menu
 ### See https://stack.jimmycai.com/config/menu
 ### To remove about, archive and search page menu item, remove `menu` field from their FrontMatter
+
 menu:
     main: []
 
@@ -267,3 +268,6 @@ markup:
         lineNos: true
         lineNumbersInTable: true
         tabWidth: 4
+
+frontmatter:
+  lastmod: [":fileModTime", "lastmod"]
