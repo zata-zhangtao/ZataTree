@@ -236,15 +236,16 @@ then you can see your static page
 ## github 自动部署hugo的静态页面
 automatically deploy hugo's static page by github action
 
+参考网址：
 
-https://www.bilibili.com/video/BV1bovfeaEtQ?p=4
-
-
-https://gohugo.io/hosting-and-deployment/hosting-on-github/#build-hugo-with-github-action
+    https://www.bilibili.com/video/BV1bovfeaEtQ?p=4
 
 
+    https://gohugo.io/hosting-and-deployment/hosting-on-github/#build-hugo-with-github-action
 
-这里的自动部署就是。。。。
+
+
+“GitHub 自动部署 Hugo 的静态页面”是指利用 GitHub Actions（GitHub 提供的工作流自动化工具）来实现以下过程：当你推送 Hugo 项目代码到 GitHub 仓库时，自动完成 Hugo 静态网站的构建并将其部署到某个目标位置（通常是 GitHub Pages），无需手动操作。
 
 
 1. 在自己的根路径下面创建一个.github/workflows/hugo.yaml文件,并将如下代码复制粘贴进去
@@ -253,86 +254,86 @@ https://gohugo.io/hosting-and-deployment/hosting-on-github/#build-hugo-with-gith
 - 注意一下版本的问题，这里我默认版本是0.141.0，
 
 
-```yaml
-# Sample workflow for building and deploying a Hugo site to GitHub Pages
-name: Deploy Hugo site to Pages
+    ```yaml
+    # Sample workflow for building and deploying a Hugo site to GitHub Pages
+    name: Deploy Hugo site to Pages
 
-on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches:
-      - hugo  # 注意要要修改你的分支名
+    on:
+      # Runs on pushes targeting the default branch
+      push:
+        branches:
+          - hugo  # 注意要要修改你的分支名
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+      # Allows you to run this workflow manually from the Actions tab
+      workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+    # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+    # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+    # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+    concurrency:
+      group: "pages"
+      cancel-in-progress: false
 
-# Default to bash
-defaults:
-  run:
-    shell: bash
+    # Default to bash
+    defaults:
+      run:
+        shell: bash
 
-jobs:
-  # Build job
-  build:
-    runs-on: ubuntu-latest
-    env:
-      HUGO_VERSION: 0.141.0
-    steps:
-      - name: Install Hugo CLI
-        run: |
-          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
-      - name: Install Dart Sass
-        run: sudo snap install dart-sass
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          fetch-depth: 0
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v5
-      - name: Install Node.js dependencies
-        run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
-      - name: Build with Hugo
+    jobs:
+      # Build job
+      build:
+        runs-on: ubuntu-latest
         env:
-          HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
-          HUGO_ENVIRONMENT: production
-          TZ: America/Los_Angeles
-        run: |
-          hugo \
-            --gc \
-            --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./public
+          HUGO_VERSION: 0.141.0
+        steps:
+          - name: Install Hugo CLI
+            run: |
+              wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
+              && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+          - name: Install Dart Sass
+            run: sudo snap install dart-sass
+          - name: Checkout
+            uses: actions/checkout@v4
+            with:
+              submodules: recursive
+              fetch-depth: 0
+          - name: Setup Pages
+            id: pages
+            uses: actions/configure-pages@v5
+          - name: Install Node.js dependencies
+            run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
+          - name: Build with Hugo
+            env:
+              HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
+              HUGO_ENVIRONMENT: production
+              TZ: America/Los_Angeles
+            run: |
+              hugo \
+                --gc \
+                --minify \
+                --baseURL "${{ steps.pages.outputs.base_url }}/"
+          - name: Upload artifact
+            uses: actions/upload-pages-artifact@v3
+            with:
+              path: ./public
 
-  # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-```
+      # Deployment job
+      deploy:
+        environment:
+          name: github-pages
+          url: ${{ steps.deployment.outputs.page_url }}
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+          - name: Deploy to GitHub Pages
+            id: deployment
+            uses: actions/deploy-pages@v4
+    ```
 
 
 
@@ -352,14 +353,14 @@ ctreate a github repository, then enter setting, change build and development to
 3. 需要将自己的根目录上传到github的一个仓库中，push之前可以把public文件夹和resources文件夹忽略掉,因为这两个文件夹是hugo编译生成的,自动部署可以自己生成，就不需要了。同时你许要修改根路径下面的yaml文件，主要是其中的baseurl，修改为`https://<username>.github.io/<repository>` 当然如果你的仓库名是`<username>.github.io`就可以修改为`https://<username>.github.io` 
 you need to upload your root directory to a github repository, the repository name is not important, you can ignore the public folder and resources folder before pushing,because these two folders are generated by hugo, you don't need them. Also you need to modify the yaml file in the root directory, mainly the baseurl, modify it to `https://<username>.github.io/<repository>`, of course if your repository name is `<username>.github.io` you can modify it to `https://<username>.github.io`
 
-  ![alt text](images/index/image-9.png)
-  ![alt text](images/index/image-10.png)
+    ![alt text](images/index/image-9.png)
+    ![alt text](images/index/image-10.png)
 
 4. 准备好之后就可以push了，注意别push错了，必须要是之前配置环境变量和workflows里面的分支,push之后可以到action里面查看进度，稍后就可访问静态页面了
 You are ready to push, don't push wrong, you must push to the branch you configured in the environment variable and workflows,push it, you can see the progress in the action, and you can access the static page later
 
-  ![alt text](images/index/image-11.png)
-  ![alt text](images/index/image-12.png)
+    ![alt text](images/index/image-11.png)
+    ![alt text](images/index/image-12.png)
 
 
 
