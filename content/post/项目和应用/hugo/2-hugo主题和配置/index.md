@@ -1,5 +1,5 @@
 ---
-title: Hugo主题和配置
+title: 2-Hugo主题和配置
 description:  主题和配置通过模板文件和配置文件（如 .toml或者.yaml）自定义网站的样式和功能。本文主要关于主题和配置的使用，以及遇到的问题
 date: 2025-03-02T00:00:00+08:00
 image: images/index/2025-03-02-03-12-15.png

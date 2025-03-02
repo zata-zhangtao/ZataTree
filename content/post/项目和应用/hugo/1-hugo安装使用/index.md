@@ -1,5 +1,5 @@
 ---
-title: hugo使用
+title: 1-hugo使用
 description:  Hugo 是一个快速、灵活的开源静态网站生成器，广泛用于构建博客、文档和个人网站。
 date: 2025-02-28
 slug: hugo安装使用/index.md ## 必填，文件夹名/index.md
