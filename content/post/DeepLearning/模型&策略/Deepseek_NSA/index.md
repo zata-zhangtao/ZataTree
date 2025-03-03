@@ -208,14 +208,14 @@ NSA 的架构基于**分层稀疏注意力**，通过以下三个并行的注意
 
 ### 1. **背景**
 - **注意力机制**：广泛用于语言建模，通过计算查询（query）与所有先前键（keys）的相关性得分，生成值（values）的加权和。
-    ```math
+$$
     \text{Attn}(q_t, k, v)=\text{Softmax}\left(\frac{Q K^T}{\sqrt{d_k}}\right)
-    ```
+$$
 - **计算挑战**：随着序列长度增加，注意力计算在整体计算成本中占据主导地位，特别是在长上下文处理中。
 文中给出复杂度：
-```math
+$$
  \mathrm{Attn}(\mathbf{q}_t, \mathbf{k}_{:t}, \mathbf{v}_{:t}) = \sum_{i = 1}^{t} \frac{\alpha_{t,i} \mathbf{v}_i}{\sum_{j = 1}^{t} \alpha_{t,j}}, \quad \alpha_{t,i} = e^{\frac{\mathbf{q}_t^{\top} \mathbf{k}_i}{\sqrt{d_k}}}
-```
+$$
 
 - **算术强度**：定义为计算操作与内存访问的比率，决定了算法在硬件上的优化方向。训练和预填充阶段通常是计算密集型，而自回归解码阶段则受内存带宽限制。
 
@@ -225,33 +225,29 @@ NSA 的架构基于**分层稀疏注意力**，通过以下三个并行的注意
 - NSA提出用更紧凑且信息密集的表示（key-value对）替代原始的key-value对，以优化注意力输出。
 - 提出了三种映射策略：
   1. **压缩（Compression）**：将连续块的keys/values聚合为更高层次的语义表示。
-```math
-\tilde{K}_{t}=f_{K}(q_{t}, k_{: t}, v_{: t})
-```
-```math
-\tilde{V}_{t}=f_{V}(q_{t}, k_{: t}, v_{: t})
-```
-```math
-o_{t}^{*}=\mathrm{Attn}(q_{t}, \tilde{K}_{t}, \tilde{V}_{t})
-```
-其中$`\tilde{K}_{t}`$、$`\tilde{V}_{t}`$是基于当前查询$`q_{t}`$和上下文记忆$`k_{: t}`$、$`v_{: t}`$动态构建的。
+
+$$\tilde{K}_{t}=f_{K}(q_{t}, k_{: t}, v_{: t})$$
+
+
+$$\tilde{V}_{t}=f_{V}(q_{t}, k_{: t}, v_{: t})$$
+
+
+$$o_{t}^{*}=\mathrm{Attn}(q_{t}, \tilde{K}_{t}, \tilde{V}_{t})$$
+
+其中$\tilde{K}_{t}$、$\tilde{V}_{t}$是基于当前查询$q_{t}$和上下文记忆$k_{: t}$、$v_{: t}$动态构建的。
 
 
   2. **选择（Selection）**：选择最相关的tokens，保留细粒度信息。
-  我们可以设计各种映射策略来获得不同类别的$`\tilde{K}_{t}^{c}`$、$`\tilde{V}_{t}^{c}`$，并按如下方式组合它们：
-```math
-o_{t}^{*}=\sum_{c \in C} g_{t}^{c} \cdot \mathrm{Attn}(q_{t}, \tilde{K}_{t}^{c}, \tilde{V}_{t}^{c})
-```
+  我们可以设计各种映射策略来获得不同类别的$\tilde{K}_{t}^{c}$、$\tilde{V}_{t}^{c}$，并按如下方式组合它们：
+$$o_{t}^{*}=\sum_{c \in C} g_{t}^{c} \cdot \mathrm{Attn}(q_{t}, \tilde{K}_{t}^{c}, \tilde{V}_{t}^{c})$$
 
-NSA有三种映射策略$`C = \{cmp, slc, win\} `$，分别代表键和值的压缩、选择和滑动窗口。$`g_{t}^{c} \in [0, 1]`$是对应策略$`c`$的门控分数，通过多层感知机（MLP）和sigmoid激活函数从输入特征中推导得出。
+NSA有三种映射策略$C = \{cmp, slc, win\} $，分别代表键和值的压缩、选择和滑动窗口。$g_{t}^{c} \in [0, 1]$是对应策略$c$的门控分数，通过多层感知机（MLP）和sigmoid激活函数从输入特征中推导得出。
 
   3. **滑动窗口（Sliding Window）**：专注于局部上下文，防止局部模式主导学习过程。
 - 这些策略通过动态构造的keys/values实现，并结合门控机制（gate score）进行加权组合。
 
-令$`N_{t}`$表示重新映射后的键/值的总数：
-```math
-N_{t}=\sum_{c \in C} \mathrm{size}[\tilde{K}_{t}^{c}]
-```
+令$N_{t}$表示重新映射后的键/值的总数：
+$$N_{t}=\sum_{c \in C} \mathrm{size}[\tilde{K}_{t}^{c}]$$
 
 ---
 

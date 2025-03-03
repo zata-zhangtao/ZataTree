@@ -75,7 +75,7 @@ params:
             src: img/avatar.jpg        # 头像文件路径
 
     article:
-        math: false                    # 是否启用数学公式支持（关闭）
+        math: True                    # 是否启用数学公式支持（关闭）
         toc: true                      # 启用文章目录（Table of Contents）
         readingTime: true              # 显示阅读时间
         license:
