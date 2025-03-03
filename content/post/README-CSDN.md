@@ -6,7 +6,7 @@ date: 2025-02-24
 # image: image/腾讯云修改root登录/腾讯云修改root登录.jpg
 categories:
     # - DeepLearning
-    # - 画图
+    # - Chart
     # - Python
     # - LLM
     # - Library
@@ -141,7 +141,7 @@ TKinter实现与Dash应用的同步启停控制|[ZATA](https://blog.csdn.net/qq_
 # Matplotlib
 |标题|地址|
 |--|--|
-画图示例|[ZATA](https://blog.csdn.net/qq_41685627/article/details/143437622)
+Chart示例|[ZATA](https://blog.csdn.net/qq_41685627/article/details/143437622)
 | 画包含三个不同数据集（训练集、验证集和测试集）的真实值和预测值散点图|[CSDN](https://blog.csdn.net/qq_41685627/article/details/135955265) |
 |绘制训练集、验证集和测试集上的混淆矩阵|[CSDN](https://blog.csdn.net/qq_41685627/article/details/135955265)|
 |解决坐标轴过于密集问题|[CSDN](https://blog.csdn.net/QAQIknow/article/details/123798062)|

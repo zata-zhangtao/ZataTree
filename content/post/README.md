@@ -6,7 +6,7 @@ date: 2025-02-24
 # image: helena-hertz-wWZzXlDpMog-unsplash.jpg
 categories:
     # - DeepLearning
-    # - 画图
+    # - Chart
     # - Python
     # - LLM
     # - web
@@ -28,7 +28,7 @@ slug: XXX/index.md ## 必填，文件夹名/index.md
 image: XXX
 categories:
     # - DeepLearning
-    # - 画图
+    # - Chart
     # - Python
     # - LLM
     # - Library
