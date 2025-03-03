@@ -140,6 +140,20 @@ git remote set-url origin xxxx_url
 ```
 
 
+
+
+### checkout
+
+```bash
+# 切换分支
+git checkout <分支名>
+# 创建分支并切换
+git checkout -b <分支名>
+# 删除分支
+```
+
+
+
 ### bundle  用于备份
 https://blog.csdn.net/penriver/article/details/126579266
 
@@ -154,6 +168,8 @@ git bundle verify <打包名>.bundle
 git clone <打包名>.bundle
 
 ```
+
+
 
 
 
@@ -172,10 +188,49 @@ git merge origin/feature
 
 
 
+
+
+
+
 # 一些问题
 
 
+## git 版本标签
 
+1. 什么是版本标签？
+标签（Tag） 是 Git 中的一个引用（reference），指向某个特定的提交。
+它通常用于标记一个稳定的发布版本，比如 v1 表示第一个正式版本。
+在 GitHub 上，标签还会显示在 Releases 页面，便于用户下载或查看。
+两种标签类型
+轻量标签（Lightweight Tag）：只是一个简单的指针，指向某个提交，不包含额外信息。
+附注标签（Annotated Tag）：包含额外元数据（如创建者、日期、描述），更常用于正式发布。
+
+```bash
+# 假设你已经完成代码更改并提交
+git add .
+git commit -m "Finalize version 1.0"
+
+# 创建一个轻量标签（简单标记当前提交）
+git tag v1
+
+# 或者创建一个附注标签（带描述信息，推荐用于正式发布）
+git tag -a v1 -m "Release version 1.0"
+
+# 查看所有本地标签
+git tag
+
+# 推送单个标签到远程仓库（如 GitHub）
+git push origin v1
+
+# 或者推送所有标签到远程仓库
+git push origin --tags
+
+# （可选）如果需要删除本地标签
+git tag -d v1
+
+# （可选）如果需要删除远程标签
+git push origin --delete v1
+```
 
 
 ## git merge详解

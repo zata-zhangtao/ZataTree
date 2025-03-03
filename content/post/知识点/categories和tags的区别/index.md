@@ -14,7 +14,7 @@ categories:
     # - PaperReading
     # - Study
     # - Other
-    - Knowledge points
+    - Knowledge
 ---
 
 
