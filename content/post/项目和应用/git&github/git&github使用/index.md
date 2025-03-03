@@ -1,5 +1,5 @@
 ---
-title: git&github使用
+title: 1-git&github使用
 description: git&github使用指南
 date: 2025-02-28
 slug: git&github/index.md ## 必填，文件夹名/index.md
@@ -9,9 +9,13 @@ categories:
     # - 画图
     # - Python
     # - LLM
+    - Project&Application
     # - Library
     # - PaperReading
-    - Study
+    # - Study
+    # - Other
+    # - Knowledge points
+tags: ["git&github"]
 
 ---
 

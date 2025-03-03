@@ -1,7 +1,7 @@
 ---
 title: README
 description: BLOG介绍
-date: 2025-02-24
+date: 2025-02-24T00:00:00+08:00
 # slug: 文件夹名/index.md ## 必填，文件夹名/index.md
 # image: helena-hertz-wWZzXlDpMog-unsplash.jpg
 categories:
@@ -9,11 +9,14 @@ categories:
     # - 画图
     # - Python
     # - LLM
-    # - web
+    # - Project&Application
     # - Library
     # - PaperReading
     # - Study
     # - Other
+    # - Knowledge points
+tags:
+    - github
 
 ---
 
