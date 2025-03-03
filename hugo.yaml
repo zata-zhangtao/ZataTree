@@ -265,4 +265,6 @@ markup:
         tabWidth: 4                    # 制表符宽度
 
 frontmatter:
-    lastmod: [":fileModTime", "lastmod"]  # 定义最后修改时间的来源（文件修改时间或 frontmatter 中的 lastmod）
+    lastmod: [":git",":fileModTime", "lastmod"]  # 定义最后修改时间的来源（文件修改时间或 frontmatter 中的 lastmod）
+
+enableGitInfo: true                       # 启用 Git 信息

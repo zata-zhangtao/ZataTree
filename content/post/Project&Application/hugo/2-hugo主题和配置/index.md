@@ -412,3 +412,74 @@ frontmatter:
     **如果要显示最后修改于**
     修改 themes/hugo-theme-stack/i18n 文件夹中的 zh-cn.yaml 文件
     ![alt text](images/index/image-3.png)
+
+
+### 在文章开头就显示修改时间
+
+参考：   
+https://letere-gzj.github.io/hugo-stack/p/hugo/custom-stack-theme/#3-%E6%98%BE%E7%A4%BA%E6%96%87%E7%AB%A0%E6%9B%B4%E6%96%B0%E6%97%B6%E9%97%B4
+
+
+
+
+1. 在themes\hugo-theme-satck\layouts\partials\article\components\details.html，在指定位置引入以下代码
+```html
+        {{- if ne .Lastmod .Date -}}
+        <div>
+            {{ partial "helper/icon" "clock" }}
+            <time class="article-time--published">
+                {{ T "article.lastUpdatedOn" }} {{ .Lastmod | time.Format ( or .Site.Params.dateFormat.lastUpdated "Jan 02, 2006 15:04 MST" ) }}
+            </time>
+        </div>
+        {{- end -}}
+```
+
+![在details.html中插入代码](images/index/index-2.png)
+
+
+
+2. 在主题的.yaml文件中添加
+```yaml
+# 更新时间：优先读取git时间 -> git时间不存在，就读取本地文件修改时间
+frontmatter:
+  lastmod:
+    - :git
+    - :fileModTime
+
+# 允许获取Git信息		
+enableGitInfo: true
+
+```
+
+![alt text](images/index/index.png)
+
+这部分指定了Hugo获取lastmod值的优先级顺序：  
+:git：优先使用Git提交历史中的最后修改时间（更准确反映内容实际更新时间）。  
+:fileModTime：如果Git信息不可用，则使用本地文件的修改时间作为备选。  
+如果不设置这个，Hugo可能无法正确填充.Lastmod，导致你的代码 {{ if ne .Lastmod .Date }} 条件永远不生效。  
+enableGitInfo: true：   
+默认情况下，Hugo不会去查询Git信息（为了性能考虑）。   
+设置 enableGitInfo: true 后，Hugo会利用Git仓库的提交历史来填充页面变量（如 .Lastmod）。  
+如果你使用的是版本控制（比如GitHub），这个设置非常有用，因为它能确保修改时间反映的是内容的实际提交时间，而不是本地文件的时间（后者可能因环境不同而变化）。
+
+
+3. 修改github action文件.github/workflows/xxx.yaml，让可以读取git信息
+
+```yaml
+- name: Git Configuration
+run: |
+    git config --global core.quotePath false
+    git config --global core.autocrlf false
+    git config --global core.safecrlf true
+    git config --global core.ignorecase false      
+```    
+
+![alt text](images/index/index-1.png)
+
+这些配置确保Git在构建过程中能够正确处理文件路径和换行符等问题，避免因环境差异导致的异常。   
+core.quotePath false：确保特殊字符的文件名不会被转义。   
+core.autocrlf false：避免换行符转换问题（不同系统可能处理不同）。   
+core.safecrlf true：确保换行符处理安全。   
+core.ignorecase false：保持文件名大小写敏感。   
+这些设置虽然不直接决定.Lastmod，但能确保Git仓库的行为一致，避免潜在问题。   
+
