@@ -1,6 +1,6 @@
 ---
-title: README
-description: BLOG介绍
+title: ❤️每日AI资讯
+# description: BLOG介绍
 date: 2025-02-24T00:00:00+08:00
 # slug: 文件夹名/index.md ## 必填，文件夹名/index.md
 # image: helena-hertz-wWZzXlDpMog-unsplash.jpg
@@ -17,7 +17,7 @@ categories:
     - Knowledge
 tags:
     # - github
-    - 新闻
+    - news
 ---
 
 
@@ -28,8 +28,19 @@ tags:
 
 # ❤️每日AI资讯
 
+## 2025-03-04
 
-## 202-03-03
+1. 百度发布ai画图，功能是可以调用多模态模型，生成的时候也能生成包含文字和图片的内容等，一个看似很有潜力的应用
+2. flora推出无限画布，有点像coze，工作流
+3. 中国ai产业已经很吊了 (https://www.aibase.com/zh/news/15884)
+4. 阿里万相大模型登顶开源榜首
+5. DeepSeek开源周第六天：极致推理优化系统，提高GPU计算效率
+6. Sesame发布超真实的AI语音产品：几乎没有AI味道
+7. People are using Super Mario to benchmark AI now
+
+
+
+## 2025-03-03
 1. DeepSeek 官方测算模型成本利润率为 545%
 
 
