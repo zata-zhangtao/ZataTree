@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="介绍\r以下是一些常见的 HTTP 状态码（因为它们在网络开发和日常使用中很常见）：\r200 OK：请求成功，一切正常。 400 Bad Request：请求有问题，比如参数错误。 401 Unauthorized：未授权，需要登录或提供凭证。 403 Forbidden：服务器拒绝访问，权限不足。 404 Not Found：资源不存在，可能是URL错了。 500 Internal Server Error：服务器内部出错，程序或配置有问题。 503 Service Unavailable：服务暂时不可用，通常是服务器维护或过载。 关键要点\r网络爬虫是一种自动浏览网页的程序，主要用于搜索引擎索引，但也用于数据挖掘和网页归档。 它从初始URL开始，下载页面，提取链接，递归访问，形成索引。 挑战包括资源消耗、重复内容和动态内容（如JavaScript页面）。 需遵循选择、重访、礼貌和并行化政策，确保高效和合规。 存在通用、聚焦和深网三种类型，法律和伦理问题需注意，如尊重robots.txt和数据隐私。 定义与目的\r网络爬虫，也称为蜘蛛或机器人，是一种系统地浏览万维网以进行网页索引的程序。\n它的主要目的是为搜索引擎更新内容或索引，帮助用户更高效地搜索。意外的是，它还用于网页归档、验证超链接和数据挖掘。\n工作原理\r爬虫从一组已知的URL（种子）开始，下载页面，提取其中的超链接，然后递归访问这些链接，依政策继续扩展。这种过程类似探索迷宫，但需管理大量数据。\n示例Python代码\r以下是一个简单的Python网络爬虫示例，使用requests和BeautifulSoup库，从给定URL开始，爬取页面上的所有链接并打印：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 import requests from bs4 import BeautifulSoup from urllib.parse import urljoin, urlparse def crawl(url): # 发送GET请求到URL response = requests.get(url) # 检查请求是否成功 if response.status_code != 200: print(f&#34;无法检索 {url}&#34;) return # 解析HTML内容 soup = BeautifulSoup(response.text, &#39;html.parser&#39;) # 查找页面上的所有链接 for link in soup.find_all(&#39;a&#39;): # 获取href属性 href = link.get(&#39;href&#39;) # 如果href为空，跳过此链接 if href is None: continue # 将相对URL转换为绝对URL absolute_url = urljoin(url, href) # 打印绝对URL print(absolute_url) # 在实际应用中，可以将此URL添加到队列中以供后续爬取 # 这里仅打印以简化 # 示例用法 start_url = &#39;https://www.example.com&#39; crawl(start_url) 此代码提供了一个基本框架，实际应用中需处理重复URL、遵守robots.txt等。\n">
+<title>1-爬虫的知识点</title>
+
+<link rel='canonical' href='//localhost:1313/p/1-%E7%88%AC%E8%99%AB%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/'>
+
+<link rel="stylesheet" href="/scss/style.min.b9c8156d464c343bdacaf14a871581fb94cbbdb9dd5cbce4ba017361187cc930.css"><meta property='og:title' content="1-爬虫的知识点">
+<meta property='og:description' content="介绍\r以下是一些常见的 HTTP 状态码（因为它们在网络开发和日常使用中很常见）：\r200 OK：请求成功，一切正常。 400 Bad Request：请求有问题，比如参数错误。 401 Unauthorized：未授权，需要登录或提供凭证。 403 Forbidden：服务器拒绝访问，权限不足。 404 Not Found：资源不存在，可能是URL错了。 500 Internal Server Error：服务器内部出错，程序或配置有问题。 503 Service Unavailable：服务暂时不可用，通常是服务器维护或过载。 关键要点\r网络爬虫是一种自动浏览网页的程序，主要用于搜索引擎索引，但也用于数据挖掘和网页归档。 它从初始URL开始，下载页面，提取链接，递归访问，形成索引。 挑战包括资源消耗、重复内容和动态内容（如JavaScript页面）。 需遵循选择、重访、礼貌和并行化政策，确保高效和合规。 存在通用、聚焦和深网三种类型，法律和伦理问题需注意，如尊重robots.txt和数据隐私。 定义与目的\r网络爬虫，也称为蜘蛛或机器人，是一种系统地浏览万维网以进行网页索引的程序。\n它的主要目的是为搜索引擎更新内容或索引，帮助用户更高效地搜索。意外的是，它还用于网页归档、验证超链接和数据挖掘。\n工作原理\r爬虫从一组已知的URL（种子）开始，下载页面，提取其中的超链接，然后递归访问这些链接，依政策继续扩展。这种过程类似探索迷宫，但需管理大量数据。\n示例Python代码\r以下是一个简单的Python网络爬虫示例，使用requests和BeautifulSoup库，从给定URL开始，爬取页面上的所有链接并打印：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 import requests from bs4 import BeautifulSoup from urllib.parse import urljoin, urlparse def crawl(url): # 发送GET请求到URL response = requests.get(url) # 检查请求是否成功 if response.status_code != 200: print(f&#34;无法检索 {url}&#34;) return # 解析HTML内容 soup = BeautifulSoup(response.text, &#39;html.parser&#39;) # 查找页面上的所有链接 for link in soup.find_all(&#39;a&#39;): # 获取href属性 href = link.get(&#39;href&#39;) # 如果href为空，跳过此链接 if href is None: continue # 将相对URL转换为绝对URL absolute_url = urljoin(url, href) # 打印绝对URL print(absolute_url) # 在实际应用中，可以将此URL添加到队列中以供后续爬取 # 这里仅打印以简化 # 示例用法 start_url = &#39;https://www.example.com&#39; crawl(start_url) 此代码提供了一个基本框架，实际应用中需处理重复URL、遵守robots.txt等。\n">
+<meta property='og:url' content='//localhost:1313/p/1-%E7%88%AC%E8%99%AB%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/'>
+<meta property='og:site_name' content='Zata-砸它'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='爬虫' /><meta property='article:published_time' content='2025-03-03T00:00:00&#43;08:00'/><meta property='article:modified_time' content='2025-03-05T11:04:47&#43;08:00'/>
+<meta name="twitter:title" content="1-爬虫的知识点">
+<meta name="twitter:description" content="介绍\r以下是一些常见的 HTTP 状态码（因为它们在网络开发和日常使用中很常见）：\r200 OK：请求成功，一切正常。 400 Bad Request：请求有问题，比如参数错误。 401 Unauthorized：未授权，需要登录或提供凭证。 403 Forbidden：服务器拒绝访问，权限不足。 404 Not Found：资源不存在，可能是URL错了。 500 Internal Server Error：服务器内部出错，程序或配置有问题。 503 Service Unavailable：服务暂时不可用，通常是服务器维护或过载。 关键要点\r网络爬虫是一种自动浏览网页的程序，主要用于搜索引擎索引，但也用于数据挖掘和网页归档。 它从初始URL开始，下载页面，提取链接，递归访问，形成索引。 挑战包括资源消耗、重复内容和动态内容（如JavaScript页面）。 需遵循选择、重访、礼貌和并行化政策，确保高效和合规。 存在通用、聚焦和深网三种类型，法律和伦理问题需注意，如尊重robots.txt和数据隐私。 定义与目的\r网络爬虫，也称为蜘蛛或机器人，是一种系统地浏览万维网以进行网页索引的程序。\n它的主要目的是为搜索引擎更新内容或索引，帮助用户更高效地搜索。意外的是，它还用于网页归档、验证超链接和数据挖掘。\n工作原理\r爬虫从一组已知的URL（种子）开始，下载页面，提取其中的超链接，然后递归访问这些链接，依政策继续扩展。这种过程类似探索迷宫，但需管理大量数据。\n示例Python代码\r以下是一个简单的Python网络爬虫示例，使用requests和BeautifulSoup库，从给定URL开始，爬取页面上的所有链接并打印：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 import requests from bs4 import BeautifulSoup from urllib.parse import urljoin, urlparse def crawl(url): # 发送GET请求到URL response = requests.get(url) # 检查请求是否成功 if response.status_code != 200: print(f&#34;无法检索 {url}&#34;) return # 解析HTML内容 soup = BeautifulSoup(response.text, &#39;html.parser&#39;) # 查找页面上的所有链接 for link in soup.find_all(&#39;a&#39;): # 获取href属性 href = link.get(&#39;href&#39;) # 如果href为空，跳过此链接 if href is None: continue # 将相对URL转换为绝对URL absolute_url = urljoin(url, href) # 打印绝对URL print(absolute_url) # 在实际应用中，可以将此URL添加到队列中以供后续爬取 # 这里仅打印以简化 # 示例用法 start_url = &#39;https://www.example.com&#39; crawl(start_url) 此代码提供了一个基本框架，实际应用中需处理重复URL、遵守robots.txt等。\n">
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_f2420e0b32244fa9.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="//localhost:1313/">Zata-砸它</a></h1>
+            <h2 class="site-description"></h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/zata-zhangtao/ZataTree'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="//localhost:1313/en/" >English</option>
+                                
+                                    <option value="//localhost:1313/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#介绍">介绍</a>
+      <ol>
+        <li><a href="#以下是一些常见的-http-状态码因为它们在网络开发和日常使用中很常见">以下是一些常见的 HTTP 状态码（因为它们在网络开发和日常使用中很常见）：</a></li>
+        <li><a href="#关键要点">关键要点</a></li>
+        <li><a href="#定义与目的">定义与目的</a></li>
+        <li><a href="#工作原理">工作原理</a></li>
+        <li><a href="#示例python代码">示例Python代码</a></li>
+        <li><a href="#详细报告">详细报告</a>
+          <ol>
+            <li><a href="#定义与基本概念">定义与基本概念</a></li>
+            <li><a href="#工作原理与过程">工作原理与过程</a></li>
+            <li><a href="#覆盖范围与局限">覆盖范围与局限</a></li>
+            <li><a href="#挑战与问题">挑战与问题</a></li>
+            <li><a href="#爬取政策">爬取政策</a></li>
+            <li><a href="#类型的网络爬虫">类型的网络爬虫</a></li>
+            <li><a href="#安全与伦理问题">安全与伦理问题</a></li>
+            <li><a href="#深网爬取">深网爬取</a></li>
+            <li><a href="#可视化与编程化">可视化与编程化</a></li>
+            <li><a href="#python代码示例详解">Python代码示例详解</a></li>
+            <li><a href="#总结">总结</a></li>
+          </ol>
+        </li>
+        <li><a href="#关键引文">关键引文</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/projectapplication/" >
+                Project&amp;Application
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/1-%E7%88%AC%E8%99%AB%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">1-爬虫的知识点</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 03, 2025</time>
+            </div>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+            <time class="article-time--published">
+                最后修改于 Mar 05, 2025 11:04 CST
+            </time>
+        </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="介绍">介绍
+</h2><h3 id="以下是一些常见的-http-状态码因为它们在网络开发和日常使用中很常见">以下是一些常见的 HTTP 状态码（因为它们在网络开发和日常使用中很常见）：
+</h3><ul>
+<li><strong>200 OK</strong>：请求成功，一切正常。</li>
+<li><strong>400 Bad Request</strong>：请求有问题，比如参数错误。</li>
+<li><strong>401 Unauthorized</strong>：未授权，需要登录或提供凭证。</li>
+<li><strong>403 Forbidden</strong>：服务器拒绝访问，权限不足。</li>
+<li><strong>404 Not Found</strong>：资源不存在，可能是URL错了。</li>
+<li><strong>500 Internal Server Error</strong>：服务器内部出错，程序或配置有问题。</li>
+<li><strong>503 Service Unavailable</strong>：服务暂时不可用，通常是服务器维护或过载。</li>
+</ul>
+<h3 id="关键要点">关键要点
+</h3><ul>
+<li>网络爬虫是一种自动浏览网页的程序，主要用于搜索引擎索引，但也用于数据挖掘和网页归档。</li>
+<li>它从初始URL开始，下载页面，提取链接，递归访问，形成索引。</li>
+<li>挑战包括资源消耗、重复内容和动态内容（如JavaScript页面）。</li>
+<li>需遵循选择、重访、礼貌和并行化政策，确保高效和合规。</li>
+<li>存在通用、聚焦和深网三种类型，法律和伦理问题需注意，如尊重robots.txt和数据隐私。</li>
+</ul>
+<h3 id="定义与目的">定义与目的
+</h3><p>网络爬虫，也称为蜘蛛或机器人，是一种系统地浏览万维网以进行网页索引的程序。<br>
+它的主要目的是为搜索引擎更新内容或索引，帮助用户更高效地搜索。意外的是，它还用于网页归档、验证超链接和数据挖掘。</p>
+<h3 id="工作原理">工作原理
+</h3><p>爬虫从一组已知的URL（种子）开始，下载页面，提取其中的超链接，然后递归访问这些链接，依政策继续扩展。这种过程类似探索迷宫，但需管理大量数据。</p>
+<h3 id="示例python代码">示例Python代码
+</h3><p>以下是一个简单的Python网络爬虫示例，使用<code>requests</code>和<code>BeautifulSoup</code>库，从给定URL开始，爬取页面上的所有链接并打印：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urljoin</span><span class="p">,</span> <span class="n">urlparse</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 发送GET请求到URL</span>
+</span></span><span class="line"><span class="cl">    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 检查请求是否成功</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;无法检索 </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 解析HTML内容</span>
+</span></span><span class="line"><span class="cl">    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 查找页面上的所有链接</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 获取href属性</span>
+</span></span><span class="line"><span class="cl">        <span class="n">href</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 如果href为空，跳过此链接</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">href</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 将相对URL转换为绝对URL</span>
+</span></span><span class="line"><span class="cl">        <span class="n">absolute_url</span> <span class="o">=</span> <span class="n">urljoin</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">href</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 打印绝对URL</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">absolute_url</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 在实际应用中，可以将此URL添加到队列中以供后续爬取</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 这里仅打印以简化</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 示例用法</span>
+</span></span><span class="line"><span class="cl"><span class="n">start_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.example.com&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">crawl</span><span class="p">(</span><span class="n">start_url</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>此代码提供了一个基本框架，实际应用中需处理重复URL、遵守robots.txt等。</p>
+<hr>
+<h3 id="详细报告">详细报告
+</h3><p>网络爬虫是互联网技术的重要组成部分，广泛用于搜索引擎优化（SEO）、数据收集和网站监控。本报告将详细探讨其定义、工作原理、类型、挑战及相关政策，力求全面覆盖用户可能关心的所有方面，并附上Python代码示例。</p>
+<h4 id="定义与基本概念">定义与基本概念
+</h4><p>根据<a class="link" href="https://en.wikipedia.org/wiki/Web_crawler"  target="_blank" rel="noopener"
+    >Web Crawler - Wikipedia</a>的定义，网络爬虫（也称为蜘蛛、蜘蛛机器人、蚂蚁、自动索引器或Web scutter）是一种系统地浏览万维网以进行网页索引（web spidering）的互联网机器人。<br>
+它的核心功能是复制网页内容，供搜索引擎索引，从而提升搜索效率。研究表明，爬虫不仅是搜索引擎的工具，还用于网页归档、验证超链接和HTML代码，以及数据驱动的编程。</p>
+<h4 id="工作原理与过程">工作原理与过程
+</h4><p>爬虫的工作流程通常从一组初始URL（称为种子）开始。它会：</p>
+<ul>
+<li>下载这些网页，提取其中的超链接。</li>
+<li>将新发现的链接添加到爬取前沿（crawl frontier），然后递归访问。</li>
+<li>根据预设政策（如选择政策、礼貌政策）决定下载哪些页面及访问频率。</li>
+</ul>
+<p>例如，<a class="link" href="https://www.cloudflare.com/learning/bots/what-is-a-web-crawler/"  target="_blank" rel="noopener"
+    >Cloudflare的解释</a>指出，爬虫通过跟随链接“爬行”，类似于人类在网上点击导航，但自动化且规模庞大。<br>
+归档方面，爬虫会保存网页快照，存储在类似数据库的仓库中，但功能较数据库简单，通常以HTML文件形式保存。</p>
+<h4 id="覆盖范围与局限">覆盖范围与局限
+</h4><p>互联网的页面数量极其庞大，研究显示（2009年数据），即使是最大的爬虫也只能索引40-70%的可索引网页，而1999年的研究显示仅16%<a class="link" href="https://en.wikipedia.org/wiki/Web_crawler"  target="_blank" rel="noopener"
+    >Web Crawler - Wikipedia</a>。<br>
+这一局限源于网页数量的爆炸性增长和高变化率，爬虫只能优先处理部分页面。</p>
+<h4 id="挑战与问题">挑战与问题
+</h4><p>爬取过程中面临多重挑战：</p>
+<ul>
+<li><strong>资源消耗</strong>：爬虫访问系统时会消耗网络和服务器资源，常未经提示访问，引发负载和礼貌性问题。</li>
+<li><strong>重复内容</strong>：由于HTTP GET参数的无限组合（如在线相册可能有48种不同URL，涉及排序、缩略图大小、格式和用户内容选项），难以避免重复下载<a class="link" href="https://en.wikipedia.org/wiki/Web_crawler"  target="_blank" rel="noopener"
+    >Web Crawler - Wikipedia</a>。</li>
+<li><strong>动态内容</strong>：AJAX页面等动态内容对爬虫构成挑战，Google提出可识别的AJAX调用格式以解决<a class="link" href="https://en.wikipedia.org/wiki/Web_crawler"  target="_blank" rel="noopener"
+    >Web Crawler - Wikipedia</a>。</li>
+</ul>
+<h4 id="爬取政策">爬取政策
+</h4><p>爬取政策是爬虫高效运行的关键，分为以下几类：</p>
+<ul>
+<li><strong>选择政策</strong>：决定下载哪些页面，常用指标包括广度优先、反向链接计数和部分PageRank。研究（如Cho等，180,000页从stanford.edu爬取）显示，部分PageRank更适合早期捕获高PageRank页面，随后是广度优先和反向链接计数<a class="link" href="https://en.wikipedia.org/wiki/Web_crawler"  target="_blank" rel="noopener"
+    >Web Crawler - Wikipedia</a>。</li>
+<li><strong>重访政策</strong>：目标是最大化新鲜度（本地副本是否准确）或最小化年龄（本地副本多旧）。Cho和Garcia-Molina的研究表明，统一政策（所有页面同频率）优于按变化率比例分配的策略<a class="link" href="https://en.wikipedia.org/wiki/Web_crawler"  target="_blank" rel="noopener"
+    >Web Crawler - Wikipedia</a>。</li>
+<li><strong>礼貌政策</strong>：避免超载服务器，成本包括网络资源、服务器超载和由编写不佳的爬虫导致的崩溃。标准做法是使用robots.txt文件，建议访问间隔从60秒到3-4分钟不等，具体如Cho使用10秒，WIRE爬虫15秒，Mercator用10t秒（t为下载时间），Dill等用1秒<a class="link" href="https://en.wikipedia.org/wiki/Web_crawler"  target="_blank" rel="noopener"
+    >Web Crawler - Wikipedia</a>。</li>
+<li><strong>并行化政策</strong>：运行多个进程以最大化下载率，减少开销，避免重复下载，需政策分配新发现的URL。</li>
+</ul>
+<p>以下是各类政策的对比：</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th><strong>政策类型</strong></th>
+          <th><strong>描述</strong></th>
+          <th><strong>示例/注意事项</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>选择政策</td>
+          <td>决定优先爬取哪些页面</td>
+          <td>广度优先、PageRank优先</td>
+      </tr>
+      <tr>
+          <td>重访政策</td>
+          <td>确定页面重访频率以保持数据新鲜</td>
+          <td>统一频率或按变化率调整</td>
+      </tr>
+      <tr>
+          <td>礼貌政策</td>
+          <td>避免超载服务器，遵守robots.txt</td>
+          <td>建议请求间隔1秒以上</td>
+      </tr>
+      <tr>
+          <td>并行化政策</td>
+          <td>使用多进程提升效率，管理资源分配</td>
+          <td>避免重复下载，优化爬取速度</td>
+      </tr>
+  </tbody>
+</table></div>
+<h4 id="类型的网络爬虫">类型的网络爬虫
+</h4><ul>
+<li><strong>通用爬虫</strong>：如Google和Bing的爬虫，目标是索引整个互联网。</li>
+<li><strong>聚焦爬虫</strong>：尝试下载相关页面，依赖通用搜索引擎作为起点。例如，学术爬虫如citeseerxbot（用于CiteSeer X）关注PDF、PostScript和Word文件，还有Google Scholar和Microsoft Academic Search<a class="link" href="https://en.wikipedia.org/wiki/Web_crawler"  target="_blank" rel="noopener"
+    >Web Crawler - Wikipedia</a>。</li>
+<li><strong>语义聚焦爬虫</strong>：使用领域本体进行更精准的爬取。</li>
+</ul>
+<p>以下是各类爬虫的对比：</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th><strong>类型</strong></th>
+          <th><strong>特点</strong></th>
+          <th><strong>示例</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>通用爬虫</td>
+          <td>索引整个互联网，覆盖广</td>
+          <td>Googlebot, Bingbot</td>
+      </tr>
+      <tr>
+          <td>聚焦爬虫</td>
+          <td>针对特定主题或文件类型，效率高</td>
+          <td>citeseerxbot, Google Scholar bot</td>
+      </tr>
+      <tr>
+          <td>语义聚焦爬虫</td>
+          <td>使用本体，适合复杂领域</td>
+          <td>学术研究领域爬虫</td>
+      </tr>
+      <tr>
+          <td>企业爬虫</td>
+          <td>索引企业网站，供内部搜索使用</td>
+          <td>内部网站搜索引擎</td>
+      </tr>
+  </tbody>
+</table></div>
+<h4 id="安全与伦理问题">安全与伦理问题
+</h4><p>爬虫可能无意中索引非公共资源或暴露软件漏洞版本，缓解方法包括通过robots.txt限制搜索引擎仅索引公共部分，屏蔽交易部分<a class="link" href="https://en.wikipedia.org/wiki/Web_crawler"  target="_blank" rel="noopener"
+    >Web Crawler - Wikipedia</a>。<br>
+此外，爬虫通过HTTP请求的User-agent字段标识，管理员可通过日志和工具追踪，偏好标识以便在陷入爬虫陷阱或超载服务器时联系。垃圾邮件机器人可能掩盖身份，增加识别难度。</p>
+<p>法律和伦理考虑包括：</p>
+<ul>
+<li>尊重网站的服务条款和robots.txt文件。</li>
+<li>避免以过多请求超载服务器（礼貌政策）。</li>
+<li>负责处理个人数据，遵守隐私法。</li>
+<li>透明地披露数据收集做法，尤其是涉及个人信息时。</li>
+</ul>
+<h4 id="深网爬取">深网爬取
+</h4><p>深网（deep web）或不可见网包含大量仅通过数据库查询可访问的页面，常规爬虫需链接才能访问。策略包括：</p>
+<ul>
+<li>Google的Sitemaps协议和mod oai。</li>
+<li>屏幕抓取（screen scraping）用于跨表单聚合数据。</li>
+<li>AJAX页面问题，Google提出可识别的AJAX调用格式<a class="link" href="https://en.wikipedia.org/wiki/Web_crawler"  target="_blank" rel="noopener"
+    >Web Crawler - Wikipedia</a>。</li>
+</ul>
+<h4 id="可视化与编程化">可视化与编程化
+</h4><p>可视化爬虫/抓取工具降低了编程技能需求，通过高亮数据教学用户使用。例如，Needlebase（被Google作为ITA Labs的一部分收购，<a class="link" href="http://www.needlebase.com"  target="_blank" rel="noopener"
+    >Needlebase</a>）是典型代表，简化了数据提取过程<a class="link" href="https://en.wikipedia.org/wiki/Web_crawler"  target="_blank" rel="noopener"
+    >Web Crawler - Wikipedia</a>。</p>
+<h4 id="python代码示例详解">Python代码示例详解
+</h4><p>以下代码使用<code>requests</code>和<code>BeautifulSoup</code>库，展示了一个基本爬虫，从给定URL开始，爬取页面上的所有链接并打印：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urljoin</span><span class="p">,</span> <span class="n">urlparse</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 发送GET请求到URL</span>
+</span></span><span class="line"><span class="cl">    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 检查请求是否成功</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;无法检索 </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 解析HTML内容</span>
+</span></span><span class="line"><span class="cl">    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 查找页面上的所有链接</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 获取href属性</span>
+</span></span><span class="line"><span class="cl">        <span class="n">href</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 如果href为空，跳过此链接</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">href</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 将相对URL转换为绝对URL</span>
+</span></span><span class="line"><span class="cl">        <span class="n">absolute_url</span> <span class="o">=</span> <span class="n">urljoin</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">href</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 打印绝对URL</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">absolute_url</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 在实际应用中，可以将此URL添加到队列中以供后续爬取</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 这里仅打印以简化</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 示例用法</span>
+</span></span><span class="line"><span class="cl"><span class="n">start_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.example.com&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">crawl</span><span class="p">(</span><span class="n">start_url</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>此代码提供了一个基本框架，实际应用中需处理重复URL、遵守robots.txt等。</p>
+<h4 id="总结">总结
+</h4><p>网络爬虫是互联网信息获取的核心工具，其效率和伦理问题持续受到关注。未来，随着动态内容和深网的增长，爬虫技术需进一步创新，以平衡覆盖率和资源消耗。</p>
+<h3 id="关键引文">关键引文
+</h3><ul>
+<li><a class="link" href="https://en.wikipedia.org/wiki/Web_crawler"  target="_blank" rel="noopener"
+    >Web Crawler - Wikipedia详细解释网络爬虫定义和工作原理</a></li>
+<li><a class="link" href="https://www.cloudflare.com/learning/bots/what-is-a-web-crawler/"  target="_blank" rel="noopener"
+    >Cloudflare关于网络爬虫的工作原理和用途</a></li>
+<li><a class="link" href="https://www.techtarget.com/whatis/definition/crawler"  target="_blank" rel="noopener"
+    >What is a Web Crawler? Everything you need to know from TechTarget.com</a></li>
+<li><a class="link" href="https://www.elastic.co/what-is/web-crawler"  target="_blank" rel="noopener"
+    >What is a Web Crawler? | A Comprehensive Web Crawling Guide | Elastic</a></li>
+<li><a class="link" href="https://crawlbase.com/blog/what-is-a-web-crawler-use-cases-and-examples/"  target="_blank" rel="noopener"
+    >What Is A Web Crawler? Use Cases And Examples Explained | Crawlbase</a></li>
+<li><a class="link" href="https://www.akamai.com/glossary/what-is-a-web-crawler"  target="_blank" rel="noopener"
+    >What Is a Web Crawler? | How Do Crawlers Work? | Akamai</a></li>
+<li><a class="link" href="https://litslink.com/blog/what-is-a-web-crawler-and-how-does-it-work"  target="_blank" rel="noopener"
+    >What Is a Web Crawler and How Does It Work | LITSLINK Blog</a></li>
+<li><a class="link" href="https://research.aimultiple.com/web-crawler/"  target="_blank" rel="noopener"
+    >Web Crawler: What It Is, How It Works &amp; Applications in 2025</a></li>
+<li><a class="link" href="https://www.sciencedirect.com/topics/computer-science/web-crawler"  target="_blank" rel="noopener"
+    >web crawler - an overview | ScienceDirect Topics</a></li>
+<li><a class="link" href="https://dev.to/uiii/web-scraping-with-nodejs-and-typescript-the-crawler-part-23-2of2"  target="_blank" rel="noopener"
+    >Web scraping with Node.js and Typescript - the crawler part (2/3) | DEV Community</a></li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E7%88%AC%E8%99%AB/">爬虫</a>
+        
+    </section>
+
+
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后修改于 Mar 05, 2025 11:04 CST
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/image/index/index.323614ef50ba43eecad816b66d9f7160_hu_fca17a4957aa5f3c.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 一个自动签到的py并且使用github action每日执行"
+                        
+                        data-hash="md5-MjYU71C6Q&#43;7K2Ba2bZ9xYA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一个自动签到的py并且使用github action每日执行</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">
+        
+        
+            <div class="article-image">
+                <img src="/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/images/index/index.25a3513cb07bcf1167828f4236e1d109_hu_550ae3c0d7db4162.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 5-引入 Giscus 评论系统"
+                        
+                        data-hash="md5-JaNRPLB7zxFngo9CNuHRCQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">5-引入 Giscus 评论系统</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/postman/">
+        
+        
+            <div class="article-image">
+                <img src="/p/postman/images/index/index.0bd64898bfd91eece3cb76fe199dda91_hu_5226f666a5a4c0f6.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post postman"
+                        
+                        data-hash="md5-C9ZImL/ZHuzjy3b&#43;GZ3akQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">postman</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/polar-db/">
+        
+        
+            <div class="article-image">
+                <img src="/p/polar-db/images/index/index-1.6f6c0892d17d92a42398a5526c0547a8_hu_450e17c6f172031f.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post polar-DB"
+                        
+                        data-hash="md5-b2wIktF9kqQjmKVSbAVHqA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">polar-DB</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/coze/">
+        
+        
+            <div class="article-image">
+                <img src="/p/coze/images/index/index.5d1e9d123b9da3a6c91d3c873876cc66_hu_e416f516a8a635d1.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post coze"
+                        
+                        data-hash="md5-XR6dEjudo6bJHTyHOHbMZg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">coze</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="zata-zhangtao/ZataTree"
+    data-repo-id="R_kgDON7mZJg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDON7mZJs4Cnk-l"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2025 Example Person
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.d2e1bb8da704fd56f67fd39fe2d77b41bd20a01559d1c24b7fd99ed4102cd281.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<style>
+    .highlight {
+        max-height: 400px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: 0 auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        display: block;
+        margin: 0 auto;
+        width: 22px;
+        height: 16px;
+    }
+
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url(/icons/backtop.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+
+<script>
+    function initCodeMoreBox() {
+        try {
+            const codeBlocks = document.querySelectorAll(".highlight");
+            if (!codeBlocks.length) return;
+
+            codeBlocks.forEach(codeBlock => {
+                if (codeBlock.scrollHeight <= codeBlock.clientHeight) return;
+
+                const codeMoreBox = document.createElement('div');
+                codeMoreBox.classList.add('code-more-box');
+
+                const codeMoreBtn = document.createElement('span');
+                codeMoreBtn.classList.add('code-more-btn');
+
+                const img = document.createElement('img');
+                img.classList.add('code-more-img');
+                img.src = "\/icons\/codemore.png";
+                img.alt = 'Show more';
+
+                codeMoreBtn.addEventListener('click', () => {
+                    codeBlock.classList.add('code-show');
+                    codeMoreBox.style.display = 'none';
+                    window.dispatchEvent(new Event('resize'));
+                });
+
+                codeMoreBtn.appendChild(img);
+                codeMoreBox.appendChild(codeMoreBtn);
+                codeBlock.appendChild(codeMoreBox);
+            });
+        } catch (error) {
+            console.error('Error in initCodeMoreBox:', error);
+        }
+    }
+
+    function initScrollTop() {
+        try {
+            const rightSideBar = document.querySelector(".right-sidebar");
+            if (!rightSideBar) {
+                console.warn('Right sidebar not found');
+                return;
+            }
+
+            const btn = document.createElement("div");
+            btn.id = "backTopBtn";
+            btn.onclick = backToTop;
+            rightSideBar.appendChild(btn);
+
+            window.onscroll = function () {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    btn.style.display = "block";
+                } else {
+                    btn.style.display = "none";
+                }
+            };
+        } catch (error) {
+            console.error('Error in initScrollTop:', error);
+        }
+    }
+
+    function backToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initCodeMoreBox();
+        initScrollTop();
+    });
+</script>
+    </body>
+</html>

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>VScode on Zata-砸它</title>
+        <link>//localhost:1313/tags/vscode/</link>
+        <description>Recent content in VScode on Zata-砸它</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>Example Person</copyright>
+        <lastBuildDate>Mon, 03 Mar 2025 17:07:53 +0800</lastBuildDate><atom:link href="//localhost:1313/tags/vscode/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>VScode安装和配置</title>
+        <link>//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/</link>
+        <pubDate>Mon, 03 Mar 2025 00:00:00 +0800</pubDate>
+        
+        <guid>//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/</guid>
+        <description>&lt;p&gt;参考：
+&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_46474921/article/details/132841711&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.csdn.net/weixin_46474921/article/details/132841711&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&#34;安装&#34;&gt;安装
+&lt;/h1&gt;&lt;h2 id=&#34;1-下载安装&#34;&gt;1. 下载安装
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://code.visualstudio.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;VScode官网&lt;/a&gt;
+注意，这一步最好全部打勾&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index.png&#34;
+	width=&#34;698&#34;
+	height=&#34;571&#34;
+	srcset=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index_hu_4af0f0de759bd6cc.png 480w, //localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index_hu_8a4d7847fd284af8.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;122&#34;
+		data-flex-basis=&#34;293px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;2-设置默认terminal为cmd&#34;&gt;2. 设置默认terminal为cmd
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-1.png&#34;
+	width=&#34;713&#34;
+	height=&#34;435&#34;
+	srcset=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-1_hu_f83efdf559891f37.png 480w, //localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-1_hu_c2364cfc40e0585.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;设置terminal&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;163&#34;
+		data-flex-basis=&#34;393px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;3-修改code-runner-的配置右键运行&#34;&gt;3. 修改Code Runner 的配置（右键运行）
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;首先你要安装好Code Runner 插件&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;修改点击右键运行时的运行环境，改为终端运行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-2.png&#34;
+	width=&#34;1144&#34;
+	height=&#34;284&#34;
+	srcset=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-2_hu_6fd24a4b149284b8.png 480w, //localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-2_hu_26f8673875f583df.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;让runconde默认在terminal&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;402&#34;
+		data-flex-basis=&#34;966px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;修改右键运行时工作路径&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-3.png&#34;
+	width=&#34;950&#34;
+	height=&#34;548&#34;
+	srcset=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-3_hu_b78fad736cada800.png 480w, //localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-3_hu_ec6e4e8033d460b.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;修改run code默认的路径&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;173&#34;
+		data-flex-basis=&#34;416px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;设置文件自动保存&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-4.png&#34;
+	width=&#34;538&#34;
+	height=&#34;187&#34;
+	srcset=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-4_hu_f329b1dae2b9a81a.png 480w, //localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-4_hu_4297823c2d6da91.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;设置文件自动保存&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;287&#34;
+		data-flex-basis=&#34;690px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h1 id=&#34;其他相关设置&#34;&gt;其他相关设置
+&lt;/h1&gt;&lt;h2 id=&#34;vscode右侧的预览窗口设置&#34;&gt;vscode右侧的预览窗口设置
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-5.png&#34;
+	width=&#34;1276&#34;
+	height=&#34;1083&#34;
+	srcset=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-5_hu_dc37733e34e231f5.png 480w, //localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-5_hu_3772f760520f43ba.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;预览窗口&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;117&#34;
+		data-flex-basis=&#34;282px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;设置方法，在设置里面搜索minimap&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-6.png&#34;
+	width=&#34;1228&#34;
+	height=&#34;855&#34;
+	srcset=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-6_hu_9fbe4b5796a953f2.png 480w, //localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-6_hu_d1bdee9546ae307c.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;设置显示预览窗口&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;143&#34;
+		data-flex-basis=&#34;344px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;vscode写markdown插入图片时放在指定目录&#34;&gt;vscode写markdown插入图片时放在指定目录
+&lt;/h2&gt;&lt;p&gt;参考 &lt;a class=&#34;link&#34; href=&#34;https://juejin.cn/post/7244809769794289721&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://juejin.cn/post/7244809769794289721&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-7.png&#34;
+	width=&#34;1437&#34;
+	height=&#34;624&#34;
+	srcset=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-7_hu_1563b4d6ee371d75.png 480w, //localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-7_hu_6395a0fc25cc4ecd.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;vscode写markdown插入图片时放在指定目录&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;230&#34;
+		data-flex-basis=&#34;552px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;**/*.md      assets/&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;documentDirName&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;/&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;fileName&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;   &lt;span class=&#34;c1&#34;&gt;# 以原始文件名放到 ./assets/&amp;lt;md文件名&amp;gt;/&amp;lt;图片文件名&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;**/*.md      assets/&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;documentBaseName&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;/&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;documentBaseName&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;.&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;fileExtName&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;   &lt;span class=&#34;c1&#34;&gt;# 重新以md文件名命名图片名&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;vscode折叠代码&#34;&gt;vscode折叠代码
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-8.png&#34;
+	width=&#34;1023&#34;
+	height=&#34;737&#34;
+	srcset=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-8_hu_df6eba9e005d8774.png 480w, //localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-8_hu_4905f53f79be8f90.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;138&#34;
+		data-flex-basis=&#34;333px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;hr&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;遇到的问题&#34;&gt;遇到的问题
+&lt;/h1&gt;&lt;h2 id=&#34;vscode-一直-reactivatiing-terminals&#34;&gt;vscode 一直 reactivatiing terminals
+&lt;/h2&gt;&lt;p&gt;这个是由于python扩展找不到虚拟环境的问题，具体可以看 &lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/78886125/vscode-python-extension-loading-forever-saying-reactivating-terminals/78886126#78886126&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://stackoverflow.com/questions/78886125/vscode-python-extension-loading-forever-saying-reactivating-terminals/78886126#78886126&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-9.png&#34;
+	width=&#34;328&#34;
+	height=&#34;118&#34;
+	srcset=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-9_hu_c4f3225cbed514d5.png 480w, //localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-9_hu_ccfb850cd4b04cb5.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片显示reactivatiing terminals&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;277&#34;
+		data-flex-basis=&#34;667px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;我的解决方法是把python Locator换成js&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-10.png&#34;
+	width=&#34;933&#34;
+	height=&#34;706&#34;
+	srcset=&#34;//localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-10_hu_2e3f58c8617a452c.png 480w, //localhost:1313/p/vscode%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image/index/index-10_hu_a6b8d7a1801303b1.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;把python Locator换成js&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;132&#34;
+		data-flex-basis=&#34;317px&#34;
+	
+&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

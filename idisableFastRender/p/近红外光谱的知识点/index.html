@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="近红外的基础知识点\r波长和波数的转换关系\n例如：\n如果波长 $\\lambda = 500 \\text{nm}$，则波数为： $$\r\\tilde{\\nu} = \\frac{1}{500 \\times 10^{-7}} = 20000 \\, \\text{cm}^{-1}\r$$$$\r\\tilde{\\nu} = \\frac{ 10^{7}}{波长 } = 波数 \\, \\text{cm}^{-1}\r$$以下是不同波长和波数范围在实际应用中的意义：\n波长范围 ($\\lambda$) 波数范围 ($\\tilde{\\nu}$) 应用领域 200–400 nm 25000–50000 cm⁻¹ 紫外吸收光谱、臭氧层吸收 400–700 nm 14286–25000 cm⁻¹ 可见光、颜色感知 700–2500 nm 4000–14286 cm⁻¹ 近红外光谱、遥感 2500–25000 nm 400–4000 cm⁻¹ 中红外光谱、分子振动 &gt;25000 nm &lt;400 cm⁻¹ 远红外、热辐射 吸收峰\r吸收峰 近红外的范围：780～2526nm范围内的电磁波，习惯上又将近红外区划分为近红外短波（780~ 1100nm）和近红外长波（1100 ~2526nm）\n水的吸收峰：在750nm左右、950-1000nm、1400-1450nm、1900-2000nm 羟基（ROH）的吸收峰 730-750、930-950、1400-1500、2050-2100 羟酸(RCO_2H）的吸收峰 1900附近 羟酸衍生物(RCO_2R’）的吸收峰 1950附近 酚类（ArOH）的吸收峰750附近、930-950、1400-1500 ">
+<title>近红外光谱的知识点</title>
+
+<link rel='canonical' href='//localhost:1313/p/%E8%BF%91%E7%BA%A2%E5%A4%96%E5%85%89%E8%B0%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/'>
+
+<link rel="stylesheet" href="/scss/style.min.b9c8156d464c343bdacaf14a871581fb94cbbdb9dd5cbce4ba017361187cc930.css"><meta property='og:title' content="近红外光谱的知识点">
+<meta property='og:description' content="近红外的基础知识点\r波长和波数的转换关系\n例如：\n如果波长 $\\lambda = 500 \\text{nm}$，则波数为： $$\r\\tilde{\\nu} = \\frac{1}{500 \\times 10^{-7}} = 20000 \\, \\text{cm}^{-1}\r$$$$\r\\tilde{\\nu} = \\frac{ 10^{7}}{波长 } = 波数 \\, \\text{cm}^{-1}\r$$以下是不同波长和波数范围在实际应用中的意义：\n波长范围 ($\\lambda$) 波数范围 ($\\tilde{\\nu}$) 应用领域 200–400 nm 25000–50000 cm⁻¹ 紫外吸收光谱、臭氧层吸收 400–700 nm 14286–25000 cm⁻¹ 可见光、颜色感知 700–2500 nm 4000–14286 cm⁻¹ 近红外光谱、遥感 2500–25000 nm 400–4000 cm⁻¹ 中红外光谱、分子振动 &gt;25000 nm &lt;400 cm⁻¹ 远红外、热辐射 吸收峰\r吸收峰 近红外的范围：780～2526nm范围内的电磁波，习惯上又将近红外区划分为近红外短波（780~ 1100nm）和近红外长波（1100 ~2526nm）\n水的吸收峰：在750nm左右、950-1000nm、1400-1450nm、1900-2000nm 羟基（ROH）的吸收峰 730-750、930-950、1400-1500、2050-2100 羟酸(RCO_2H）的吸收峰 1900附近 羟酸衍生物(RCO_2R’）的吸收峰 1950附近 酚类（ArOH）的吸收峰750附近、930-950、1400-1500 ">
+<meta property='og:url' content='//localhost:1313/p/%E8%BF%91%E7%BA%A2%E5%A4%96%E5%85%89%E8%B0%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/'>
+<meta property='og:site_name' content='Zata-砸它'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='others' /><meta property='article:published_time' content='2025-03-04T14:54:46&#43;08:00'/><meta property='article:modified_time' content='2025-03-04T16:00:06&#43;08:00'/><meta property='og:image' content='//localhost:1313/p/%E8%BF%91%E7%BA%A2%E5%A4%96%E5%85%89%E8%B0%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/images/index/index.png' />
+<meta name="twitter:title" content="近红外光谱的知识点">
+<meta name="twitter:description" content="近红外的基础知识点\r波长和波数的转换关系\n例如：\n如果波长 $\\lambda = 500 \\text{nm}$，则波数为： $$\r\\tilde{\\nu} = \\frac{1}{500 \\times 10^{-7}} = 20000 \\, \\text{cm}^{-1}\r$$$$\r\\tilde{\\nu} = \\frac{ 10^{7}}{波长 } = 波数 \\, \\text{cm}^{-1}\r$$以下是不同波长和波数范围在实际应用中的意义：\n波长范围 ($\\lambda$) 波数范围 ($\\tilde{\\nu}$) 应用领域 200–400 nm 25000–50000 cm⁻¹ 紫外吸收光谱、臭氧层吸收 400–700 nm 14286–25000 cm⁻¹ 可见光、颜色感知 700–2500 nm 4000–14286 cm⁻¹ 近红外光谱、遥感 2500–25000 nm 400–4000 cm⁻¹ 中红外光谱、分子振动 &gt;25000 nm &lt;400 cm⁻¹ 远红外、热辐射 吸收峰\r吸收峰 近红外的范围：780～2526nm范围内的电磁波，习惯上又将近红外区划分为近红外短波（780~ 1100nm）和近红外长波（1100 ~2526nm）\n水的吸收峰：在750nm左右、950-1000nm、1400-1450nm、1900-2000nm 羟基（ROH）的吸收峰 730-750、930-950、1400-1500、2050-2100 羟酸(RCO_2H）的吸收峰 1900附近 羟酸衍生物(RCO_2R’）的吸收峰 1950附近 酚类（ArOH）的吸收峰750附近、930-950、1400-1500 "><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='//localhost:1313/p/%E8%BF%91%E7%BA%A2%E5%A4%96%E5%85%89%E8%B0%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/images/index/index.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_f2420e0b32244fa9.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="//localhost:1313/">Zata-砸它</a></h1>
+            <h2 class="site-description"></h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/zata-zhangtao/ZataTree'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="//localhost:1313/en/" >English</option>
+                                
+                                    <option value="//localhost:1313/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#近红外的基础知识点">近红外的基础知识点</a>
+      <ol>
+        <li><a href="#吸收峰">吸收峰</a></li>
+        <li><a href="#血液中几种物质的基本含量">血液中几种物质的基本含量</a>
+          <ol>
+            <li><a href="#血液酒精含量-bac">血液酒精含量 (BAC)</a></li>
+            <li><a href="#血液乳酸">血液乳酸</a></li>
+            <li><a href="#血液血糖">血液血糖</a></li>
+            <li><a href="#血液尿酸">血液尿酸</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#近红外在硅棒中氧碳含量的测定">近红外在硅棒中氧碳含量的测定</a>
+      <ol>
+        <li><a href="#关键要点">关键要点</a>
+          <ol>
+            <li><a href="#概述">概述</a></li>
+            <li><a href="#主要挑战">主要挑战</a></li>
+            <li><a href="#可行性分析">可行性分析</a></li>
+          </ol>
+        </li>
+        <li><a href="#报告">报告</a>
+          <ol>
+            <li><a href="#背景与标准方法">背景与标准方法</a></li>
+            <li><a href="#挑战分析">挑战分析</a></li>
+            <li><a href="#可行性评估">可行性评估</a></li>
+            <li><a href="#对比表中红外与近红外在硅氧碳测定中的优劣">对比表：中红外与近红外在硅氧碳测定中的优劣</a></li>
+            <li><a href="#结论与展望">结论与展望</a></li>
+          </ol>
+        </li>
+        <li><a href="#关键引文">关键引文</a></li>
+      </ol>
+    </li>
+    <li><a href="#近红外在酸性清洗液含量检测中的应用可行性分析">近红外在酸性清洗液含量检测中的应用可行性分析</a>
+      <ol>
+        <li><a href="#关键要点-1">关键要点</a></li>
+        <li><a href="#直接回答">直接回答</a>
+          <ol>
+            <li><a href="#近红外吸收峰对应">近红外吸收峰对应</a></li>
+            <li><a href="#检测可行性">检测可行性</a></li>
+            <li><a href="#意外细节">意外细节</a></li>
+          </ol>
+        </li>
+        <li><a href="#详细调查报告近红外吸收峰及检测可行性分析">详细调查报告：近红外吸收峰及检测可行性分析</a>
+          <ol>
+            <li><a href="#引言">引言</a></li>
+            <li><a href="#物质及近红外吸收峰分析">物质及近红外吸收峰分析</a></li>
+            <li><a href="#混合物的近红外吸收特征">混合物的近红外吸收特征</a></li>
+            <li><a href="#检测可行性评估">检测可行性评估</a></li>
+            <li><a href="#应用场景及局限性">应用场景及局限性</a></li>
+            <li><a href="#结论">结论</a></li>
+          </ol>
+        </li>
+        <li><a href="#关键引文-1">关键引文</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E8%BF%91%E7%BA%A2%E5%A4%96%E5%85%89%E8%B0%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">
+                <img src="/p/%E8%BF%91%E7%BA%A2%E5%A4%96%E5%85%89%E8%B0%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/images/index/index_hu_d5843b248dfcfd0e.png"
+                        srcset="/p/%E8%BF%91%E7%BA%A2%E5%A4%96%E5%85%89%E8%B0%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/images/index/index_hu_d5843b248dfcfd0e.png 800w, /p/%E8%BF%91%E7%BA%A2%E5%A4%96%E5%85%89%E8%B0%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/images/index/index_hu_18069c2e86f79598.png 1600w"
+                        width="800" 
+                        height="559" 
+                        loading="lazy"
+                        alt="Featured image of post 近红外光谱的知识点" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/knowledge/" >
+                Knowledge
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E8%BF%91%E7%BA%A2%E5%A4%96%E5%85%89%E8%B0%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">近红外光谱的知识点</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 04, 2025</time>
+            </div>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+            <time class="article-time--published">
+                最后修改于 Mar 04, 2025 16:00 CST
+            </time>
+        </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="近红外的基础知识点">近红外的基础知识点
+</h2><p><strong>波长和波数的转换关系</strong></p>
+<p>例如：</p>
+<ul>
+<li>如果波长 $\lambda = 500 \text{nm}$，则波数为：</li>
+</ul>
+$$
+\tilde{\nu} = \frac{1}{500 \times 10^{-7}} = 20000 \, \text{cm}^{-1}
+$$$$
+\tilde{\nu} = \frac{ 10^{7}}{波长 } = 波数 \, \text{cm}^{-1}
+$$<p>以下是不同波长和波数范围在实际应用中的意义：</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th><strong>波长范围</strong> ($\lambda$)</th>
+          <th><strong>波数范围</strong> ($\tilde{\nu}$)</th>
+          <th><strong>应用领域</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>200–400 nm</td>
+          <td>25000–50000 cm⁻¹</td>
+          <td>紫外吸收光谱、臭氧层吸收</td>
+      </tr>
+      <tr>
+          <td>400–700 nm</td>
+          <td>14286–25000 cm⁻¹</td>
+          <td>可见光、颜色感知</td>
+      </tr>
+      <tr>
+          <td>700–2500 nm</td>
+          <td>4000–14286 cm⁻¹</td>
+          <td>近红外光谱、遥感</td>
+      </tr>
+      <tr>
+          <td>2500–25000 nm</td>
+          <td>400–4000 cm⁻¹</td>
+          <td>中红外光谱、分子振动</td>
+      </tr>
+      <tr>
+          <td>&gt;25000 nm</td>
+          <td>&lt;400 cm⁻¹</td>
+          <td>远红外、热辐射</td>
+      </tr>
+  </tbody>
+</table></div>
+<hr>
+<h3 id="吸收峰">吸收峰
+</h3><p>吸收峰
+近红外的范围：780～2526nm范围内的电磁波，习惯上又将近红外区划分为近红外短波（780~ 1100nm）和近红外长波（1100 ~2526nm）</p>
+<ol>
+<li>水的吸收峰：在750nm左右、950-1000nm、1400-1450nm、1900-2000nm</li>
+<li>羟基（ROH）的吸收峰  730-750、930-950、1400-1500、2050-2100</li>
+<li>羟酸(RCO_2H）的吸收峰 1900附近</li>
+<li>羟酸衍生物(RCO_2R’）的吸收峰 1950附近</li>
+<li>酚类（ArOH）的吸收峰750附近、930-950、1400-1500</li>
+</ol>
+<p><img src="/p/%E8%BF%91%E7%BA%A2%E5%A4%96%E5%85%89%E8%B0%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/images/index/index.png"
+	width="650"
+	height="454"
+	srcset="/p/%E8%BF%91%E7%BA%A2%E5%A4%96%E5%85%89%E8%B0%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/images/index/index_hu_f54e23a382c7490b.png 480w, /p/%E8%BF%91%E7%BA%A2%E5%A4%96%E5%85%89%E8%B0%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/images/index/index_hu_c456d2cbe6aa9759.png 1024w"
+	loading="lazy"
+	
+		alt="吸收峰表"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="143"
+		data-flex-basis="343px"
+	
+></p>
+<h3 id="血液中几种物质的基本含量">血液中几种物质的基本含量
+</h3><hr>
+<h4 id="血液酒精含量-bac">血液酒精含量 (BAC)
+</h4><p>血液酒精含量 (Blood Alcohol Concentration, BAC) 是衡量酒精摄入的重要指标，常用于判断醉酒程度。</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>BAC 范围 (g/L)</th>
+          <th>对应 mmol/L</th>
+          <th>临床意义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>0.00-0.20 g/L</td>
+          <td>0-43 mmol/L</td>
+          <td>正常范围，未饮酒或微量饮酒</td>
+      </tr>
+      <tr>
+          <td>0.20-0.50 g/L</td>
+          <td>43-108 mmol/L</td>
+          <td>轻度饮酒，反应能力略有下降</td>
+      </tr>
+      <tr>
+          <td>0.50-0.80 g/L</td>
+          <td>108-176 mmol/L</td>
+          <td>中度饮酒，协调能力下降</td>
+      </tr>
+      <tr>
+          <td>0.80-1.50 g/L</td>
+          <td>176-329 mmol/L</td>
+          <td>明显醉酒，判断力严重受损</td>
+      </tr>
+      <tr>
+          <td>1.50-3.00 g/L</td>
+          <td>329-658 mmol/L</td>
+          <td>严重醉酒，可能出现意识模糊、呕吐、昏迷等</td>
+      </tr>
+      <tr>
+          <td>&gt;3.00 g/L</td>
+          <td>&gt;658 mmol/L</td>
+          <td>极度危险，可能发生呼吸抑制、低血糖、心脏骤停甚至死亡</td>
+      </tr>
+  </tbody>
+</table></div>
+<h5 id="醉酒分级百分比表示">醉酒分级（百分比表示）
+</h5><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">轻度醉酒 (0.02%-0.05%)：200 mg/L - 500 mg/L
+</span></span><span class="line"><span class="cl">中度醉酒 (0.05%-0.10%)：500 mg/L - 1000 mg/L
+</span></span><span class="line"><span class="cl">重度醉酒 (0.10%-0.15%)：1000 mg/L - 1500 mg/L
+</span></span><span class="line"><span class="cl">极重度醉酒 (&gt;0.15%)：&gt;1500 mg/L
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h4 id="血液乳酸">血液乳酸
+</h4><p>血液乳酸浓度反映体内代谢状态，常用于评估组织缺氧或运动负荷。</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>乳酸类型</th>
+          <th>正常值范围</th>
+          <th>轻度升高范围</th>
+          <th>显著升高范围</th>
+          <th>危急值范围</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>动脉血乳酸</td>
+          <td>0.5-1.6 mmol/L</td>
+          <td>1.6-2.0 mmol/L</td>
+          <td>≥2.0 mmol/L</td>
+          <td>&gt;5.0 mmol/L</td>
+      </tr>
+      <tr>
+          <td>静脉血乳酸</td>
+          <td>0.5-2.2 mmol/L</td>
+          <td>2.2-4.0 mmol/L</td>
+          <td>≥4.0 mmol/L</td>
+          <td>&gt;8.0 mmol/L</td>
+      </tr>
+  </tbody>
+</table></div>
+<h5 id="不同状态下的乳酸水平">不同状态下的乳酸水平
+</h5><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">静息状态（空腹、安静）：
+</span></span><span class="line"><span class="cl">  正常值：0.5 ~ 2.2 mmol/L (90 ~ 396 mg/L)
+</span></span><span class="line"><span class="cl">  轻度升高：2.2 ~ 4.0 mmol/L（可能与轻度运动或应激相关）
+</span></span><span class="line"><span class="cl">  显著升高：≥4.0 mmol/L（提示可能存在组织缺氧或其他病理状态）
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">运动后：
+</span></span><span class="line"><span class="cl">  中等强度运动：2.0 ~ 8.0 mmol/L（乳酸生成增加，但仍可被代谢清除）
+</span></span><span class="line"><span class="cl">  高强度运动：&gt;8.0 mmol/L（乳酸堆积显著，可能达到乳酸阈值以上）
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">病理状态：
+</span></span><span class="line"><span class="cl">  乳酸酸中毒诊断标准：≥5.0 mmol/L（伴随血液 pH &lt; 7.35）
+</span></span><span class="line"><span class="cl">  危险水平：≥10.0 mmol/L（可能危及生命，需紧急处理）
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="换算说明">换算说明
+</h5><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">1 mmol/L ≈ 90 mg/L（乳酸分子量为 90）
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h4 id="血液血糖">血液血糖
+</h4><p>血糖浓度是评估糖代谢的重要指标，常用于糖尿病诊断。</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>血糖类型</th>
+          <th>正常值范围</th>
+          <th>糖尿病前期范围</th>
+          <th>糖尿病诊断标准</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>空腹血糖</td>
+          <td>3.89-6.11 mmol/L</td>
+          <td>6.11-7.00 mmol/L</td>
+          <td>≥7.00 mmol/L</td>
+      </tr>
+      <tr>
+          <td>餐后2小时血糖</td>
+          <td>&lt;7.78 mmol/L</td>
+          <td>7.78-11.11 mmol/L</td>
+          <td>≥11.11 mmol/L</td>
+      </tr>
+      <tr>
+          <td>随机血糖</td>
+          <td>&lt;11.11 mmol/L</td>
+          <td>-</td>
+          <td>≥11.11 mmol/L</td>
+      </tr>
+  </tbody>
+</table></div>
+<h5 id="血糖分级mgl-表示">血糖分级（mg/L 表示）
+</h5><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">空腹血糖（禁食8小时以上）：
+</span></span><span class="line"><span class="cl">  正常值：700-1100 mg/L (0.07%-0.11%)
+</span></span><span class="line"><span class="cl">  空腹血糖受损：1100-1260 mg/L
+</span></span><span class="line"><span class="cl">  糖尿病诊断标准：≥1260 mg/L
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">餐后2小时血糖：
+</span></span><span class="line"><span class="cl">  正常值：&lt;1400 mg/L
+</span></span><span class="line"><span class="cl">  糖耐量受损：1400-2000 mg/L
+</span></span><span class="line"><span class="cl">  糖尿病诊断标准：≥2000 mg/L
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">随机血糖：
+</span></span><span class="line"><span class="cl">  正常值：&lt;2000 mg/L
+</span></span><span class="line"><span class="cl">  糖尿病诊断标准：≥2000 mg/L
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="换算说明-1">换算说明
+</h5><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">1 mmol/L ≈ 180 mg/L（葡萄糖分子量为 180）
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h4 id="血液尿酸">血液尿酸
+</h4><p>血液尿酸浓度与痛风和高尿酸血症相关，男女正常值范围有所差异。</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>性别</th>
+          <th>正常值范围 (μmol/L)</th>
+          <th>正常值范围 (mmol/L)</th>
+          <th>高尿酸血症阈值 (mmol/L)</th>
+          <th>痛风风险增加 (mmol/L)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>男性</td>
+          <td>208-428 μmol/L</td>
+          <td>0.208-0.428 mmol/L</td>
+          <td>&gt;0.428 mmol/L</td>
+          <td>&gt;0.480 mmol/L</td>
+      </tr>
+      <tr>
+          <td>女性</td>
+          <td>155-357 μmol/L</td>
+          <td>0.155-0.357 mmol/L</td>
+          <td>&gt;0.357 mmol/L</td>
+          <td>&gt;0.420 mmol/L</td>
+      </tr>
+  </tbody>
+</table></div>
+<h5 id="正常值mgl-表示">正常值（mg/L 表示）
+</h5><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">男性：58.8-120.9 mg/L (相当于 208-428 μmol/L)
+</span></span><span class="line"><span class="cl">女性：43.7-100.7 mg/L (相当于 155-357 μmol/L)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="换算说明-2">换算说明
+</h5><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">1 μmol/L = 0.168 mg/L（尿酸分子量为 168）
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<p>以上内容以 Markdown 格式整理，包含表格和代码块，清晰展示了血液中酒精、乳酸、血糖和尿酸的基本含量及其临床意义。</p>
+<h2 id="近红外在硅棒中氧碳含量的测定">近红外在硅棒中氧碳含量的测定
+</h2><p>参考：<br>
+<a class="link" href="http://www.anytesting.com/news/1928815.html"  target="_blank" rel="noopener"
+    >http://www.anytesting.com/news/1928815.html</a></p>
+<p>单晶硅材料可以用于制造太阳能电池、半导体器件等，由于其应用领域的特殊性要求其纯度达到99.9999% 甚至更高。在单晶硅生产过程中由原料及方法等因素难以避免的引入了碳、氧等杂质，直接影响了单晶硅的性能。因而需对单晶硅材料中的氧碳含量进行控制。</p>
+<p><img src="/p/%E8%BF%91%E7%BA%A2%E5%A4%96%E5%85%89%E8%B0%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/images/index/index-1.png"
+	width="500"
+	height="355"
+	srcset="/p/%E8%BF%91%E7%BA%A2%E5%A4%96%E5%85%89%E8%B0%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/images/index/index-1_hu_f24c533c9d39cae0.png 480w, /p/%E8%BF%91%E7%BA%A2%E5%A4%96%E5%85%89%E8%B0%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/images/index/index-1_hu_994ebc647ba61394.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="140"
+		data-flex-basis="338px"
+	
+></p>
+<h3 id="关键要点">关键要点
+</h3><ul>
+<li>研究表明，近红外光谱仪在硅棒中氧碳含量测定中面临显著挑战，主要是因为氧碳的特征吸收带主要在中红外区域，近红外区域的信号非常弱。</li>
+<li>证据倾向于认为，近红外光谱不适合直接测量硅中的氧碳含量，标准方法是低温中红外傅里叶变换红外光谱（FTIR）。</li>
+<li>一个意想不到的细节是，某些高次谐波或组合带可能出现在近红外区域，但这些信号太弱，难以用于精确测量。</li>
+</ul>
+<hr>
+<h4 id="概述">概述
+</h4><p>近红外光谱仪在硅棒中氧碳含量测定中面临显著挑战，主要由于氧和碳的特征吸收带主要在中红外区域（约400至4000 cm⁻¹），而近红外区域（约4000至12800 cm⁻¹）的信号非常弱。这使得近红外光谱不适合直接测量硅中的氧碳含量，标准方法是使用低温中红外傅里叶变换红外光谱（FTIR），其灵敏度和分辨率更高。</p>
+<h4 id="主要挑战">主要挑战
+</h4><ul>
+<li><strong>信号弱度</strong>：氧和碳在近红外区域的吸收带（如高次谐波或组合带）非常弱，难以检测，尤其是在痕量水平（如ppma或ppba）。</li>
+<li><strong>分辨率和灵敏度低</strong>：与中红外相比，近红外光谱的分辨率和灵敏度较低，难以准确量化硅中的微量杂质。</li>
+<li><strong>干扰问题</strong>：近红外区域可能受到其他杂质或硅晶格本身的吸收干扰，增加测量复杂性。</li>
+<li><strong>数据分析复杂</strong>：提取近红外谱图中的弱信号需要高级数据分析技术，增加了操作难度。</li>
+</ul>
+<h5 id="单晶硅中碳和氧的含量分析">单晶硅中碳和氧的含量分析
+</h5><p>在单晶硅中，碳（C）和氧（O）是常见的杂质元素，它们的含量通常以原子浓度（atoms/cm³）来表示。您提到的碳含量范围为 $10^{16} \sim 10^{17}$ atoms/cm³，接下来我们可以通过一些计算将其转换为其他单位（如 PPMA），并讨论氧的含量。</p>
+<hr>
+<h5 id="1-碳的含量1016-sim-1017-atomscm"><strong>1. 碳的含量：$10^{16} \sim 10^{17}$ atoms/cm³</strong>
+</h5><h6 id="1-转换为-ppma"><strong>(1) 转换为 PPMA</strong>
+</h6><p>PPMA 是基于原子比例的单位，表示每百万个硅原子中有多少个碳原子。为了计算 PPMA，我们需要知道单晶硅的原子密度。</p>
+<ul>
+<li>
+$$
+  N_{\text{Si}} = 5 \times 10^{22} \, \text{atoms/cm}^3
+  $$</li>
+<li>
+<p>碳的原子浓度范围为 $10^{16} \sim 10^{17}$ atoms/cm³。</p>
+</li>
+</ul>
+$$
+\text{PPMA}_{\text{C}} = \frac{\text{碳的原子浓度}}{\text{硅的原子密度}} \times 10^6
+$$$$
+\text{PPMA}_{\text{C}} = \frac{10^{16}}{5 \times 10^{22}} \times 10^6 = 0.2 \, \text{PPMA}
+$$$$
+\text{PPMA}_{\text{C}} = \frac{10^{17}}{5 \times 10^{22}} \times 10^6 = 2 \, \text{PPMA}
+$$<p>因此，碳的含量范围为 <strong>0.2～2 PPMA</strong>。</p>
+<hr>
+<h6 id="2-氧的含量"><strong>(2) 氧的含量</strong>
+</h6><p>氧是单晶硅中的另一种常见杂质，其典型含量范围为 $10^{17} \sim 10^{18}$ atoms/cm³。</p>
+<p>类似的，我们可以将氧的含量转换为 PPMA：</p>
+$$
+\text{PPMA}_{\text{O}} = \frac{10^{17}}{5 \times 10^{22}} \times 10^6 = 2 \, \text{PPMA}
+$$$$
+\text{PPMA}_{\text{O}} = \frac{10^{18}}{5 \times 10^{22}} \times 10^6 = 20 \, \text{PPMA}
+$$<p>因此，氧的含量范围为 <strong>2～20 PPMA</strong>。</p>
+<hr>
+<h5 id="2-总结"><strong>2. 总结</strong>
+</h5><ul>
+<li>碳的含量范围为 $10^{16} \sim 10^{17}$ atoms/cm³，对应的 PPMA 范围为 <strong>0.2～2 PPMA</strong>。</li>
+<li>氧的含量范围为 $10^{17} \sim 10^{18}$ atoms/cm³，对应的 PPMA 范围为 <strong>2～20 PPMA</strong>。</li>
+</ul>
+<p>这些杂质的含量对单晶硅的性能有重要影响，例如电学性质、机械强度等。如果需要更精确的数据，可以参考具体的材料规格或实验测量结果。</p>
+<h4 id="可行性分析">可行性分析
+</h4><p>鉴于这些挑战，近红外光谱仪在硅棒中氧碳含量测定中的可行性较低。研究表明，当前技术难以克服这些限制，因此不推荐将其作为常规方法。不过，若结合其他技术或针对特定样品，可能有间接应用的潜力，但这需要进一步研究。</p>
+<p>一个意想不到的细节是，尽管氧和碳的特征吸收带不在近红外区域，但某些高次谐波（如氧的第四次谐波可能在近红外边缘）可能被检测到，但信号强度不足以支持精确测量。</p>
+<p>支持的资源包括：<a class="link" href="https://www.bruker.com/en/applications/semiconductor-and-nanotech/solar/carbon-oxygen-quantification-in-silicon.html"  target="_blank" rel="noopener"
+    >碳和氧在硅中的定量分析</a> 和 <a class="link" href="https://www.powerwaywafer.com/determine-carbon-and-oxygen-content.html"  target="_blank" rel="noopener"
+    >硅单晶中碳氧含量的测定方法</a>。</p>
+<hr>
+<h3 id="报告">报告
+</h3><p>近红外光谱仪在硅棒中氧碳含量测定中的应用面临显著挑战，主要是由于氧和碳的特征吸收带主要集中在中红外区域，而非近红外区域。本报告详细分析了这些挑战及其对可行性的影响，并探讨了潜在的间接应用可能性。以下是全面的分析，基于当前研究和行业标准。</p>
+<h4 id="背景与标准方法">背景与标准方法
+</h4><p>硅棒中的氧和碳含量是半导体材料质量控制的关键指标，直接影响其机械和电学性能。标准方法是使用低温傅里叶变换中红外光谱（FTIR），其工作波数范围为400至4000 cm⁻¹，覆盖碳的吸收峰（如607.5 cm⁻¹）和氧的吸收峰（如1136.3 cm⁻¹）。例如，<a class="link" href="https://www.bruker.com/en/applications/semiconductor-and-nanotech/solar/carbon-oxygen-quantification-in-silicon.html"  target="_blank" rel="noopener"
+    >碳和氧在硅中的定量分析</a> 指出，FTIR可在低温下实现对碳和氧的灵敏检测，达到ppba（十亿分之一原子）级别。</p>
+<p>相比之下，近红外光谱（NIR）覆盖的波数范围为4000至12800 cm⁻¹（对应780至2500 nm），主要用于分析复杂混合物中的过振动和组合带，常见于农业和食品工业，但其在半导体材料分析中的应用较少。</p>
+<h4 id="挑战分析">挑战分析
+</h4><p>以下是近红外光谱仪在硅棒中氧碳含量测定中面临的四大主要挑战：</p>
+<ol>
+<li>
+<p><strong>信号弱度</strong><br>
+氧和碳在硅中的振动模式（如取代碳和间隙氧）的基频吸收带在中红外区域，其在近红外区域的过振动或组合带非常弱。理论上，高次谐波（如氧的第四次谐波可能在4000 cm⁻¹以上）可能出现在近红外边缘，但由于非谐性效应，这些信号强度显著降低，难以用于精确测量。例如，<a class="link" href="https://www.osapublishing.org/as/abstract.cfm?uri=as-34-2-167"  target="_blank" rel="noopener"
+    >硅晶圆中碳氧含量的评估</a> 提到，室温FTIR测量已能检测0.1 ppm的碳氧含量，但这是基于中红外吸收。</p>
+</li>
+<li>
+<p><strong>分辨率和灵敏度低</strong><br>
+近红外光谱的分辨率和灵敏度通常低于中红外光谱，尤其在检测微量杂质时。Bruker的报告<a class="link" href="https://www.bruker.com/en/applications/semiconductor-and-nanotech/solar/carbon-oxygen-quantification-in-silicon.html"  target="_blank" rel="noopener"
+    >碳和氧在硅中的定量分析</a> 强调，低温中红外分析可将碳检测下限降至10 ppba，而近红外由于信号弱，难以达到类似灵敏度。</p>
+</li>
+<li>
+<p><strong>干扰问题</strong><br>
+近红外区域可能受到其他杂质或硅晶格本身的吸收干扰。例如，硅晶格的振动模式或掺杂元素（如硼、磷）的吸收可能掩盖氧碳的弱信号。文献<a class="link" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7806787/"  target="_blank" rel="noopener"
+    >硅晶圆中微量杂质的红外光谱模拟</a> 指出，薄硅片中的干涉条纹已对中红外测量构成挑战，近红外区域的干扰可能更复杂。</p>
+</li>
+<li>
+<p><strong>数据分析复杂</strong><br>
+提取近红外谱图中的弱信号需要依赖化学计量学方法，如主成分分析（PCA）或偏最小二乘法（PLS），这增加了分析复杂性和专业知识要求。文献<a class="link" href="https://www.sciencedirect.com/science/article/abs/pii/S0378517322000151"  target="_blank" rel="noopener"
+    >近红外光谱在连续制造中的挑战</a> 提到，近红外应用的模型鲁棒性是常见问题，尤其在动态样品流中。</p>
+</li>
+</ol>
+<h4 id="可行性评估">可行性评估
+</h4><p>鉴于上述挑战，近红外光谱仪在硅棒中氧碳含量测定中的可行性较低。研究表明，当前技术难以克服信号弱度和干扰问题，因此不推荐将其作为常规方法。然而，存在一些潜在的间接应用场景，例如：</p>
+<ul>
+<li>若氧碳含量影响硅的某些可通过近红外测量的光学性质（如折射率或散射），可能通过相关性分析间接推断。但这需要建立明确的模型，目前文献支持不足。</li>
+<li>某些高次谐波或组合带可能出现在近红外边缘（如氧的第四次谐波可能在4000 cm⁻¹以上），但信号强度不足以支持精确测量，需结合表面增强技术（如SEIRA）可能有所改善，但这增加了实验复杂性。</li>
+</ul>
+<p>一个意想不到的细节是，尽管氧和碳的基频吸收不在近红外区域，但某些高次谐波（如碳的第七次谐波可能在4235 cm⁻¹）可能被检测到，但其强度远低于中红外基频，实用性有限。</p>
+<h4 id="对比表中红外与近红外在硅氧碳测定中的优劣">对比表：中红外与近红外在硅氧碳测定中的优劣
+</h4><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th><strong>方法</strong></th>
+          <th><strong>优点</strong></th>
+          <th><strong>缺点</strong></th>
+          <th><strong>适用性</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>中红外FTIR（标准）</td>
+          <td>直接检测基频吸收，灵敏度高，精度高</td>
+          <td>需要低温环境，成本较高，样品制备复杂</td>
+          <td>硅氧碳常规测量</td>
+      </tr>
+      <tr>
+          <td>近红外光谱</td>
+          <td>非破坏性，快速，设备成本可能较低</td>
+          <td>信号弱，干扰多，灵敏度低，不适合直接测量</td>
+          <td>间接测量或其他应用</td>
+      </tr>
+  </tbody>
+</table></div>
+<h4 id="结论与展望">结论与展望
+</h4><p>近红外光谱仪在硅棒中氧碳含量测定中的挑战主要源于信号弱度和技术限制，当前可行性较低。未来，若能开发新型探测器或增强信号的技术（如表面增强红外吸收光谱），可能改善其应用潜力，但目前仍建议采用中红外FTIR作为标准方法。</p>
+<p>支持的资源包括：<a class="link" href="https://www.bruker.com/en/applications/semiconductor-and-nanotech/solar/carbon-oxygen-quantification-in-silicon.html"  target="_blank" rel="noopener"
+    >碳和氧在硅中的定量分析</a>、<a class="link" href="https://www.powerwaywafer.com/determine-carbon-and-oxygen-content.html"  target="_blank" rel="noopener"
+    >硅单晶中碳氧含量的测定方法</a> 和 <a class="link" href="https://www.osapublishing.org/as/abstract.cfm?uri=as-34-2-167"  target="_blank" rel="noopener"
+    >硅晶圆中碳氧含量的评估</a>。</p>
+<hr>
+<h3 id="关键引文">关键引文
+</h3><ul>
+<li><a class="link" href="https://www.bruker.com/en/applications/semiconductor-and-nanotech/solar/carbon-oxygen-quantification-in-silicon.html"  target="_blank" rel="noopener"
+    >碳和氧在硅中的定量分析</a></li>
+<li><a class="link" href="https://www.powerwaywafer.com/determine-carbon-and-oxygen-content.html"  target="_blank" rel="noopener"
+    >硅单晶中碳氧含量的测定方法</a></li>
+<li><a class="link" href="https://www.osapublishing.org/as/abstract.cfm?uri=as-34-2-167"  target="_blank" rel="noopener"
+    >硅晶圆中碳氧含量的评估</a></li>
+<li><a class="link" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7806787/"  target="_blank" rel="noopener"
+    >硅晶圆中微量杂质的红外光谱模拟</a></li>
+<li><a class="link" href="https://www.sciencedirect.com/science/article/abs/pii/S0378517322000151"  target="_blank" rel="noopener"
+    >近红外光谱在连续制造中的挑战</a></li>
+</ul>
+<h2 id="近红外在酸性清洗液含量检测中的应用可行性分析">近红外在酸性清洗液含量检测中的应用可行性分析
+</h2><h3 id="关键要点-1">关键要点
+</h3><ul>
+<li>研究表明，这些物质在近红外区域的吸收峰主要来源于其分子振动的基本频率的倍频和组合带。</li>
+<li>检测这些物质的近红外可行性较高，但需建立校准模型以确保准确性。</li>
+<li>不同化合物的吸收峰可能重叠，影响复杂混合物的识别。</li>
+</ul>
+<hr>
+<h3 id="直接回答">直接回答
+</h3><h4 id="近红外吸收峰对应">近红外吸收峰对应
+</h4><p>这些物质在近红外区域的吸收峰主要来源于其分子中官能团（如O-H、N-H、C-H）的倍频和组合带。例如：</p>
+<ul>
+<li>过氧化氢（H₂O₂）：约1420纳米（7042 cm⁻¹）。</li>
+<li>硫酸（H₂SO₄）：O-H拉伸的倍频约1667纳米（6000 cm⁻¹）。</li>
+<li>氨（NH₃）：N-H拉伸的倍频约1515纳米（6600 cm⁻¹）。</li>
+<li>水（H₂O）：1364、1378、1400纳米（7330、7252、7143 cm⁻¹）。</li>
+<li>盐酸（HCl）：H-Cl拉伸的倍频约1724纳米（5800 cm⁻¹）。</li>
+<li>异丙醇：C-H和O-H的倍频，通常在近红外区域有特征吸收。</li>
+</ul>
+<p>这些峰值反映了分子振动的更高能量跃迁，适合用于检测混合物中的成分。</p>
+<h4 id="检测可行性">检测可行性
+</h4><p>使用近红外检测这些物质是可行的，尤其在定量分析中，如监测过氧化氢的浓度或水的含量的场景。研究表明，近红外光谱可快速、无损地分析样品，但需要建立校准模型以区分重叠的吸收峰。对于简单混合物（如硫酸+过氧化氢），检测效果较好；但复杂混合物可能因峰重叠而降低准确性。仪器灵敏度和样品浓度也会影响检测效果。</p>
+<h4 id="意外细节">意外细节
+</h4><p>有趣的是，近红外光谱在农业和食品工业中广泛用于水分和蛋白质的测量，但对硫酸等强酸的近红外研究较少，可能因其倍频吸收较弱。</p>
+<hr>
+<hr>
+<h3 id="详细调查报告近红外吸收峰及检测可行性分析">详细调查报告：近红外吸收峰及检测可行性分析
+</h3><h4 id="引言">引言
+</h4><p>近红外（NIR）光谱学是一种基于电磁波近红外区域（约700纳米至2500纳米或14,286至4,000 cm⁻¹）的分析技术，主要用于检测分子振动的倍频和组合带。与中红外光谱相比，近红外光谱的吸收峰强度较低，但因其穿透性强，适合非破坏性分析。本报告旨在探讨用户提到的物质（基于附件中的化学混合物）在近红外区域的吸收峰，并评估使用近红外检测的可行性。</p>
+<h4 id="物质及近红外吸收峰分析">物质及近红外吸收峰分析
+</h4><p>根据附件，涉及的物质包括SPM（硫酸+过氧化氢）、SC1（氨+过氧化氢+水）、SC2（盐酸+过氧化氢+水）和IPA（异丙醇）。以下为各成分的近红外吸收峰，基于分子官能团的倍频和组合带：</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th><strong>物质</strong></th>
+          <th><strong>近红外吸收峰（纳米）</strong></th>
+          <th><strong>对应波数（cm⁻¹）</strong></th>
+          <th><strong>备注</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>过氧化氢 (H₂O₂)</td>
+          <td>约1420</td>
+          <td>7042</td>
+          <td>O-H拉伸的倍频</td>
+      </tr>
+      <tr>
+          <td>硫酸 (H₂SO₄)</td>
+          <td>约1667</td>
+          <td>6000</td>
+          <td>O-H拉伸的倍频</td>
+      </tr>
+      <tr>
+          <td>氨 (NH₃)</td>
+          <td>约1515</td>
+          <td>6600</td>
+          <td>N-H拉伸的倍频</td>
+      </tr>
+      <tr>
+          <td>水 (H₂O)</td>
+          <td>1364, 1378, 1400</td>
+          <td>7330, 7252, 7143</td>
+          <td>O-H拉伸的倍频和组合带</td>
+      </tr>
+      <tr>
+          <td>盐酸 (HCl)</td>
+          <td>约1724</td>
+          <td>5800</td>
+          <td>H-Cl拉伸的倍频</td>
+      </tr>
+      <tr>
+          <td>异丙醇</td>
+          <td>C-H和O-H的倍频，范围广</td>
+          <td>约6000-7000 cm⁻¹</td>
+          <td>典型醇类特征吸收</td>
+      </tr>
+  </tbody>
+</table></div>
+<p>这些吸收峰来源于分子振动的倍频，通常是中红外基本频率的2倍左右，但因非谐性效应，实际位置略低。例如，过氧化氢的1420纳米峰对应其O-H拉伸的倍频，而水的多个峰反映了其复杂的氢键网络。</p>
+<h4 id="混合物的近红外吸收特征">混合物的近红外吸收特征
+</h4><p>对于混合物，其近红外光谱将是各成分吸收峰的叠加：</p>
+<ul>
+<li><strong>SPM（硫酸+过氧化氢）</strong>：硫酸约1667纳米，过氧化氢约1420纳米，峰位较分开，易区分。</li>
+<li><strong>SC1（氨+过氧化氢+水）</strong>：氨约1515纳米，过氧化氢1420纳米，水1364-1400纳米，峰位较近，可能需高分辨率仪器。</li>
+<li><strong>SC2（盐酸+过氧化氢+水）</strong>：盐酸约1724纳米，过氧化氢1420纳米，水1364-1400纳米，峰位分布较广，检测较可行。</li>
+<li><strong>IPA（异丙醇）</strong>：作为单一物质，其C-H和O-H倍频在近红外区域有特征吸收，适合定量分析。</li>
+</ul>
+<h4 id="检测可行性评估">检测可行性评估
+</h4><p>近红外光谱的检测可行性取决于以下因素：</p>
+<ol>
+<li><strong>吸收峰的强度和分辨率</strong>：近红外吸收峰通常较弱，需高灵敏度仪器。研究表明，过氧化氢的1420纳米峰在气体检测中可用于浓度测量 (<a class="link" href="https://www.researchgate.net/publication/244738508_Determination_of_Hydrogen_Peroxide_by_near_Infrared_Spectroscopy"  target="_blank" rel="noopener"
+    >Determination of Hydrogen Peroxide by near Infrared Spectroscopy</a>)。</li>
+<li><strong>峰的重叠</strong>：混合物中峰可能重叠，如SC1中的氨和水峰接近，可能需主成分回归（PCR）或偏最小二乘回归（PLSR）等化学计量学方法分析。</li>
+<li><strong>样品状态</strong>：近红外适合液体、气体和固体样品分析，附件中的混合物多为液体或气体，检测条件较优。</li>
+<li><strong>校准模型</strong>：为确保定量准确性，需建立校准模型，基于已知浓度的标准样品。研究显示，近红外在农业（如水分测量）和制药工业中广泛应用，表明其对类似混合物的分析能力 (<a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7357077/"  target="_blank" rel="noopener"
+    >Near-Infrared Spectroscopy in Bio-Applications</a>)。</li>
+</ol>
+<p>总体而言，近红外检测这些物质是可行的，尤其在简单混合物中。复杂混合物可能需结合化学计量学方法以提高准确性。</p>
+<h4 id="应用场景及局限性">应用场景及局限性
+</h4><p>近红外光谱在工业中常用于快速、无损检测，如监测过氧化氢在灭菌过程中的浓度 (<a class="link" href="https://www.sciencedirect.com/science/article/pii/S0009261417311417"  target="_blank" rel="noopener"
+    >Hydrogen peroxide vapor cross sections: A flow cell study using laser absorption in the near infrared</a>)。对于硫酸等强酸，近红外研究较少，可能因其倍频吸收较弱，但仍可通过O-H倍频检测。<br>
+局限性包括：</p>
+<ul>
+<li>吸收峰强度低，可能需高浓度样品。</li>
+<li>复杂混合物中峰重叠可能降低分辨率。</li>
+<li>仪器成本和校准模型的建立需额外投入。</li>
+</ul>
+<h4 id="结论">结论
+</h4><p>这些物质在近红外区域的吸收峰主要为官能团倍频，检测可行性较高，适合快速定量分析。但复杂混合物需注意峰重叠问题，并通过化学计量学方法优化。</p>
+<hr>
+<h3 id="关键引文-1">关键引文
+</h3><ul>
+<li><a class="link" href="https://www.researchgate.net/publication/244738508_Determination_of_Hydrogen_Peroxide_by_near_Infrared_Spectroscopy"  target="_blank" rel="noopener"
+    >Determination of Hydrogen Peroxide by near Infrared Spectroscopy</a></li>
+<li><a class="link" href="https://www.sciencedirect.com/science/article/pii/S0009261417311417"  target="_blank" rel="noopener"
+    >Hydrogen peroxide vapor cross sections: A flow cell study using laser absorption in the near infrared</a></li>
+<li><a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7357077/"  target="_blank" rel="noopener"
+    >Near-Infrared Spectroscopy in Bio-Applications</a></li>
+<li><a class="link" href="https://pubs.acs.org/doi/10.1021/jp0114541"  target="_blank" rel="noopener"
+    >Observations on the Interpretation and Analysis of Sulfuric Acid Hydrate Infrared Spectra</a></li>
+<li><a class="link" href="https://agupubs.onlinelibrary.wiley.com/doi/pdf/10.1029/97JD00012"  target="_blank" rel="noopener"
+    >Infrared spectroscopy of sulfuric acid/water aerosols: Freezing characteristics</a></li>
+<li><a class="link" href="https://www.sciencedirect.com/science/article/pii/S2352340923001841"  target="_blank" rel="noopener"
+    >Dataset for SO2, SO3, H2SO4 and H2O infrared absorption spectra at 300° C and 350° C temperatures</a></li>
+<li><a class="link" href="https://opg.optica.org/ao/abstract.cfm?uri=ao-38-30-6408"  target="_blank" rel="noopener"
+    >Infrared and visible Fourier-transform spectra of sulfuric-acid–water aerosols at 230 and 294 K</a></li>
+<li><a class="link" href="https://www.researchgate.net/figure/Infrared-absorption-spectrum-of-Sulfuric-Acid-H-2-SO-4-taken-at-a-temperature-of-300_fig4_369424439"  target="_blank" rel="noopener"
+    >Infrared absorption spectrum of Sulfuric Acid (H 2 SO 4 ) taken at a temperature of 300 °C</a></li>
+<li><a class="link" href="http://www.irug.org/resources/spectral-databases-for-infrared"  target="_blank" rel="noopener"
+    >Spectral Databases for Infrared</a></li>
+<li><a class="link" href="https://sciencesolutions.wiley.com/solutions/technique/ir/knowitall-ir-collection/"  target="_blank" rel="noopener"
+    >KnowItAll IR Spectral Database Collection</a></li>
+<li><a class="link" href="https://kaplanscientific.nl/product/nir-spectral-libraries/"  target="_blank" rel="noopener"
+    >NIR Spectral Libraries</a></li>
+<li><a class="link" href="https://en.wikipedia.org/wiki/Near-infrared_spectroscopy"  target="_blank" rel="noopener"
+    >Near-infrared spectroscopy</a></li>
+<li><a class="link" href="https://www.frontiersin.org/journals/chemistry/articles/10.3389/fchem.2019.00048/full"  target="_blank" rel="noopener"
+    >Frontiers | Breakthrough Potential in Near-Infrared Spectroscopy: Spectra Simulation. A Review of Recent Developments</a></li>
+<li><a class="link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7749372/"  target="_blank" rel="noopener"
+    >Dataset of chemical and near-infrared spectroscopy measurements of fresh and dried poultry and cattle manure</a></li>
+<li><a class="link" href="https://guides.lib.utexas.edu/chemistry/spectra"  target="_blank" rel="noopener"
+    >Web Sources - Spectra and Spectral Data</a></li>
+<li><a class="link" href="https://fnirs.org/2020/11/10/openfnirs-database/"  target="_blank" rel="noopener"
+    >Openfnirs database – The Society for functional Near Infrared Spectroscopy</a></li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/others/">Others</a>
+        
+    </section>
+
+
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后修改于 Mar 04, 2025 16:00 CST
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%80%8E%E4%B9%88%E4%BF%9D%E5%AD%98.env%E6%96%87%E4%BB%B6%E5%88%B0github%E5%85%AC%E5%BC%80%E7%9A%84%E4%BB%93%E5%BA%93/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%80%8E%E4%B9%88%E4%BF%9D%E5%AD%98.env%E6%96%87%E4%BB%B6%E5%88%B0github%E5%85%AC%E5%BC%80%E7%9A%84%E4%BB%93%E5%BA%93/images/index/index.4cf1bd98f6238717fd5f44bdad52f2cf_hu_4b3df77e402fd535.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 怎么保存.env文件到github公开的仓库"
+                        
+                        data-hash="md5-TPG9mPYjhxf9X0S9rVLyzw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">怎么保存.env文件到github公开的仓库</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/categories%E7%B1%BB%E5%88%AB%E5%92%8Ctags%E6%A0%87%E7%AD%BE%E7%9A%84%E5%8C%BA%E5%88%AB/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">“categories”（类别）和“tags”（标签）的区别</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%EF%B8%8F%E6%AF%8F%E6%97%A5ai%E8%B5%84%E8%AE%AF/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">❤️每日AI资讯</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="zata-zhangtao/ZataTree"
+    data-repo-id="R_kgDON7mZJg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDON7mZJs4Cnk-l"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2025 Example Person
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.d2e1bb8da704fd56f67fd39fe2d77b41bd20a01559d1c24b7fd99ed4102cd281.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<style>
+    .highlight {
+        max-height: 400px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: 0 auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        display: block;
+        margin: 0 auto;
+        width: 22px;
+        height: 16px;
+    }
+
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url(/icons/backtop.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+
+<script>
+    function initCodeMoreBox() {
+        try {
+            const codeBlocks = document.querySelectorAll(".highlight");
+            if (!codeBlocks.length) return;
+
+            codeBlocks.forEach(codeBlock => {
+                if (codeBlock.scrollHeight <= codeBlock.clientHeight) return;
+
+                const codeMoreBox = document.createElement('div');
+                codeMoreBox.classList.add('code-more-box');
+
+                const codeMoreBtn = document.createElement('span');
+                codeMoreBtn.classList.add('code-more-btn');
+
+                const img = document.createElement('img');
+                img.classList.add('code-more-img');
+                img.src = "\/icons\/codemore.png";
+                img.alt = 'Show more';
+
+                codeMoreBtn.addEventListener('click', () => {
+                    codeBlock.classList.add('code-show');
+                    codeMoreBox.style.display = 'none';
+                    window.dispatchEvent(new Event('resize'));
+                });
+
+                codeMoreBtn.appendChild(img);
+                codeMoreBox.appendChild(codeMoreBtn);
+                codeBlock.appendChild(codeMoreBox);
+            });
+        } catch (error) {
+            console.error('Error in initCodeMoreBox:', error);
+        }
+    }
+
+    function initScrollTop() {
+        try {
+            const rightSideBar = document.querySelector(".right-sidebar");
+            if (!rightSideBar) {
+                console.warn('Right sidebar not found');
+                return;
+            }
+
+            const btn = document.createElement("div");
+            btn.id = "backTopBtn";
+            btn.onclick = backToTop;
+            rightSideBar.appendChild(btn);
+
+            window.onscroll = function () {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    btn.style.display = "block";
+                } else {
+                    btn.style.display = "none";
+                }
+            };
+        } catch (error) {
+            console.error('Error in initScrollTop:', error);
+        }
+    }
+
+    function backToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initCodeMoreBox();
+        initScrollTop();
+    });
+</script>
+    </body>
+</html>

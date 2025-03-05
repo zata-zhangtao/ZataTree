@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>DeepLearing on Zata-砸它</title>
+        <link>//localhost:1313/tags/deeplearing/</link>
+        <description>Recent content in DeepLearing on Zata-砸它</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>Example Person</copyright>
+        <lastBuildDate>Mon, 03 Mar 2025 17:07:53 +0800</lastBuildDate><atom:link href="//localhost:1313/tags/deeplearing/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Attention</title>
+        <link>//localhost:1313/p/attention/</link>
+        <pubDate>Sun, 16 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/p/attention/</guid>
+        <description>&lt;h1 id=&#34;注意力机制attention-mechanism详解&#34;&gt;注意力机制（Attention Mechanism）详解
+&lt;/h1&gt;&lt;p&gt;注意力机制是深度学习领域中一种重要的技术，广泛应用于自然语言处理（NLP）、计算机视觉（CV）、语音识别等领域。它通过模拟人类的注意力选择过程，使模型能够专注于输入数据中的重要部分，从而提升模型的性能和效率。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;一背景与动机&#34;&gt;一、背景与动机
+&lt;/h2&gt;&lt;p&gt;在传统的序列建模任务中（如机器翻译），RNN（循环神经网络）及其变体（LSTM、GRU）被广泛使用。然而，这些模型存在以下问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;长距离依赖问题&lt;/strong&gt;：RNN难以捕捉长序列中的远距离依赖关系。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;固定长度上下文限制&lt;/strong&gt;：编码器通常将整个输入序列压缩为一个固定长度的向量，这可能导致信息丢失。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;计算效率低&lt;/strong&gt;：RNN需要按顺序处理序列，无法并行化。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;为了解决这些问题，注意力机制应运而生。它允许模型动态地关注输入序列的不同部分，而不是依赖单一的固定表示。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;二注意力机制的核心思想&#34;&gt;二、注意力机制的核心思想
+&lt;/h2&gt;&lt;p&gt;首先我们可以看看李沐老师在《动手学深度学习》这么书中做的一些介绍&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/attention/image/Attention%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/PixPin_2025-02-19_12-46-49.jpg&#34;
+	width=&#34;1090&#34;
+	height=&#34;1675&#34;
+	srcset=&#34;//localhost:1313/p/attention/image/Attention%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/PixPin_2025-02-19_12-46-49_hu_c08b4767b34be4e3.jpg 480w, //localhost:1313/p/attention/image/Attention%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/PixPin_2025-02-19_12-46-49_hu_f1c3fe405550c95c.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;65&#34;
+		data-flex-basis=&#34;156px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;其中一句话比较吸引注意力：“受试者基于非自主性提示和自主性提示 有选择地引导注意力的焦点。”&lt;/p&gt;
+&lt;p&gt;实际上，注意力机制的核心思想是：&lt;strong&gt;让模型学会根据当前任务的需求，分配不同的权重给输入的不同部分&lt;/strong&gt;。换句话说，模型可以“聚焦”于输入中最相关的信息，而忽略无关的部分。&lt;/p&gt;
+&lt;p&gt;例如，在机器翻译任务中，当生成目标语言的一个单词时，模型可以根据源语言句子中的不同单词的重要性，动态调整它们对当前输出的影响。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;三注意力机制的基本原理&#34;&gt;三、注意力机制的基本原理
+&lt;/h2&gt;&lt;p&gt;我感觉《动手学深度学习》中的介绍，很清楚的把注意力机制的机制介绍了
+&lt;img src=&#34;//localhost:1313/p/attention/image/Attention%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/PixPin_2025-02-19_12-54-16.jpg&#34;
+	width=&#34;1110&#34;
+	height=&#34;673&#34;
+	srcset=&#34;//localhost:1313/p/attention/image/Attention%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/PixPin_2025-02-19_12-54-16_hu_9c2fe24ccb81ec55.jpg 480w, //localhost:1313/p/attention/image/Attention%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/PixPin_2025-02-19_12-54-16_hu_bb9f3fffd9a834ff.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;164&#34;
+		data-flex-basis=&#34;395px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;1-基本组成&#34;&gt;1. 基本组成
+&lt;/h3&gt;&lt;p&gt;注意力机制通常由以下几个关键部分组成：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Query（查询）&lt;/strong&gt;：表示当前需要关注的内容或任务需求。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Key（键）&lt;/strong&gt;：表示输入数据的特征表示。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Value（值）&lt;/strong&gt;：表示输入数据的实际内容。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Score Function（评分函数）&lt;/strong&gt;：用于衡量Query与每个Key之间的相关性。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Softmax&lt;/strong&gt;：将评分归一化为概率分布。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;加权求和&lt;/strong&gt;：根据归一化的权重对Value进行加权求和，得到最终的输出。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;2-数学公式&#34;&gt;2. 数学公式
+&lt;/h3&gt;&lt;p&gt;假设输入序列为 $ X = {x_1, x_2, &amp;hellip;, x_n} $，其对应的Key和Value分别为 $ K = {k_1, k_2, &amp;hellip;, k_n} $ 和 $ V = {v_1, v_2, &amp;hellip;, v_n} $。Query为 $ q $。注意力机制的计算过程如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+$$
+   e_i = \text{Score}(q, k_i)
+   $$&lt;p&gt;
+常见的评分函数包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;点积注意力（Scaled Dot-Product Attention）：
+$$
+     e_i = \frac{q \cdot k_i}{\sqrt{d_k}}
+     $$
+其中 $ d_k $ 是Key的维度。&lt;/li&gt;
+&lt;li&gt;加性注意力（Additive Attention）：
+$$
+     e_i = v^T \tanh(W_q q + W_k k_i)
+     $$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+$$
+   \alpha_i = \text{Softmax}(e_i) = \frac{\exp(e_i)}{\sum_{j=1}^n \exp(e_j)}
+   $$&lt;/li&gt;
+&lt;li&gt;
+$$
+   \text{Output} = \sum_{i=1}^n \alpha_i v_i
+   $$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;四注意力机制的分类&#34;&gt;四、注意力机制的分类
+&lt;/h2&gt;&lt;p&gt;根据应用场景和实现方式，注意力机制可以分为以下几种类型：&lt;/p&gt;
+&lt;h3 id=&#34;1-自注意力机制self-attention&#34;&gt;1. &lt;strong&gt;自注意力机制（Self-Attention）&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;自注意力机制是一种特殊的注意力机制，其中Query、Key和Value都来自同一个输入序列。它常用于Transformer模型中，用于捕捉序列内部的关系。&lt;/p&gt;
+&lt;h4 id=&#34;特点&#34;&gt;特点：
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;输入序列中的每个元素都可以与其他元素交互。&lt;/li&gt;
+&lt;li&gt;能够捕捉全局依赖关系，而不受序列长度的限制。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;应用&#34;&gt;应用：
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;Transformer模型中的多头自注意力（Multi-Head Self-Attention）。&lt;/li&gt;
+&lt;li&gt;BERT、GPT等预训练语言模型。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;2-交叉注意力机制cross-attention&#34;&gt;2. &lt;strong&gt;交叉注意力机制（Cross-Attention）&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;交叉注意力机制用于两个不同序列之间的交互。例如，在机器翻译任务中，解码器通过交叉注意力机制关注编码器的输出。&lt;/p&gt;
+&lt;h4 id=&#34;特点-1&#34;&gt;特点：
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;Query来自一个序列，Key和Value来自另一个序列。&lt;/li&gt;
+&lt;li&gt;适用于序列到序列的任务。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;应用-1&#34;&gt;应用：
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;机器翻译。&lt;/li&gt;
+&lt;li&gt;图像描述生成。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;3-多头注意力multi-head-attention&#34;&gt;3. &lt;strong&gt;多头注意力（Multi-Head Attention）&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;多头注意力是自注意力机制的一种扩展，它通过多个独立的注意力头并行计算，然后将结果拼接起来。这种方式可以捕捉输入序列中不同子空间的关系。&lt;/p&gt;
+&lt;h4 id=&#34;特点-2&#34;&gt;特点：
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;每个注意力头可以关注输入的不同方面。&lt;/li&gt;
+&lt;li&gt;提高了模型的表达能力。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;应用-2&#34;&gt;应用：
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;Transformer模型。&lt;/li&gt;
+&lt;li&gt;多模态任务（如图文匹配）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;4-局部注意力local-attention&#34;&gt;4. &lt;strong&gt;局部注意力（Local Attention）&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;局部注意力机制只关注输入序列的一部分，而不是整个序列。这种方式可以降低计算复杂度，同时保留局部信息。&lt;/p&gt;
+&lt;h4 id=&#34;特点-3&#34;&gt;特点：
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;计算效率高。&lt;/li&gt;
+&lt;li&gt;适合处理长序列。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;应用-3&#34;&gt;应用：
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;长文本处理。&lt;/li&gt;
+&lt;li&gt;视频分析。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;5-缩放点积注意力&#34;&gt;5. &lt;strong&gt;缩放点积注意力&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;缩放点积注意力也就是前面最开始说的注意力，只是前面的公式中加入了一个缩放因子，防止点积的数值过大，导致梯度消失或梯度爆炸。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;五注意力机制的优势&#34;&gt;五、注意力机制的优势
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;灵活性&lt;/strong&gt;：注意力机制可以根据任务需求动态调整输入的重要性。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;捕捉长距离依赖&lt;/strong&gt;：相比RNN，注意力机制可以直接建模输入序列中任意两个位置之间的关系。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;可解释性&lt;/strong&gt;：通过注意力权重，可以直观地看到模型关注了哪些部分。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;并行化&lt;/strong&gt;：注意力机制的计算可以完全并行化，提高了训练效率。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;六注意力机制的应用&#34;&gt;六、注意力机制的应用
+&lt;/h2&gt;&lt;h3 id=&#34;1-自然语言处理nlp&#34;&gt;1. 自然语言处理（NLP）
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;机器翻译&lt;/strong&gt;：Transformer模型利用注意力机制实现了端到端的翻译。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;文本生成&lt;/strong&gt;：GPT系列模型通过自注意力机制生成高质量的文本。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;问答系统&lt;/strong&gt;：BERT模型利用双向自注意力机制理解问题和文档的关系。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;2-计算机视觉cv&#34;&gt;2. 计算机视觉（CV）
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;图像描述生成&lt;/strong&gt;：通过交叉注意力机制，模型可以根据图像内容生成描述文字。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;目标检测&lt;/strong&gt;：注意力机制可以帮助模型聚焦于图像中的特定区域。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;3-语音识别&#34;&gt;3. 语音识别
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;语音转文字&lt;/strong&gt;：注意力机制可以捕捉语音信号中的重要片段。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;4-推荐系统&#34;&gt;4. 推荐系统
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;用户行为建模&lt;/strong&gt;：通过注意力机制，模型可以关注用户历史行为中的重要部分。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;七总结&#34;&gt;七、总结
+&lt;/h2&gt;&lt;p&gt;注意力机制是一种强大的工具，它通过动态分配权重的方式，使模型能够更好地捕捉输入数据中的重要信息。随着Transformer模型的普及，注意力机制已经成为深度学习领域的核心技术之一。未来，随着研究的深入，注意力机制将在更多领域发挥重要作用。&lt;/p&gt;
+&lt;p&gt;如果你对某个具体应用场景或实现细节感兴趣，可以进一步探讨！&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

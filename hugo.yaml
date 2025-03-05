@@ -84,7 +84,7 @@ params:
 
     comments:
         enabled: true                  # 启用评论
-        provider: disqus               # 使用 Disqus 作为评论提供者
+        provider: giscus               # 使用 Disqus 作为评论提供者
 
         disqusjs:
             shortname:                 # DisqusJS 的短名称（未设置）
@@ -145,11 +145,11 @@ params:
             siteName: ""               # Cactus 的站点名称（需唯一，未设置）
 
         giscus:
-            repo:                      # Giscus 的仓库（未设置）
-            repoID:                    # Giscus 的仓库 ID（未设置）
-            category:                  # Giscus 的分类（未设置）
-            categoryID:                # Giscus 的分类 ID（未设置）
-            mapping:                   # Giscus 的映射方式（未设置）
+            repo: zata-zhangtao/ZataTree # Giscus 的仓库（未设置）
+            repoID: R_kgDON7mZJg        # Giscus 的仓库 ID（未设置）
+            category: Announcements                   # Giscus 的分类（未设置）
+            categoryID: DIC_kwDON7mZJs4Cnk-l                 # Giscus 的分类 ID（未设置）
+            mapping: title                   # Giscus 的映射方式（未设置）
             lightTheme:                # Giscus 的亮色主题（未设置）
             darkTheme:                 # Giscus 的暗色主题（未设置）
             reactionsEnabled: 1        # Giscus 是否启用反应（启用）

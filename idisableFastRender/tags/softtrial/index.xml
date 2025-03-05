@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>SoftTrial on Zata-砸它</title>
+        <link>//localhost:1313/tags/softtrial/</link>
+        <description>Recent content in SoftTrial on Zata-砸它</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>Example Person</copyright>
+        <lastBuildDate>Tue, 04 Mar 2025 16:00:06 +0800</lastBuildDate><atom:link href="//localhost:1313/tags/softtrial/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>polar-DB</title>
+        <link>//localhost:1313/p/polar-db/</link>
+        <pubDate>Tue, 04 Mar 2025 13:59:34 +0800</pubDate>
+        
+        <guid>//localhost:1313/p/polar-db/</guid>
+        <description>&lt;img src="//localhost:1313/p/polar-db/images/index/index-1.png" alt="Featured image of post polar-DB" /&gt;&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/polar-db/images/index/index-1.png&#34;
+	width=&#34;780&#34;
+	height=&#34;764&#34;
+	srcset=&#34;//localhost:1313/p/polar-db/images/index/index-1_hu_c25a29751d4ebbe5.png 480w, //localhost:1313/p/polar-db/images/index/index-1_hu_47e1dabaa956abfe.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;102&#34;
+		data-flex-basis=&#34;245px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/polar-db/images/index/index.png&#34;
+	width=&#34;892&#34;
+	height=&#34;820&#34;
+	srcset=&#34;//localhost:1313/p/polar-db/images/index/index_hu_160b5f1ee78ad709.png 480w, //localhost:1313/p/polar-db/images/index/index_hu_670562ec6b4e4eee.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;108&#34;
+		data-flex-basis=&#34;261px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;简介&#34;&gt;简介
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Alibaba 的 PolarDB 是一款&lt;code&gt;云原生关系型数据库服务&lt;/code&gt;，性能高、可扩展性强，与&lt;strong&gt;MySQL 和 PostgreSQL&lt;/strong&gt;完全兼容。&lt;/li&gt;
+&lt;li&gt;它采用计算与存储分离架构，支持高达 500 TB 的存储容量，并提供多区域部署以确保高可用性。&lt;/li&gt;
+&lt;li&gt;安全功能包括 IP 白名单和虚拟专用云（VPC），全球数据库网络（GDN）支持跨区域数据复制和灾难恢复。&lt;/li&gt;
+&lt;li&gt;意外细节：PolarDB 还提供免费实例，适合开发者测试，规格为 2 核 8 GB，50 GB 存储，每个月可参与一次。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;什么是 PolarDB？&lt;/strong&gt;&lt;br&gt;
+PolarDB 是阿里巴巴云开发的一款云原生数据库服务，旨在为现代应用程序提供高性能和可扩展性。它与 MySQL 和 PostgreSQL 完全兼容，适合需要快速响应和高并发场景的企业。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;主要特点&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;高性能&lt;/strong&gt;：比传统数据库快得多，支持数百万次每秒查询（QPS）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;可扩展性&lt;/strong&gt;：支持自动扩展，计算和存储可独立调整，最大支持 500 TB 存储。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;高可用性&lt;/strong&gt;：通过多区域部署和自动故障转移，确保最小停机时间。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;安全性&lt;/strong&gt;：包括 IP 白名单、VPC 等措施保护数据。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;全球数据库网络（GDN）&lt;/strong&gt;：支持跨区域数据同步，灾难恢复时间小于 2 秒。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;开发者福利&lt;/strong&gt;&lt;br&gt;
+PolarDB 提供免费实例，规格为 2 核 8 GB，50 GB 存储，适合开发者测试，每个月可参与一次，区域包括中国香港、德国法兰克福等。详情请访问 &lt;a class=&#34;link&#34; href=&#34;https://www.alibabacloud.com/en/product/polarDB&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;官方产品页面&lt;/a&gt; 和 &lt;a class=&#34;link&#34; href=&#34;https://www.alibabacloud.com/help/en&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;文档中心&lt;/a&gt;。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;详细报告&#34;&gt;详细报告
+&lt;/h3&gt;&lt;p&gt;Alibaba 的 PolarDB 是一款云原生关系型数据库服务，由阿里巴巴云开发，旨在为企业提供高性能、可扩展和可靠的数据库解决方案。以下是其详细特点和功能的全面分析，基于官方资料和相关审查。&lt;/p&gt;
+&lt;h4 id=&#34;概述与背景&#34;&gt;概述与背景
+&lt;/h4&gt;&lt;p&gt;PolarDB 是为云环境优化的下一代关系型数据库，采用计算与存储分离架构，整合了软件和硬件资源，确保高性能和灵活性。它完全兼容 MySQL 和 PostgreSQL，并高度兼容 Oracle 语法，适合需要快速迁移和扩展的企业应用。PolarDB 已在阿里巴巴的“双十一”全球购物节等超大规模事件中得到验证，体现了其在高并发和大规模存储场景下的稳定性。&lt;/p&gt;
+&lt;h4 id=&#34;主要特点与功能&#34;&gt;主要特点与功能
+&lt;/h4&gt;&lt;h5 id=&#34;1-架构与性能&#34;&gt;1. 架构与性能
+&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;计算与存储分离&lt;/strong&gt;：PolarDB 的核心设计是将计算和存储解耦，允许独立扩展计算节点和存储容量。这种架构通过共享分布式存储确保数据一致性，避免传统异步复制带来的延迟问题。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;高性能&lt;/strong&gt;：官方数据表明，PolarDB for MySQL 在事务处理上比开源 MySQL 快 5 倍，在分析查询上快 400 倍，总拥有成本（TCO）降低 50%。对于 PostgreSQL，优化后查询和事务处理速度比标准 PostgreSQL 快 6 倍。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;并行查询（MySQL 8.0）&lt;/strong&gt;：通过在存储层分配数据到多个线程并行计算，复杂 SQL 和报告查询的响应时间可减少高达 30 倍（在 100 GB 数据、88 CPU 核心、710 GB 内存的配置下）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;快速 DDL 操作（MySQL）&lt;/strong&gt;：通过物理复制优化，添加列或索引可在并行处理下瞬间完成，1 TB 数据、16 CPU 核心、128 GB 内存的场景下，添加列仅需 1 秒，比开源 MySQL 快 10 倍。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;2-可扩展性与存储&#34;&gt;2. 可扩展性与存储
+&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;PolarDB 支持高达 500 TB 的存储容量（MySQL 和 PostgreSQL 版本），每个集群最多 16 个节点，每个节点最多 88 vCPUs。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;自动扩展&lt;/strong&gt;：存储和计算资源可根据数据量自动调整，无需停机。PolarDB-X 版本可扩展至拍字节级，适合超大规模数据场景。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;弹性扩展（MySQL）&lt;/strong&gt;：支持垂直扩展（升级/降级规格）和水平扩展（添加/移除只读节点，最多 16 个），存储可自动扩展至 500 TB，调整在几分钟内生效。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;3-高可用性与灾难恢复&#34;&gt;3. 高可用性与灾难恢复
+&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;多区域架构&lt;/strong&gt;：PolarDB 在多个可用区部署数据副本，确保数据库灾难恢复和备份。支持在同一区域的 3 个数据中心或跨 3 个区域的 5 个数据中心部署。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;全球数据库网络（GDN）&lt;/strong&gt;：通过异步复制和物理日志并行处理，数据在全球多个集群间同步时间小于 2 秒，支持跨区域读写分离，数据从最近的集群读取，提升性能。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;高可用性&lt;/strong&gt;：主节点故障时自动切换到备用节点，无数据丢失，解决异步复制问题，确保全球数据一致性。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;4-安全与管理&#34;&gt;4. 安全与管理
+&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;安全措施&lt;/strong&gt;：包括 IP 白名单、虚拟专用云（VPC）和多数据副本，确保数据在访问、存储和管理中的安全性。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;运维功能（MySQL）&lt;/strong&gt;：提供 24/7 机器学习驱动的异常检测，细粒度监控和诊断工具，包括自治中心、会话管理、实时监控、存储分析、死锁分析、诊断报告和性能洞察。SQL Explorer 可保留日志长达 5 年，支持慢 SQL 查询分析。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;自动扩展&lt;/strong&gt;：可配置阈值、节点规格和只读节点，动态调整资源。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;5-兼容性与迁移&#34;&gt;5. 兼容性与迁移
+&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;兼容性&lt;/strong&gt;：PolarDB for MySQL 和 PostgreSQL 与其生态系统 100% 兼容，PostgreSQL 版本高度兼容 Oracle 语法，支持 DBLINK、分区表、PL/SQL 等功能，逻辑概念（如用户、角色、模式、权限）与 Oracle 相似。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;迁移支持&lt;/strong&gt;：提供 ADAM 工具进行免费迁移评估，覆盖兼容性、关联性、性能、风险和修改方法，并提供优化和转换建议。PostgreSQL 版本还包括数据库专家服务，涵盖模式/数据迁移、一致性验证、SQL 模拟/回放/切换/优化。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;6-特定版本功能&#34;&gt;6. 特定版本功能
+&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;PolarDB for PostgreSQL&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;集成 GanosBase，支持时空数据存储和管理，包括向量、网格、轨迹、点云、网格、路径、3D 模型等。提供多级并行运算符，高效处理，兼容商业和开源空间数据服务，可构建城市级空间数据仓库。&lt;/li&gt;
+&lt;li&gt;完全托管，减少 TCO，支持手动次要版本升级以获取性能提升、新功能和修复。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;PolarDB for Xscale&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;分布式无共享架构，高吞吐量、低延迟、高可扩展性和高可用性，完全兼容 MySQL 生态，支持二进制日志和开源分区/分片工具。&lt;/li&gt;
+&lt;li&gt;标准版基于 Paxos 协议（主节点、备用节点、日志节点），成本效益高，可迁移至企业版。企业版支持在线扩展至拍字节级，适合高并发和大规模数据处理。&lt;/li&gt;
+&lt;li&gt;自动分区（AUTO 模式，无需分区键，使用标准 MySQL 语法），混合负载（并行计算、自动扩展、读写分离、只读副本支持 OLTP/OLAP），金融级一致性（RPO=0，RC/RR 隔离级别）。&lt;/li&gt;
+&lt;li&gt;企业级功能包括多区域/多区域灾难恢复，符合金融分布式事务数据库标准，通过长期稳定性测试，监控（计算/存储/数据库，定制警报，概览）和诊断/优化（识别问题 SQL，实时分析，报告中心）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;7-开发者福利&#34;&gt;7. 开发者福利
+&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;免费实例&lt;/strong&gt;：提供 Always Free 实例，适合开发者测试。规格为 2 核 8 GB，50 GB 存储，每个月可参与一次，区域包括中国（香港）、德国（法兰克福）、印度尼西亚（雅加达）、日本（东京）、新加坡、泰国（曼谷）、英国（伦敦）。参与后有效期为当月，未使用则过期，可切换区域或转为付费计划。详情请访问 &lt;a class=&#34;link&#34; href=&#34;https://www.alibabacloud.com/blog/how-to-claim-polardb-resources-for-free_600105&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;获取免费资源指南&lt;/a&gt; 和 &lt;a class=&#34;link&#34; href=&#34;https://www.alibabacloud.com/help/doc-detail/58764.htm#J_2364114860&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;条款与条件&lt;/a&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;计费与成本效益&#34;&gt;计费与成本效益
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;计费方式（MySQL）&lt;/strong&gt;：支持按量付费（根据实例规格和存储使用扣费，自动扩展，适合短期使用）和订阅（预付费，长期使用，更具成本效益，提供更长有效期和更大容量计划）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;成本效益&lt;/strong&gt;：比传统 MySQL/PostgreSQL 快 100 倍以上，共享存储减少扩展成本，仅按实际使用存储付费，降低总拥有成本。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;对比与用户反馈&#34;&gt;对比与用户反馈
+&lt;/h4&gt;&lt;p&gt;根据审查和用户反馈，PolarDB 特别适合需要高并发、大规模存储和复杂查询的业务场景。Sourceforge 的描述指出，其在阿里巴巴“双十一”购物节中得到验证，支持百万级 QPS 和 100 TB 集群，成本仅为传统商业数据库的 1/10。Gartner Peer Insights 和其他平台的用户评论强调其性能和扩展性，但也建议关注特定版本的文档以了解差异。&lt;/p&gt;
+&lt;h4 id=&#34;表格polardb-主要版本对比&#34;&gt;表格：PolarDB 主要版本对比
+&lt;/h4&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;&lt;strong&gt;版本&lt;/strong&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;strong&gt;架构&lt;/strong&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;strong&gt;存储容量&lt;/strong&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;strong&gt;主要特点&lt;/strong&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;strong&gt;适用场景&lt;/strong&gt;&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;PolarDB for MySQL&lt;/td&gt;
+          &lt;td&gt;共享存储&lt;/td&gt;
+          &lt;td&gt;500 TB&lt;/td&gt;
+          &lt;td&gt;高事务性能，快速 DDL，IMCI 支持 HTAP&lt;/td&gt;
+          &lt;td&gt;高并发 OLTP/OLAP 混合负载&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;PolarDB for PostgreSQL&lt;/td&gt;
+          &lt;td&gt;共享存储&lt;/td&gt;
+          &lt;td&gt;500 TB&lt;/td&gt;
+          &lt;td&gt;Oracle 兼容，时空数据支持，托管服务&lt;/td&gt;
+          &lt;td&gt;空间数据分析，Oracle 迁移&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;PolarDB for Xscale&lt;/td&gt;
+          &lt;td&gt;分布式无共享&lt;/td&gt;
+          &lt;td&gt;拍字节级&lt;/td&gt;
+          &lt;td&gt;高吞吐量，自动分区，金融级一致性&lt;/td&gt;
+          &lt;td&gt;大规模分布式事务，金融行业&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;结论&#34;&gt;结论
+&lt;/h4&gt;&lt;p&gt;PolarDB 提供了一套全面的云原生数据库解决方案，涵盖高性能、可扩展性、安全性和兼容性，适合各种企业级应用。开发者可通过免费实例快速上手，具体功能根据版本（如 MySQL、PostgreSQL、Xscale）有所不同，建议参考官方文档获取详细信息。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;关键引用：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.alibabacloud.com/en/product/polarDB&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PolarDB 产品页面详细介绍&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.alibabacloud.com/help/en&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PolarDB 文档中心&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.alibabacloud.com/blog/how-to-claim-polardb-resources-for-free_600105&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;获取 PolarDB 免费资源指南&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.alibabacloud.com/product/polardb-for-mysql&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PolarDB for MySQL 学习更多&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.alibabacloud.com/product/polardb-for-postgresql&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PolarDB for PostgreSQL 学习更多&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.alibabacloud.com/product/polardb-for-xscale&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PolarDB for Xscale 学习更多&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.alibabacloud.com/help/polardb/latest/polardb-for-mysql&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PolarDB MySQL 文档&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.alibabacloud.com/help/polardb/polardb-for-postgresql/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PolarDB PostgreSQL 文档&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.alibabacloud.com/help/polardb/latest/polardb-x&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PolarDB Xscale 文档&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.gartner.com/reviews/market/cloud-database-management-systems/vendor/alibaba-cloud/product/polardb&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PolarDB 产品介绍与用户评论&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://dbdb.io/db/polardb&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PolarDB 数据库目录信息&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://emptysqua.re/blog/review-polardb-scc/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PolarDB-SCC 性能审查文章&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://sourceforge.net/software/product/PolarDB/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PolarDB 用户评价与定价&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://sourceforge.net/software/product/PolarDB-X/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PolarDB-X 用户评价与功能&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.geeksforgeeks.org/what-is-polardb-for-postgresql/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PolarDB for PostgreSQL 技术文章&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.alibabacloud.com/blog/polardb-deep-dive-on-alibaba-cloud%25E2%2580%2599s-next-generation-database_578138&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PolarDB 深入分析博客&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.alibabacloud.com/blog/polardb-series-1-get-started-in-10-minutes_594647&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PolarDB 入门指南博客&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>coze</title>
+        <link>//localhost:1313/p/coze/</link>
+        <pubDate>Tue, 04 Mar 2025 11:46:49 +0800</pubDate>
+        
+        <guid>//localhost:1313/p/coze/</guid>
+        <description>&lt;img src="//localhost:1313/p/coze/images/index/index.png" alt="Featured image of post coze" /&gt;&lt;p&gt;参考：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.coze.cn/open/docs/guides/welcome&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.coze.cn/open/docs/guides/welcome&lt;/a&gt; &lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://www.coze.cn/open/docs/guides/quickstart&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.coze.cn/open/docs/guides/quickstart&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;使用说明&#34;&gt;使用说明
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;创建一个智能体&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/coze/images/index/index-1.png&#34;
+	width=&#34;1912&#34;
+	height=&#34;954&#34;
+	srcset=&#34;//localhost:1313/p/coze/images/index/index-1_hu_244ce66fa61e568e.png 480w, //localhost:1313/p/coze/images/index/index-1_hu_b331c0d436df56eb.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;200&#34;
+		data-flex-basis=&#34;481px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/coze/images/index/index-3.png&#34;
+	width=&#34;1912&#34;
+	height=&#34;954&#34;
+	srcset=&#34;//localhost:1313/p/coze/images/index/index-3_hu_84571d5b2a0b8ea3.png 480w, //localhost:1313/p/coze/images/index/index-3_hu_6b5f6515147d0e63.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;200&#34;
+		data-flex-basis=&#34;481px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;可以设置智能体的行为&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/coze/images/index/index-4.png&#34;
+	width=&#34;1912&#34;
+	height=&#34;954&#34;
+	srcset=&#34;//localhost:1313/p/coze/images/index/index-4_hu_c090f8984c67a757.png 480w, //localhost:1313/p/coze/images/index/index-4_hu_b4206c9a727d3677.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;200&#34;
+		data-flex-basis=&#34;481px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;效果&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/coze/images/index/index-5.png&#34;
+	width=&#34;1912&#34;
+	height=&#34;954&#34;
+	srcset=&#34;//localhost:1313/p/coze/images/index/index-5_hu_b41f2ff1f82cea78.png 480w, //localhost:1313/p/coze/images/index/index-5_hu_68bbe35755030deb.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;200&#34;
+		data-flex-basis=&#34;481px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;调用插件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;插件可以调用一些api&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/coze/images/index/index-6.png&#34;
+	width=&#34;1912&#34;
+	height=&#34;954&#34;
+	srcset=&#34;//localhost:1313/p/coze/images/index/index-6_hu_249eb628992e3806.png 480w, //localhost:1313/p/coze/images/index/index-6_hu_60da93474a827e30.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;200&#34;
+		data-flex-basis=&#34;481px&#34;
+	
+&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>flora无限画布</title>
+        <link>//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/</link>
+        <pubDate>Tue, 04 Mar 2025 11:04:28 +0800</pubDate>
+        
+        <guid>//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/</guid>
+        <description>&lt;img src="//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index.png" alt="Featured image of post flora无限画布" /&gt;&lt;h3 id=&#34;网址&#34;&gt;网址
+&lt;/h3&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.florafauna.ai/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.florafauna.ai/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index.png&#34;
+	width=&#34;1912&#34;
+	height=&#34;990&#34;
+	srcset=&#34;//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index_hu_94bd19abde2663ec.png 480w, //localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index_hu_36dff7d4904f1adf.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;flora示例&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;193&#34;
+		data-flex-basis=&#34;463px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;使用简介&#34;&gt;使用简介
+&lt;/h3&gt;&lt;p&gt;当前可以免费使用，可以google账户登录&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;导入个人的资源文件，由于后续的风格生成&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-2.png&#34;
+	width=&#34;596&#34;
+	height=&#34;604&#34;
+	srcset=&#34;//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-2_hu_e773a16f1b22261c.png 480w, //localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-2_hu_dde604655bdc76c7.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;导入资源&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;98&#34;
+		data-flex-basis=&#34;236px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;点击加号，设置生成方式并输入提示词&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-3.png&#34;
+	width=&#34;440&#34;
+	height=&#34;508&#34;
+	srcset=&#34;//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-3_hu_29bc01b47084a2ac.png 480w, //localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-3_hu_fcaaad16e8955c72.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;右侧加号&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;86&#34;
+		data-flex-basis=&#34;207px&#34;
+	
+&gt;
+&lt;img src=&#34;//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-4.png&#34;
+	width=&#34;871&#34;
+	height=&#34;499&#34;
+	srcset=&#34;//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-4_hu_f707df6daa16d50d.png 480w, //localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-4_hu_818139d8264bc2e8.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;点击加号并拖拽&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;174&#34;
+		data-flex-basis=&#34;418px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;点击生成按钮，等待生成结果
+其中的数字表示同时生成几个（因为往往ai的效果不稳定，可能生成很多个才能找到适合自己的一个）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-5.png&#34;
+	width=&#34;641&#34;
+	height=&#34;535&#34;
+	srcset=&#34;//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-5_hu_9e08626c95c32330.png 480w, //localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-5_hu_d3cfe76d862660d9.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;生成内容&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;119&#34;
+		data-flex-basis=&#34;287px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;可以多个生成内容传入一个输入中，不过只支持文本&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;可以让它做总结&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-6.png&#34;
+	width=&#34;1912&#34;
+	height=&#34;954&#34;
+	srcset=&#34;//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-6_hu_c78a963017ccb939.png 480w, //localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-6_hu_f1655c2edc62dd4a.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;合并内容做总结&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;200&#34;
+		data-flex-basis=&#34;481px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;总结的内容可以再用于生成视频或图片&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-7.png&#34;
+	width=&#34;1577&#34;
+	height=&#34;629&#34;
+	srcset=&#34;//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-7_hu_5a63582bec8d4e02.png 480w, //localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-7_hu_1dccb4bee4e2985.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;250&#34;
+		data-flex-basis=&#34;601px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;使用感受&#34;&gt;使用感受
+&lt;/h3&gt;&lt;p&gt;flora我主要是用于设计方面，可以提供它一些风格的图片，让它学习，然后让它生成，这样就可以快速生成想要的风格。主要使用的方式是工作流的方式，每一个下级的框都会接收上一级的输出，总体来说使用成本比较低，支持文本、图片和视频三种输入和输出。&lt;br&gt;
+&lt;img src=&#34;//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-1.png&#34;
+	width=&#34;779&#34;
+	height=&#34;538&#34;
+	srcset=&#34;//localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-1_hu_1b9010fe98341998.png 480w, //localhost:1313/p/flora%E6%97%A0%E9%99%90%E7%94%BB%E5%B8%83/images/index/index-1_hu_7b659e9ce2afc642.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;144&#34;
+		data-flex-basis=&#34;347px&#34;
+	
+&gt;&lt;br&gt;
+使用简单，基本上效果也还可以。&lt;/p&gt;
+&lt;p&gt;缺点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;感觉界面有点卡顿&lt;/li&gt;
+&lt;li&gt;可以选择的模型比较少&lt;/li&gt;
+&lt;li&gt;提示词还是需要自己写，有现成的提示词的话，就好了&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>百度自由画布</title>
+        <link>//localhost:1313/p/%E7%99%BE%E5%BA%A6%E8%87%AA%E7%94%B1%E7%94%BB%E5%B8%83/</link>
+        <pubDate>Tue, 04 Mar 2025 10:59:39 +0800</pubDate>
+        
+        <guid>//localhost:1313/p/%E7%99%BE%E5%BA%A6%E8%87%AA%E7%94%B1%E7%94%BB%E5%B8%83/</guid>
+        <description>&lt;img src="//localhost:1313/p/%E7%99%BE%E5%BA%A6%E8%87%AA%E7%94%B1%E7%94%BB%E5%B8%83/images/index/index.png" alt="Featured image of post 百度自由画布" /&gt;&lt;h3 id=&#34;百度自由画布&#34;&gt;百度自由画布
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/%E7%99%BE%E5%BA%A6%E8%87%AA%E7%94%B1%E7%94%BB%E5%B8%83/images/index/index.png&#34;
+	width=&#34;1912&#34;
+	height=&#34;954&#34;
+	srcset=&#34;//localhost:1313/p/%E7%99%BE%E5%BA%A6%E8%87%AA%E7%94%B1%E7%94%BB%E5%B8%83/images/index/index_hu_a2992de6c8b6eff9.png 480w, //localhost:1313/p/%E7%99%BE%E5%BA%A6%E8%87%AA%E7%94%B1%E7%94%BB%E5%B8%83/images/index/index_hu_57cf108d8b5fb16e.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;200&#34;
+		data-flex-basis=&#34;481px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;正在申请内测资格&amp;hellip;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

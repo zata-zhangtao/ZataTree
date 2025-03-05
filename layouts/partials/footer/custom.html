@@ -1,0 +1,124 @@
+<style>
+    .highlight {
+        max-height: 400px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: 0 auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        display: block;
+        margin: 0 auto;
+        width: 22px;
+        height: 16px;
+    }
+
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url({{ (resources.Get "icons/backtop.png").RelPermalink }});
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+
+<script>
+    function initCodeMoreBox() {
+        try {
+            const codeBlocks = document.querySelectorAll(".highlight");
+            if (!codeBlocks.length) return;
+
+            codeBlocks.forEach(codeBlock => {
+                if (codeBlock.scrollHeight <= codeBlock.clientHeight) return;
+
+                const codeMoreBox = document.createElement('div');
+                codeMoreBox.classList.add('code-more-box');
+
+                const codeMoreBtn = document.createElement('span');
+                codeMoreBtn.classList.add('code-more-btn');
+
+                const img = document.createElement('img');
+                img.classList.add('code-more-img');
+                img.src = "{{ (resources.Get "icons/codemore.png").RelPermalink }}";
+                img.alt = 'Show more';
+
+                codeMoreBtn.addEventListener('click', () => {
+                    codeBlock.classList.add('code-show');
+                    codeMoreBox.style.display = 'none';
+                    window.dispatchEvent(new Event('resize'));
+                });
+
+                codeMoreBtn.appendChild(img);
+                codeMoreBox.appendChild(codeMoreBtn);
+                codeBlock.appendChild(codeMoreBox);
+            });
+        } catch (error) {
+            console.error('Error in initCodeMoreBox:', error);
+        }
+    }
+
+    function initScrollTop() {
+        try {
+            const rightSideBar = document.querySelector(".right-sidebar");
+            if (!rightSideBar) {
+                console.warn('Right sidebar not found');
+                return;
+            }
+
+            const btn = document.createElement("div");
+            btn.id = "backTopBtn";
+            btn.onclick = backToTop;
+            rightSideBar.appendChild(btn);
+
+            window.onscroll = function () {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    btn.style.display = "block";
+                } else {
+                    btn.style.display = "none";
+                }
+            };
+        } catch (error) {
+            console.error('Error in initScrollTop:', error);
+        }
+    }
+
+    function backToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initCodeMoreBox();
+        initScrollTop();
+    });
+</script>

@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="\n以下是基于最新的需求重新撰写的博客文章，主题仍是“使用自定义Python函数创建博客，避免繁琐的文件头标准内容输入”。这次博客将反映新的功能：通过 categories、tags 和 title 三个参数生成文件夹和文件，并将路径组合为 categories/tags/title。\n使用自定义Python函数创建博客：告别繁琐的文件头输入\r在维护技术博客时，每次创建新文章都需要手动设置文件夹结构和标准化的Markdown文件头，例如标题、分类、标签和日期等。这种重复劳动不仅耗时，还容易出错。想象一下，如果能通过一个简单的命令，比如 zata create -c Python -t github -b MyProject，自动生成带有标准头部的博客文件，并按分类和标签组织目录结构，会不会让写作更高效？\n在这篇博客中，我将展示如何用Python实现这一自动化工具，并将其打包成一个命令行可执行文件。通过自定义函数，我们可以轻松创建博客文件，避免手动输入繁琐的文件头内容。\n背景与目标\r假设你正在用静态网站生成器（如Jekyll或Hugo）写博客，每次新建文章时需要：\n创建一个文件夹结构，比如 Python/github/MyProject。 在最内层文件夹中生成一个 index.md 文件。 为 index.md 添加标准头部，例如： 1 2 3 4 5 6 7 8 9 10 --- title: MyProject description: &#34;空&#34; date: 2025-03-03T15:20:45+08:00 image: images/index.png categories: - Python tags: - github --- 手动完成这些步骤虽然可行，但效率低下。我的目标是：\n">
+<title>4-自定义Python函数创建博客：告别繁琐的文件头输入</title>
+
+<link rel='canonical' href='//localhost:1313/p/4-%E8%87%AA%E5%AE%9A%E4%B9%89python%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%91%8A%E5%88%AB%E7%B9%81%E7%90%90%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E8%BE%93%E5%85%A5/'>
+
+<link rel="stylesheet" href="/scss/style.min.b9c8156d464c343bdacaf14a871581fb94cbbdb9dd5cbce4ba017361187cc930.css"><meta property='og:title' content="4-自定义Python函数创建博客：告别繁琐的文件头输入">
+<meta property='og:description' content="\n以下是基于最新的需求重新撰写的博客文章，主题仍是“使用自定义Python函数创建博客，避免繁琐的文件头标准内容输入”。这次博客将反映新的功能：通过 categories、tags 和 title 三个参数生成文件夹和文件，并将路径组合为 categories/tags/title。\n使用自定义Python函数创建博客：告别繁琐的文件头输入\r在维护技术博客时，每次创建新文章都需要手动设置文件夹结构和标准化的Markdown文件头，例如标题、分类、标签和日期等。这种重复劳动不仅耗时，还容易出错。想象一下，如果能通过一个简单的命令，比如 zata create -c Python -t github -b MyProject，自动生成带有标准头部的博客文件，并按分类和标签组织目录结构，会不会让写作更高效？\n在这篇博客中，我将展示如何用Python实现这一自动化工具，并将其打包成一个命令行可执行文件。通过自定义函数，我们可以轻松创建博客文件，避免手动输入繁琐的文件头内容。\n背景与目标\r假设你正在用静态网站生成器（如Jekyll或Hugo）写博客，每次新建文章时需要：\n创建一个文件夹结构，比如 Python/github/MyProject。 在最内层文件夹中生成一个 index.md 文件。 为 index.md 添加标准头部，例如： 1 2 3 4 5 6 7 8 9 10 --- title: MyProject description: &#34;空&#34; date: 2025-03-03T15:20:45+08:00 image: images/index.png categories: - Python tags: - github --- 手动完成这些步骤虽然可行，但效率低下。我的目标是：\n">
+<meta property='og:url' content='//localhost:1313/p/4-%E8%87%AA%E5%AE%9A%E4%B9%89python%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%91%8A%E5%88%AB%E7%B9%81%E7%90%90%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E8%BE%93%E5%85%A5/'>
+<meta property='og:site_name' content='Zata-砸它'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='hugo' /><meta property='article:tag' content='Blog' /><meta property='article:published_time' content='2025-03-03T16:32:39&#43;08:00'/><meta property='article:modified_time' content='2025-03-05T12:03:23&#43;08:00'/><meta property='og:image' content='//localhost:1313/p/4-%E8%87%AA%E5%AE%9A%E4%B9%89python%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%91%8A%E5%88%AB%E7%B9%81%E7%90%90%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E8%BE%93%E5%85%A5/images/index/index.png' />
+<meta name="twitter:title" content="4-自定义Python函数创建博客：告别繁琐的文件头输入">
+<meta name="twitter:description" content="\n以下是基于最新的需求重新撰写的博客文章，主题仍是“使用自定义Python函数创建博客，避免繁琐的文件头标准内容输入”。这次博客将反映新的功能：通过 categories、tags 和 title 三个参数生成文件夹和文件，并将路径组合为 categories/tags/title。\n使用自定义Python函数创建博客：告别繁琐的文件头输入\r在维护技术博客时，每次创建新文章都需要手动设置文件夹结构和标准化的Markdown文件头，例如标题、分类、标签和日期等。这种重复劳动不仅耗时，还容易出错。想象一下，如果能通过一个简单的命令，比如 zata create -c Python -t github -b MyProject，自动生成带有标准头部的博客文件，并按分类和标签组织目录结构，会不会让写作更高效？\n在这篇博客中，我将展示如何用Python实现这一自动化工具，并将其打包成一个命令行可执行文件。通过自定义函数，我们可以轻松创建博客文件，避免手动输入繁琐的文件头内容。\n背景与目标\r假设你正在用静态网站生成器（如Jekyll或Hugo）写博客，每次新建文章时需要：\n创建一个文件夹结构，比如 Python/github/MyProject。 在最内层文件夹中生成一个 index.md 文件。 为 index.md 添加标准头部，例如： 1 2 3 4 5 6 7 8 9 10 --- title: MyProject description: &#34;空&#34; date: 2025-03-03T15:20:45+08:00 image: images/index.png categories: - Python tags: - github --- 手动完成这些步骤虽然可行，但效率低下。我的目标是：\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='//localhost:1313/p/4-%E8%87%AA%E5%AE%9A%E4%B9%89python%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%91%8A%E5%88%AB%E7%B9%81%E7%90%90%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E8%BE%93%E5%85%A5/images/index/index.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_f2420e0b32244fa9.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="//localhost:1313/">Zata-砸它</a></h1>
+            <h2 class="site-description"></h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/zata-zhangtao/ZataTree'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="//localhost:1313/en/" >English</option>
+                                
+                                    <option value="//localhost:1313/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#背景与目标">背景与目标</a></li>
+    <li><a href="#20250303-初步实现可以使用命令行创建一个博客">2025.03.03 初步实现可以使用命令行创建一个博客</a>
+      <ol>
+        <li><a href="#步骤-1设计基本功能">步骤 1：设计基本功能</a></li>
+        <li><a href="#步骤-2添加命令行支持">步骤 2：添加命令行支持</a></li>
+        <li><a href="#步骤-3打包成可执行文件">步骤 3：打包成可执行文件</a></li>
+        <li><a href="#成果展示">成果展示</a></li>
+      </ol>
+    </li>
+    <li><a href="#20250305-增加giu可以下拉选择来创建">2025.03.05 增加giu可以下拉选择来创建</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/4-%E8%87%AA%E5%AE%9A%E4%B9%89python%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%91%8A%E5%88%AB%E7%B9%81%E7%90%90%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E8%BE%93%E5%85%A5/">
+                <img src="/p/4-%E8%87%AA%E5%AE%9A%E4%B9%89python%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%91%8A%E5%88%AB%E7%B9%81%E7%90%90%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E8%BE%93%E5%85%A5/images/index/index_hu_734aca93c5beb1e2.png"
+                        srcset="/p/4-%E8%87%AA%E5%AE%9A%E4%B9%89python%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%91%8A%E5%88%AB%E7%B9%81%E7%90%90%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E8%BE%93%E5%85%A5/images/index/index_hu_734aca93c5beb1e2.png 800w, /p/4-%E8%87%AA%E5%AE%9A%E4%B9%89python%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%91%8A%E5%88%AB%E7%B9%81%E7%90%90%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E8%BE%93%E5%85%A5/images/index/index_hu_1a5f786609f749b4.png 1600w"
+                        width="800" 
+                        height="450" 
+                        loading="lazy"
+                        alt="Featured image of post 4-自定义Python函数创建博客：告别繁琐的文件头输入" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/projectapplication/" >
+                Project&amp;Application
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/4-%E8%87%AA%E5%AE%9A%E4%B9%89python%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%91%8A%E5%88%AB%E7%B9%81%E7%90%90%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E8%BE%93%E5%85%A5/">4-自定义Python函数创建博客：告别繁琐的文件头输入</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 03, 2025</time>
+            </div>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+            <time class="article-time--published">
+                最后修改于 Mar 05, 2025 12:03 CST
+            </time>
+        </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 7 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><img src="/p/4-%E8%87%AA%E5%AE%9A%E4%B9%89python%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%91%8A%E5%88%AB%E7%B9%81%E7%90%90%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E8%BE%93%E5%85%A5/images/index/index.jpg"
+	width="1631"
+	height="929"
+	srcset="/p/4-%E8%87%AA%E5%AE%9A%E4%B9%89python%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%91%8A%E5%88%AB%E7%B9%81%E7%90%90%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E8%BE%93%E5%85%A5/images/index/index_hu_4382e0c92a5faad7.jpg 480w, /p/4-%E8%87%AA%E5%AE%9A%E4%B9%89python%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%91%8A%E5%88%AB%E7%B9%81%E7%90%90%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E8%BE%93%E5%85%A5/images/index/index_hu_619b43de5ce26130.jpg 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="175"
+		data-flex-basis="421px"
+	
+></p>
+<p>以下是基于最新的需求重新撰写的博客文章，主题仍是“使用自定义Python函数创建博客，避免繁琐的文件头标准内容输入”。这次博客将反映新的功能：通过 <code>categories</code>、<code>tags</code> 和 <code>title</code> 三个参数生成文件夹和文件，并将路径组合为 <code>categories/tags/title</code>。</p>
+<hr>
+<h1 id="使用自定义python函数创建博客告别繁琐的文件头输入">使用自定义Python函数创建博客：告别繁琐的文件头输入
+</h1><p>在维护技术博客时，每次创建新文章都需要手动设置文件夹结构和标准化的Markdown文件头，例如标题、分类、标签和日期等。这种重复劳动不仅耗时，还容易出错。想象一下，如果能通过一个简单的命令，比如 <code>zata create -c Python -t github -b MyProject</code>，自动生成带有标准头部的博客文件，并按分类和标签组织目录结构，会不会让写作更高效？</p>
+<p>在这篇博客中，我将展示如何用Python实现这一自动化工具，并将其打包成一个命令行可执行文件。通过自定义函数，我们可以轻松创建博客文件，避免手动输入繁琐的文件头内容。</p>
+<hr>
+<h2 id="背景与目标">背景与目标
+</h2><p>假设你正在用静态网站生成器（如Jekyll或Hugo）写博客，每次新建文章时需要：</p>
+<ol>
+<li>创建一个文件夹结构，比如 <code>Python/github/MyProject</code>。</li>
+<li>在最内层文件夹中生成一个 <code>index.md</code> 文件。</li>
+<li>为 <code>index.md</code> 添加标准头部，例如：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">title: MyProject
+</span></span><span class="line"><span class="cl">description: &#34;空&#34;
+</span></span><span class="line"><span class="cl">date: 2025-03-03T15:20:45+08:00
+</span></span><span class="line"><span class="cl">image: images/index.png
+</span></span><span class="line"><span class="cl">categories:
+</span></span><span class="line"><span class="cl">    - Python
+</span></span><span class="line"><span class="cl">tags:
+</span></span><span class="line"><span class="cl">    - github
+</span></span><span class="line"><span class="cl">---
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<p>手动完成这些步骤虽然可行，但效率低下。我的目标是：</p>
+<ul>
+<li>编写一个Python脚本，接受 <code>categories</code>、<code>tags</code> 和 <code>title</code> 三个参数。</li>
+<li>根据输入生成路径 <code>categories/tags/title</code>，并创建对应的文件夹和 <code>index.md</code> 文件。</li>
+<li>自动填充标准头部信息，日期使用当前时间。</li>
+<li>将脚本打包成命令行工具，支持 <code>zata create -c [分类] -t [标签] -b [标题]</code> 的调用方式。</li>
+</ul>
+<hr>
+<h2 id="20250303-初步实现可以使用命令行创建一个博客">2025.03.03 初步实现可以使用命令行创建一个博客
+</h2><h3 id="步骤-1设计基本功能">步骤 1：设计基本功能
+</h3><p>我们需要一个函数，根据输入的 <code>categories</code>、<code>tags</code> 和 <code>title</code> 创建文件夹和文件。以下是最小化的实现：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">create_folder_and_md</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">current_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">target_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="n">categories</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">current_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&#34;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S+08:00&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">target_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">md_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">target_path</span><span class="p">,</span> <span class="s2">&#34;index.md&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">header_content</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&#34;&#34;&#34;---
+</span></span></span><span class="line"><span class="cl"><span class="s2">title: </span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">description: &#34;空&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">date: </span><span class="si">{</span><span class="n">current_time</span><span class="si">}</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">image: images/index.png
+</span></span></span><span class="line"><span class="cl"><span class="s2">categories:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - </span><span class="si">{</span><span class="n">categories</span><span class="si">}</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">tags:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - </span><span class="si">{</span><span class="n">tags</span><span class="si">}</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">---
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">md_file_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">header_content</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;文件夹 &#39;</span><span class="si">{</span><span class="n">target_path</span><span class="si">}</span><span class="s2">&#39; 和 &#39;index.md&#39; 创建成功！&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">create_folder_and_md</span><span class="p">(</span><span class="s2">&#34;Python&#34;</span><span class="p">,</span> <span class="s2">&#34;github&#34;</span><span class="p">,</span> <span class="s2">&#34;MyProject&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个脚本会在当前目录下创建 <code>Python/github/MyProject</code> 文件夹，并在其中生成带有标准头部的 <code>index.md</code>。</p>
+<h3 id="步骤-2添加命令行支持">步骤 2：添加命令行支持
+</h3><p>为了让脚本更实用，我们引入 <code>argparse</code> 模块，支持命令行参数输入：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">argparse</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">create_folder_and_md</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">current_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">target_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="n">categories</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">current_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&#34;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S+08:00&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">target_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">md_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">target_path</span><span class="p">,</span> <span class="s2">&#34;index.md&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">header_content</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&#34;&#34;&#34;---
+</span></span></span><span class="line"><span class="cl"><span class="s2">title: </span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">description: &#34;空&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">date: </span><span class="si">{</span><span class="n">current_time</span><span class="si">}</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">image: images/index.png
+</span></span></span><span class="line"><span class="cl"><span class="s2">categories:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - </span><span class="si">{</span><span class="n">categories</span><span class="si">}</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">tags:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - </span><span class="si">{</span><span class="n">tags</span><span class="si">}</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">---
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">md_file_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">header_content</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;文件夹 &#39;</span><span class="si">{</span><span class="n">target_path</span><span class="si">}</span><span class="s2">&#39; 和 &#39;index.md&#39; 创建成功！&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;发生错误: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s2">&#34;zata&#34;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&#34;根据categories、tags和title创建一个文件夹和index.md文件&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s2">&#34;command&#34;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&#34;可用命令&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">create_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&#34;create&#34;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&#34;创建文件夹和index.md&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">create_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&#34;-c&#34;</span><span class="p">,</span> <span class="s2">&#34;--categories&#34;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&#34;博客分类&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">create_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&#34;-t&#34;</span><span class="p">,</span> <span class="s2">&#34;--tags&#34;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&#34;博客标签&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">create_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&#34;-b&#34;</span><span class="p">,</span> <span class="s2">&#34;--title&#34;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&#34;博客标题&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&#34;create&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">create_folder_and_md</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">categories</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">tags</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">main</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>保存为 <code>zata.py</code>，运行以下命令测试：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python zata.py create -c Python -t github -b MyProject
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="步骤-3打包成可执行文件">步骤 3：打包成可执行文件
+</h3><p>为了方便使用，我们用 <code>PyInstaller</code> 将脚本打包成单一的 <code>.exe</code> 文件：</p>
+<ol>
+<li>安装 PyInstaller：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pip install pyinstaller
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>打包脚本：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pyinstaller --onefile zata.py
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>打包完成后，在 <code>dist</code> 文件夹中找到 <code>zata.exe</code>，运行：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">zata.exe create -c Python -t github -b MyProject
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<hr>
+<h3 id="成果展示">成果展示
+</h3><p>运行以下命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">zata create -c Python -t github -b MyProject
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>结果：</p>
+<ul>
+<li>生成目录结构：<code>Python/github/MyProject</code>。</li>
+<li>在 <code>MyProject</code> 文件夹中创建 <code>index.md</code>，内容如下：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">title: MyProject
+</span></span><span class="line"><span class="cl">description: &#34;空&#34;
+</span></span><span class="line"><span class="cl">date: 2025-03-03T15:20:45+08:00
+</span></span><span class="line"><span class="cl">image: images/index.png
+</span></span><span class="line"><span class="cl">categories:
+</span></span><span class="line"><span class="cl">    - Python
+</span></span><span class="line"><span class="cl">tags:
+</span></span><span class="line"><span class="cl">    - github
+</span></span><span class="line"><span class="cl">---
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>控制台输出：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">文件夹 &#39;Python/github/MyProject&#39; 和 &#39;index.md&#39; 创建成功！
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<p>整个过程只需一条命令，省去了手动创建文件夹和输入文件头的麻烦。</p>
+<hr>
+<h2 id="20250305-增加giu可以下拉选择来创建">2025.03.05 增加giu可以下拉选择来创建
+</h2><p><img src="/p/4-%E8%87%AA%E5%AE%9A%E4%B9%89python%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%91%8A%E5%88%AB%E7%B9%81%E7%90%90%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E8%BE%93%E5%85%A5/images/index/index.gif"
+	width="1113"
+	height="829"
+	srcset="/p/4-%E8%87%AA%E5%AE%9A%E4%B9%89python%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%91%8A%E5%88%AB%E7%B9%81%E7%90%90%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E8%BE%93%E5%85%A5/images/index/index_hu_4e0511cb32a9ca4e.gif 480w, /p/4-%E8%87%AA%E5%AE%9A%E4%B9%89python%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%91%8A%E5%88%AB%E7%B9%81%E7%90%90%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E8%BE%93%E5%85%A5/images/index/index_hu_df2fd0f7ecc454d7.gif 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="134"
+		data-flex-basis="322px"
+	
+></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span><span class="lnt">234
+</span><span class="lnt">235
+</span><span class="lnt">236
+</span><span class="lnt">237
+</span><span class="lnt">238
+</span><span class="lnt">239
+</span><span class="lnt">240
+</span><span class="lnt">241
+</span><span class="lnt">242
+</span><span class="lnt">243
+</span><span class="lnt">244
+</span><span class="lnt">245
+</span><span class="lnt">246
+</span><span class="lnt">247
+</span><span class="lnt">248
+</span><span class="lnt">249
+</span><span class="lnt">250
+</span><span class="lnt">251
+</span><span class="lnt">252
+</span><span class="lnt">253
+</span><span class="lnt">254
+</span><span class="lnt">255
+</span><span class="lnt">256
+</span><span class="lnt">257
+</span><span class="lnt">258
+</span><span class="lnt">259
+</span><span class="lnt">260
+</span><span class="lnt">261
+</span><span class="lnt">262
+</span><span class="lnt">263
+</span><span class="lnt">264
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">argparse</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span><span class="p">,</span> <span class="n">messagebox</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 原有函数保持不变，返回值改为元组以适应 GUI 使用</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">create_category</span><span class="p">(</span><span class="n">category</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;创建category目录&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">target_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&#34;content&#34;</span><span class="p">,</span> <span class="s2">&#34;post&#34;</span><span class="p">,</span> <span class="n">category</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">target_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&#34;Category目录 &#39;</span><span class="si">{</span><span class="n">target_path</span><span class="si">}</span><span class="s2">&#39; 创建成功！&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&#34;创建category时发生错误: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">create_tag</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;创建tag目录，必须指定category&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">base_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&#34;content&#34;</span><span class="p">,</span> <span class="s2">&#34;post&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">target_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="n">category</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">category_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="n">category</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">category_path</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&#34;错误：Category目录 &#39;</span><span class="si">{</span><span class="n">category_path</span><span class="si">}</span><span class="s2">&#39; 不存在！请先创建category&#34;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">target_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&#34;Tag目录 &#39;</span><span class="si">{</span><span class="n">target_path</span><span class="si">}</span><span class="s2">&#39; 创建成功！&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&#34;创建tag时发生错误: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">create_folder_and_md</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;创建文章目录和index.md文件&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">current_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&#34;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S+08:00&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">base_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&#34;content&#34;</span><span class="p">,</span> <span class="s2">&#34;post&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">categories</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">target_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="n">categories</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">parent_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="n">categories</span><span class="p">,</span> <span class="n">tags</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">parent_path</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&#34;错误：父目录 &#39;</span><span class="si">{</span><span class="n">parent_path</span><span class="si">}</span><span class="s2">&#39; 不存在！请先创建相应的categories和tags目录&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">matched_paths</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">base_path</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">category_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="n">category</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">category_path</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                <span class="n">tag_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">category_path</span><span class="p">,</span> <span class="n">tags</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">tag_path</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">tag_path</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">matched_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tag_path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matched_paths</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&#34;错误：未在任何category下找到tags &#39;</span><span class="si">{</span><span class="n">tags</span><span class="si">}</span><span class="s2">&#39;！请先创建相应的tags目录&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">matched_paths</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">error_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&#34;错误：找到多个匹配的tags &#39;</span><span class="si">{</span><span class="n">tags</span><span class="si">}</span><span class="s2">&#39;：</span><span class="se">\n</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">matched_paths</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">error_msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&#34;  - </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="se">\n</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">error_msg</span> <span class="o">+=</span> <span class="s2">&#34;请指定具体的category以避免歧义&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">error_msg</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">parent_path</span> <span class="o">=</span> <span class="n">matched_paths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">            <span class="n">target_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parent_path</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">categories</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">parent_path</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">target_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">md_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">target_path</span><span class="p">,</span> <span class="s2">&#34;index.md&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">header_content</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&#34;&#34;&#34;---
+</span></span></span><span class="line"><span class="cl"><span class="s2">title: </span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">description: &#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">date: </span><span class="si">{</span><span class="n">current_time</span><span class="si">}</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">image: images/index/index.png
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">categories</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">header_content</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&#34;&#34;&#34;categories:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - </span><span class="si">{</span><span class="n">categories</span><span class="si">}</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">header_content</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&#34;&#34;&#34;tags:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - </span><span class="si">{</span><span class="n">tags</span><span class="si">}</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">---
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">md_file_path</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">md_file_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">header_content</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&#34;文件夹 &#39;</span><span class="si">{</span><span class="n">target_path</span><span class="si">}</span><span class="s2">&#39; 和 &#39;index.md&#39; 创建成功！&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&#34;文件夹 &#39;</span><span class="si">{</span><span class="n">target_path</span><span class="si">}</span><span class="s2">&#39; 已存在，跳过创建 &#39;index.md&#39;。&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&#34;发生错误: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 新增函数：获取现有 Category 和 Tag 列表</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_existing_categories</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">base_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&#34;content&#34;</span><span class="p">,</span> <span class="s2">&#34;post&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">base_path</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">base_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="n">d</span><span class="p">))]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_existing_tags</span><span class="p">(</span><span class="n">category</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">base_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&#34;content&#34;</span><span class="p">,</span> <span class="s2">&#34;post&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">base_path</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tags</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">category</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">category_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="n">category</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">category_path</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">tags</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">category_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">category_path</span><span class="p">,</span> <span class="n">d</span><span class="p">))])</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">base_path</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">cat_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="n">cat</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">cat_path</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                <span class="n">tags</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">cat_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cat_path</span><span class="p">,</span> <span class="n">d</span><span class="p">))])</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">tags</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改后的 GUI</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">create_gui</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">root</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Zata - 博客管理工具&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s2">&#34;500x400&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">notebook</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Notebook</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">notebook</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&#34;both&#34;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Category选项卡</span>
+</span></span><span class="line"><span class="cl">    <span class="n">category_frame</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="n">notebook</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">notebook</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">category_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&#34;创建Category&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">category_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&#34;Category名称:&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">category_entry</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">category_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">category_entry</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">create_category_btn</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">        <span class="n">category</span> <span class="o">=</span> <span class="n">category_entry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="ow">not</span> <span class="n">category</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">messagebox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s2">&#34;错误&#34;</span><span class="p">,</span> <span class="s2">&#34;请输入Category名称&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span>
+</span></span><span class="line"><span class="cl">        <span class="n">success</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">create_category</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">messagebox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="s2">&#34;结果&#34;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 成功后刷新下拉框</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">update_category_combobox</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">category_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&#34;创建Category&#34;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">create_category_btn</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Tag选项卡</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tag_frame</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="n">notebook</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">notebook</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tag_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&#34;创建Tag&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">tag_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&#34;所属Category:&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tag_category_entry</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">tag_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tag_category_entry</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">tag_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&#34;Tag名称:&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tag_entry</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">tag_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tag_entry</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">create_tag_btn</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">        <span class="n">category</span> <span class="o">=</span> <span class="n">tag_category_entry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tag</span> <span class="o">=</span> <span class="n">tag_entry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="ow">not</span> <span class="n">category</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">messagebox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s2">&#34;错误&#34;</span><span class="p">,</span> <span class="s2">&#34;请输入Category和Tag名称&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span>
+</span></span><span class="line"><span class="cl">        <span class="n">success</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">create_tag</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">messagebox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="s2">&#34;结果&#34;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 成功后刷新下拉框</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">update_tag_combobox</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">tag_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&#34;创建Tag&#34;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">create_tag_btn</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 文章选项卡</span>
+</span></span><span class="line"><span class="cl">    <span class="n">post_frame</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="n">notebook</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">notebook</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">post_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&#34;创建文章&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Category 下拉框</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">post_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&#34;选择Category（可选）:&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">category_combobox</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Combobox</span><span class="p">(</span><span class="n">post_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">37</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s2">&#34;readonly&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">category_combobox</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># Tag 下拉框</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">post_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&#34;选择Tag:&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tag_combobox</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Combobox</span><span class="p">(</span><span class="n">post_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">37</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s2">&#34;readonly&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tag_combobox</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">post_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&#34;文章标题:&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">post_title_entry</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">post_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">post_title_entry</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 更新下拉框内容的函数</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">update_category_combobox</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">        <span class="n">categories</span> <span class="o">=</span> <span class="n">get_existing_categories</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">category_combobox</span><span class="p">[</span><span class="s2">&#34;values&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;&#34;</span><span class="p">]</span> <span class="o">+</span> <span class="n">categories</span>  <span class="c1"># 空字符串表示可选</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">categories</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">category_combobox</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">update_tag_combobox</span><span class="p">(</span><span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">selected_category</span> <span class="o">=</span> <span class="n">category_combobox</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">selected_category</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">tags</span> <span class="o">=</span> <span class="n">get_existing_tags</span><span class="p">(</span><span class="n">selected_category</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">tags</span> <span class="o">=</span> <span class="n">get_existing_tags</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tag_combobox</span><span class="p">[</span><span class="s2">&#34;values&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tags</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">tags</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">tag_combobox</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">tag_combobox</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 绑定 Category 下拉框的选择事件</span>
+</span></span><span class="line"><span class="cl">    <span class="n">category_combobox</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&#34;&lt;&lt;ComboboxSelected&gt;&gt;&#34;</span><span class="p">,</span> <span class="n">update_tag_combobox</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 初始化下拉框</span>
+</span></span><span class="line"><span class="cl">    <span class="n">update_category_combobox</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">update_tag_combobox</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">create_post_btn</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">        <span class="n">category</span> <span class="o">=</span> <span class="n">category_combobox</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">or</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tag</span> <span class="o">=</span> <span class="n">tag_combobox</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">title</span> <span class="o">=</span> <span class="n">post_title_entry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="ow">not</span> <span class="n">tag</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">title</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">messagebox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s2">&#34;错误&#34;</span><span class="p">,</span> <span class="s2">&#34;请选择Tag并输入文章标题&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span>
+</span></span><span class="line"><span class="cl">        <span class="n">success</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">create_folder_and_md</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">messagebox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="s2">&#34;结果&#34;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">post_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&#34;创建文章&#34;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">create_post_btn</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s2">&#34;zata&#34;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&#34;博客目录和文件管理工具&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s2">&#34;command&#34;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&#34;可用命令&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">create_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&#34;create&#34;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&#34;创建文章文件夹和index.md&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">create_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&#34;-c&#34;</span><span class="p">,</span> <span class="s2">&#34;--categories&#34;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&#34;博客分类（可选）&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">create_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&#34;-t&#34;</span><span class="p">,</span> <span class="s2">&#34;--tags&#34;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&#34;博客标签&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">create_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&#34;-b&#34;</span><span class="p">,</span> <span class="s2">&#34;--title&#34;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&#34;博客标题&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">category_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&#34;create-category&#34;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&#34;创建category目录&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">category_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&#34;-c&#34;</span><span class="p">,</span> <span class="s2">&#34;--category&#34;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&#34;要创建的category名称&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">tag_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&#34;create-tag&#34;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&#34;创建tag目录&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tag_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&#34;-c&#34;</span><span class="p">,</span> <span class="s2">&#34;--category&#34;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&#34;所属category&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tag_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&#34;-t&#34;</span><span class="p">,</span> <span class="s2">&#34;--tag&#34;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&#34;要创建的tag名称&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">gui_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&#34;gui&#34;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&#34;启动图形界面&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&#34;create&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">success</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">create_folder_and_md</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">categories</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">tags</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&#34;create-category&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">success</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">create_category</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">category</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&#34;create-tag&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">success</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">create_tag</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">category</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">tag</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&#34;gui&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">create_gui</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">main</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/hugo/">Hugo</a>
+        
+            <a href="/tags/blog/">Blog</a>
+        
+    </section>
+
+
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后修改于 Mar 05, 2025 12:03 CST
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/3-hugo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90netlify-cms/">
+        
+        
+            <div class="article-image">
+                <img src="/p/3-hugo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90netlify-cms/images/index/index.82a580ecd31a9de4aab5df6e8f0b40a3_hu_5edc37060edcb180.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 3-hugo博客集成Netlify CMS"
+                        
+                        data-hash="md5-gqWA7NManeSqtd9ujwtAow==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">3-hugo博客集成Netlify CMS</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/">
+        
+        
+            <div class="article-image">
+                <img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/2025-03-02-03-12-15.07bd97b23c8644ee7e4d8367ffc512b5_hu_c71dab5ba123e10f.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 2-Hugo主题和配置"
+                        
+                        data-hash="md5-B72XsjyGRO5&#43;TYNn/8UStQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">2-Hugo主题和配置</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/hugo%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/index.md/">
+        
+        
+            <div class="article-image">
+                <img src="/p/hugo%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/index.md/images/index/head.07bd97b23c8644ee7e4d8367ffc512b5_hu_c71dab5ba123e10f.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 1-hugo使用"
+                        data-key="hugo安装使用/index.md" 
+                        data-hash="md5-B72XsjyGRO5&#43;TYNn/8UStQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">1-hugo使用</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">
+        
+        
+            <div class="article-image">
+                <img src="/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/images/index/index.25a3513cb07bcf1167828f4236e1d109_hu_550ae3c0d7db4162.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 5-引入 Giscus 评论系统"
+                        
+                        data-hash="md5-JaNRPLB7zxFngo9CNuHRCQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">5-引入 Giscus 评论系统</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/postman/">
+        
+        
+            <div class="article-image">
+                <img src="/p/postman/images/index/index.0bd64898bfd91eece3cb76fe199dda91_hu_5226f666a5a4c0f6.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post postman"
+                        
+                        data-hash="md5-C9ZImL/ZHuzjy3b&#43;GZ3akQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">postman</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="zata-zhangtao/ZataTree"
+    data-repo-id="R_kgDON7mZJg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDON7mZJs4Cnk-l"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2025 Example Person
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.d2e1bb8da704fd56f67fd39fe2d77b41bd20a01559d1c24b7fd99ed4102cd281.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<style>
+    .highlight {
+        max-height: 400px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: 0 auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        display: block;
+        margin: 0 auto;
+        width: 22px;
+        height: 16px;
+    }
+
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url(/icons/backtop.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+
+<script>
+    function initCodeMoreBox() {
+        try {
+            const codeBlocks = document.querySelectorAll(".highlight");
+            if (!codeBlocks.length) return;
+
+            codeBlocks.forEach(codeBlock => {
+                if (codeBlock.scrollHeight <= codeBlock.clientHeight) return;
+
+                const codeMoreBox = document.createElement('div');
+                codeMoreBox.classList.add('code-more-box');
+
+                const codeMoreBtn = document.createElement('span');
+                codeMoreBtn.classList.add('code-more-btn');
+
+                const img = document.createElement('img');
+                img.classList.add('code-more-img');
+                img.src = "\/icons\/codemore.png";
+                img.alt = 'Show more';
+
+                codeMoreBtn.addEventListener('click', () => {
+                    codeBlock.classList.add('code-show');
+                    codeMoreBox.style.display = 'none';
+                    window.dispatchEvent(new Event('resize'));
+                });
+
+                codeMoreBtn.appendChild(img);
+                codeMoreBox.appendChild(codeMoreBtn);
+                codeBlock.appendChild(codeMoreBox);
+            });
+        } catch (error) {
+            console.error('Error in initCodeMoreBox:', error);
+        }
+    }
+
+    function initScrollTop() {
+        try {
+            const rightSideBar = document.querySelector(".right-sidebar");
+            if (!rightSideBar) {
+                console.warn('Right sidebar not found');
+                return;
+            }
+
+            const btn = document.createElement("div");
+            btn.id = "backTopBtn";
+            btn.onclick = backToTop;
+            rightSideBar.appendChild(btn);
+
+            window.onscroll = function () {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    btn.style.display = "block";
+                } else {
+                    btn.style.display = "none";
+                }
+            };
+        } catch (error) {
+            console.error('Error in initScrollTop:', error);
+        }
+    }
+
+    function backToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initCodeMoreBox();
+        initScrollTop();
+    });
+</script>
+    </body>
+</html>

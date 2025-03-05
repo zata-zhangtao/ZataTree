@@ -1,0 +1,1113 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>PaperReading on Zata-砸它</title>
+        <link>//localhost:1313/categories/paperreading/</link>
+        <description>Recent content in PaperReading on Zata-砸它</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>Example Person</copyright>
+        <lastBuildDate>Mon, 03 Mar 2025 18:30:39 +0800</lastBuildDate><atom:link href="//localhost:1313/categories/paperreading/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>DeepSeek_NSA</title>
+        <link>//localhost:1313/p/deepseek_nsa/index.md/</link>
+        <pubDate>Mon, 24 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/p/deepseek_nsa/index.md/</guid>
+        <description>&lt;h1 id=&#34;deepseek-nsa&#34;&gt;DeepSeek-NSA
+&lt;/h1&gt;&lt;p&gt;原文地址： &lt;a class=&#34;link&#34; href=&#34;https://arxiv.org/pdf/2502.11089&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://arxiv.org/pdf/2502.11089&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_09-23-47.jpg&#34;
+	width=&#34;658&#34;
+	height=&#34;737&#34;
+	srcset=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_09-23-47_hu_d8f789dafffe1710.jpg 480w, //localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_09-23-47_hu_26d12db114281372.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;89&#34;
+		data-flex-basis=&#34;214px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;全文翻译&#34;&gt;全文翻译
+&lt;/h2&gt;&lt;h2 id=&#34;摘要&#34;&gt;摘要
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; Long-context modeling is crucial for next-generation language models, yet the high compu
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;tational cost of standard attention mechanisms poses significant computational challenges.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; Sparse attention offers a promising direction for improving efficiency while maintaining model
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; capabilities. We present NSA, a Natively trainable Sparse Attention mechanism that integrates
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; algorithmic innovations with hardware-aligned optimizations to achieve efficient long-context
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; modeling. NSA employs a dynamic hierarchical sparse strategy, combining coarse-grained
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; token compression with fine-grained token selection to preserve both global context awareness
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; and local precision. Our approach advances sparse attention design with two key innovations:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; (1) We achieve substantial speedups through arithmetic intensity-balanced algorithm design,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; with implementation optimizations for modern hardware. (2) We enable end-to-end training,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; reducing pretraining computation without sacrificing model performance. As showninFigure 1,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; experiments show the model pretrained with NSA maintains or exceeds Full Attention models
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; across general benchmarks, long-context tasks, and instruction-based reasoning. Meanwhile,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; NSAachieves substantial speedups over Full Attention on 64k-length sequences across decod
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ing, forward propagation, and backward propagation, validating its efficiency throughout the
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; model lifecycle.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Long-context modeling is crucial for next-generation language models, yet the high computational cost of standard attention mechanisms poses significant computational challenges.
+对于下一代生成式语言模型而言，长文本建模至关重要，然而标准注意力机制的高计算成本带来了显著的计算挑战。&lt;/p&gt;
+&lt;p&gt;Sparse attention offers a promising direction for improving efficiency while maintaining model  capabilities.
+稀疏注意力为提高模型能力的同时提供了效率提供了路径。&lt;/p&gt;
+&lt;p&gt;We present NSA, a Natively trainable Sparse Attention mechanism that integrates  algorithmic innovations with hardware-aligned optimizations to achieve efficient long-context
+modeling.
+我们提出了NSA（Natively trainable Sparse Attention），一种原生可训练的稀疏注意力机制，它通过结合算法创新与硬件对齐的优化，实现了高效的长文本建模。&lt;/p&gt;
+&lt;p&gt;NSA employs a dynamic hierarchical sparse strategy, combining coarse-grained token compression with fine-grained token selection to preserve both global context awareness and local precision.
+NSA采用了一种动态分层稀疏策略，通过结合粗粒度的标记压缩和细粒度的标记选择，既保留了全局上下文感知能力，又确保了局部精度&lt;/p&gt;
+&lt;p&gt;Our approach advances sparse attention design with two key innovations:
+我们的方法通过以下两项关键创新推动了稀疏注意力机制的设计：
+(1) We achieve substantial speedups through arithmetic intensity-balanced algorithm design,
+with implementation optimizations for modern hardware. (2) We enable end-to-end training,
+reducing pretraining computation without sacrificing model performance.
+(1) 我们通过算术强度平衡的算法设计以及针对现代硬件的实现优化，实现了显著的加速效果。
+(2) 我们实现了端到端训练，在减少预训练计算量的同时不牺牲模型性能。&lt;/p&gt;
+&lt;p&gt;substantial 实质性的
+speedups 加速效果
+arithmetic 算术
+implementation实现&lt;/p&gt;
+&lt;p&gt;As shown in Figure 1, experiments show the model pretrained with NSA maintains or exceeds Full Attention models
+across general benchmarks, long-context tasks, and instruction-based reasoning.
+如图1所示，实验表明，使用NSA进行预训练的模型在通用基准测试、长文本任务以及基于指令的推理中，其性能维持或超越了全注意力机制模型。&lt;/p&gt;
+&lt;p&gt;Meanwhile,
+NSA achieves substantial speedups over Full Attention on 64k-length sequences across decoding,
+forward propagation, and backward propagation, validating its efficiency throughout the
+model lifecycle.
+同时，NSA在64k长度序列的解码、前向传播和反向传播过程中，相较于全注意力机制实现了显著的加速，验证了其在整个模型生命周期中的高效性。
+&lt;img src=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_09-51-27.jpg&#34;
+	width=&#34;641&#34;
+	height=&#34;378&#34;
+	srcset=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_09-51-27_hu_c503740239b7d00e.jpg 480w, //localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_09-51-27_hu_7815bdf8891da5b6.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;169&#34;
+		data-flex-basis=&#34;406px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;exceeds 超过
+instruction-based 基于指令的
+reasoning 推理&lt;/p&gt;
+&lt;h2 id=&#34;引言&#34;&gt;引言
+&lt;/h2&gt;&lt;p&gt;这篇论文探讨了长上下文建模在下一代大语言模型中的重要性，并提出了一种名为 &lt;strong&gt;NSA（Native Sparse Attention）&lt;/strong&gt; 的新架构，以解决传统注意力机制在处理长序列时的效率瓶颈问题。以下是论文的核心内容概述：&lt;/p&gt;
+&lt;h3 id=&#34;背景与挑战&#34;&gt;背景与挑战
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;长上下文建模的重要性&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;长上下文建模在代码生成、多轮对话、复杂推理等实际应用中至关重要。&lt;/li&gt;
+&lt;li&gt;传统注意力机制（如全注意力）在处理超长序列（如64k tokens）时，计算复杂度和延迟显著增加，成为性能瓶颈。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;现有稀疏注意力方法的局限性&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;尽管已有多种稀疏注意力方法（如KV缓存优化、块级选择、哈希采样等），但它们在实际部署中往往无法实现理论上的加速效果。&lt;/li&gt;
+&lt;li&gt;现有方法主要关注推理阶段，缺乏对训练阶段的支持，难以充分利用注意力的稀疏性。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;nsa-的创新点&#34;&gt;NSA 的创新点
+&lt;/h3&gt;&lt;p&gt;为了解决上述问题，NSA 提出了两种核心创新：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;硬件友好的系统设计&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过分块稀疏注意力优化 Tensor Core 利用率和内存访问模式，确保计算强度均衡，从而将理论计算减少转化为实际速度提升。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;支持训练的设计&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;引入高效的算法和可微分的反向传播算子，使稀疏注意力能够在训练阶段稳定运行，同时降低训练成本。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;nsa-的架构&#34;&gt;NSA 的架构
+&lt;/h3&gt;&lt;p&gt;（见图2）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_10-29-15.jpg&#34;
+	width=&#34;959&#34;
+	height=&#34;489&#34;
+	srcset=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_10-29-15_hu_c94b47812563a715.jpg 480w, //localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_10-29-15_hu_cc395284758cc75a.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;196&#34;
+		data-flex-basis=&#34;470px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;NSA 的架构基于&lt;strong&gt;分层稀疏注意力&lt;/strong&gt;，通过以下三个并行的注意力路径处理输入序列：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;压缩粗粒度注意力&lt;/strong&gt;：对先前的键值对进行压缩，捕捉全局模式。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;选择性细粒度注意力&lt;/strong&gt;：保留重要的 token 块，捕捉关键信息。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;滑动窗口注意力&lt;/strong&gt;：处理局部上下文信息。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这种设计显著减少了每查询的计算量，同时通过专用内核实现高效的实际性能。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;实验结果&#34;&gt;实验结果
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;性能评估&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在通用语言任务、长上下文任务和链式推理任务中，NSA 的表现与全注意力基线相当甚至更优。&lt;/li&gt;
+&lt;li&gt;相比现有稀疏注意力方法，NSA 表现出更强的性能。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;效率提升&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在 A100 GPU 上，NSA 在解码、前向传播和反向传播阶段均实现了显著加速，尤其是对于超长序列（如64k tokens），加速比进一步提高。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;对稀疏注意力方法的再思考&#34;&gt;对稀疏注意力方法的再思考
+&lt;/h2&gt;&lt;p&gt;这一部分标题为 &lt;strong&gt;“重新思考稀疏注意力方法”&lt;/strong&gt;，深入分析了现代稀疏注意力技术的局限性，并提出了对一种新方法——&lt;strong&gt;原生稀疏注意力（NSA）&lt;/strong&gt; 的需求。文章指出了两个关键挑战：&lt;strong&gt;高效推理&lt;/strong&gt; 和 &lt;strong&gt;可训练稀疏性&lt;/strong&gt;，并解释了为什么现有方法无法充分应对这些挑战。以下是详细总结：&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;21-高效推理的幻觉&#34;&gt;&lt;strong&gt;2.1. 高效推理的幻觉&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;稀疏注意力方法通过选择性处理输入序列中重要的部分来减少计算复杂度。然而，许多方法未能将这种理论上的计算减少转化为实际推理过程中的延迟改进，主要原因有两个：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;阶段受限的稀疏性&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一些方法（如 H2O）仅在 &lt;strong&gt;自回归解码阶段&lt;/strong&gt; 应用稀疏性，但在 &lt;strong&gt;预填充阶段&lt;/strong&gt; 需要进行昂贵的预处理步骤（如注意力图计算、索引构建）。&lt;/li&gt;
+&lt;li&gt;另一些方法（如 MInference）则专注于预填充阶段的稀疏性，但未优化解码阶段。&lt;/li&gt;
+&lt;li&gt;因此，这些方法无法在所有推理阶段实现加速，至少有一个阶段的计算成本与全注意力相当。这限制了它们在诸如书籍摘要（预填充密集型）或长链推理（解码密集型）等任务中的有效性。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;与先进注意力架构的不兼容性&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;现代架构（如 &lt;strong&gt;多查询注意力 MQA&lt;/strong&gt; 和 &lt;strong&gt;分组查询注意力 GQA&lt;/strong&gt;）通过在多个查询头之间共享键值（KV）缓存来提高效率。&lt;/li&gt;
+&lt;li&gt;许多稀疏注意力方法（如 Quest）为每个注意力头独立选择 KV 缓存子集，这种方法在多头注意力（MHA）模型中表现良好，但在基于 GQA 的模型中变得低效。在 GQA 中，内存访问量对应于同一组内所有查询头选择的并集，导致尽管计算减少了，但内存访问成本仍然很高。&lt;/li&gt;
+&lt;li&gt;这种稀疏注意力方法与先进架构之间的不匹配导致性能不佳。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;关键要点&lt;/strong&gt;：现有的稀疏注意力方法往往无法显著减少延迟，因为它们要么是阶段受限的，要么与现代架构不兼容。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;22-可训练稀疏性的神话&#34;&gt;&lt;strong&gt;2.2. 可训练稀疏性的神话&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;虽然稀疏注意力方法在推理中表现良好，但在支持高效训练方面却面临困难。主要存在两个问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;性能下降&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在预训练后应用稀疏性（即后处理稀疏化）会迫使模型偏离其原始优化轨迹。例如，剪枝前 20% 的注意力得分只能覆盖总注意力的 70%，使得预训练模型中的某些结构（如检索头）在推理时变得脆弱。&lt;/li&gt;
+&lt;li&gt;这种不匹配导致从全注意力切换到稀疏注意力时性能下降。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;训练效率需求&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在长序列上训练大语言模型（LLMs）对于增强模型能力以及适应长上下文任务（如微调和强化学习）至关重要。&lt;/li&gt;
+&lt;li&gt;现有的稀疏注意力方法主要针对推理，未解决训练中的计算挑战。这限制了它们在长上下文建模中的扩展能力。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;此外，尝试将稀疏注意力方法应用于训练也面临进一步挑战：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;不可训练的组件&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;方法如 &lt;strong&gt;ClusterKV&lt;/strong&gt;（使用 k-means 聚类）和 &lt;strong&gt;MagicPIG&lt;/strong&gt;（使用 SimHash 选择）涉及离散操作，破坏了计算图，阻止了梯度流通过 token 选择过程。这限制了模型学习最优稀疏模式的能力。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;低效的反向传播&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;技术如 &lt;strong&gt;HashAttention&lt;/strong&gt; 使用基于 token 的细粒度选择，需要从 KV 缓存中加载大量非连续的单个 token。这阻止了像 &lt;strong&gt;FlashAttention&lt;/strong&gt; 这样依赖连续内存访问和块级计算的高效技术的使用。&lt;/li&gt;
+&lt;li&gt;结果是，由于硬件利用率低下，训练效率受到影响。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;关键要点&lt;/strong&gt;：现有稀疏注意力方法不适合训练，因为它们要么引入了不可训练的组件，要么在反向传播中效率低下。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;23-原生稀疏性的必要性&#34;&gt;&lt;strong&gt;2.3. 原生稀疏性的必要性&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;在 &lt;strong&gt;推理效率&lt;/strong&gt; 和 &lt;strong&gt;训练可行性&lt;/strong&gt; 方面的局限性表明，稀疏注意力机制需要进行根本性的重新设计。作者提出了 &lt;strong&gt;NSA（原生稀疏注意力）&lt;/strong&gt;，一个旨在解决这些挑战的框架，具体包括：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;确保计算效率&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;NSA 集成了硬件友好的设计，在预填充和解码阶段最大化加速。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;支持可训练稀疏性&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;NSA 通过引入高效的算法和反向传播算子，允许梯度流动并优化稀疏模式，从而实现端到端训练。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;关键要点&lt;/strong&gt;：NSA 是一个原生稀疏注意力框架，平衡了计算效率和训练需求，克服了现有方法的局限性。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;总结&#34;&gt;&lt;strong&gt;总结&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;本节批判了现代稀疏注意力方法，指出它们无法在推理阶段提供一致的加速，并且缺乏对高效训练的支持。这些不足促使了 &lt;strong&gt;NSA&lt;/strong&gt; 的开发，这是一种新框架，解决了计算和训练方面的挑战。NSA 通过硬件对齐的系统设计和可训练稀疏性，为更高效、更可扩展的长上下文建模铺平了道路。&lt;/p&gt;
+&lt;h2 id=&#34;方法&#34;&gt;方法
+&lt;/h2&gt;&lt;p&gt;该文档描述了一种名为NSA（Natural Sparse Attention）的技术方法，旨在优化注意力机制的计算效率和硬件性能。以下是内容的总结：&lt;/p&gt;
+&lt;h3 id=&#34;1-背景&#34;&gt;1. &lt;strong&gt;背景&lt;/strong&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+$$
+    \text{Attn}(q_t, k, v)=\text{Softmax}\left(\frac{Q K^T}{\sqrt{d_k}}\right)
+$$&lt;/li&gt;
+&lt;li&gt;
+$$
+ \mathrm{Attn}(\mathbf{q}_t, \mathbf{k}_{:t}, \mathbf{v}_{:t}) = \sum_{i = 1}^{t} \frac{\alpha_{t,i} \mathbf{v}_i}{\sum_{j = 1}^{t} \alpha_{t,j}}, \quad \alpha_{t,i} = e^{\frac{\mathbf{q}_t^{\top} \mathbf{k}_i}{\sqrt{d_k}}}
+$$&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;算术强度&lt;/strong&gt;：定义为计算操作与内存访问的比率，决定了算法在硬件上的优化方向。训练和预填充阶段通常是计算密集型，而自回归解码阶段则受内存带宽限制。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;2-总体框架&#34;&gt;2. &lt;strong&gt;总体框架&lt;/strong&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;NSA提出用更紧凑且信息密集的表示（key-value对）替代原始的key-value对，以优化注意力输出。&lt;/li&gt;
+&lt;li&gt;提出了三种映射策略：
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;压缩（Compression）&lt;/strong&gt;：将连续块的keys/values聚合为更高层次的语义表示。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+$$\tilde{K}_{t}=f_{K}(q_{t}, k_{: t}, v_{: t})$$$$\tilde{V}_{t}=f_{V}(q_{t}, k_{: t}, v_{: t})$$$$o_{t}^{*}=\mathrm{Attn}(q_{t}, \tilde{K}_{t}, \tilde{V}_{t})$$&lt;p&gt;其中$\tilde{K}&lt;em&gt;{t}$、$\tilde{V}&lt;/em&gt;{t}$是基于当前查询$q_{t}$和上下文记忆$k_{: t}$、$v_{: t}$动态构建的。&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;&lt;strong&gt;选择（Selection）&lt;/strong&gt;：选择最相关的tokens，保留细粒度信息。
+我们可以设计各种映射策略来获得不同类别的$\tilde{K}&lt;em&gt;{t}^{c}$、$\tilde{V}&lt;/em&gt;{t}^{c}$，并按如下方式组合它们：
+$$o_{t}^{*}=\sum_{c \in C} g_{t}^{c} \cdot \mathrm{Attn}(q_{t}, \tilde{K}_{t}^{c}, \tilde{V}_{t}^{c})$$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;NSA有三种映射策略$C = {cmp, slc, win} $，分别代表键和值的压缩、选择和滑动窗口。$g_{t}^{c} \in [0, 1]$是对应策略$c$的门控分数，通过多层感知机（MLP）和sigmoid激活函数从输入特征中推导得出。&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;&lt;strong&gt;滑动窗口（Sliding Window）&lt;/strong&gt;：专注于局部上下文，防止局部模式主导学习过程。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;这些策略通过动态构造的keys/values实现，并结合门控机制（gate score）进行加权组合。&lt;/li&gt;
+&lt;/ul&gt;
+$$N_{t}=\sum_{c \in C} \mathrm{size}[\tilde{K}_{t}^{c}]$$&lt;hr&gt;
+&lt;h3 id=&#34;3-算法设计-注意本节内容没有详细写需要重新看文章的伪代码&#34;&gt;3. &lt;strong&gt;算法设计&lt;/strong&gt; （注意，本节内容没有详细写，需要重新看文章的伪代码）
+&lt;/h3&gt;&lt;h4 id=&#34;31-token-compression压缩&#34;&gt;3.1 &lt;strong&gt;Token Compression（压缩）&lt;/strong&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;将连续块的keys/values聚合为块级表示，减少计算负担。&lt;/li&gt;
+&lt;li&gt;使用可学习的MLP（多层感知器）和位置编码来生成压缩表示。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;32-token-selection选择&#34;&gt;3.2 &lt;strong&gt;Token Selection（选择）&lt;/strong&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;基于块的重要性评分选择最相关的tokens。&lt;/li&gt;
+&lt;li&gt;重要性评分通过压缩tokens的注意力分数推导，支持高效的块级选择。&lt;/li&gt;
+&lt;li&gt;对于共享KV缓存的模型（如GQA/MQA），确保跨头的一致性选择。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;33-sliding-window滑动窗口&#34;&gt;3.3 &lt;strong&gt;Sliding Window（滑动窗口）&lt;/strong&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;维护一个固定大小的窗口，专注于最近的tokens。&lt;/li&gt;
+&lt;li&gt;防止局部模式干扰其他分支的学习，同时引入最小的计算开销。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;4-内核设计&#34;&gt;4. &lt;strong&gt;内核设计&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-04-05.jpg&#34;
+	width=&#34;1244&#34;
+	height=&#34;647&#34;
+	srcset=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-04-05_hu_93975055cb6b0e8a.jpg 480w, //localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-04-05_hu_5ac9b9d8e613ba27.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;192&#34;
+		data-flex-basis=&#34;461px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在Triton上实现硬件对齐的稀疏注意力内核，优化训练和预填充阶段的速度。&lt;/li&gt;
+&lt;li&gt;核心优化包括：
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;组中心数据加载&lt;/strong&gt;：按组加载查询（queries），共享稀疏KV块。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;共享KV获取&lt;/strong&gt;：按需加载连续的KV块，减少冗余内存传输。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;外循环调度&lt;/strong&gt;：利用Triton的网格调度器简化内核设计，平衡GPU流式多处理器的工作负载。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;5-目标&#34;&gt;5. &lt;strong&gt;目标&lt;/strong&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;训练/预填充阶段&lt;/strong&gt;：通过压缩和选择策略减少计算成本。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;解码阶段&lt;/strong&gt;：通过稀疏KV缓存减少内存访问，提升效率。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;总结-1&#34;&gt;总结
+&lt;/h3&gt;&lt;p&gt;NSA通过结合压缩、选择和滑动窗口策略，显著降低了注意力计算的复杂度，同时优化了硬件性能。其内核设计充分利用现代GPU架构特性，实现了接近FlashAttention级别的加速效果。&lt;/p&gt;
+&lt;h2 id=&#34;实验&#34;&gt;实验
+&lt;/h2&gt;&lt;p&gt;以下是对上传文件内容的总结：&lt;/p&gt;
+&lt;h3 id=&#34;1-研究目标&#34;&gt;1. &lt;strong&gt;研究目标&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;本文通过三个维度评估了一种新的稀疏注意力方法（NSA）：(1) 通用基准性能，(2) 长上下文基准性能，(3) 链式思维推理性能。NSA 方法与全注意力（Full Attention）基线和最先进的稀疏注意力方法进行了对比。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;2-模型架构&#34;&gt;2. &lt;strong&gt;模型架构&lt;/strong&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;基础架构&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;NSA 使用了 Grouped-Query Attention (GQA) 和 Mixture-of-Experts (MoE) 的组合。&lt;/li&gt;
+&lt;li&gt;模型参数总量为 27B，其中激活参数为 3B。&lt;/li&gt;
+&lt;li&gt;包含 30 层，隐藏维度为 2560。&lt;/li&gt;
+&lt;li&gt;GQA 设置了 4 组，共 64 个注意力头；每个头的查询、键和值的隐藏维度分别为 𝑑𝑞 = 𝑑𝑘 = 192 和 𝑑𝑣 = 128。&lt;/li&gt;
+&lt;li&gt;MoE 使用 DeepSeekMoE 结构，包含 72 个路由专家和 2 个共享专家，设置 top-k 专家为 6。&lt;/li&gt;
+&lt;li&gt;第一层的 MoE 被替换为 SwiGLU 形式的 MLP，以确保训练稳定性。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;稀疏注意力设计&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;NSA 设计了分层稀疏注意力机制，结合压缩 token 进行全局上下文扫描，以及选择 token 实现局部信息检索。&lt;/li&gt;
+&lt;li&gt;参数设置包括：压缩块大小 𝑙 = 32，滑动步幅 𝑑 = 16，选择块大小 𝑙′ = 64，选择块数量 𝑛 = 16，滑动窗口大小 𝑤 = 512。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;3-实验设置&#34;&gt;3. &lt;strong&gt;实验设置&lt;/strong&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;预训练&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;NSA 和 Full Attention 模型均在 270B tokens 的 8k 长度文本上进行预训练，并在 32k 长度文本上进行继续训练和监督微调（使用 YaRN 方法）以适应长上下文。&lt;/li&gt;
+&lt;li&gt;训练至完全收敛，以确保公平比较。
+&lt;img src=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-07-15.jpg&#34;
+	width=&#34;1011&#34;
+	height=&#34;858&#34;
+	srcset=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-07-15_hu_592bc56b735f5dc1.jpg 480w, //localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-07-15_hu_d929c49131874f8.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;117&#34;
+		data-flex-basis=&#34;282px&#34;
+	
+&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;基线方法&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对比了多种最先进的稀疏注意力方法（如 H2O、infLLM、Quest 和 Exact-Top），以及 Full Attention 基线。
+&lt;img src=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-07-55.jpg&#34;
+	width=&#34;989&#34;
+	height=&#34;391&#34;
+	srcset=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-07-55_hu_c38e9814a6758178.jpg 480w, //localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-07-55_hu_622a0e9def069ac5.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;252&#34;
+		data-flex-basis=&#34;607px&#34;
+	
+&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;4-实验结果&#34;&gt;4. &lt;strong&gt;实验结果&lt;/strong&gt;
+&lt;/h3&gt;&lt;h4 id=&#34;1-通用基准性能&#34;&gt;(1) &lt;strong&gt;通用基准性能&lt;/strong&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;在知识、推理和编码任务上的多个基准测试中（如 MMLU、BBH、GSM8K 等），NSA 在 7/9 的指标上优于 Full Attention。&lt;/li&gt;
+&lt;li&gt;NSA 在推理相关任务（如 DROP 和 GSM8K）上表现尤为突出，分别提升了 +0.042 和 +0.034。&lt;/li&gt;
+&lt;li&gt;结果表明，尽管 NSA 是稀疏注意力模型，但其性能优于 Full Attention，验证了其作为通用架构的鲁棒性。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;2-长上下文性能&#34;&gt;(2) &lt;strong&gt;长上下文性能&lt;/strong&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;在长上下文任务（如 LongBench 和 Needle-in-a-Haystack 测试）中，NSA 表现优异。&lt;/li&gt;
+&lt;li&gt;NSA 在 64k 上下文长度的 Needle-in-a-Haystack 测试中实现了完美的检索准确率。&lt;/li&gt;
+&lt;li&gt;在 LongBench 上，NSA 的平均得分最高（0.469），比 Full Attention 提升 +0.032，比 Exact-Top 提升 +0.046。&lt;/li&gt;
+&lt;li&gt;NSA 在复杂推理任务（如多跳 QA 和代码理解）上表现出显著优势。
+&lt;img src=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-08-09.jpg&#34;
+	width=&#34;928&#34;
+	height=&#34;460&#34;
+	srcset=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-08-09_hu_32fa468db81f30d4.jpg 480w, //localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-08-09_hu_cbe4bf92613404a.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;201&#34;
+		data-flex-basis=&#34;484px&#34;
+	
+&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;3-链式思维推理性能&#34;&gt;(3) &lt;strong&gt;链式思维推理性能&lt;/strong&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;在数学推理任务（AIME 测试）中，NSA-R（NSA 的微调版本）在 8k 和 16k 上下文长度下均优于 Full Attention-R。&lt;/li&gt;
+&lt;li&gt;NSA-R 在 8k 上下文中提升 +0.075，在 16k 上下文中提升 +0.054。&lt;/li&gt;
+&lt;li&gt;结果表明，NSA 的稀疏注意力模式能够有效捕获长距离逻辑依赖关系，支持复杂的数学推导。
+&lt;img src=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-08-40.jpg&#34;
+	width=&#34;1033&#34;
+	height=&#34;693&#34;
+	srcset=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-08-40_hu_18144391dc008b44.jpg 480w, //localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-08-40_hu_6003ed416037c805.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;149&#34;
+		data-flex-basis=&#34;357px&#34;
+	
+&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;5-效率分析&#34;&gt;5. &lt;strong&gt;效率分析&lt;/strong&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;NSA 的实现显著减少了延迟，特别是在长上下文场景中，改进效果更加明显。&lt;/li&gt;
+&lt;li&gt;在前向传播时间对比中，NSA 的速度比 FlashAttention-2 快 9 倍（在 64k 上下文长度下）。&lt;/li&gt;
+&lt;li&gt;在反向传播时间对比中，NSA 也表现出显著的速度优势。
+&lt;img src=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-08-57.jpg&#34;
+	width=&#34;991&#34;
+	height=&#34;344&#34;
+	srcset=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-08-57_hu_6ff5126f0880a01a.jpg 480w, //localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/PixPin_2025-02-20_11-08-57_hu_6de13d39318891cf.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;288&#34;
+		data-flex-basis=&#34;691px&#34;
+	
+&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;6-结论&#34;&gt;6. &lt;strong&gt;结论&lt;/strong&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;NSA 在通用基准、长上下文任务和链式思维推理任务中均表现出色，验证了其在性能和效率之间的有效权衡。&lt;/li&gt;
+&lt;li&gt;分层稀疏注意力机制使 NSA 能够同时保持全局感知和局部精度，适合处理多样化的长上下文挑战。&lt;/li&gt;
+&lt;li&gt;NSA 的硬件对齐设计和端到端优化使其成为一种高效的通用架构，适用于先进推理任务。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;讨论&#34;&gt;讨论
+&lt;/h2&gt;&lt;h3 id=&#34;总结内容&#34;&gt;总结内容
+&lt;/h3&gt;&lt;p&gt;在本文的讨论部分，作者对新提出的稀疏注意力机制（NSA）的开发过程进行了反思，并探讨了从不同稀疏注意力策略中获得的关键见解。尽管NSA方法展示了良好的性能，但对其替代策略的挑战和注意力模式的分析为未来的研究方向提供了重要的背景。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;61-替代令牌选择策略的挑战&#34;&gt;&lt;strong&gt;6.1 替代令牌选择策略的挑战&lt;/strong&gt;
+&lt;/h4&gt;&lt;p&gt;在设计NSA之前，作者尝试了将现有的稀疏注意力方法应用于训练阶段，但这些方法遇到了各种挑战，促使他们设计了一种新的稀疏注意力架构：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;基于聚类的策略（Key-Clustering Based Strategies）&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;例如ClusterKV（Liu et al., 2024），这类方法将同一簇中的Keys和Values存储在连续的内存区域中。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;挑战：&lt;/strong&gt;
+&lt;ol&gt;
+&lt;li&gt;动态聚类机制引入了显著的计算开销。&lt;/li&gt;
+&lt;li&gt;在混合专家系统（MoE）中，由于专家并行性（EP）组执行时间的不平衡，操作优化变得更加困难。&lt;/li&gt;
+&lt;li&gt;必须进行周期性重新聚类以及分块顺序训练协议，这带来了实现上的限制。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;这些因素共同导致了实际部署中的瓶颈问题。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;其他块级选择策略（Other Blockwise Selection Strategies）&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;例如Quest（Tang et al., 2024）和InfLLM（Xiao et al., 2024），这些方法通过计算每个块的重要性得分并选择与查询最相似的前𝑛个块来实现稀疏性。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;挑战：&lt;/strong&gt;
+&lt;ol&gt;
+&lt;li&gt;选择操作是非可微的，因此基于神经网络的重要性得分计算依赖于辅助损失（auxiliary loss），这增加了操作开销并可能降低模型性能。&lt;/li&gt;
+&lt;li&gt;基于启发式的无参数重要性得分计算策略存在召回率低的问题，导致次优性能。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;实验结果表明，这两种方法在3B参数模型上的表现均不如NSA和全注意力机制（Full Attention）。具体而言：
+&lt;ul&gt;
+&lt;li&gt;辅助损失方法通过引入额外的查询和代表性键来估计块重要性得分，但效果有限。&lt;/li&gt;
+&lt;li&gt;启发式无参数方法（如Quest）虽然避免了额外参数，但冷启动训练（Cold-Start Training）后仍表现出较高的损失值。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;62-可视化分析&#34;&gt;&lt;strong&gt;6.2 可视化分析&lt;/strong&gt;
+&lt;/h4&gt;&lt;p&gt;为了探索Transformer注意力分布中的潜在模式，作者对预训练的27B参数全注意力模型的注意力图进行了可视化（见图8）。&lt;br&gt;
+&lt;img src=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/image.png&#34;
+	width=&#34;952&#34;
+	height=&#34;533&#34;
+	srcset=&#34;//localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/image_hu_30e983c84fb8dc28.png 480w, //localhost:1313/p/deepseek_nsa/index.md/image/deepseek%20NSA/image_hu_3026c90c14a1fb50.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;178&#34;
+		data-flex-basis=&#34;428px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;观察到的模式：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;注意力得分呈现出块状聚类特性，即相邻的Keys往往具有相似的注意力得分。&lt;/li&gt;
+&lt;li&gt;这一现象表明，序列中相邻的令牌可能与查询令牌共享某些语义关系，尽管这些关系的具体性质需要进一步研究。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;启发：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;基于空间连续性的块选择可能是提高计算效率的有效方法，同时能够保留高注意力模式。&lt;/li&gt;
+&lt;li&gt;NSA的设计正是受到这种块状聚类现象的启发，旨在通过对连续令牌块的操作而非单个令牌来实现稀疏注意力机制。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;总结-2&#34;&gt;&lt;strong&gt;总结&lt;/strong&gt;
+&lt;/h4&gt;&lt;p&gt;通过对替代稀疏注意力策略的挑战和注意力模式的深入分析，作者得出以下结论：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;现有的稀疏注意力方法在训练阶段面临显著的计算和实现瓶颈，难以满足实际部署需求。&lt;/li&gt;
+&lt;li&gt;注意力分布的块状聚类特性为稀疏注意力机制的设计提供了重要启示，推动了NSA的开发。&lt;/li&gt;
+&lt;li&gt;NSA通过基于块的选择策略，在保持高性能的同时实现了更高的计算效率，为未来的稀疏注意力研究提供了新的方向。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;相关工作&#34;&gt;相关工作
+&lt;/h2&gt;&lt;h3 id=&#34;总结内容-1&#34;&gt;总结内容
+&lt;/h3&gt;&lt;p&gt;本文在相关工作部分回顾了现有通过稀疏注意力机制提升注意力计算效率的方法，并将其分为三类核心策略：&lt;strong&gt;(1) 固定稀疏模式&lt;/strong&gt;、&lt;strong&gt;(2) 动态令牌剪枝&lt;/strong&gt; 和 &lt;strong&gt;(3) 查询感知选择&lt;/strong&gt;。以下是对每类方法的总结：&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;71-固定稀疏模式fixed-sparse-pattern&#34;&gt;&lt;strong&gt;7.1 固定稀疏模式（Fixed Sparse Pattern）&lt;/strong&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;典型方法：滑动窗口（Sliding Window）&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;查询仅在固定窗口内计算注意力，从而减少内存和计算成本。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;StreamingLLM (Xiao et al., 2023)&lt;/strong&gt;：通过维护两个关键上下文部分（早期令牌的“注意力汇点”和局部上下文窗口）来处理长文本流。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;局限性&lt;/strong&gt;：固定的稀疏模式忽略了全局上下文信息，限制了其在需要完整上下文理解的任务中的性能。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;72-动态令牌剪枝dynamic-token-pruning&#34;&gt;&lt;strong&gt;7.2 动态令牌剪枝（Dynamic Token Pruning）&lt;/strong&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;动态剪枝方法根据令牌的重要性动态减少KV缓存的使用，从而提高解码效率。
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;H2O (Zhang et al., 2023b)&lt;/strong&gt;：基于令牌最近的注意力得分动态剔除对未来预测不重要的令牌，降低KV缓存的内存占用。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SnapKV (Li et al., 2024)&lt;/strong&gt;：通过分析预填充阶段的注意力权重并投票选出重要特征，仅保留最关键的部分。然后结合压缩特征与近期上下文更新KV缓存，确保提示一致性。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;优点&lt;/strong&gt;：这些方法能够灵活适应不同任务需求，同时有效降低内存使用。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;73-查询感知选择query-aware-selection&#34;&gt;&lt;strong&gt;7.3 查询感知选择（Query-Aware Selection）&lt;/strong&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;这类方法根据查询动态选择最相关的键值对块或令牌。
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Quest (Tang et al., 2024)&lt;/strong&gt;：采用块级选择策略，通过查询与键块的坐标最小-最大值的乘积估计每个块的重要性，选择前𝑛个重要块进行注意力计算。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;InfLLM (Xiao et al., 2024)&lt;/strong&gt;：结合固定模式与检索机制，通过维护注意力汇点、局部上下文和可检索块，从每个块中选择代表性键以估计块的重要性。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;HashAttention (Desai et al., 2024)&lt;/strong&gt;：将关键令牌识别问题建模为推荐问题，通过学习函数将查询和键映射到汉明空间。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ClusterKV (Liu et al., 2024)&lt;/strong&gt;：首先对键进行聚类，然后根据查询与簇的相似性选择最相关的簇进行注意力计算。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;总结-3&#34;&gt;&lt;strong&gt;总结&lt;/strong&gt;
+&lt;/h4&gt;&lt;p&gt;现有的稀疏注意力方法通过不同的策略优化了注意力计算的效率：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;固定稀疏模式&lt;/strong&gt;（如滑动窗口）简单高效，但因忽略全局上下文而性能受限。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;动态令牌剪枝&lt;/strong&gt;（如H2O、SnapKV）通过动态剔除不重要的令牌，显著降低了内存使用，同时保持了上下文的一致性。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;查询感知选择&lt;/strong&gt;（如Quest、InfLLM、HashAttention、ClusterKV）通过动态选择与查询最相关的键值对块或令牌，进一步提升了稀疏注意力的灵活性和性能。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这些方法为稀疏注意力机制的设计提供了多样化的思路，同时也揭示了各自的优势与局限性，为未来研究指明了方向。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>瑞金医院拉曼无创血糖论文</title>
+        <link>//localhost:1313/p/%E7%91%9E%E9%87%91%E5%8C%BB%E9%99%A2%E6%8B%89%E6%9B%BC%E6%97%A0%E5%88%9B%E8%A1%80%E7%B3%96%E8%AE%BA%E6%96%87/</link>
+        <pubDate>Mon, 24 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/p/%E7%91%9E%E9%87%91%E5%8C%BB%E9%99%A2%E6%8B%89%E6%9B%BC%E6%97%A0%E5%88%9B%E8%A1%80%E7%B3%96%E8%AE%BA%E6%96%87/</guid>
+        <description>&lt;img src="//localhost:1313/p/%E7%91%9E%E9%87%91%E5%8C%BB%E9%99%A2%E6%8B%89%E6%9B%BC%E6%97%A0%E5%88%9B%E8%A1%80%E7%B3%96%E8%AE%BA%E6%96%87/images/index/index.png" alt="Featured image of post 瑞金医院拉曼无创血糖论文" /&gt;&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/%E7%91%9E%E9%87%91%E5%8C%BB%E9%99%A2%E6%8B%89%E6%9B%BC%E6%97%A0%E5%88%9B%E8%A1%80%E7%B3%96%E8%AE%BA%E6%96%87/images/index/index.png&#34;
+	width=&#34;806&#34;
+	height=&#34;489&#34;
+	srcset=&#34;//localhost:1313/p/%E7%91%9E%E9%87%91%E5%8C%BB%E9%99%A2%E6%8B%89%E6%9B%BC%E6%97%A0%E5%88%9B%E8%A1%80%E7%B3%96%E8%AE%BA%E6%96%87/images/index/index_hu_eb4903356459096c.png 480w, //localhost:1313/p/%E7%91%9E%E9%87%91%E5%8C%BB%E9%99%A2%E6%8B%89%E6%9B%BC%E6%97%A0%E5%88%9B%E8%A1%80%E7%B3%96%E8%AE%BA%E6%96%87/images/index/index_hu_582db2176f4f1f21.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;164&#34;
+		data-flex-basis=&#34;395px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h1 id=&#34;&#34;&gt;
+&lt;/h1&gt;&lt;h2 id=&#34;subcutaneous-depth-selective-spectral-imaging-with-mμsors-enables-noninvasive-glucose-monitoring&#34;&gt;Subcutaneous depth-selective spectral imaging with mμSORS enables noninvasive glucose monitoring
+&lt;/h2&gt;&lt;h3 id=&#34;摘要&#34;&gt;摘要
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Noninvasive blood glucose monitoring offers substantial advantages forpatients, but current technologies are often not sufficiently accurate for
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;clinical applications or require personalized calibration. Here we reportmultiple μ-spatially offset Raman spectroscopy, which captures Raman signals at varying skin depths, and show that it accurately detects bloodglucose levels in humans. In 35 individuals with or without type 2 diabetes,we first determine the optimal depth for glucose detection to be at orbelow the capillary-rich dermal–epidermal junction, where we observea strong correlation between specific Raman bands and venous plasmaglucose concentrations. In a second study, comprising 230 participants, we then improve accuracy of our regression model to reach a mean absolute relative difference of 14.6%, without personalized calibration, whereby 99.4% of calculated glucose values fall into clinically acceptable zones of the consensus error grid (zones A and B). These findings highlight the ability and robustness of multiple μ-spatially offset Raman spectroscopy for noninvasive blood glucose measurement in a clinical setting.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Noninvasive blood glucose monitoring offers substantial advantages for patients, but current technologies are often not sufficiently accurate for
+clinical applications or require personalized calibration.&lt;/p&gt;
+&lt;p&gt;非侵入式血糖监测为患者提供了显著的优势，但当前技术往往在临床应用中不够精确，或者需要个性化校准。&lt;/p&gt;
+&lt;p&gt;substantial 实质的
+clinical applications 临床应用
+personalized calibration 个性化校准
+subcutaneous 皮下的&lt;/p&gt;
+&lt;p&gt;Here we report multiple μ-spatially offset Raman spectroscopy, which captures Raman signals at varying skin depths, and show that it accurately detects bloodglucose levels in humans. In 35 individuals with or without type 2 diabetes,we first determine the optimal depth for glucose detection to be at orbelow the capillary-rich dermal–epidermal junction, where we observea strong correlation between specific Raman bands and venous plasmaglucose concentrations.&lt;/p&gt;
+&lt;p&gt;在此，我们报告了一种多重微空间偏移拉曼光谱技术，该技术能够捕获不同皮肤深度的拉曼信号，并证明其能够准确检测人体内的血糖水平。在35名有或无2型糖尿病的个体中，我们首先确定了检测葡萄糖的最佳深度为毛细血管丰富的真皮-表皮交界处或其下方，在此深度我们观察到特定拉曼光谱带与静脉血浆葡萄糖浓度之间存在强相关性。&lt;/p&gt;
+&lt;p&gt;In a second study, comprising 230 participants, we then improve accuracy of our regression model to reach a mean absolute relative difference of 14.6%, without personalized calibration, whereby 99.4% of calculated glucose values fall into clinically acceptable zones of the consensus error grid (zones A and B).&lt;/p&gt;
+&lt;p&gt;在第二项研究中，包括230名参与者，我们进一步提高了回归模型的准确性，使平均绝对相对差达到14.6%，无需个性化校准，其中99.4%的计算葡萄糖值落在共识误差网格的临床可接受区域（A区和B区）。&lt;/p&gt;
+&lt;p&gt;consensus error grid 共识误差网格&lt;/p&gt;
+&lt;p&gt;These findings highlight the ability and robustness of multiple μ-spatially offset Raman spectroscopy for noninvasive blood glucose measurement in a clinical setting.
+这些发现突显了多重微空间偏移拉曼光谱技术在临床环境中进行非侵入式血糖测量的能力和稳健性。&lt;/p&gt;
+&lt;h3 id=&#34;引言&#34;&gt;引言
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Blood glucose monitoring is critical for health management, especially for the over 500 million people with diabetes worldwide.&lt;/strong&gt;
+血糖监测对健康管理至关重要，特别是对于全球超过5亿的糖尿病患者。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Patients with diabetes typically receive recommendations to monitor their blood glucose level multiple times per day.&lt;/strong&gt;
+糖尿病患者通常被建议每天多次监测血糖水平。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Nevertheless, conventional finger pricks induce pain and risk of infection, which thereby reduced the patients’ quality of life and their adherence to treatment.&lt;/strong&gt;
+然而，传统的指尖采血会引起疼痛和感染风险，从而降低了患者的生活质量和治疗依从性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;More recently, minimally invasive continuous blood glucose monitoring technologies have been developed, utilizing indwelling sensors to measure glucose levels in interstitial compartments.&lt;/strong&gt;
+最近，微创持续血糖监测技术已经开发出来，利用植入式传感器测量间质液中的葡萄糖水平。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;However, these sensors require constant attachment to the user and cause inconvenience.&lt;/strong&gt;
+然而，这些传感器需要持续附着在用户身上，并带来不便。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Hence, there remains a persistent need for practical solutions to noninvasive blood glucose monitoring.&lt;/strong&gt;
+因此，仍然迫切需要实用的非侵入性血糖监测解决方案。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;So far, the route to clinically applicable noninvasive blood glucose monitoring remains elusive.&lt;/strong&gt;
+到目前为止，临床上适用的非侵入性血糖监测方法仍未明确。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Among the various approaches, including iontophoresis, transdermal impedance spectroscopy, photoacoustic spectroscopy and infrared spectroscopy, Raman spectroscopy is highly anticipated due to its direct identification of glucose molecules with high specificity by spectral information, along with its selectable wavelengths for deep penetration in human skin.&lt;/strong&gt;
+在众多方法中，包括离子电渗透、经皮阻抗光谱、光声光谱和红外光谱，拉曼光谱因其通过光谱信息直接高特异性地识别葡萄糖分子，以及其可选择波长以深入穿透人体皮肤而备受期待。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Recently developed paraboloidal mirror Raman, confocal Raman and spatially offset Raman spectroscopy (SORS) have shown promising results for noninvasive blood glucose testing.&lt;/strong&gt;
+最近开发的抛物面镜拉曼、体视拉曼和空间偏移拉曼光谱（SORS）在非侵入性血糖测试中显示出令人期待的结果。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;However, these Raman spectroscopy methods require subject-specific training to build a proper mathematical model for each user, introducing additional procedures in practical applications.&lt;/strong&gt;
+然而，这些拉曼光谱方法需要针对每个用户进行特定训练以构建适当的数学模型，这在实际应用中引入了额外的程序。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;The main hindrance to higher robustness and accuracy in Raman spectroscopic measurements is the broad and strong fluorescence background signal from the skin surface.&lt;/strong&gt;
+拉曼光谱测量实现更高稳健性和准确性的主要障碍是皮肤表面广泛而强烈的荧光背景信号。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Therefore, a Raman spectroscopy method to reduce the interference of the skin surface signal when capturing deeper glucose signals is imperative for clinically applicable noninvasive blood glucose monitoring.&lt;/strong&gt;
+因此，在捕获更深层葡萄糖信号时减少皮肤表面信号干扰的拉曼光谱方法，对于临床上适用的非侵入性血糖监测至关重要。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;In this work, we present multiple μ-spatially offset Raman spectroscopy (mμSORS), a technique capable of directly measuring Raman signals from both epidermal and dermal layers of human skin, and thus, potentially feasible for clinical noninvasive blood glucose monitoring.&lt;/strong&gt;
+在这项工作中，我们提出了多重微空间偏移拉曼光谱（mμSORS），这是一种能够直接测量人体皮肤表皮和真皮层拉曼信号的技术，因此可能适用于临床非侵入性血糖监测。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Utilizing an optical probe with fibre layout at five different offsets, mμSORS realized depth-selective detection of Raman signals, with larger offsets capturing a higher proportion of signals from greater depths.&lt;/strong&gt;
+通过使用具有五种不同偏移的光纤布局的光学探头，mμSORS实现了拉曼信号的深度选择性检测，较大的偏移捕获了来自更深处更高比例的信号。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;We first conducted a preliminary basic experimental study with humans (BESH) involving 35 participants that demonstrated that in contrast to the Raman signal from the skin surface, the mμSORS signal from deeper layers, especially around or below the dermal–epidermal junction (DEJ), exhibits a statistically notable correlation of Raman glucose peaks to venous plasma glucose (VPG) levels.&lt;/strong&gt;
+我们首先进行了一项涉及35名参与者的人体初步基础实验研究（BESH），结果表明，与皮肤表面的拉曼信号相比，来自更深层（特别是真皮-表皮交界处（DEJ）附近或下方）的mμSORS信号显示出拉曼葡萄糖峰值与静脉血浆葡萄糖（VPG）水平在统计上显著的相关性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Based on this optimal detection depth, we then expanded the BESHs, monitoring the VPG of additional 230 participants while collecting Raman spectra from the optimal offsets using mμSORS.&lt;/strong&gt;
+基于这一最佳检测深度，我们随后扩展了BESH，监测了另外230名参与者的VPG，同时使用mμSORS从最佳偏移处收集拉曼光谱。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;A partial least squares (PLS) regression model was applied to predict the blood glucose level from the Raman spectra.&lt;/strong&gt;
+使用偏最小二乘（PLS）回归模型从拉曼光谱预测血糖水平。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Using independent training and test dataset consisting of data from different individuals (individual-independent), the model reached a mean absolute relative difference (MARD) of 14.6%, with 99.4% of the predictions in clinically acceptable zones of the consensus error grid (CEG; A + B).&lt;/strong&gt;
+使用由不同个体数据组成的独立训练和测试数据集（个体无关），该模型达到了14.6%的平均绝对相对差异（MARD），99.4%的预测位于共识误差网格（CEG；A + B）的临床可接受区域。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;This result indicates that mμSORS achieves a high accuracy in blood glucose measurement without personalized calibration and data acquisition, marking a valid demonstration of a clinically applicable technology for noninvasive blood glucose monitoring.&lt;/strong&gt;
+这一结果表明，mμSORS在无需个性化校准和数据采集的情况下实现了高精度的血糖测量，标志着临床上适用的非侵入性血糖监测技术的有效演示。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;结果&#34;&gt;结果
+&lt;/h2&gt;&lt;hr&gt;
+&lt;h3 id=&#34;mµsors-detects-depth-selective-raman-signals-in-skin-layers&#34;&gt;&lt;strong&gt;mµSORS detects depth-selective Raman signals in skin layers&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;mµSORS 在皮肤层中检测深度选择性拉曼信号&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;We tailored mμSORS for depth-selective detection of Raman signals from human skins.&lt;/strong&gt;
+我们调整了 mμSORS 以实现从人体皮肤中深度选择性地检测拉曼信号。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;SORS is an advanced spectroscopic technology, known for its ability to detect Raman signals beneath surfaces, and is widely applied in applications such as cargo content inspection, archaeology, cancer screening and pharmaceutical analysis.&lt;/strong&gt;
+SORS 是一种先进的光谱技术，以其检测表面下拉曼信号的能力而闻名，广泛应用于货物内容检查、考古学、癌症筛查和药物分析等领域。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Here, we reformed this technology at the scale of tens to hundreds of micrometres, aiming to obtain Raman signals from various depths of the skin to realize noninvasive blood glucose monitoring.&lt;/strong&gt;
+在这里，我们在数十至数百微米的尺度上改进了这项技术，旨在从皮肤不同深度获取拉曼信号，以实现非侵入性血糖监测。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;An optical probe focused a 785-nm laser on the sample (human thenar in this work) and then collected the backscattered photons, directing them to a concentrically organized fibre bundle.&lt;/strong&gt;
+一个光学探头将 785 纳米激光聚焦在样本上（本研究中使用人体大鱼际），然后收集背散射光子，将其引导至同心组织的纤维束。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;The concentrical layers of fibres were designed to capture photons emitted at specific lateral offsets, which were 0 μm (offset 0), 50 μm (offset 1), 100 μm (offset 2), 150 μm (offset 3) and 200 μm (offset 4) from the incident beam centre, respectively.&lt;/strong&gt;
+同心纤维层被设计为捕获在特定横向偏移处发射的光子，分别为距入射光束中心的 0 微米（偏移 0）、50 微米（偏移 1）、100 微米（偏移 2）、150 微米（偏移 3）和 200 微米（偏移 4）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;The signal intensity is notably lower for larger offsets.&lt;/strong&gt;
+信号强度在较大偏移处显著较低。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Nevertheless, the concentric layout led to more fibres at greater offsets, compensating for the decrease in signal intensity.&lt;/strong&gt;
+尽管如此，同心布局使得较大偏移处有更多纤维，从而补偿了信号强度的下降。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;We used a series of bilayer samples to assess the depth-selective detection capability of mμSORS.&lt;/strong&gt;
+我们使用一系列双层样本评估了 mμSORS 的深度选择性检测能力。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Each offset exhibited a maximum intensity of the bottom layer at a different detection depth, indicating that Raman photons backscattered from larger offsets had a higher probability to have originated from greater depths.&lt;/strong&gt;
+每个偏移在不同检测深度处显示底层最大强度，表明从较大偏移处背散射的拉曼光子更可能来自更深处。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Therefore, mμSORS technology proves capable of selectively collecting Raman signals at various depths on a sub-millimetre scale.&lt;/strong&gt;
+因此，mμSORS 技术证明能够在亚毫米尺度上选择性地收集不同深度的拉曼信号。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;For the purpose of noninvasive glucose detection, the key is to acquire Raman signals dominated from the dermis, which is rich in interstitial fluid (ISF) and capillary loops and could provide direct evidence of blood glucose levels.&lt;/strong&gt;
+为了非侵入性葡萄糖检测，关键是获取主要来自真皮的拉曼信号，真皮富含间质液（ISF）和毛细血管环，可以提供血糖水平的直接证据。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;The dermis lies under the DEJ, the depth of which can be identified from the optical coherence tomography (OCT) image.&lt;/strong&gt;
+真皮位于真皮-表皮交界处（DEJ）下方，其深度可以通过光学相干断层扫描（OCT）图像识别。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;We first observed the biological variation in the histogram of DEJ depths from 232 samples (thenar from both hands of 116 individuals), which ranged from 250 to 700 μm, with the most common depth around 350 μm.&lt;/strong&gt;
+我们首先观察了来自 232 个样本（116 个个体双手的大鱼际）的 DEJ 深度直方图中的生物变异，范围从 250 微米到 700 微米，最常见深度约为 350 微米。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;We then selected four typical individuals with different DEJ depths (labelled I–IV, in the order of increasing DEJ depth) and measured their mμSORS spectra (offsets 0–4).&lt;/strong&gt;
+然后，我们选择了四个具有不同 DEJ 深度的典型个体（标记为 I-IV，按 DEJ 深度递增顺序排列），并测量了他们的 mμSORS 光谱（偏移 0-4）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Compared with the reference Raman spectra taken from ex vivo human epidermis and dermis samples (dashed lines in Fig. 1e), the shape of spectra from offsets 0–4 exhibited a clear transition from epidermis-like to dermis-like for all four individuals, with corresponding shifts in the relative intensities of the Raman peaks assigned to collagen and nucleic acid.&lt;/strong&gt;
+与从离体人体表皮和真皮样本获得的参考拉曼光谱（图 1e 中的虚线）相比，偏移 0-4 的光谱形状在所有四个个体中表现出从表皮样到真皮样的明显过渡，伴随胶原蛋白和核酸拉曼峰相对强度的相应变化。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;It is assumed that the distinct spectral features within the 1,200–1,400 cm⁻¹ range, particularly evident in the relative intensities of the collagen Raman peak (1,240 cm⁻¹) and the nucleic acid Raman peak (1,320 cm⁻¹), mainly result from the compositional difference.&lt;/strong&gt;
+假设在 1,200-1,400 cm⁻¹ 范围内的独特光谱特征，特别是胶原蛋白拉曼峰（1,240 cm⁻¹）和核酸拉曼峰（1,320 cm⁻¹）的相对强度，主要源于成分差异。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;This difference is shown in the skin tissue cross-section, where the epidermis consists of densely packed cells, whereas the dermis is rich in collagen.&lt;/strong&gt;
+这种差异在皮肤组织横截面中显示出来，其中表皮由密集排列的细胞组成，而真皮富含胶原蛋白。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Combining the spectral transition and the DEJ depths derived from OCT, we can roughly characterize the detection depth of mμSORS in human thenar skin.&lt;/strong&gt;
+结合光谱过渡和 OCT 得出的 DEJ 深度，我们可以大致表征 mμSORS 在人体大鱼际皮肤中的检测深度。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;The transition of mμSORS spectra from epidermis-like to dermis-like occurred at smaller offsets for samples with shallower DEJ depths and vice versa.&lt;/strong&gt;
+对于 DEJ 深度较浅的样本，mμSORS 光谱从表皮样到真皮样的过渡发生在较小的偏移处，反之亦然。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Based on this trend we can use the DEJ depth determined by OCT as a ‘ruler’ to gauge the depth measured by a given offset of mμSORS.&lt;/strong&gt;
+根据这一趋势，我们可以使用 OCT 确定的 DEJ 深度作为“标尺”，来衡量 mμSORS 特定偏移测量的深度。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;We thus roughly estimated the detection depths of five mμSORS offsets: 0–270 μm for offset 0, 270–370 μm for offset 1, 370–430 μm for offset 2, 430–620 μm for offset 3 and &amp;gt;620 μm for offset 4.&lt;/strong&gt;
+因此，我们大致估计了五个 mμSORS 偏移的检测深度：偏移 0 为 0-270 微米，偏移 1 为 270-370 微米，偏移 2 为 370-430 微米，偏移 3 为 430-620 微米，偏移 4 为 &amp;gt;620 微米。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;In addition, mμSORS spectra at offsets 3 and 4 displayed dermis-like shapes or at least a mixture of epidermis-like and dermis-like features in all samples.&lt;/strong&gt;
+此外，在所有样本中，偏移 3 和 4 的 mμSORS 光谱显示出真皮样形状，或至少是表皮样和真皮样特征的混合。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Even offset 2 showed mixed features in Sample III, where the DEJ is deeper than 72% of all the 232 samples.&lt;/strong&gt;
+甚至在样本 III 中，偏移 2 也显示出混合特征，该样本的 DEJ 深度超过所有 232 个样本的 72%。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;These results indicate that mμSORS also has a capability for depth-selective detection in human skin, and it could effectively capture signals from the dermis for most individuals using offsets 2–4.&lt;/strong&gt;
+这些结果表明，mμSORS 在人体皮肤中也具有深度选择性检测能力，并且对于大多数个体，使用偏移 2-4 可以有效地捕获真皮信号。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;dermal-raman-spectra-demonstrate-high-correlation-with-vpg&#34;&gt;&lt;strong&gt;Dermal Raman spectra demonstrate high correlation with VPG&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;真皮拉曼光谱与 VPG 表现出高相关性&lt;/strong&gt;&lt;/p&gt;
+&lt;ol start=&#34;25&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Having verified that mµSORS can selectively detect signals from various depths, including those deeper than the DEJ in human thenar skin, we proceeded to evaluate its capability for measuring glucose in the skin and predicting the blood glucose at a clinical setting.&lt;/strong&gt;
+在验证了 mµSORS 可以选择性地检测人体大鱼际皮肤中不同深度（包括 DEJ 以下）的信号后，我们继续评估其在皮肤中测量葡萄糖并在临床环境中预测血糖的能力。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;We conducted a preliminary BESH with 35 participants, in which we measured both mµSORS spectra from their right-hand thenar and their VPG concentrations during a 5-h oral glucose tolerance test (OGTT).&lt;/strong&gt;
+我们对 35 名参与者进行了一项初步 BESH，在 5 小时的口服葡萄糖耐量测试（OGTT）期间，测量了他们右手大鱼际的 mµSORS 光谱及其静脉血浆葡萄糖（VPG）浓度。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Their VPG levels ranged from 2.9 to 31.8 mmol l⁻¹, covering the physiological to pathological blood glucose region.&lt;/strong&gt;
+他们的 VPG 水平范围从 2.9 到 31.8 mmol l⁻¹，涵盖了从生理到病理的血糖区域。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Individuals were free to take their hands off the setup or walk around in the sampling intervals.&lt;/strong&gt;
+在采样间隔期间，个体可以自由将手从设备上移开或走动。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;A total of 415 mµSORS spectra sets (offsets 0–4) were acquired, each corresponding to VPG levels measured at the same time points, yielding 415 VPG–spectra data pairs.&lt;/strong&gt;
+总共采集了 415 组 mµSORS 光谱（偏移 0-4），每组对应于同时点测量的 VPG 水平，产生了 415 个 VPG-光谱数据对。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Consistent with before, the average spectra from the preliminary BESH exhibited a transition from epidermis-like to dermis-like with increasing offsets.&lt;/strong&gt;
+与之前一致，初步 BESH 的平均光谱随着偏移增加，从表皮样过渡到真皮样。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Moreover, offsets 2–4 displayed highly similar spectral shapes and dermis-like spectral features between 1,150 and 1,400 cm⁻¹, indicating that all these three offsets are capable of detecting dermal signals.&lt;/strong&gt;
+此外，偏移 2-4 在 1,150 到 1,400 cm⁻¹ 之间显示出高度相似的光谱形状和真皮样光谱特征，表明这三个偏移都能够检测真皮信号。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;To analyse Raman spectra across different glucose levels at different offsets, we categorized all the 415 VPG–spectra data pairs into ten groups based on the VPG level (equal binning).&lt;/strong&gt;
+为了分析不同偏移处不同葡萄糖水平的拉曼光谱，我们根据 VPG 水平将所有 415 个 VPG-光谱数据对分为十组（等间隔分组）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;To account for variations in absolute spectrum intensity across groups, we normalized the glucose Raman band using the phenylalanine Raman band at 1,001 cm⁻¹, because phenylalanine is abundant in solid skin tissue compartments such as lipids, proteins and collagen.&lt;/strong&gt;
+为了解释各组间绝对光谱强度的变化，我们使用 1,001 cm⁻¹ 处的苯丙氨酸拉曼带对葡萄糖拉曼带进行归一化，因为苯丙氨酸在固态皮肤组织成分（如脂质、蛋白质和胶原蛋白）中含量丰富。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;With a larger offset that can detect dermal signals, such as offset 3, the normalized glucose Raman peak increased notably with VPG across the ten groups, exhibiting a trend not seen at offset 0.&lt;/strong&gt;
+对于能够检测真皮信号的较大偏移（如偏移 3），归一化的葡萄糖拉曼峰随着十组 VPG 的增加而显著增加，表现出偏移 0 未见的趋势。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Linear correlation analysis revealed a high correlation (with a Pearson correlation coefficient (CORR) of 0.94–0.97) between VPG and the normalized glucose Raman band at offsets 2–4, much higher than the correlation at offset 0 (CORR = 0.63) and offset 1 (CORR = 0.85).&lt;/strong&gt;
+线性相关分析显示，偏移 2-4 处 VPG 与归一化葡萄糖拉曼带之间具有高相关性（皮尔逊相关系数（CORR）为 0.94-0.97），远高于偏移 0（CORR = 0.63）和偏移 1（CORR = 0.85）的相关性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;The normalized glucose Raman band at offsets 2–4 also demonstrated notably greater sensitivity to VPG, as indicated by the steeper slopes in the linear fit, suggesting that Raman spectra from dermal skin layers offer more relevant information about blood glucose levels.&lt;/strong&gt;
+偏移 2-4 处归一化的葡萄糖拉曼带还显示出对 VPG 的更高灵敏度，如线性拟合中更陡的斜率所示，表明真皮层中的拉曼光谱提供了更多与血糖水平相关的信息。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Both correlation and sensitivity to VPG are very similar for offsets 2–4, consistent with the highly similar shapes of average spectra observed at these three offsets.&lt;/strong&gt;
+偏移 2-4 对 VPG 的相关性和灵敏度非常相似，与这三个偏移处观察到的平均光谱高度相似的形状一致。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;To further determine the optimal offsets for individual-independent blood glucose monitoring, we built a PLS regression model to fit the VPG–spectra pairs from each offset individually, taking advantage of Raman features across the full spectral range.&lt;/strong&gt;
+为了进一步确定个体无关血糖监测的最佳偏移，我们构建了一个偏最小二乘（PLS）回归模型，分别拟合每个偏移的 VPG-光谱对，充分利用整个光谱范围内的拉曼特征。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;A leave-one-subject-out cross-validation scheme was applied.&lt;/strong&gt;
+应用了留一法交叉验证方案。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;The results indicated that offset 3 yielded the highest accuracy, closely followed by offset 4 and offset 2.&lt;/strong&gt;
+结果表明，偏移 3 提供了最高准确性，紧随其后的是偏移 4 和偏移 2。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Notably, these offsets encompass the DEJ depths in the majority of individuals, supporting our hypothesis that signals from below the DEJ are more suitable for noninvasive blood glucose monitoring.&lt;/strong&gt;
+值得注意的是，这些偏移涵盖了大多数个体的 DEJ 深度，支持了我们的假设，即 DEJ 以下的信号更适合非侵入性血糖监测。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;In addition, our data analysis algorithm provided direct evidence of leveraging glucose-specific Raman spectral information.&lt;/strong&gt;
+此外，我们的数据分析算法提供了利用葡萄糖特异性拉曼光谱信息的直接证据。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;The PLS regression coefficients trained on spectra from offset 3 aligned well with the characteristic Raman bands of glucose solution, a distinctive feature absent at offset 0.&lt;/strong&gt;
+在偏移 3 的光谱上训练的 PLS 回归系数与葡萄糖溶液的特征拉曼带高度一致，这是偏移 0 所缺乏的独特特征。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;This alignment suggests that while analysing Raman signals from offset 3, we can leverage more directly relevant spectroscopic information of glucose molecules than other biomolecules in human skin.&lt;/strong&gt;
+这种一致性表明，在分析偏移 3 的拉曼信号时，我们可以利用比人体皮肤中其他生物分子更直接相关的葡萄糖分子的光谱信息。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;In contrast, at offset 0, neither glucose nor other biomolecular signals could be clearly identified.&lt;/strong&gt;
+相比之下，在偏移 0 处，葡萄糖或其他生物分子信号都无法被清楚识别。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;accurate-and-individual-independent-glucose-predictions&#34;&gt;&lt;strong&gt;Accurate and individual-independent glucose predictions&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;准确且个体无关的葡萄糖预测&lt;/strong&gt;&lt;/p&gt;
+&lt;ol start=&#34;46&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;With the preliminary BESH, we identified direct evidence of glucose molecules in mμSORS spectra, and determined that the optimal offsets to detect blood glucose Raman signals were offsets 2–4.&lt;/strong&gt;
+通过初步 BESH，我们在 mμSORS 光谱中识别了葡萄糖分子的直接证据，并确定检测血糖拉曼信号的最佳偏移为偏移 2-4。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;However, due to the small sample size, the prediction accuracy remained low (MARD = 28.0% for offset 3) and failed to meet the clinical standards.&lt;/strong&gt;
+然而，由于样本量较小，预测准确性仍然较低（偏移 3 的 MARD = 28.0%），未能达到临床标准。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;To further improve the prediction accuracy, we initiated expanded BESHs of 230 individuals with two major improvements: (1) Raman spectra were collected from thenar of both hands to augment the dataset and eliminate hand-specificity; (2) spectra from offsets 2 and 3 were combined as the input to the PLS model according to the results of the preliminary BESH, whereas offset 4 was removed from the device due to its high spatial cost (requiring more fibres than other offsets) despite its high prediction accuracy.&lt;/strong&gt;
+为了进一步提高预测准确性，我们启动了对 230 名个体的扩展 BESH，进行了两项重大改进：(1) 从双手大鱼际采集拉曼光谱以增加数据集并消除手部特异性；(2) 根据初步 BESH 的结果，将偏移 2 和 3 的光谱组合作为 PLS 模型的输入，而偏移 4 由于其高空间成本（需要比其他偏移更多的纤维）尽管预测准确性高而从设备中移除。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;The 230 participants covered a wide range of age (18–80 years) and body mass indices (BMIs; 16.2–38.1 kg m⁻²).&lt;/strong&gt;
+这 230 名参与者涵盖了广泛的年龄范围（18-80 岁）和体质指数（BMI；16.2-38.1 kg m⁻²）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;A relatively balanced representation of sex (91 female and 139 male) and varied skin colours were also achieved.&lt;/strong&gt;
+性别分布相对平衡（91 名女性和 139 名男性），肤色也各异。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;VPG levels of individuals ranged between 2.94 to 31.64, effectively covering the entire extent of physiological to pathological blood glucose levels.&lt;/strong&gt;
+个体的 VPG 水平范围在 2.94 到 31.64 之间，有效覆盖了从生理到病理的整个血糖水平范围。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;At each sampling point of the OGTT, we measured VPG and two mμSORS spectra from the two hands of the participant, yielding a total of 5,308 VPG–spectra data pairs, ~13 times larger than the dataset in the preliminary BESH.&lt;/strong&gt;
+在 OGTT 的每个采样点，我们测量了参与者的 VPG 和双手的两个 mμSORS 光谱，总共产生了 5,308 个 VPG-光谱数据对，约为初步 BESH 数据集的 13 倍。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Each of these spectra was averaged over 60 frames (8 s per frame), providing a database with 318,480 single spectra in total.&lt;/strong&gt;
+这些光谱每组平均 60 帧（每帧 8 秒），总共提供了包含 318,480 个单一光谱的数据库。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Spectra from offsets 2–3 and both hands were simultaneously used for model training and testing, generating separate predicted glucose concentrations for the left and right hands.&lt;/strong&gt;
+偏移 2-3 和双手的光谱同时用于模型训练和测试，分别生成左手和右手的预测葡萄糖浓度。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Practically, this hand-independent approach allows users to freely choose either hand for blood glucose monitoring, thereby adding flexibility in the clinical use.&lt;/strong&gt;
+实际上，这种手部无关的方法允许用户自由选择任一只手进行血糖监测，从而增加了临床使用的灵活性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;We employed a subject-wise ten-fold cross-validation scheme to evaluate the prediction accuracy of mμSORS for individual-independent blood glucose monitoring.&lt;/strong&gt;
+我们采用了基于个体的十折交叉验证方案，以评估 mμSORS 在个体无关血糖监测中的预测准确性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Similar to the leave-one-subject-out scheme used in the preliminary BESH, this approach simulated a scenario where a user’s blood glucose levels can be directly measured and monitored without the need for personalized pre-calibration, validating the applicability of mμSORS in real-life clinical settings and distinguishing it from various other works in the field.&lt;/strong&gt;
+与初步 BESH 中使用的留一法方案类似，这种方法模拟了一种场景，即无需个性化预校准即可直接测量和监测用户的血糖水平，验证了 mμSORS 在现实临床环境中的适用性，并将其与其他领域的工作区分开来。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Consequently, a total of 5,308 predicted glucose concentration values were generated, with each VPG value corresponding to two predicted concentration values, one from the left hand and the other from the right hand.&lt;/strong&gt;
+因此，总共生成了 5,308 个预测葡萄糖浓度值，每个 VPG 值对应两个预测浓度值，一个来自左手，另一个来自右手。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Overall, 99.4% of these points fell within the clinically acceptable range (CEG A + B), achieving a MARD value of 14.3%.&lt;/strong&gt;
+总体而言，99.4% 的点落在临床可接受范围（CEG A + B）内，实现了 14.3% 的 MARD 值。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;No significant difference in accuracy between female and male participants (13.43 ± 5.79% versus 14.98 ± 6.23%; P = 0.06, two-sample t-test) or between left and right hand (14.62 ± 6.65% versus 14.12 ± 7.16%; P = 0.247, paired sample t-test) was observed.&lt;/strong&gt;
+女性和男性参与者的准确性无显著差异（13.43 ± 5.79% 对 14.98 ± 6.23%；P = 0.06，双样本 t 检验），左手和右手的准确性也无显著差异（14.62 ± 6.65% 对 14.12 ± 7.16%；P = 0.247，配对样本 t 检验）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;For each participant, the predictions from the left-hand and right-hand spectra exhibited good consistency with each other, closely aligning with the VPG values and trends.&lt;/strong&gt;
+对于每个参与者，左手和右手光谱的预测彼此一致，与 VPG 值和趋势密切对齐。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Furthermore, the MARD value consistently remained below 20%, and the CEG A + B exceeded 99% across nearly all VPG intervals.&lt;/strong&gt;
+此外，MARD 值始终保持在 20% 以下，CEG A + B 在几乎所有 VPG 区间内超过 99%。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;In summary, mµSORS provides real noninvasive blood glucose monitoring that is both accurate and flexible in clinical settings, without the need for personalized calibration.&lt;/strong&gt;
+总之，mµSORS 提供了真实、准确且灵活的非侵入性血糖监测，在临床环境中无需个性化校准。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;practical-glucose-monitoring-on-an-independent-test-set&#34;&gt;&lt;strong&gt;Practical glucose monitoring on an independent test set&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;在独立测试集上的实用葡萄糖监测&lt;/strong&gt;&lt;/p&gt;
+&lt;ol start=&#34;64&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;To mimic the conditions of clinical blood glucose monitoring even more closely and further validate the clinical applicability of mμSORS, we performed model training and testing on two independent datasets.&lt;/strong&gt;
+为了更贴近临床血糖监测的条件并进一步验证 mμSORS 的临床适用性，我们在两个独立的数据集上进行了模型训练和测试。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Overall, 30 participants (25 with type 2 diabetes (T2D) and 5 without diabetes) recruited at the end of each BESH were selected as an independent test set, while the rest 200 participants comprised the training set.&lt;/strong&gt;
+总体而言，在每次 BESH 结束时招募的 30 名参与者（25 名患有 2 型糖尿病（T2D），5 名无糖尿病）被选为独立测试集，其余 200 名参与者组成训练集。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;This generated 4,618 VPG–spectra data pairs in the training set and 690 in the test set, with diverse blood glucose trends and broad VPG distributions in both datasets.&lt;/strong&gt;
+这在训练集中生成了 4,618 个 VPG-光谱数据对，在测试集中生成了 690 个，两个数据集中具有多样化的血糖趋势和广泛的 VPG 分布。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;A PLS model was exclusively trained on the training set, after which the resulting regression coefficients were locked, and then used to predict the blood glucose level in the test set.&lt;/strong&gt;
+一个 PLS 模型仅在训练集上进行训练，之后锁定了所得回归系数，然后用于预测测试集中的血糖水平。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;A MARD value of 14.6% was achieved in the test set with 99.4% of predictions within the CEG A + B zone.&lt;/strong&gt;
+在测试集中实现了 14.6% 的 MARD 值，99.4% 的预测落在 CEG A + B 区域内。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Examining the prediction accuracy across different VPG concentrations, the CEG A + B ratio consistently reached 100% in 25 out of 28 VPG intervals (1 mmol l⁻¹ each), and the MARD value was lower than 20% in 26 out of 28 VPG intervals.&lt;/strong&gt;
+检查不同 VPG 浓度的预测准确性，在 28 个 VPG 区间（每个 1 mmol l⁻¹）中的 25 个中，CEG A + B 比率始终达到 100%，并且在 28 个 VPG 区间中的 26 个中，MARD 值低于 20%。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;These results in the independent test dataset again underscored the prominent capability of mμSORS for noninvasive blood glucose monitoring.&lt;/strong&gt;
+独立测试数据集中的这些结果再次凸显了 mμSORS 在非侵入性血糖监测中的卓越能力。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;For both hands, the predicted trends of blood glucose during OGTT closely matched the VPG trends, regardless of whether the individuals had diabetes.&lt;/strong&gt;
+对于双手，在 OGTT 期间预测的血糖趋势与 VPG 趋势密切匹配，无论个体是否患有糖尿病。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;For participants with T2D, both VPG and predictions depicted monophasic OGTT response curves typical of T2D patients, in which the blood glucose level increases after the ingest of glucose and then decreases after reaching a peak.&lt;/strong&gt;
+对于患有 T2D 的参与者，VPG 和预测均描绘了 T2D 患者典型的单相 OGTT 反应曲线，其中血糖水平在摄入葡萄糖后增加，到达峰值后下降。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;On the other hand, the flat response curves observed in participants without diabetes reflected the capability of mμSORS to generate accurate trend predictions even within the normal VPG range.&lt;/strong&gt;
+另一方面，在无糖尿病参与者中观察到的平坦反应曲线反映了 mμSORS 即使在正常 VPG 范围内也能生成准确趋势预测的能力。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;When it comes to every individual, the predicted glucose concentrations still demonstrated high accuracy and good alignment with the VPG, regardless of which hand the predictions came from.&lt;/strong&gt;
+对于每个个体，预测的葡萄糖浓度仍然显示出高准确性和与 VPG 的良好对齐，无论预测来自哪只手。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;This confirms the robustness of our system and offers users the flexibility to choose either hand for blood glucose measurements.&lt;/strong&gt;
+这证实了我们系统的稳健性，并为用户提供了选择任一只手进行血糖测量的灵活性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;In greater detail, participant D190 with the most accurate predictions in the test set showed a MARD value for both hands as small as 7.6%.&lt;/strong&gt;
+更详细地说，测试集中预测最准确的参与者 D190 的双手 MARD 值低至 7.6%。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Most participants showed typical prediction accuracy with MARD values between 10% and 15%.&lt;/strong&gt;
+大多数参与者显示出典型的预测准确性，MARD 值在 10% 到 15% 之间。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Even for the participant with the highest MARD in the test set (D193, MARD = 26.5%), the predictions demonstrated a clear trend of increasing blood glucose concentration, consistent with the change of VPG, as well as a close proximity between predictions given by the two hands.&lt;/strong&gt;
+即使对于测试集中 MARD 最高的参与者（D193，MARD = 26.5%），预测仍显示出血糖浓度增加的明确趋势，与 VPG 的变化一致，并且双手给出的预测值非常接近。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;In summary, with the more rigorous validation provided by the independent test set, mμSORS once again proved itself of high accuracy and solid practical viability in clinical blood glucose monitoring.&lt;/strong&gt;
+总之，通过独立测试集提供的更严格验证，mμSORS 再次证明了其在临床血糖监测中的高准确性和坚实的实用可行性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

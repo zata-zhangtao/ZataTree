@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Python 程序打包成 EXE 文件可以使用工具如 PyInstaller 将脚本转换为独立的可执行文件。">
+<title>python程序打包exe</title>
+
+<link rel='canonical' href='//localhost:1313/p/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/index.md/'>
+
+<link rel="stylesheet" href="/scss/style.min.b9c8156d464c343bdacaf14a871581fb94cbbdb9dd5cbce4ba017361187cc930.css"><meta property='og:title' content="python程序打包exe">
+<meta property='og:description' content="Python 程序打包成 EXE 文件可以使用工具如 PyInstaller 将脚本转换为独立的可执行文件。">
+<meta property='og:url' content='//localhost:1313/p/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/index.md/'>
+<meta property='og:site_name' content='Zata-砸它'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-02-24T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-03-05T12:03:23&#43;08:00'/><meta property='og:image' content='//localhost:1313/p/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/index.md/image/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe.png' />
+<meta name="twitter:title" content="python程序打包exe">
+<meta name="twitter:description" content="Python 程序打包成 EXE 文件可以使用工具如 PyInstaller 将脚本转换为独立的可执行文件。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='//localhost:1313/p/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/index.md/image/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_f2420e0b32244fa9.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="//localhost:1313/">Zata-砸它</a></h1>
+            <h2 class="site-description"></h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/zata-zhangtao/ZataTree'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="//localhost:1313/en/" >English</option>
+                                
+                                    <option value="//localhost:1313/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#打包时需要特别注意的源码编写规范">打包时需要特别注意的源码编写规范</a>
+      <ol>
+        <li><a href="#11-依赖管理">1.1 依赖管理</a></li>
+        <li><a href="#12-动态导入处理">1.2 动态导入处理</a></li>
+        <li><a href="#13-平台兼容性">1.3 平台兼容性</a></li>
+        <li><a href="#14-文件路径处理">1.4 文件路径处理</a></li>
+        <li><a href="#15-图形界面兼容性">1.5 图形界面兼容性</a></li>
+        <li><a href="#16-第三方库限制">1.6 第三方库限制</a></li>
+        <li><a href="#17-运行时环境">1.7 运行时环境</a></li>
+      </ol>
+    </li>
+    <li><a href="#目录结构">目录结构</a></li>
+    <li><a href="#文件地址如何引用">文件地址如何引用</a>
+      <ol>
+        <li><a href="#相对导入">相对导入</a></li>
+        <li><a href="#绝对导入">绝对导入</a></li>
+        <li><a href="#注意事项">注意事项</a></li>
+      </ol>
+    </li>
+    <li><a href="#打包成一个文件">打包成一个文件</a></li>
+    <li><a href="#打包成多个文件软件启动速度会快点">打包成多个文件（软件启动速度会快点）</a></li>
+    <li><a href="#无控制台打包多文件">无控制台打包，多文件</a></li>
+    <li><a href="#其他参数">其他参数</a></li>
+    <li><a href="#使用配置文件spec打包">使用配置文件.spec打包</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#1-准备工作">1. 准备工作</a></li>
+    <li><a href="#2-传递参数">2. 传递参数</a></li>
+    <li><a href="#3-运行">3. 运行</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/index.md/">
+                <img src="/p/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/index.md/image/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe_hu_3b37def687d93d68.png"
+                        srcset="/p/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/index.md/image/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe_hu_3b37def687d93d68.png 800w, /p/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/index.md/image/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe_hu_225d6fdf0036050e.png 1600w"
+                        width="800" 
+                        height="450" 
+                        loading="lazy"
+                        alt="Featured image of post python程序打包exe" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/python/" >
+                Python
+            </a>
+        
+            <a href="/categories/library/" >
+                Library
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/index.md/">python程序打包exe</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Python 程序打包成 EXE 文件可以使用工具如 PyInstaller 将脚本转换为独立的可执行文件。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 24, 2025</time>
+            </div>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+            <time class="article-time--published">
+                最后修改于 Mar 05, 2025 12:03 CST
+            </time>
+        </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="python程序打包exe">Python程序打包exe
+</h1><p><span style="color: red;">如果打包成无控制台模式，你使用 YOUR_PROGRAM  运行程序时可能不报任何print。</span></p>
+<p><img src="/p/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/index.md/image/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe.jpg"
+	width="944"
+	height="4661"
+	srcset="/p/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/index.md/image/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe_hu_d0dda0c923a8f544.jpg 480w, /p/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/index.md/image/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe/python%E7%A8%8B%E5%BA%8F%E6%89%93%E5%8C%85exe_hu_6783a7e339f7dbfd.jpg 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="20"
+		data-flex-basis="48px"
+	
+></p>
+<h2 id="打包时需要特别注意的源码编写规范">打包时需要特别注意的源码编写规范
+</h2><p>除了基本的 Python 编码规范之外,在准备程序进行打包时,还需要特别注意以下几点:</p>
+<h3 id="11-依赖管理">1.1 依赖管理
+</h3><ul>
+<li>确保 <code>requirements.txt</code> 文件中列出了程序所有的依赖库</li>
+<li>检查依赖库的版本兼容性,避免打包后出现兼容性问题</li>
+<li>尽可能使用 <code>pip freeze &gt; requirements.txt</code> 自动生成依赖列表</li>
+</ul>
+<h3 id="12-动态导入处理">1.2 动态导入处理
+</h3><ul>
+<li>程序中如果使用了动态导入,需要确保 PyInstaller 能够正确识别并打包</li>
+<li>可以使用 <code>PyInstaller --hiddenimport</code> 选项手动指定隐藏依赖</li>
+</ul>
+<h3 id="13-平台兼容性">1.3 平台兼容性
+</h3><ul>
+<li>如果程序需要跨平台运行,需要确保代码本身具有良好的跨平台兼容性</li>
+<li>针对不同平台,可能需要使用条件编译或运行时检测来适配</li>
+</ul>
+<h3 id="14-文件路径处理">1.4 文件路径处理
+</h3><ul>
+<li>程序中涉及文件读写操作时,需要注意处理相对路径和绝对路径</li>
+<li>打包后的程序文件结构可能与开发环境不同,需要适当调整路径</li>
+</ul>
+<h3 id="15-图形界面兼容性">1.5 图形界面兼容性
+</h3><ul>
+<li>如果程序有图形界面,需要确保界面组件在打包后能正常工作</li>
+<li>可能需要额外打包一些 GUI 库的依赖项</li>
+</ul>
+<h3 id="16-第三方库限制">1.6 第三方库限制
+</h3><ul>
+<li>某些第三方库可能不支持 PyInstaller 打包,需要提前了解并做好替代方案</li>
+<li>对于不支持的库,可以考虑使用纯 Python 实现或寻找替代方案</li>
+</ul>
+<h3 id="17-运行时环境">1.7 运行时环境
+</h3><ul>
+<li>确保程序在打包后的运行环境下能正常工作,例如环境变量、系统依赖等</li>
+</ul>
+<h2 id="目录结构">目录结构
+</h2><p>典型的目录结构
+project_name/
+├── src/
+│   ├── <strong>init</strong>.py
+│   └── main.py
+├── tests/
+│   ├── <strong>init</strong>.py
+│   └── test_main.py
+├── resources/
+│   ├── config.ini
+│   └── images/
+├── requirements.txt
+├── setup.py
+└── README.md</p>
+<h2 id="文件地址如何引用">文件地址如何引用
+</h2><p>如果项目中使用到了文件</p>
+<h3 id="相对导入">相对导入
+</h3><p>在同一个包内部,可以使用相对导入的方式引用其他模块。
+pythonCopyfrom . import some_module
+from .subpackage import another_module</p>
+<h3 id="绝对导入">绝对导入
+</h3><p>跨包引用时,需要使用绝对导入的方式。
+pythonCopyfrom project_name.modules import some_module
+from project_name.subpackage import another_module</p>
+<h3 id="注意事项">注意事项
+</h3><p>避免循环导入问题,可以使用 <strong>main</strong> 进行条件导入。
+保持导入语句的位置在文件顶部。
+优先使用绝对导入,相对导入仅在同一包内部使用。</p>
+<h2 id="打包成一个文件">打包成一个文件
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pyinstaller  -F  main.py
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="打包成多个文件软件启动速度会快点">打包成多个文件（软件启动速度会快点）
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pyinstaller -D main.py
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="无控制台打包多文件">无控制台打包，多文件
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pyinstaller -D -w main.py
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="其他参数">其他参数
+</h2><p>我来为您介绍 PyInstaller 的常用打包参数：</p>
+<p>主要参数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">-F, --onefile       打包成一个独立的可执行文件
+</span></span><span class="line"><span class="cl">-D, --onedir        打包成一个文件夹(默认选项)
+</span></span><span class="line"><span class="cl">-w, --windowed      不显示命令行窗口(Windows系统)  
+</span></span><span class="line"><span class="cl">-c, --console       显示命令行窗口(默认,Windows系统)
+</span></span><span class="line"><span class="cl">-n NAME             指定生成的可执行文件名
+</span></span><span class="line"><span class="cl">--clean             在构建之前清理临时文件
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>常用可选参数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">--icon=&lt;FILE.ico&gt;   指定可执行文件的图标
+</span></span><span class="line"><span class="cl">--add-data         添加额外的数据文件 
+</span></span><span class="line"><span class="cl">--add-binary       添加额外的二进制文件
+</span></span><span class="line"><span class="cl">--paths            添加导入路径
+</span></span><span class="line"><span class="cl">--hidden-import    添加隐式导入的模块
+</span></span><span class="line"><span class="cl">--exclude-module   排除指定模块
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>高级参数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">--runtime-hook     指定运行时钩子脚本
+</span></span><span class="line"><span class="cl">--additional-hooks-dir  指定额外的钩子脚本目录  
+</span></span><span class="line"><span class="cl">--version-file     指定版本文件
+</span></span><span class="line"><span class="cl">--manifest         指定manifest文件(Windows)
+</span></span><span class="line"><span class="cl">--upx-dir          指定UPX压缩工具目录
+</span></span><span class="line"><span class="cl">--noupx            禁用UPX压缩
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 打包成单个可执行文件</span>
+</span></span><span class="line"><span class="cl">pyinstaller -F main.py
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 打包成单个文件并指定图标</span>
+</span></span><span class="line"><span class="cl">pyinstaller -F main.py --icon<span class="o">=</span>app.ico
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 打包时添加数据文件</span>
+</span></span><span class="line"><span class="cl">pyinstaller -F main.py --add-data <span class="s2">&#34;data:data&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 打包成文件夹并不显示控制台</span>
+</span></span><span class="line"><span class="cl">pyinstaller -D -w main.py
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="使用配置文件spec打包">使用配置文件.spec打包
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pyinstaller your_project.spec
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="打包好的exe-使用时传入参数">打包好的exe 使用时传入参数
+</h1><p>在开发桌面应用程序时,经常需要在打包为可执行文件(EXE)后,能够向它传递参数,以实现不同的功能。下面就讲解如何在将 Python 脚本打包为 EXE 文件后,仍然可以向其传递参数。
+<img src="https://i-blog.csdnimg.cn/direct/032785fd696e4d7c8e612876118bd46e.gif"
+	
+	
+	
+	loading="lazy"
+	
+		alt="在这里插入图片描述"
+	
+	
+></p>
+<h2 id="1-准备工作">1. 准备工作
+</h2><p>首先,我们需要有一个简单的 Python 脚本,用于演示如何传递参数。假设我们有一个名为 <code>main.py</code> 的文件,内容如下:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">arg1</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Argument passed: </span><span class="si">{</span><span class="n">arg1</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;No arguments passed.&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个脚本会检查命令行参数的数量,如果有参数传递,就会打印出第一个参数的值。</p>
+<p>接下来,我们需要使用 PyInstaller 将这个 Python 脚本打包为可执行文件(EXE)。为此,我们创建一个名为 <code>ExePack.py</code> 的文件,内容如下:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">PyInstaller.__main__</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">shutil</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">PyInstaller</span><span class="o">.</span><span class="n">__main__</span><span class="o">.</span><span class="n">run</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;main.py&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;--onefile&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;--name=MyApp&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;--distpath=dist&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;--workpath=build&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;--specpath=.&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;--noconsole&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 删除 build 文件夹</span>
+</span></span><span class="line"><span class="cl"><span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="s1">&#39;build&#39;</span><span class="p">,</span> <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 删除 .spec 文件</span>
+</span></span><span class="line"><span class="cl"><span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;MyApp.spec&#39;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个脚本使用 PyInstaller 将 <code>main.py</code> 打包为一个名为 <code>MyApp.exe</code> 的可执行文件,并输出到 <code>dist</code> 文件夹。</p>
+<h2 id="2-传递参数">2. 传递参数
+</h2><p>现在,我们需要编写一个脚本,用于运行打包好的 EXE 文件并传递参数。创建一个名为 <code>args2exe.py</code> 的文件,内容如下:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">subprocess</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">run_exe_with_args</span><span class="p">(</span><span class="n">exe_path</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;运行 exe 文件并传入参数&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">exe_path</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;文件不存在: </span><span class="si">{</span><span class="n">exe_path</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="n">exe_path</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;标准输出:&#34;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exe_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;dist&#39;</span><span class="p">,</span> <span class="s1">&#39;MyApp.exe&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">run_exe_with_args</span><span class="p">(</span><span class="n">exe_path</span><span class="p">,</span> <span class="s1">&#39;参数1&#39;</span><span class="p">,</span> <span class="s1">&#39;参数2&#39;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个脚本定义了一个 <code>run_exe_with_args</code> 函数,用于运行打包好的 EXE 文件并传递参数。在 <code>if __name__ == '__main__'</code> 部分,我们调用这个函数,传递 <code>'参数1'</code> 和 <code>'参数2'</code> 作为参数。</p>
+<h2 id="3-运行">3. 运行
+</h2><ol>
+<li>首先,运行 <code>ExePack.py</code> 脚本,将 <code>main.py</code> 打包为 <code>MyApp.exe</code> 可执行文件。</li>
+<li>然后,运行 <code>args2exe.py</code> 脚本。这将启动 <code>MyApp.exe</code> 并传递参数 <code>'参数1'</code> 和 <code>'参数2'</code>。</li>
+</ol>
+<p>在控制台上,你应该能看到以下输出:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Argument passed: 参数1
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这就是在打包好的 EXE 文件中传递参数的方法。通过使用 <code>subprocess</code> 模块,我们可以运行 EXE 文件并向其传递参数,从而实现更灵活的应用程序功能。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后修改于 Mar 05, 2025 12:03 CST
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/fastapi%E4%BD%BF%E7%94%A8/index.md/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">FASTAPI使用相关问题</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E8%BD%AF%E4%BB%B6%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0/index.md/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E8%BD%AF%E4%BB%B6%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0/index.md/image/index/index.207963c185410faa872ca2293081d5fe_hu_76705b7db5611cf6.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 软件自动更新"
+                        data-key="软件自动更新/index.md" 
+                        data-hash="md5-IHljwYVBD6qHLKIpMIHV/g==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">软件自动更新</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E7%B1%BB/index.md/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">python语法-类-类变量和实例变量</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="zata-zhangtao/ZataTree"
+    data-repo-id="R_kgDON7mZJg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDON7mZJs4Cnk-l"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2025 Example Person
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.d2e1bb8da704fd56f67fd39fe2d77b41bd20a01559d1c24b7fd99ed4102cd281.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<style>
+    .highlight {
+        max-height: 400px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: 0 auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        display: block;
+        margin: 0 auto;
+        width: 22px;
+        height: 16px;
+    }
+
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url(/icons/backtop.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+
+<script>
+    function initCodeMoreBox() {
+        try {
+            const codeBlocks = document.querySelectorAll(".highlight");
+            if (!codeBlocks.length) return;
+
+            codeBlocks.forEach(codeBlock => {
+                if (codeBlock.scrollHeight <= codeBlock.clientHeight) return;
+
+                const codeMoreBox = document.createElement('div');
+                codeMoreBox.classList.add('code-more-box');
+
+                const codeMoreBtn = document.createElement('span');
+                codeMoreBtn.classList.add('code-more-btn');
+
+                const img = document.createElement('img');
+                img.classList.add('code-more-img');
+                img.src = "\/icons\/codemore.png";
+                img.alt = 'Show more';
+
+                codeMoreBtn.addEventListener('click', () => {
+                    codeBlock.classList.add('code-show');
+                    codeMoreBox.style.display = 'none';
+                    window.dispatchEvent(new Event('resize'));
+                });
+
+                codeMoreBtn.appendChild(img);
+                codeMoreBox.appendChild(codeMoreBtn);
+                codeBlock.appendChild(codeMoreBox);
+            });
+        } catch (error) {
+            console.error('Error in initCodeMoreBox:', error);
+        }
+    }
+
+    function initScrollTop() {
+        try {
+            const rightSideBar = document.querySelector(".right-sidebar");
+            if (!rightSideBar) {
+                console.warn('Right sidebar not found');
+                return;
+            }
+
+            const btn = document.createElement("div");
+            btn.id = "backTopBtn";
+            btn.onclick = backToTop;
+            rightSideBar.appendChild(btn);
+
+            window.onscroll = function () {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    btn.style.display = "block";
+                } else {
+                    btn.style.display = "none";
+                }
+            };
+        } catch (error) {
+            console.error('Error in initScrollTop:', error);
+        }
+    }
+
+    function backToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initCodeMoreBox();
+        initScrollTop();
+    });
+</script>
+    </body>
+</html>

@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content=" 效果就是每天8点去自动签到 使用Cookie进行自动登录（简单，但是很容易因为Cookie过期而需要重新获取Cookie更新）\rCookie的获取\r参考： https://www.diuber.com/cookie/\n首先需要获取Cookie，这个Cookie是登录之后的Cookie，登录之后的Cookie是在浏览器的开发者工具中获取的，具体方法如下：\n打开浏览器，登录mx的账号 打开浏览器的开发者工具，在Network中找到请求的接口，点击请求的接口，在Headers中找到Cookie，复制Cookie 签到的代码\r1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 # mx_checkin.py import requests import schedule import time from datetime import datetime Cookie = os.environ.get(&#34;MX_COOKIE&#34;) # 把Cookie放置在action的环境变量中,例如这里是MX_COOKIE # 签到函数 def checkin(): # 替换为实际的签到接口 URL url = XXXXX # 准备请求头（可能需要 Cookie 或 Token 来验证身份） headers = { &#34;User-Agent&#34;: &#34;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36&#34;, &#34;Content-Type&#34;: &#34;application/json&#34;, # 如果需要登录凭证，可以在这里添加 Cookie 或 Authorization &#34;Cookie&#34;: Cookie, # &#34;Authorization&#34;: &#34;Bearer your_token_here&#34; } # 准备请求数据（根据实际接口要求调整） data = { &#34;userId&#34;: &#34;your-user-id&#34;, # 替换为你的用户 ID &#34;timestamp&#34;: int(time.time()) # 可选：发送当前时间戳 } try: # 发送签到请求 response = requests.post(url, headers=headers) response_json = response.json() # 检查签到是否成功 if response.status_code == 200 : print(f&#34;{datetime.now()} 签到成功：{response_json.get(&#39;msg&#39;)}&#34;) else: print(f&#34;{datetime.now()} 签到失败：{response_json.get(&#39;msg&#39;)}&#34;) except Exception as e: print(f&#34;{datetime.now()} 签到请求失败：{str(e)}&#34;) # 脚本主循环 if __name__ == &#34;__main__&#34;: print(&#34;自动签到脚本已启动...&#34;) # 首次运行时立即签到（可选） checkin() 代码写好之后可以先在本地测试，保证测试ok\n">
+<title>一个自动签到的py并且使用github action每日执行</title>
+
+<link rel='canonical' href='//localhost:1313/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/'>
+
+<link rel="stylesheet" href="/scss/style.min.b9c8156d464c343bdacaf14a871581fb94cbbdb9dd5cbce4ba017361187cc930.css"><meta property='og:title' content="一个自动签到的py并且使用github action每日执行">
+<meta property='og:description' content=" 效果就是每天8点去自动签到 使用Cookie进行自动登录（简单，但是很容易因为Cookie过期而需要重新获取Cookie更新）\rCookie的获取\r参考： https://www.diuber.com/cookie/\n首先需要获取Cookie，这个Cookie是登录之后的Cookie，登录之后的Cookie是在浏览器的开发者工具中获取的，具体方法如下：\n打开浏览器，登录mx的账号 打开浏览器的开发者工具，在Network中找到请求的接口，点击请求的接口，在Headers中找到Cookie，复制Cookie 签到的代码\r1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 # mx_checkin.py import requests import schedule import time from datetime import datetime Cookie = os.environ.get(&#34;MX_COOKIE&#34;) # 把Cookie放置在action的环境变量中,例如这里是MX_COOKIE # 签到函数 def checkin(): # 替换为实际的签到接口 URL url = XXXXX # 准备请求头（可能需要 Cookie 或 Token 来验证身份） headers = { &#34;User-Agent&#34;: &#34;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36&#34;, &#34;Content-Type&#34;: &#34;application/json&#34;, # 如果需要登录凭证，可以在这里添加 Cookie 或 Authorization &#34;Cookie&#34;: Cookie, # &#34;Authorization&#34;: &#34;Bearer your_token_here&#34; } # 准备请求数据（根据实际接口要求调整） data = { &#34;userId&#34;: &#34;your-user-id&#34;, # 替换为你的用户 ID &#34;timestamp&#34;: int(time.time()) # 可选：发送当前时间戳 } try: # 发送签到请求 response = requests.post(url, headers=headers) response_json = response.json() # 检查签到是否成功 if response.status_code == 200 : print(f&#34;{datetime.now()} 签到成功：{response_json.get(&#39;msg&#39;)}&#34;) else: print(f&#34;{datetime.now()} 签到失败：{response_json.get(&#39;msg&#39;)}&#34;) except Exception as e: print(f&#34;{datetime.now()} 签到请求失败：{str(e)}&#34;) # 脚本主循环 if __name__ == &#34;__main__&#34;: print(&#34;自动签到脚本已启动...&#34;) # 首次运行时立即签到（可选） checkin() 代码写好之后可以先在本地测试，保证测试ok\n">
+<meta property='og:url' content='//localhost:1313/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/'>
+<meta property='og:site_name' content='Zata-砸它'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='git&amp;github' /><meta property='article:tag' content='爬虫' /><meta property='article:published_time' content='2025-03-03T14:40:00&#43;08:00'/><meta property='article:modified_time' content='2025-03-05T11:04:47&#43;08:00'/><meta property='og:image' content='//localhost:1313/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/image/index/index.png' />
+<meta name="twitter:title" content="一个自动签到的py并且使用github action每日执行">
+<meta name="twitter:description" content=" 效果就是每天8点去自动签到 使用Cookie进行自动登录（简单，但是很容易因为Cookie过期而需要重新获取Cookie更新）\rCookie的获取\r参考： https://www.diuber.com/cookie/\n首先需要获取Cookie，这个Cookie是登录之后的Cookie，登录之后的Cookie是在浏览器的开发者工具中获取的，具体方法如下：\n打开浏览器，登录mx的账号 打开浏览器的开发者工具，在Network中找到请求的接口，点击请求的接口，在Headers中找到Cookie，复制Cookie 签到的代码\r1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 # mx_checkin.py import requests import schedule import time from datetime import datetime Cookie = os.environ.get(&#34;MX_COOKIE&#34;) # 把Cookie放置在action的环境变量中,例如这里是MX_COOKIE # 签到函数 def checkin(): # 替换为实际的签到接口 URL url = XXXXX # 准备请求头（可能需要 Cookie 或 Token 来验证身份） headers = { &#34;User-Agent&#34;: &#34;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36&#34;, &#34;Content-Type&#34;: &#34;application/json&#34;, # 如果需要登录凭证，可以在这里添加 Cookie 或 Authorization &#34;Cookie&#34;: Cookie, # &#34;Authorization&#34;: &#34;Bearer your_token_here&#34; } # 准备请求数据（根据实际接口要求调整） data = { &#34;userId&#34;: &#34;your-user-id&#34;, # 替换为你的用户 ID &#34;timestamp&#34;: int(time.time()) # 可选：发送当前时间戳 } try: # 发送签到请求 response = requests.post(url, headers=headers) response_json = response.json() # 检查签到是否成功 if response.status_code == 200 : print(f&#34;{datetime.now()} 签到成功：{response_json.get(&#39;msg&#39;)}&#34;) else: print(f&#34;{datetime.now()} 签到失败：{response_json.get(&#39;msg&#39;)}&#34;) except Exception as e: print(f&#34;{datetime.now()} 签到请求失败：{str(e)}&#34;) # 脚本主循环 if __name__ == &#34;__main__&#34;: print(&#34;自动签到脚本已启动...&#34;) # 首次运行时立即签到（可选） checkin() 代码写好之后可以先在本地测试，保证测试ok\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='//localhost:1313/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/image/index/index.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_f2420e0b32244fa9.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="//localhost:1313/">Zata-砸它</a></h1>
+            <h2 class="site-description"></h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/zata-zhangtao/ZataTree'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="//localhost:1313/en/" >English</option>
+                                
+                                    <option value="//localhost:1313/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#使用cookie进行自动登录简单但是很容易因为cookie过期而需要重新获取cookie更新">使用Cookie进行自动登录（简单，但是很容易因为Cookie过期而需要重新获取Cookie更新）</a>
+      <ol>
+        <li><a href="#cookie的获取">Cookie的获取</a></li>
+        <li><a href="#签到的代码">签到的代码</a></li>
+        <li><a href="#github-action的工作流配置">github action的工作流配置</a></li>
+        <li><a href="#requirementstxt">requirements.txt</a></li>
+        <li><a href="#设置仓库密钥">设置仓库密钥</a></li>
+      </ol>
+    </li>
+    <li><a href="#使用账号密码进行自动登录复杂但是可以避免cookie过期的问题">使用账号密码进行自动登录（复杂，但是可以避免Cookie过期的问题）</a>
+      <ol>
+        <li><a href="#找到登录的接口">找到登录的接口</a></li>
+        <li><a href="#代码">代码</a></li>
+        <li><a href="#设置仓库密钥-1">设置仓库密钥</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/">
+                <img src="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/image/index/index_hu_f8ff56932a47252d.png"
+                        srcset="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/image/index/index_hu_f8ff56932a47252d.png 800w, /p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/image/index/index_hu_572c275f0649412c.png 1600w"
+                        width="800" 
+                        height="381" 
+                        loading="lazy"
+                        alt="Featured image of post 一个自动签到的py并且使用github action每日执行" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/projectapplication/" >
+                Project&amp;Application
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/">一个自动签到的py并且使用github action每日执行</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 03, 2025</time>
+            </div>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+            <time class="article-time--published">
+                最后修改于 Mar 05, 2025 11:04 CST
+            </time>
+        </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><img src="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/image/index/index.png"
+	width="693"
+	height="330"
+	srcset="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/image/index/index_hu_622d6ec24bad3c4b.png 480w, /p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/image/index/index_hu_61e7510f5b74a350.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="210"
+		data-flex-basis="504px"
+	
+>
+效果就是每天8点去自动签到
+<img src="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/image/index/index.jpg"
+	width="1912"
+	height="954"
+	srcset="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/image/index/index_hu_ade4eac661ed9f42.jpg 480w, /p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/image/index/index_hu_ccc75e0b666208b9.jpg 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="200"
+		data-flex-basis="481px"
+	
+></p>
+<h2 id="使用cookie进行自动登录简单但是很容易因为cookie过期而需要重新获取cookie更新">使用Cookie进行自动登录（简单，但是很容易因为Cookie过期而需要重新获取Cookie更新）
+</h2><h3 id="cookie的获取">Cookie的获取
+</h3><p>参考：
+<a class="link" href="https://www.diuber.com/cookie/"  target="_blank" rel="noopener"
+    >https://www.diuber.com/cookie/</a></p>
+<p>首先需要获取Cookie，这个Cookie是登录之后的Cookie，登录之后的Cookie是在浏览器的开发者工具中获取的，具体方法如下：</p>
+<ol>
+<li>打开浏览器，登录mx的账号</li>
+<li>打开浏览器的开发者工具，在Network中找到请求的接口，点击请求的接口，在Headers中找到Cookie，复制Cookie</li>
+</ol>
+<h3 id="签到的代码">签到的代码
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="c1"># mx_checkin.py</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">schedule</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">time</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cookie</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;MX_COOKIE&#34;</span><span class="p">)</span>  <span class="c1"># 把Cookie放置在action的环境变量中,例如这里是MX_COOKIE</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 签到函数</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">checkin</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 替换为实际的签到接口 URL</span>
+</span></span><span class="line"><span class="cl">    <span class="n">url</span> <span class="o">=</span> <span class="n">XXXXX</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 准备请求头（可能需要 Cookie 或 Token 来验证身份）</span>
+</span></span><span class="line"><span class="cl">    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;User-Agent&#34;</span><span class="p">:</span> <span class="s2">&#34;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Content-Type&#34;</span><span class="p">:</span> <span class="s2">&#34;application/json&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 如果需要登录凭证，可以在这里添加 Cookie 或 Authorization</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Cookie&#34;</span><span class="p">:</span> <span class="n">Cookie</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># &#34;Authorization&#34;: &#34;Bearer your_token_here&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 准备请求数据（根据实际接口要求调整）</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;userId&#34;</span><span class="p">:</span> <span class="s2">&#34;your-user-id&#34;</span><span class="p">,</span>  <span class="c1"># 替换为你的用户 ID</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;timestamp&#34;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>  <span class="c1"># 可选：发送当前时间戳</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 发送签到请求</span>
+</span></span><span class="line"><span class="cl">        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">response_json</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 检查签到是否成功</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span> <span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s2"> 签到成功：</span><span class="si">{</span><span class="n">response_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;msg&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s2"> 签到失败：</span><span class="si">{</span><span class="n">response_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;msg&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s2"> 签到请求失败：</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 脚本主循环</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;自动签到脚本已启动...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 首次运行时立即签到（可选）</span>
+</span></span><span class="line"><span class="cl">    <span class="n">checkin</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>代码写好之后可以先在本地测试，保证测试ok</p>
+<h3 id="github-action的工作流配置">github action的工作流配置
+</h3><p>关于github action的内容，可以查看我的文章  <a class="link" href="../2-github-action-%e4%bd%bf%e7%94%a8/" ><code>github action使用</code></a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># mx_checkin.yml
+</span></span><span class="line"><span class="cl">name: mx_checkin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">on:
+</span></span><span class="line"><span class="cl">  schedule:
+</span></span><span class="line"><span class="cl">    # 此处是UTC时间，对应北京时间早八点
+</span></span><span class="line"><span class="cl">    - cron : &#39;00 00 * * *&#39;
+</span></span><span class="line"><span class="cl">  workflow_dispatch:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">permissions:
+</span></span><span class="line"><span class="cl">  contents: read
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">jobs:
+</span></span><span class="line"><span class="cl">  build:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    runs-on: ubuntu-latest
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    steps:
+</span></span><span class="line"><span class="cl">    - uses: actions/checkout@v3
+</span></span><span class="line"><span class="cl">    - name: Set up Python 3.12
+</span></span><span class="line"><span class="cl">      uses: actions/setup-python@v3
+</span></span><span class="line"><span class="cl">      with:
+</span></span><span class="line"><span class="cl">        python-version: &#34;3.12&#34;
+</span></span><span class="line"><span class="cl">    - name: Install dependencies
+</span></span><span class="line"><span class="cl">      run: |
+</span></span><span class="line"><span class="cl">        python -m pip install --upgrade pip
+</span></span><span class="line"><span class="cl">        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+</span></span><span class="line"><span class="cl">    - name: Run checkin script
+</span></span><span class="line"><span class="cl">      run: |
+</span></span><span class="line"><span class="cl">        python mx_checkin.py
+</span></span><span class="line"><span class="cl">      env:
+</span></span><span class="line"><span class="cl">        MX_COOKIE: ${{ secrets.MX_COOKIE }}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="requirementstxt">requirements.txt
+</h3><p>把需要的库写在这个文件中</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">requests
+</span></span><span class="line"><span class="cl">schedule
+</span></span><span class="line"><span class="cl">datetime
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="设置仓库密钥">设置仓库密钥
+</h3><p><img src="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/image/index/index-1.jpg"
+	width="1912"
+	height="954"
+	srcset="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/image/index/index-1_hu_85f5cd37cfc4389a.jpg 480w, /p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/image/index/index-1_hu_820958c776323b54.jpg 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="200"
+		data-flex-basis="481px"
+	
+></p>
+<p>把前面Cookie 填进去 <strong>粘贴过来的时候可以把引号去掉，我记得是不用加引号的，如果发现自己电脑上面测试可以，Action不行的话可以再试试加引号</strong></p>
+<hr>
+<p>上面的方法很受限于网站对于cookie的验证，如果网站对cookie验证过于严格，可以尝试下面的方法。</p>
+<h2 id="使用账号密码进行自动登录复杂但是可以避免cookie过期的问题">使用账号密码进行自动登录（复杂，但是可以避免Cookie过期的问题）
+</h2><p>这里我只是给了一个简单的配置，很多网站登录的时候可能会多重验证，那就麻烦了&hellip;.</p>
+<h3 id="找到登录的接口">找到登录的接口
+</h3><p>当然每个网站不一样，不能一概而论</p>
+<p><img src="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/images/index/index.png"
+	width="704"
+	height="810"
+	srcset="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/images/index/index_hu_bc9f8ccbf924a380.png 480w, /p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/images/index/index_hu_2b911aa55e3e5b22.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="86"
+		data-flex-basis="208px"
+	
+></p>
+<h3 id="代码">代码
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="c1"># checkin</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">schedule</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">time</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">json</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
+</span></span><span class="line"><span class="cl"><span class="n">load_dotenv</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">refresh_cookie</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;刷新 Cookie 的逻辑（需要根据实际网站实现）&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">global</span> <span class="n">Cookie</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 替换为实际的登录 URL 和登录数据</span>
+</span></span><span class="line"><span class="cl">        <span class="n">login_url</span> <span class="o">=</span> <span class="s2">&#34;https://mxwljsq.top/auth/login&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">login_data</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;email&#34;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;MX_EMAIL&#34;</span><span class="p">),</span>  <span class="c1"># 从环境变量获取邮箱</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;passwd&#34;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;MX_PASSWORD&#34;</span><span class="p">),</span>  <span class="c1"># 从环境变量获取密码</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">login_data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;User-Agent&#34;</span><span class="p">:</span> <span class="s2">&#34;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Content-Type&#34;</span><span class="p">:</span> <span class="s2">&#34;application/x-www-form-urlencoded&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># exit()</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 发送登录请求</span>
+</span></span><span class="line"><span class="cl">        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">login_url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">login_data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 假设登录成功后 Cookie 在响应头中返回</span>
+</span></span><span class="line"><span class="cl">            <span class="n">new_cookie</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">get_dict</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Cookie</span> <span class="o">=</span> <span class="s2">&#34;; &#34;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&#34;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">new_cookie</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s2"> Cookie 刷新成功&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s2"> Cookie 刷新失败：</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s2"> Cookie 刷新异常：</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">checkin</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">refresh_cookie</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">global</span> <span class="n">Cookie</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">Cookie</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Cookie 为空，请先刷新 Cookie&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">    <span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;https://mxwljsq.top/user/checkin&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;User-Agent&#34;</span><span class="p">:</span> <span class="s2">&#34;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Content-Type&#34;</span><span class="p">:</span> <span class="s2">&#34;application/json&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Cookie&#34;</span><span class="p">:</span> <span class="n">Cookie</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">response_json</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s2"> 签到成功：</span><span class="si">{</span><span class="n">response_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;msg&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s2"> 签到失败：</span><span class="si">{</span><span class="n">response_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;msg&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 如果是登录失效，尝试刷新 Cookie</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s2"> 签到请求失败：</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;自动签到脚本已启动...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 加载本地 Cookie，如果没有则使用环境变量中的</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 首次运行立即签到</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s2"> 开始执行签到任务...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">checkin</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># mx_checkin.yml</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mx_checkin</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">schedule</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># 此处是UTC时间，对应北京时间早八点</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">cron </span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;00 00 * * *&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">workflow_dispatch</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">permissions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l">read</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">jobs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">build</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l">ubuntu-latest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/checkout@v3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Set up Python 3.12</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/setup-python@v3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">with</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3.12&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Install dependencies</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">        python -m pip install --upgrade pip
+</span></span></span><span class="line"><span class="cl"><span class="sd">        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Run checkin script</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">        python mx_checkin.py</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">env</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">MX_EMAIL</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.MX_EMAIL }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">MX_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.MX_PASSWORD }}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="设置仓库密钥-1">设置仓库密钥
+</h3><p><img src="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/images/index/index-1.png"
+	width="1240"
+	height="768"
+	srcset="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/images/index/index-1_hu_5442f61c48fca0f6.png 480w, /p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/images/index/index-1_hu_9f897ed72a197fb2.png 1024w"
+	loading="lazy"
+	
+		alt="设置仓库密钥"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="161"
+		data-flex-basis="387px"
+	
+></p>
+<p>这里是肯定不需要加引号的，因为邮箱和密码都是字符串，加引号的话会被认为是字符串。（我试过了）</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/gitgithub/">Git&amp;github</a>
+        
+            <a href="/tags/%E7%88%AC%E8%99%AB/">爬虫</a>
+        
+    </section>
+
+
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后修改于 Mar 05, 2025 11:04 CST
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/1-%E7%88%AC%E8%99%AB%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">1-爬虫的知识点</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/2-github-action-%E4%BD%BF%E7%94%A8/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">2-github action 使用</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/gitgithub/index.md/">
+        
+        
+            <div class="article-image">
+                <img src="/p/gitgithub/index.md/image/index/index.0ed19dcd46dcd95913e4129e6d1090bb_hu_49a5bb9cb2d64579.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 1-git&amp;github使用"
+                        data-key="git&amp;github/index.md" 
+                        data-hash="md5-DtGdzUbc2VkT5BKebRCQuw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">1-git&amp;github使用</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">
+        
+        
+            <div class="article-image">
+                <img src="/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/images/index/index.25a3513cb07bcf1167828f4236e1d109_hu_550ae3c0d7db4162.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 5-引入 Giscus 评论系统"
+                        
+                        data-hash="md5-JaNRPLB7zxFngo9CNuHRCQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">5-引入 Giscus 评论系统</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/postman/">
+        
+        
+            <div class="article-image">
+                <img src="/p/postman/images/index/index.0bd64898bfd91eece3cb76fe199dda91_hu_5226f666a5a4c0f6.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post postman"
+                        
+                        data-hash="md5-C9ZImL/ZHuzjy3b&#43;GZ3akQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">postman</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="zata-zhangtao/ZataTree"
+    data-repo-id="R_kgDON7mZJg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDON7mZJs4Cnk-l"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2025 Example Person
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.d2e1bb8da704fd56f67fd39fe2d77b41bd20a01559d1c24b7fd99ed4102cd281.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<style>
+    .highlight {
+        max-height: 400px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: 0 auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        display: block;
+        margin: 0 auto;
+        width: 22px;
+        height: 16px;
+    }
+
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url(/icons/backtop.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+
+<script>
+    function initCodeMoreBox() {
+        try {
+            const codeBlocks = document.querySelectorAll(".highlight");
+            if (!codeBlocks.length) return;
+
+            codeBlocks.forEach(codeBlock => {
+                if (codeBlock.scrollHeight <= codeBlock.clientHeight) return;
+
+                const codeMoreBox = document.createElement('div');
+                codeMoreBox.classList.add('code-more-box');
+
+                const codeMoreBtn = document.createElement('span');
+                codeMoreBtn.classList.add('code-more-btn');
+
+                const img = document.createElement('img');
+                img.classList.add('code-more-img');
+                img.src = "\/icons\/codemore.png";
+                img.alt = 'Show more';
+
+                codeMoreBtn.addEventListener('click', () => {
+                    codeBlock.classList.add('code-show');
+                    codeMoreBox.style.display = 'none';
+                    window.dispatchEvent(new Event('resize'));
+                });
+
+                codeMoreBtn.appendChild(img);
+                codeMoreBox.appendChild(codeMoreBtn);
+                codeBlock.appendChild(codeMoreBox);
+            });
+        } catch (error) {
+            console.error('Error in initCodeMoreBox:', error);
+        }
+    }
+
+    function initScrollTop() {
+        try {
+            const rightSideBar = document.querySelector(".right-sidebar");
+            if (!rightSideBar) {
+                console.warn('Right sidebar not found');
+                return;
+            }
+
+            const btn = document.createElement("div");
+            btn.id = "backTopBtn";
+            btn.onclick = backToTop;
+            rightSideBar.appendChild(btn);
+
+            window.onscroll = function () {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    btn.style.display = "block";
+                } else {
+                    btn.style.display = "none";
+                }
+            };
+        } catch (error) {
+            console.error('Error in initScrollTop:', error);
+        }
+    }
+
+    function backToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initCodeMoreBox();
+        initScrollTop();
+    });
+</script>
+    </body>
+</html>

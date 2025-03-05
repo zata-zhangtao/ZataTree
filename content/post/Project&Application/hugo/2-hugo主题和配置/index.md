@@ -7,7 +7,7 @@ categories:
     # - DeepLearning
     # - Chart
     # - Python
-    # - LLM
+    # - LLMhttps://letere-gzj.github.io/hugo-stack/
     # - Library
     # - PaperReading
     - Project&Application
@@ -16,6 +16,14 @@ tags:
     - Blog
 
 ---
+
+
+<span style="color:red">
+参考<br>
+https://letere-gzj.github.io/hugo-stack/
+</span>
+
+
 
 
 ## 可能遇到的问题
@@ -474,7 +482,7 @@ run: |
     git config --global core.ignorecase false      
 ```    
 
-![alt text](images/index/index-1.png)
+![代码修改位置](images/index/index-1.png)
 
 这些配置确保Git在构建过程中能够正确处理文件路径和换行符等问题，避免因环境差异导致的异常。   
 core.quotePath false：确保特殊字符的文件名不会被转义。   
@@ -482,4 +490,228 @@ core.autocrlf false：避免换行符转换问题（不同系统可能处理不�
 core.safecrlf true：确保换行符处理安全。   
 core.ignorecase false：保持文件名大小写敏感。   
 这些设置虽然不直接决定.Lastmod，但能确保Git仓库的行为一致，避免潜在问题。   
+
+
+### 代码块过长折叠&展开
+1. 准备一张图片作为代码展开的按钮，放到assets/icons文件夹下，并命名为codeMore.png
+2. 将下面代码复制粘贴到layouts/partials/footer/custom.html中(文件没有就新建)，有报错不要管
+```html
+<style>
+    .highlight {
+        /* 你可以根据需要调整这个高度 */
+        max-height: 400px;
+        overflow: hidden;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(#fff));
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        cursor: pointer !important;
+        display: block;
+        margin: auto;
+        width: 22px;
+        height: 16px;
+    }
+</style>
+
+<script>
+  function initCodeMoreBox() {
+    let codeBlocks = document.querySelectorAll(".highlight");
+    if (!codeBlocks) {
+      return;
+    }
+    codeBlocks.forEach(codeBlock => {
+      // 校验是否overflow
+      if (codeBlock.scrollHeight <= codeBlock.clientHeight) {
+        return;
+      }
+      // 元素初始化
+      // codeMoreBox
+      let codeMoreBox = document.createElement('div');
+      codeMoreBox.classList.add('code-more-box');
+      // codeMoreBtn
+      let codeMoreBtn = document.createElement('span');
+      codeMoreBtn.classList.add('code-more-btn');
+      codeMoreBtn.addEventListener('click', () => {
+        codeBlock.classList.add('code-show');
+        codeMoreBox.style.display = 'none';
+        // 触发resize事件，重新计算目录位置
+        window.dispatchEvent(new Event('resize'))
+      })
+      // img
+      let img = document.createElement('img');
+      img.classList.add('code-more-img');
+      img.src = {{ (resources.Get "icons/codemore.png").Permalink }}
+      // 元素添加
+      codeMoreBtn.appendChild(img);
+      codeMoreBox.appendChild(codeMoreBtn);
+      codeBlock.appendChild(codeMoreBox)
+    })
+  }
+  
+  initCodeMoreBox();
+</script>
+
+```
+![挖掘机图片作为展开按钮](images/index/index-7.png)
+![文件绝对位置](images/index/index-6.png)
+
+###  添加’返回顶部’按钮
+
+
+1. 图片还是和代码块过长一样放在/assets/icons文件夹下，命名为backtop.png
+2. 修改layouts/partials/footer/custom.html文件，下面的代码是直接在代码块折叠的基础上又加了返回最顶按钮.粘贴代码一样也是，vscode报错也别理
+```html
+<style>
+    .highlight {
+        max-height: 400px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: 0 auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        display: block;
+        margin: 0 auto;
+        width: 22px;
+        height: 16px;
+    }
+
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url({{ (resources.Get "icons/backtop.png").RelPermalink }});
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+
+<script>
+    function initCodeMoreBox() {
+        try {
+            const codeBlocks = document.querySelectorAll(".highlight");
+            if (!codeBlocks.length) return;
+
+            codeBlocks.forEach(codeBlock => {
+                if (codeBlock.scrollHeight <= codeBlock.clientHeight) return;
+
+                const codeMoreBox = document.createElement('div');
+                codeMoreBox.classList.add('code-more-box');
+
+                const codeMoreBtn = document.createElement('span');
+                codeMoreBtn.classList.add('code-more-btn');
+
+                const img = document.createElement('img');
+                img.classList.add('code-more-img');
+                img.src = "{{ (resources.Get "icons/codemore.png").RelPermalink }}";
+                img.alt = 'Show more';
+
+                codeMoreBtn.addEventListener('click', () => {
+                    codeBlock.classList.add('code-show');
+                    codeMoreBox.style.display = 'none';
+                    window.dispatchEvent(new Event('resize'));
+                });
+
+                codeMoreBtn.appendChild(img);
+                codeMoreBox.appendChild(codeMoreBtn);
+                codeBlock.appendChild(codeMoreBox);
+            });
+        } catch (error) {
+            console.error('Error in initCodeMoreBox:', error);
+        }
+    }
+
+    function initScrollTop() {
+        try {
+            const rightSideBar = document.querySelector(".right-sidebar");
+            if (!rightSideBar) {
+                console.warn('Right sidebar not found');
+                return;
+            }
+
+            const btn = document.createElement("div");
+            btn.id = "backTopBtn";
+            btn.onclick = backToTop;
+            rightSideBar.appendChild(btn);
+
+            window.onscroll = function () {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    btn.style.display = "block";
+                } else {
+                    btn.style.display = "none";
+                }
+            };
+        } catch (error) {
+            console.error('Error in initScrollTop:', error);
+        }
+    }
+
+    function backToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initCodeMoreBox();
+        initScrollTop();
+    });
+</script>
+```
+![小火箭图标](images/index/index-8.png)
+![代码粘贴位置](images/index/index-5.png)
 

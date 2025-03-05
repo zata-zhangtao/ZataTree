@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Categories on Zata-砸它</title>
+        <link>//localhost:1313/categories/</link>
+        <description>Recent content in Categories on Zata-砸它</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>Example Person</copyright>
+        <lastBuildDate>Wed, 05 Mar 2025 14:51:43 +0800</lastBuildDate><atom:link href="//localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Project&amp;Application</title>
+        <link>//localhost:1313/categories/projectapplication/</link>
+        <pubDate>Wed, 05 Mar 2025 14:46:18 +0800</pubDate>
+        
+        <guid>//localhost:1313/categories/projectapplication/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Knowledge</title>
+        <link>//localhost:1313/categories/knowledge/</link>
+        <pubDate>Wed, 05 Mar 2025 11:49:38 +0800</pubDate>
+        
+        <guid>//localhost:1313/categories/knowledge/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Library</title>
+        <link>//localhost:1313/categories/library/</link>
+        <pubDate>Fri, 28 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/categories/library/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Python</title>
+        <link>//localhost:1313/categories/python/</link>
+        <pubDate>Fri, 28 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/categories/python/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Study</title>
+        <link>//localhost:1313/categories/study/</link>
+        <pubDate>Fri, 28 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/categories/study/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Web</title>
+        <link>//localhost:1313/categories/web/</link>
+        <pubDate>Fri, 28 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/categories/web/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Chart</title>
+        <link>//localhost:1313/categories/chart/</link>
+        <pubDate>Mon, 24 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/categories/chart/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>DeepLearning</title>
+        <link>//localhost:1313/categories/deeplearning/</link>
+        <pubDate>Mon, 24 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/categories/deeplearning/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>LLM</title>
+        <link>//localhost:1313/categories/llm/</link>
+        <pubDate>Mon, 24 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/categories/llm/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>PaperReading</title>
+        <link>//localhost:1313/categories/paperreading/</link>
+        <pubDate>Mon, 24 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/categories/paperreading/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>DeepLearing</title>
+        <link>//localhost:1313/categories/deeplearing/</link>
+        <pubDate>Sun, 16 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/categories/deeplearing/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Test</title>
+        <link>//localhost:1313/categories/test/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/categories/test/</guid>
+        <description>&lt;img src="//localhost:1313/categories/test/hutomo-abrianto-l2jk-uxb1BY-unsplash.jpg" alt="Featured image of post Test" /&gt;</description>
+        </item>
+        
+    </channel>
+</rss>

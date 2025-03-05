@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Chart on Zata-砸它</title>
+        <link>//localhost:1313/categories/chart/</link>
+        <description>Recent content in Chart on Zata-砸它</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>Example Person</copyright>
+        <lastBuildDate>Mon, 03 Mar 2025 17:07:53 +0800</lastBuildDate><atom:link href="//localhost:1313/categories/chart/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>分类图</title>
+        <link>//localhost:1313/p/%E5%88%86%E7%B1%BB%E5%9B%BE/</link>
+        <pubDate>Mon, 24 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/p/%E5%88%86%E7%B1%BB%E5%9B%BE/</guid>
+        <description>&lt;h1 id=&#34;混淆矩阵&#34;&gt;混淆矩阵
+&lt;/h1&gt;&lt;h2 id=&#34;用混淆矩阵和pca图表来分析分类结果&#34;&gt;用混淆矩阵和PCA图表来分析分类结果
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://journal.bit.edu.cn/zr/supplement/3377dba8-5c32-4659-a17c-c21676bd6489&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://journal.bit.edu.cn/zr/supplement/3377dba8-5c32-4659-a17c-c21676bd6489&lt;/a&gt;
+&lt;img src=&#34;//localhost:1313/p/%E5%88%86%E7%B1%BB%E5%9B%BE/image/%E5%88%86%E7%B1%BB%E5%9B%BE/%E5%88%86%E7%B1%BB%E5%9B%BE.png&#34;
+	width=&#34;3150&#34;
+	height=&#34;1418&#34;
+	srcset=&#34;//localhost:1313/p/%E5%88%86%E7%B1%BB%E5%9B%BE/image/%E5%88%86%E7%B1%BB%E5%9B%BE/%E5%88%86%E7%B1%BB%E5%9B%BE_hu_d78930f1339b3ea1.png 480w, //localhost:1313/p/%E5%88%86%E7%B1%BB%E5%9B%BE/image/%E5%88%86%E7%B1%BB%E5%9B%BE/%E5%88%86%E7%B1%BB%E5%9B%BE_hu_d5a55e2cc7e6826d.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;222&#34;
+		data-flex-basis=&#34;533px&#34;
+	
+&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>数据流图</title>
+        <link>//localhost:1313/p/%E6%95%B0%E6%8D%AE%E6%B5%81%E5%9B%BE/</link>
+        <pubDate>Mon, 24 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/p/%E6%95%B0%E6%8D%AE%E6%B5%81%E5%9B%BE/</guid>
+        <description>&lt;h1 id=&#34;数据流图&#34;&gt;数据流图
+&lt;/h1&gt;&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/%E6%95%B0%E6%8D%AE%E6%B5%81%E5%9B%BE/images/%E6%95%B0%E6%8D%AE%E6%B5%81%E5%9B%BE/image.png&#34;
+	width=&#34;750&#34;
+	height=&#34;368&#34;
+	srcset=&#34;//localhost:1313/p/%E6%95%B0%E6%8D%AE%E6%B5%81%E5%9B%BE/images/%E6%95%B0%E6%8D%AE%E6%B5%81%E5%9B%BE/image_hu_1c9080e4d1fbe6f5.png 480w, //localhost:1313/p/%E6%95%B0%E6%8D%AE%E6%B5%81%E5%9B%BE/images/%E6%95%B0%E6%8D%AE%E6%B5%81%E5%9B%BE/image_hu_acb480aef02ca9fb.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;203&#34;
+		data-flex-basis=&#34;489px&#34;
+	
+&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>类图</title>
+        <link>//localhost:1313/p/%E7%B1%BB%E5%9B%BE/</link>
+        <pubDate>Thu, 20 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/p/%E7%B1%BB%E5%9B%BE/</guid>
+        <description>&lt;h1 id=&#34;类图&#34;&gt;类图
+&lt;/h1&gt;&lt;h2 id=&#34;类图的概念笔记&#34;&gt;类图的概念笔记
+&lt;/h2&gt;&lt;h3 id=&#34;1-什么是类图&#34;&gt;1. 什么是类图？
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;类图是 UML（统一建模语言）中最常用的一种静态结构图。&lt;/li&gt;
+&lt;li&gt;作用：展示系统中类的结构、属性、方法以及类与类之间的关系。&lt;/li&gt;
+&lt;li&gt;应用场景：软件设计、系统建模，帮助开发者理解和规划代码结构。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;2-类的基本组成&#34;&gt;2. 类的基本组成
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image.png&#34;
+	width=&#34;379&#34;
+	height=&#34;256&#34;
+	srcset=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image_hu_5df0886a616a69cc.png 480w, //localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image_hu_425bbccd75dd7ca6.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;148&#34;
+		data-flex-basis=&#34;355px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;一个类通常用一个矩形框表示，分为三部分：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;顶部：类名&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;写类的名称（通常首字母大写）。&lt;/li&gt;
+&lt;li&gt;如果是抽象类，类名用&lt;em&gt;斜体&lt;/em&gt;表示。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;中间：属性&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;表示类的特性或数据（成员变量）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;格式：&lt;code&gt;[可见性] 属性名 : 类型 [默认值]&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;可见性：&lt;code&gt;+&lt;/code&gt;（public）、&lt;code&gt;-&lt;/code&gt;（private）、&lt;code&gt;#&lt;/code&gt;（protected）、&lt;code&gt;~&lt;/code&gt;（package）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-1.png&#34;
+	width=&#34;285&#34;
+	height=&#34;196&#34;
+	srcset=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-1_hu_de3b68dec8d06fa9.png 480w, //localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-1_hu_d90275a4c42c3ebe.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;145&#34;
+		data-flex-basis=&#34;348px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;示例：&lt;code&gt;-age : int = 18&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;底部：方法（操作）&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;表示类的行为或功能（成员函数）。&lt;/li&gt;
+&lt;li&gt;格式：&lt;code&gt;[可见性] 方法名(参数) : 返回类型&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;示例：&lt;code&gt;+getAge() : int&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;3-类与类之间的关系&#34;&gt;3. 类与类之间的关系
+&lt;/h3&gt;&lt;p&gt;来源：https://juejin.cn/post/6844903893327937550&lt;/p&gt;
+&lt;p&gt;类图的核心是描述类之间的关系，常见的有以下几种：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-3.png&#34;
+	width=&#34;904&#34;
+	height=&#34;872&#34;
+	srcset=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-3_hu_a3808bf66ebc8ce8.png 480w, //localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-3_hu_7db0913429fd0571.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;103&#34;
+		data-flex-basis=&#34;248px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;继承关系（Generalization/extends）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;继承关系也叫泛化关系，指的是一个类（称为子类、子接口）继承另外的一个类（称为父类、父接口）的功能，并可以增加它自己的新功能的能力，继承是类与类或者接口与接口之间最常见的关系。
+继承用实线空心箭头表示，由子类指向父类。
+下面写两个子类，Fish和Cat分别继承自Animal。
+&lt;img src=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-4.png&#34;
+	width=&#34;756&#34;
+	height=&#34;961&#34;
+	srcset=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-4_hu_e6d9706c582f3423.png 480w, //localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-4_hu_a67f176bcd4b3d6e.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;78&#34;
+		data-flex-basis=&#34;188px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;实现关系（implements）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;指的是一个class类实现interface接口（可以是多个）的功能；实现是类与接口之间最常见的关系；在Java中此类关系通过关键字implements明确标识，在iOS中我将其理解成代理的实现。
+写一个洋娃娃类Doll，该类遵循了ToyAction协议，实现了玩具移动的方法。
+&lt;img src=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-5.png&#34;
+	width=&#34;756&#34;
+	height=&#34;835&#34;
+	srcset=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-5_hu_511fdbf3ff592bd6.png 480w, //localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-5_hu_9a986887f4d3fdfc.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;90&#34;
+		data-flex-basis=&#34;217px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;依赖关系（Dependency）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;可以简单的理解，就是一个类A使用到了另一个类B，而这种使用关系是具有偶然性的、、临时性的、非常弱的，但是B类的变化会影响到A；比如某人要过河，需要借用一条船，此时人与船之间的关系就是依赖；表现在代码层面，为类B作为参数被类A在某个method方法中使用。
+在我们的上述代码中Cat的playToy方法中参数引用了Doll，因此他们是依赖关系。
+&lt;img src=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-6.png&#34;
+	width=&#34;874&#34;
+	height=&#34;266&#34;
+	srcset=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-6_hu_4b265ea927d6b59b.png 480w, //localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-6_hu_ebea4da109ee52f3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;328&#34;
+		data-flex-basis=&#34;788px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;关联关系（Association）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;他体现的是两个类、或者类与接口之间语义级别的一种强依赖关系，比如我和我的朋友；这种关系比依赖更强、不存在依赖关系的偶然性、关系也不是临时性的，一般是长期性的，而且双方的关系一般是平等的、关联可以是单向、双向的；表现在代码层面，为被关联类B以类属性的形式出现在关联类A中，也可能是关联类A引用了一个类型为被关联类B的全局变量；
+写一个Person类，他拥有一个宠物猫，他们之间的关系是关联。
+&lt;img src=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-7.png&#34;
+	width=&#34;756&#34;
+	height=&#34;686&#34;
+	srcset=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-7_hu_708d032cae9b2c4c.png 480w, //localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-7_hu_7127cf31b9c8e35e.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;110&#34;
+		data-flex-basis=&#34;264px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;聚合关系（Aggregation）
+聚合是关联关系的一种特例，他体现的是整体与部分、拥有的关系，即has-a的关系，此时整体与部分之间是可分离的，他们可以具有各自的生命周期，部分可以属于多个整体对象，也可以为多个整体对象共享；比如计算机与CPU、公司与员工的关系等；表现在代码层面，和关联关系是一致的，只能从语义级别来区分；&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-8.png&#34;
+	width=&#34;756&#34;
+	height=&#34;677&#34;
+	srcset=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-8_hu_dc8fdb76e0e27e55.png 480w, //localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-8_hu_9fd4238edc4a4d97.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;111&#34;
+		data-flex-basis=&#34;268px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;6&#34;&gt;
+&lt;li&gt;组合关系（Composition）
+组合也是关联关系的一种特例，他体现的是一种contains-a的关系，这种关系比聚合更强，也称为强聚合；他同样体现整体与部分间的关系，但此时整体与部分是不可分的，整体的生命周期结束也就意味着部分的生命周期结束；比如你和你的大脑；表现在代码层面，和关联关系是一致的，只能从语义级别来区分；
+上述代码中的Person拥有Head，并且这个整体和部分是不可分割的。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-9.png&#34;
+	width=&#34;766&#34;
+	height=&#34;224&#34;
+	srcset=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-9_hu_ff54283c98760694.png 480w, //localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-9_hu_405f1e2637a2a9b8.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;341&#34;
+		data-flex-basis=&#34;820px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;最后来看看这个例子中的整体关系：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-10.png&#34;
+	width=&#34;1726&#34;
+	height=&#34;944&#34;
+	srcset=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-10_hu_7f3a09b8722edbd9.png 480w, //localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-10_hu_9a03d430490ac85.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;182&#34;
+		data-flex-basis=&#34;438px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;其实理解了之后我们发现还是很简单的，学会了之后就可以投入实践中了，举一个简单第三方库的类图例子，下图是Masonry的类图整理，可以看到项目结构很清晰的展示了出来。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-11.png&#34;
+	width=&#34;1416&#34;
+	height=&#34;759&#34;
+	srcset=&#34;//localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-11_hu_68860bdec741400e.png 480w, //localhost:1313/p/%E7%B1%BB%E5%9B%BE/images/%E7%B1%BB%E5%9B%BE/image-11_hu_36d46d179ccaf8ee.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;186&#34;
+		data-flex-basis=&#34;447px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;4-类图的符号速查&#34;&gt;4. 类图的符号速查
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;矩形框&lt;/strong&gt;：类&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;实线&lt;/strong&gt;：关联&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;空心菱形+实线&lt;/strong&gt;：聚合&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;实心菱形+实线&lt;/strong&gt;：组合&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;空心三角+实线&lt;/strong&gt;：继承&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;空心三角+虚线&lt;/strong&gt;：实现&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;虚线箭头&lt;/strong&gt;：依赖&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

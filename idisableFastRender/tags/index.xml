@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Tags on Zata-砸它</title>
+        <link>//localhost:1313/tags/</link>
+        <description>Recent content in Tags on Zata-砸它</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>Example Person</copyright>
+        <lastBuildDate>Wed, 05 Mar 2025 14:51:43 +0800</lastBuildDate><atom:link href="//localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Hugo</title>
+        <link>//localhost:1313/tags/hugo/</link>
+        <pubDate>Wed, 05 Mar 2025 14:46:18 +0800</pubDate>
+        
+        <guid>//localhost:1313/tags/hugo/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Others</title>
+        <link>//localhost:1313/tags/others/</link>
+        <pubDate>Wed, 05 Mar 2025 11:49:38 +0800</pubDate>
+        
+        <guid>//localhost:1313/tags/others/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>SoftUseExp</title>
+        <link>//localhost:1313/tags/softuseexp/</link>
+        <pubDate>Wed, 05 Mar 2025 10:00:47 +0800</pubDate>
+        
+        <guid>//localhost:1313/tags/softuseexp/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>SoftTrial</title>
+        <link>//localhost:1313/tags/softtrial/</link>
+        <pubDate>Tue, 04 Mar 2025 13:59:34 +0800</pubDate>
+        
+        <guid>//localhost:1313/tags/softtrial/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Blog</title>
+        <link>//localhost:1313/tags/blog/</link>
+        <pubDate>Mon, 03 Mar 2025 16:32:39 +0800</pubDate>
+        
+        <guid>//localhost:1313/tags/blog/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Git&amp;github</title>
+        <link>//localhost:1313/tags/gitgithub/</link>
+        <pubDate>Mon, 03 Mar 2025 14:40:00 +0800</pubDate>
+        
+        <guid>//localhost:1313/tags/gitgithub/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>爬虫</title>
+        <link>//localhost:1313/tags/%E7%88%AC%E8%99%AB/</link>
+        <pubDate>Mon, 03 Mar 2025 14:40:00 +0800</pubDate>
+        
+        <guid>//localhost:1313/tags/%E7%88%AC%E8%99%AB/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>VScode</title>
+        <link>//localhost:1313/tags/vscode/</link>
+        <pubDate>Mon, 03 Mar 2025 00:00:00 +0800</pubDate>
+        
+        <guid>//localhost:1313/tags/vscode/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>News</title>
+        <link>//localhost:1313/tags/news/</link>
+        <pubDate>Mon, 24 Feb 2025 00:00:00 +0800</pubDate>
+        
+        <guid>//localhost:1313/tags/news/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Attention</title>
+        <link>//localhost:1313/tags/attention/</link>
+        <pubDate>Sun, 16 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/tags/attention/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>DeepLearing</title>
+        <link>//localhost:1313/tags/deeplearing/</link>
+        <pubDate>Sun, 16 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/tags/deeplearing/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>LLM</title>
+        <link>//localhost:1313/tags/llm/</link>
+        <pubDate>Sun, 16 Feb 2025 00:00:00 +0000</pubDate>
+        
+        <guid>//localhost:1313/tags/llm/</guid>
+        <description></description>
+        </item>
+        
+    </channel>
+</rss>

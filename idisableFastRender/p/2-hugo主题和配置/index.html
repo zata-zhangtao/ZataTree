@@ -1,0 +1,2315 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="主题和配置通过模板文件和配置文件（如 .toml或者.yaml）自定义网站的样式和功能。本文主要关于主题和配置的使用，以及遇到的问题">
+<title>2-Hugo主题和配置</title>
+
+<link rel='canonical' href='//localhost:1313/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/'>
+
+<link rel="stylesheet" href="/scss/style.min.b9c8156d464c343bdacaf14a871581fb94cbbdb9dd5cbce4ba017361187cc930.css"><meta property='og:title' content="2-Hugo主题和配置">
+<meta property='og:description' content="主题和配置通过模板文件和配置文件（如 .toml或者.yaml）自定义网站的样式和功能。本文主要关于主题和配置的使用，以及遇到的问题">
+<meta property='og:url' content='//localhost:1313/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/'>
+<meta property='og:site_name' content='Zata-砸它'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='hugo' /><meta property='article:tag' content='Blog' /><meta property='article:published_time' content='2025-03-02T00:00:00&#43;08:00'/><meta property='article:modified_time' content='2025-03-03T18:20:16&#43;08:00'/><meta property='og:image' content='//localhost:1313/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/2025-03-02-03-12-15.png' />
+<meta name="twitter:title" content="2-Hugo主题和配置">
+<meta name="twitter:description" content="主题和配置通过模板文件和配置文件（如 .toml或者.yaml）自定义网站的样式和功能。本文主要关于主题和配置的使用，以及遇到的问题"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='//localhost:1313/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/2025-03-02-03-12-15.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_f2420e0b32244fa9.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="//localhost:1313/">Zata-砸它</a></h1>
+            <h2 class="site-description"></h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/zata-zhangtao/ZataTree'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="//localhost:1313/en/" >English</option>
+                                
+                                    <option value="//localhost:1313/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#可能遇到的问题">可能遇到的问题</a>
+      <ol>
+        <li><a href="#如何插入嵌入式视频">如何插入嵌入式视频</a>
+          <ol>
+            <li><a href="#b站">B站</a></li>
+          </ol>
+        </li>
+        <li><a href="#hugo-文章日期设定上的小问题时区问题">Hugo 文章日期设定上的小问题（时区问题）</a></li>
+      </ol>
+    </li>
+    <li><a href="#stack-主题">Stack 主题</a>
+      <ol>
+        <li><a href="#hugo-stack-配置文件示例">hugo Stack 配置文件示例</a></li>
+        <li><a href="#hugo-stack-主题添加最后修改于">Hugo Stack 主题添加[最后修改于]</a></li>
+        <li><a href="#在文章开头就显示修改时间">在文章开头就显示修改时间</a></li>
+        <li><a href="#代码块过长折叠展开">代码块过长折叠&amp;展开</a></li>
+        <li><a href="#添加返回顶部按钮">添加’返回顶部’按钮</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/">
+                <img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/2025-03-02-03-12-15_hu_afcbec988e59bc85.png"
+                        srcset="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/2025-03-02-03-12-15_hu_afcbec988e59bc85.png 800w, /p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/2025-03-02-03-12-15_hu_d5282c520be27701.png 1600w"
+                        width="800" 
+                        height="450" 
+                        loading="lazy"
+                        alt="Featured image of post 2-Hugo主题和配置" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/projectapplication/" >
+                Project&amp;Application
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/">2-Hugo主题和配置</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            主题和配置通过模板文件和配置文件（如 .toml或者.yaml）自定义网站的样式和功能。本文主要关于主题和配置的使用，以及遇到的问题
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 02, 2025</time>
+            </div>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+            <time class="article-time--published">
+                最后修改于 Mar 03, 2025 18:20 CST
+            </time>
+        </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 10 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <span style="color:red">
+参考<br>
+https://letere-gzj.github.io/hugo-stack/
+</span>
+<h2 id="可能遇到的问题">可能遇到的问题
+</h2><h3 id="如何插入嵌入式视频">如何插入嵌入式视频
+</h3><h4 id="b站">B站
+</h4><ol>
+<li>直接可以点击分享的嵌入代码然后粘贴到md文件中
+<img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-5.png"
+	width="1092"
+	height="461"
+	srcset="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-5_hu_e2c59ab1e83ea5ef.png 480w, /p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-5_hu_4eb99d552e736cd4.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="236"
+		data-flex-basis="568px"
+	
+></li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">iframe</span> 
+</span></span><span class="line"><span class="cl"><span class="na">src</span><span class="o">=</span><span class="s">&#34;//player.bilibili.com/player.html?isOutside=true&amp;aid=113991737148695&amp;bvid=BV1qQK7eXERw&amp;cid=28358870196&amp;p=1&#34;</span> 
+</span></span><span class="line"><span class="cl"><span class="na">scrolling</span><span class="o">=</span><span class="s">&#34;yes&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="na">border</span><span class="o">=</span><span class="s">&#34;0&#34;</span> 
+</span></span><span class="line"><span class="cl"><span class="na">frameborder</span><span class="o">=</span><span class="s">&#34;no&#34;</span> 
+</span></span><span class="line"><span class="cl"><span class="na">framespacing</span><span class="o">=</span><span class="s">&#34;0&#34;</span> 
+</span></span><span class="line"><span class="cl"><span class="na">allowfullscreen</span><span class="o">=</span><span class="s">&#34;true&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">iframe</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-6.png"
+	width="1216"
+	height="346"
+	srcset="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-6_hu_f8144abb5d50e2d2.png 480w, /p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-6_hu_f6e79b0af10404f3.png 1024w"
+	loading="lazy"
+	
+		alt="粘贴代码到md"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="351"
+		data-flex-basis="843px"
+	
+></p>
+<p><code>效果如下：</code></p>
+<iframe 
+src="//player.bilibili.com/player.html?isOutside=true&aid=113991737148695&bvid=BV1qQK7eXERw&cid=28358870196&p=1" 
+scrolling="yes"
+border="0" 
+frameborder="no" 
+framespacing="0" 
+allowfullscreen="true">
+</iframe>
+<ol start="2">
+<li>使用shortcode方式</li>
+</ol>
+<p>参考：https://zhuanlan.zhihu.com/p/622866669</p>
+<p>创建一个模板文件，内容可以为：
+<img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-7.png"
+	width="1700"
+	height="512"
+	srcset="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-7_hu_f7d1cbaa8560d4a.png 480w, /p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-7_hu_6c6fa966adc86f56.png 1024w"
+	loading="lazy"
+	
+		alt="bilibili的嵌入视频模板"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="332"
+		data-flex-basis="796px"
+	
+></p>
+<p>代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">style</span><span class="o">=</span><span class="s">&#34;position:relative; padding-bottom:75%; width:100%; height:0&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">iframe</span>
+</span></span><span class="line"><span class="cl">	<span class="na">src</span><span class="o">=</span><span class="s">&#34;//player.bilibili.com/player.html?bvid={{.Get 0 }}&amp;page={{ if .Get 1 }}{{.Get 1}}{{ else }}1{{end}}&amp;as_wide=1&amp;high_quality=1&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="na">scrolling</span><span class="o">=</span><span class="s">&#34;no&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="na">border</span><span class="o">=</span><span class="s">&#34;0&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="na">frameborder</span><span class="o">=</span><span class="s">&#34;no&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="na">framespacing</span><span class="o">=</span><span class="s">&#34;0&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="na">allowfullscreen</span><span class="o">=</span><span class="s">&#34;true&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="na">style</span><span class="o">=</span><span class="s">&#34;position:absolute; height: 100%; width: 100%;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">iframe</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后使用下面的语法使用这个模板
+<img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-8.png"
+	width="587"
+	height="23"
+	srcset="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-8_hu_e3d2638db5a0da66.png 480w, /p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-8_hu_74e2794b65d6ebb6.png 1024w"
+	loading="lazy"
+	
+		alt="模板使用方法\{{}}"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="2552"
+		data-flex-basis="6125px"
+	
+></p>
+<p><img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-9.png"
+	width="694"
+	height="198"
+	srcset="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-9_hu_7e62d1fa87b2894b.png 480w, /p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-9_hu_20047891d6f86a45.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="350"
+		data-flex-basis="841px"
+	
+></p>
+<p><code>效果如下：</code></p>
+<div style="position:relative; padding-bottom:75%; width:100%; height:0">
+
+    <iframe
+        src="//player.bilibili.com/player.html?bvid=BV1qQK7eXERw&page=1&as_wide=1&high_quality=1"
+        scrolling="no"
+        border="0"
+        frameborder="no"
+        framespacing="0"
+        allowfullscreen="true"
+        style="position:absolute; height: 100%; width: 100%;"
+    >
+    </iframe>
+    </div>
+<h3 id="hugo-文章日期设定上的小问题时区问题">Hugo 文章日期设定上的小问题（时区问题）
+</h3><p>参考： <a class="link" href="https://blog.hly0928.com/post/hugo-post-date-issue/"  target="_blank" rel="noopener"
+    >https://blog.hly0928.com/post/hugo-post-date-issue/</a></p>
+<p>Hugo 在生成静态页面的时候，不会生成超过当前时间的文章；而 Hugo 默认采用的是 格林尼治平时 (GMT)，比北京时间 (UTC+8) 晚了 8 个小时。也就是说，当北京时间在 08:00 之前，而你又将文章发布日期设在当天时，Hugo 就默认不会生成这个页面。</p>
+<p>解决方法：
+最后我选择文章头增加时区信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="o">---</span>
+</span></span><span class="line"><span class="cl"><span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="n">date</span><span class="p">:</span> <span class="mi">2025</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">02</span><span class="n">T00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">08</span><span class="p">:</span><span class="mi">00</span>
+</span></span><span class="line"><span class="cl"><span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="o">---</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-4.png"
+	width="762"
+	height="1203"
+	srcset="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-4_hu_541baf62c70511bd.png 480w, /p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-4_hu_8ddec8216d191450.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="63"
+		data-flex-basis="152px"
+	
+></p>
+<h2 id="stack-主题">Stack 主题
+</h2><h3 id="hugo-stack-配置文件示例">hugo Stack 配置文件示例
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span><span class="lnt">234
+</span><span class="lnt">235
+</span><span class="lnt">236
+</span><span class="lnt">237
+</span><span class="lnt">238
+</span><span class="lnt">239
+</span><span class="lnt">240
+</span><span class="lnt">241
+</span><span class="lnt">242
+</span><span class="lnt">243
+</span><span class="lnt">244
+</span><span class="lnt">245
+</span><span class="lnt">246
+</span><span class="lnt">247
+</span><span class="lnt">248
+</span><span class="lnt">249
+</span><span class="lnt">250
+</span><span class="lnt">251
+</span><span class="lnt">252
+</span><span class="lnt">253
+</span><span class="lnt">254
+</span><span class="lnt">255
+</span><span class="lnt">256
+</span><span class="lnt">257
+</span><span class="lnt">258
+</span><span class="lnt">259
+</span><span class="lnt">260
+</span><span class="lnt">261
+</span><span class="lnt">262
+</span><span class="lnt">263
+</span><span class="lnt">264
+</span><span class="lnt">265
+</span><span class="lnt">266
+</span><span class="lnt">267
+</span><span class="lnt">268
+</span><span class="lnt">269
+</span><span class="lnt">270
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="n">baseurl</span><span class="p">:</span> <span class="n">www</span><span class="o">.</span><span class="n">zata</span><span class="o">.</span><span class="n">cc</span>                    <span class="c1"># 定义网站的基础 URL，所有相对链接基于此生成，通常是域名</span>
+</span></span><span class="line"><span class="cl"><span class="n">languageCode</span><span class="p">:</span> <span class="n">en</span><span class="o">-</span><span class="n">us</span>                     <span class="c1"># 指定默认语言代码（如 en-us 表示美国英语）</span>
+</span></span><span class="line"><span class="cl"><span class="n">theme</span><span class="p">:</span> <span class="n">hugo</span><span class="o">-</span><span class="n">theme</span><span class="o">-</span><span class="n">stack</span>                 <span class="c1"># 指定使用的 Hugo 主题名称</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="p">:</span> <span class="n">Example</span> <span class="n">Site</span>                     <span class="c1"># 网站的默认标题，显示在浏览器标签页或页面中</span>
+</span></span><span class="line"><span class="cl"><span class="n">copyright</span><span class="p">:</span> <span class="n">Example</span> <span class="n">Person</span>               <span class="c1"># 网站版权声明，通常显示在页脚</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Theme i18n support</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Available values: ar, bn, ca, de, el, en, es, fr, hu, id, it, ja, ko, nl, pt-br, th, uk, zh-cn, zh-hk, zh-tw</span>
+</span></span><span class="line"><span class="cl"><span class="n">DefaultContentLanguage</span><span class="p">:</span> <span class="n">zh</span><span class="o">-</span><span class="n">cn</span>           <span class="c1"># 指定默认内容语言，这里是简体中文（zh-cn）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Set hasCJKLanguage to true if DefaultContentLanguage is in [zh-cn ja ko]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># This will make .Summary and .WordCount behave correctly for CJK languages.</span>
+</span></span><span class="line"><span class="cl"><span class="n">hasCJKLanguage</span><span class="p">:</span> <span class="n">false</span>                   <span class="c1"># 是否启用 CJK 语言（中文、日文、韩文）的优化，这里关闭</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">languages</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">en</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">languageName</span><span class="p">:</span> <span class="n">English</span>           <span class="c1"># 语言名称为“英语”</span>
+</span></span><span class="line"><span class="cl">        <span class="n">title</span><span class="p">:</span> <span class="n">Example</span> <span class="n">Site</span>             <span class="c1"># 英文版本的网站标题</span>
+</span></span><span class="line"><span class="cl">        <span class="n">weight</span><span class="p">:</span> <span class="mi">1</span>                       <span class="c1"># 语言优先级，数字越小优先级越高</span>
+</span></span><span class="line"><span class="cl">        <span class="n">params</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">sidebar</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">subtitle</span><span class="p">:</span> <span class="n">Example</span> <span class="n">description</span>  <span class="c1"># 英文侧边栏描述</span>
+</span></span><span class="line"><span class="cl">    <span class="n">zh</span><span class="o">-</span><span class="n">cn</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">languageName</span><span class="p">:</span> <span class="n">中文</span>             <span class="c1"># 语言名称为“中文”</span>
+</span></span><span class="line"><span class="cl">        <span class="n">title</span><span class="p">:</span> <span class="n">Zata</span><span class="s1">&#39;s Blog             # 中文版本的网站标题</span>
+</span></span><span class="line"><span class="cl">        <span class="n">weight</span><span class="p">:</span> <span class="mi">2</span>                      <span class="c1"># 优先级低于英文</span>
+</span></span><span class="line"><span class="cl">        <span class="n">params</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">sidebar</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">subtitle</span><span class="p">:</span>              <span class="c1"># 中文侧边栏描述（此处为空）</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># ar:</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#     languageName: عربي          # 示例：阿拉伯语名称</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#     languagedirection: rtl      # 示例：从右到左布局</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#     title: موقع تجريبي         # 示例：阿拉伯语标题</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#     weight: 3                   # 示例：优先级</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#     params:</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#         sidebar:</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#             subtitle: وصف تجريبي  # 示例：阿拉伯语侧边栏描述</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">services</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Change it to your Disqus shortname before using</span>
+</span></span><span class="line"><span class="cl">    <span class="n">disqus</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">shortname</span><span class="p">:</span> <span class="s2">&#34;hugo-theme-stack&#34;</span>   <span class="c1"># Disqus 评论系统的短名称，用于启用评论</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># GA Tracking ID</span>
+</span></span><span class="line"><span class="cl">    <span class="n">googleAnalytics</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">id</span><span class="p">:</span>                             <span class="c1"># Google Analytics 的跟踪 ID（未填写）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">pagination</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pagerSize</span><span class="p">:</span> <span class="mi">10</span>                       <span class="c1"># 每页显示的文章数量，这里为 10 篇</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">permalinks</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">post</span><span class="p">:</span> <span class="o">/</span><span class="n">p</span><span class="o">/</span><span class="p">:</span><span class="n">slug</span><span class="o">/</span>                    <span class="c1"># 文章链接格式，例如 /p/my-post/</span>
+</span></span><span class="line"><span class="cl">    <span class="n">page</span><span class="p">:</span> <span class="o">/</span><span class="p">:</span><span class="n">slug</span><span class="o">/</span>                      <span class="c1"># 普通页面链接格式，例如 /about/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">params</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mainSections</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="o">-</span> <span class="n">post</span>                         <span class="c1"># 指定主要内容类型为 post（通常是博客文章）</span>
+</span></span><span class="line"><span class="cl">    <span class="n">featuredImageField</span><span class="p">:</span> <span class="n">image</span>          <span class="c1"># 指定文章的特色图片字段为 image（文章头的key）</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rssFullContent</span><span class="p">:</span> <span class="n">true</span>               <span class="c1"># RSS 订阅输出完整文章内容，而非摘要</span>
+</span></span><span class="line"><span class="cl">    <span class="n">favicon</span><span class="p">:</span>                           <span class="c1"># 网站图标路径（未设置，例如 /favicon.ico）</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 网站图标路径#e.g.:favicon placed in static/favicon.ico of your site folder,then set thisfield to/favicon.ico(/is necessay)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">footer</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">since</span><span class="p">:</span> <span class="mi">2020</span>                    <span class="c1"># 显示网站起始年份（如“© 2020-2025”）</span>
+</span></span><span class="line"><span class="cl">        <span class="n">customText</span><span class="p">:</span>                    <span class="c1"># 自定义页脚文本（未设置）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">dateFormat</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">published</span><span class="p">:</span> <span class="n">Jan</span> <span class="mi">02</span><span class="p">,</span> <span class="mi">2006</span>        <span class="c1"># 文章发布日期格式（例如“Jan 02, 2006”）</span>
+</span></span><span class="line"><span class="cl">        <span class="n">lastUpdated</span><span class="p">:</span> <span class="n">Jan</span> <span class="mi">02</span><span class="p">,</span> <span class="mi">2006</span> <span class="mi">15</span><span class="p">:</span><span class="mi">04</span> <span class="n">MST</span>  <span class="c1"># 最后更新时间的格式（包含时区）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">sidebar</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">emoji</span><span class="p">:</span> <span class="err">🍥</span>                     <span class="c1"># 侧边栏显示的表情符号</span>
+</span></span><span class="line"><span class="cl">        <span class="n">subtitle</span><span class="p">:</span> <span class="n">Hello</span><span class="p">,</span><span class="n">I</span> <span class="n">am</span> <span class="n">Zata</span><span class="o">.</span>     <span class="c1"># 侧边栏副标题</span>
+</span></span><span class="line"><span class="cl">        <span class="n">avatar</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">enabled</span><span class="p">:</span> <span class="n">true</span>              <span class="c1"># 启用头像</span>
+</span></span><span class="line"><span class="cl">            <span class="n">local</span><span class="p">:</span> <span class="n">true</span>                <span class="c1"># 头像文件存储在本地</span>
+</span></span><span class="line"><span class="cl">            <span class="n">src</span><span class="p">:</span> <span class="n">img</span><span class="o">/</span><span class="n">avatar</span><span class="o">.</span><span class="n">jpg</span>        <span class="c1"># 头像文件路径</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">article</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">math</span><span class="p">:</span> <span class="n">false</span>                    <span class="c1"># 是否启用数学公式支持（关闭）</span>
+</span></span><span class="line"><span class="cl">        <span class="n">toc</span><span class="p">:</span> <span class="n">true</span>                      <span class="c1"># 启用文章目录（Table of Contents）</span>
+</span></span><span class="line"><span class="cl">        <span class="n">readingTime</span><span class="p">:</span> <span class="n">true</span>              <span class="c1"># 显示阅读时间</span>
+</span></span><span class="line"><span class="cl">        <span class="n">license</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">enabled</span><span class="p">:</span> <span class="n">false</span>             <span class="c1"># 是否显示许可声明（关闭）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">default</span><span class="p">:</span> <span class="n">Licensed</span> <span class="n">under</span> <span class="n">CC</span> <span class="n">BY</span><span class="o">-</span><span class="n">NC</span><span class="o">-</span><span class="n">SA</span> <span class="mf">4.0</span>  <span class="c1"># 默认许可文本</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">comments</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">enabled</span><span class="p">:</span> <span class="n">true</span>                  <span class="c1"># 启用评论</span>
+</span></span><span class="line"><span class="cl">        <span class="n">provider</span><span class="p">:</span> <span class="n">disqus</span>               <span class="c1"># 使用 Disqus 作为评论提供者</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">disqusjs</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">shortname</span><span class="p">:</span>                 <span class="c1"># DisqusJS 的短名称（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">apiUrl</span><span class="p">:</span>                    <span class="c1"># DisqusJS 的 API 地址（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">apiKey</span><span class="p">:</span>                    <span class="c1"># DisqusJS 的 API 密钥（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">admin</span><span class="p">:</span>                     <span class="c1"># DisqusJS 管理员（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">adminLabel</span><span class="p">:</span>                <span class="c1"># DisqusJS 管理员标签（未设置）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">utterances</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">repo</span><span class="p">:</span>                      <span class="c1"># Utterances 的仓库（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">issueTerm</span><span class="p">:</span> <span class="n">pathname</span>        <span class="c1"># Utterances 的问题标识方式（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">label</span><span class="p">:</span>                     <span class="c1"># Utterances 的标签（未设置）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">beaudar</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">repo</span><span class="p">:</span>                      <span class="c1"># Beaudar 的仓库（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">issueTerm</span><span class="p">:</span> <span class="n">pathname</span>        <span class="c1"># Beaudar 的问题标识方式（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">label</span><span class="p">:</span>                     <span class="c1"># Beaudar 的标签（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">theme</span><span class="p">:</span>                     <span class="c1"># Beaudar 的主题（未设置）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">remark42</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">host</span><span class="p">:</span>                      <span class="c1"># Remark42 的主机地址（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">site</span><span class="p">:</span>                      <span class="c1"># Remark42 的站点名称（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">locale</span><span class="p">:</span>                    <span class="c1"># Remark42 的语言（未设置）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">vssue</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">platform</span><span class="p">:</span>                  <span class="c1"># Vssue 的平台（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">owner</span><span class="p">:</span>                     <span class="c1"># Vssue 的拥有者（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">repo</span><span class="p">:</span>                      <span class="c1"># Vssue 的仓库（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">clientId</span><span class="p">:</span>                  <span class="c1"># Vssue 的客户端 ID（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">clientSecret</span><span class="p">:</span>              <span class="c1"># Vssue 的客户端密钥（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">autoCreateIssue</span><span class="p">:</span> <span class="n">false</span>     <span class="c1"># Vssue 是否自动创建问题（关闭）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># Waline client configuration see: https://waline.js.org/en/reference/component.html</span>
+</span></span><span class="line"><span class="cl">        <span class="n">waline</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">serverURL</span><span class="p">:</span>                 <span class="c1"># Waline 的服务器地址（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">lang</span><span class="p">:</span>                      <span class="c1"># Waline 的语言（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">pageview</span><span class="p">:</span>                  <span class="c1"># Waline 的页面浏览量（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">emoji</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="o">-</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">unpkg</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="nd">@waline</span><span class="o">/</span><span class="n">emojis</span><span class="o">@</span><span class="mf">1.0.1</span><span class="o">/</span><span class="n">weibo</span>  <span class="c1"># Waline 的表情包地址</span>
+</span></span><span class="line"><span class="cl">            <span class="n">requiredMeta</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="o">-</span> <span class="n">name</span>                 <span class="c1"># Waline 的必填项：名称</span>
+</span></span><span class="line"><span class="cl">                <span class="o">-</span> <span class="n">email</span>                <span class="c1"># Waline 的必填项：邮箱</span>
+</span></span><span class="line"><span class="cl">                <span class="o">-</span> <span class="n">url</span>                  <span class="c1"># Waline 的必填项：网址</span>
+</span></span><span class="line"><span class="cl">            <span class="n">locale</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">admin</span><span class="p">:</span> <span class="n">Admin</span>           <span class="c1"># Waline 的管理员名称</span>
+</span></span><span class="line"><span class="cl">                <span class="n">placeholder</span><span class="p">:</span>           <span class="c1"># Waline 的占位符（未设置）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">twikoo</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">envId</span><span class="p">:</span>                     <span class="c1"># Twikoo 的环境 ID（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">region</span><span class="p">:</span>                    <span class="c1"># Twikoo 的区域（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">path</span><span class="p">:</span>                      <span class="c1"># Twikoo 的路径（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">lang</span><span class="p">:</span>                      <span class="c1"># Twikoo 的语言（未设置）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># See https://cactus.chat/docs/reference/web-client/#configuration for description of the various options</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cactus</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">defaultHomeserverUrl</span><span class="p">:</span> <span class="s2">&#34;https://matrix.cactus.chat:8448&#34;</span>  <span class="c1"># Cactus 的默认服务器地址</span>
+</span></span><span class="line"><span class="cl">            <span class="n">serverName</span><span class="p">:</span> <span class="s2">&#34;cactus.chat&#34;</span>  <span class="c1"># Cactus 的服务器名称</span>
+</span></span><span class="line"><span class="cl">            <span class="n">siteName</span><span class="p">:</span> <span class="s2">&#34;&#34;</span>               <span class="c1"># Cactus 的站点名称（需唯一，未设置）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">giscus</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">repo</span><span class="p">:</span>                      <span class="c1"># Giscus 的仓库（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">repoID</span><span class="p">:</span>                    <span class="c1"># Giscus 的仓库 ID（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">category</span><span class="p">:</span>                  <span class="c1"># Giscus 的分类（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">categoryID</span><span class="p">:</span>                <span class="c1"># Giscus 的分类 ID（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">mapping</span><span class="p">:</span>                   <span class="c1"># Giscus 的映射方式（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">lightTheme</span><span class="p">:</span>                <span class="c1"># Giscus 的亮色主题（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">darkTheme</span><span class="p">:</span>                 <span class="c1"># Giscus 的暗色主题（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">reactionsEnabled</span><span class="p">:</span> <span class="mi">1</span>        <span class="c1"># Giscus 是否启用反应（启用）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">emitMetadata</span><span class="p">:</span> <span class="mi">0</span>            <span class="c1"># Giscus 是否输出元数据（关闭）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">gitalk</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">owner</span><span class="p">:</span>                     <span class="c1"># Gitalk 的拥有者（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">admin</span><span class="p">:</span>                     <span class="c1"># Gitalk 的管理员（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">repo</span><span class="p">:</span>                      <span class="c1"># Gitalk 的仓库（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">clientID</span><span class="p">:</span>                  <span class="c1"># Gitalk 的客户端 ID（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">clientSecret</span><span class="p">:</span>              <span class="c1"># Gitalk 的客户端密钥（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">proxy</span><span class="p">:</span>                     <span class="c1"># Gitalk 的代理（未设置）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">cusdis</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">host</span><span class="p">:</span>                      <span class="c1"># Cusdis 的主机地址（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">id</span><span class="p">:</span>                        <span class="c1"># Cusdis 的 ID（未设置）</span>
+</span></span><span class="line"><span class="cl">    <span class="n">widgets</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">homepage</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">search</span>             <span class="c1"># 主页小部件：搜索框</span>
+</span></span><span class="line"><span class="cl">            <span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">archives</span>           <span class="c1"># 主页小部件：归档列表</span>
+</span></span><span class="line"><span class="cl">              <span class="n">params</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">limit</span><span class="p">:</span> <span class="mi">5</span>             <span class="c1"># 归档列表限制显示 5 个</span>
+</span></span><span class="line"><span class="cl">            <span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">categories</span>         <span class="c1"># 主页小部件：分类列表</span>
+</span></span><span class="line"><span class="cl">              <span class="n">params</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">limit</span><span class="p">:</span> <span class="mi">10</span>            <span class="c1"># 分类列表限制显示 10 个</span>
+</span></span><span class="line"><span class="cl">            <span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">tag</span><span class="o">-</span><span class="n">cloud</span>          <span class="c1"># 主页小部件：标签云</span>
+</span></span><span class="line"><span class="cl">              <span class="n">params</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">limit</span><span class="p">:</span> <span class="mi">10</span>            <span class="c1"># 标签云限制显示 10 个</span>
+</span></span><span class="line"><span class="cl">        <span class="n">page</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">toc</span>                <span class="c1"># 单页小部件：目录</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">opengraph</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">twitter</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># Your Twitter username</span>
+</span></span><span class="line"><span class="cl">            <span class="n">site</span><span class="p">:</span>                      <span class="c1"># Twitter 用户名（未设置）</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># Available values: summary, summary_large_image</span>
+</span></span><span class="line"><span class="cl">            <span class="n">card</span><span class="p">:</span> <span class="n">summary_large_image</span>  <span class="c1"># Twitter 卡片类型（大图模式）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">defaultImage</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">opengraph</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">enabled</span><span class="p">:</span> <span class="n">false</span>             <span class="c1"># 是否启用默认 Open Graph 图片（关闭）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">local</span><span class="p">:</span> <span class="n">false</span>               <span class="c1"># 是否使用本地图片（否）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">src</span><span class="p">:</span>                       <span class="c1"># 图片路径（未设置）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">colorScheme</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Display toggle</span>
+</span></span><span class="line"><span class="cl">        <span class="n">toggle</span><span class="p">:</span> <span class="n">true</span>                   <span class="c1"># 显示主题切换按钮</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Available values: auto, light, dark</span>
+</span></span><span class="line"><span class="cl">        <span class="n">default</span><span class="p">:</span> <span class="n">auto</span>                  <span class="c1"># 默认使用自动主题（根据浏览器偏好）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">imageProcessing</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cover</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">enabled</span><span class="p">:</span> <span class="n">true</span>              <span class="c1"># 启用封面图处理</span>
+</span></span><span class="line"><span class="cl">        <span class="n">content</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">enabled</span><span class="p">:</span> <span class="n">true</span>              <span class="c1"># 启用内容图片处理</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">### Custom menu</span>
+</span></span><span class="line"><span class="cl"><span class="c1">### See https://stack.jimmycai.com/config/menu</span>
+</span></span><span class="line"><span class="cl"><span class="c1">### To remove about, archive and search page menu item, remove `menu` field from their FrontMatter</span>
+</span></span><span class="line"><span class="cl"><span class="n">menu</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">main</span><span class="p">:</span> <span class="p">[]</span>                           <span class="c1"># 主菜单（为空）</span>
+</span></span><span class="line"><span class="cl">    <span class="n">social</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="o">-</span> <span class="n">identifier</span><span class="p">:</span> <span class="n">github</span>           <span class="c1"># 社交链接：GitHub</span>
+</span></span><span class="line"><span class="cl">          <span class="n">name</span><span class="p">:</span> <span class="n">GitHub</span>                 <span class="c1"># 显示名称</span>
+</span></span><span class="line"><span class="cl">          <span class="n">url</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">zata</span><span class="o">-</span><span class="n">zhangtao</span><span class="o">/</span><span class="n">ZataTree</span>  <span class="c1"># 链接地址</span>
+</span></span><span class="line"><span class="cl">          <span class="n">params</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">              <span class="n">icon</span><span class="p">:</span> <span class="n">brand</span><span class="o">-</span><span class="n">github</span>       <span class="c1"># 图标名称</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># - identifier: twitter        # 示例：Twitter 社交链接（已注释）</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#   name: Twitter</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#   url: https://twitter.com</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#   params:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#       icon: brand-twitter</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">related</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">includeNewer</span><span class="p">:</span> <span class="n">true</span>                 <span class="c1"># 相关文章推荐包括较新的文章</span>
+</span></span><span class="line"><span class="cl">    <span class="n">threshold</span><span class="p">:</span> <span class="mi">60</span>                      <span class="c1"># 相关性阈值（越高越严格）</span>
+</span></span><span class="line"><span class="cl">    <span class="n">toLower</span><span class="p">:</span> <span class="n">false</span>                     <span class="c1"># 标签/分类是否忽略大小写</span>
+</span></span><span class="line"><span class="cl">    <span class="n">indices</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">tags</span>                   <span class="c1"># 根据标签匹配相关文章</span>
+</span></span><span class="line"><span class="cl">          <span class="n">weight</span><span class="p">:</span> <span class="mi">100</span>                  <span class="c1"># 标签权重</span>
+</span></span><span class="line"><span class="cl">        <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">categories</span>             <span class="c1"># 根据分类匹配相关文章</span>
+</span></span><span class="line"><span class="cl">          <span class="n">weight</span><span class="p">:</span> <span class="mi">200</span>                  <span class="c1"># 分类权重</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">markup</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">goldmark</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">extensions</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">passthrough</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">enable</span><span class="p">:</span> <span class="n">true</span>           <span class="c1"># 启用原始字符渲染（例如数学公式）</span>
+</span></span><span class="line"><span class="cl">                <span class="n">delimiters</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">block</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">-</span> <span class="o">-</span> \<span class="p">[</span>            <span class="c1"># 块级数学公式开始分隔符</span>
+</span></span><span class="line"><span class="cl">                          <span class="o">-</span> \<span class="p">]</span>            <span class="c1"># 块级数学公式结束分隔符</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">-</span> <span class="o">-</span> <span class="err">$$</span>            <span class="c1"># 块级数学公式开始分隔符</span>
+</span></span><span class="line"><span class="cl">                          <span class="o">-</span> <span class="err">$$</span>            <span class="c1"># 块级数学公式结束分隔符</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">inline</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">-</span> <span class="o">-</span> \<span class="p">(</span>            <span class="c1"># 行内数学公式开始分隔符</span>
+</span></span><span class="line"><span class="cl">                          <span class="o">-</span> \<span class="p">)</span>            <span class="c1"># 行内数学公式结束分隔符</span>
+</span></span><span class="line"><span class="cl">        <span class="n">renderer</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">## Set to true if you have HTML content inside Markdown</span>
+</span></span><span class="line"><span class="cl">            <span class="n">unsafe</span><span class="p">:</span> <span class="n">true</span>               <span class="c1"># 允许在 Markdown 中嵌入 HTML</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tableOfContents</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">endLevel</span><span class="p">:</span> <span class="mi">4</span>                    <span class="c1"># 目录包含到 4 级标题</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ordered</span><span class="p">:</span> <span class="n">true</span>                  <span class="c1"># 目录编号</span>
+</span></span><span class="line"><span class="cl">        <span class="n">startLevel</span><span class="p">:</span> <span class="mi">2</span>                  <span class="c1"># 从 2 级标题开始</span>
+</span></span><span class="line"><span class="cl">    <span class="n">highlight</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">noClasses</span><span class="p">:</span> <span class="n">false</span>               <span class="c1"># 使用 CSS 类高亮代码</span>
+</span></span><span class="line"><span class="cl">        <span class="n">codeFences</span><span class="p">:</span> <span class="n">true</span>               <span class="c1"># 启用代码块</span>
+</span></span><span class="line"><span class="cl">        <span class="n">guessSyntax</span><span class="p">:</span> <span class="n">true</span>              <span class="c1"># 自动检测代码语言</span>
+</span></span><span class="line"><span class="cl">        <span class="n">lineNoStart</span><span class="p">:</span> <span class="mi">1</span>                 <span class="c1"># 行号从 1 开始</span>
+</span></span><span class="line"><span class="cl">        <span class="n">lineNos</span><span class="p">:</span> <span class="n">true</span>                  <span class="c1"># 显示行号</span>
+</span></span><span class="line"><span class="cl">        <span class="n">lineNumbersInTable</span><span class="p">:</span> <span class="n">true</span>       <span class="c1"># 行号显示在表格中</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tabWidth</span><span class="p">:</span> <span class="mi">4</span>                    <span class="c1"># 制表符宽度</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">frontmatter</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lastmod</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;:fileModTime&#34;</span><span class="p">,</span> <span class="s2">&#34;lastmod&#34;</span><span class="p">]</span>  <span class="c1"># 定义最后修改时间的来源（文件修改时间或 frontmatter 中的 lastmod）</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="hugo-stack-主题添加最后修改于">Hugo Stack 主题添加[最后修改于]
+</h3><p>参考：</p>
+<ul>
+<li><a class="link" href="https://shitao5.org/posts/hugo-stack/"  target="_blank" rel="noopener"
+    >https://shitao5.org/posts/hugo-stack/</a></li>
+</ul>
+<ol>
+<li>
+<p>配置[最后修改于]</p>
+<p>在主题的.yaml文件中添加</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="n">frontmatter</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl"><span class="n">lastmod</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;:fileModTime&#34;</span><span class="p">,</span> <span class="s2">&#34;lastmod&#34;</span><span class="p">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-1.png"
+	width="878"
+	height="982"
+	srcset="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-1_hu_f46c577db52d5d54.png 480w, /p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-1_hu_a543ecbfdf1b611d.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="89"
+		data-flex-basis="214px"
+	
+>
+<strong>这样会显示最后更新于</strong>
+<img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image.png"
+	width="1165"
+	height="668"
+	srcset="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image_hu_522bab7fd286f770.png 480w, /p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image_hu_5ab1f45cf6553c8f.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="174"
+		data-flex-basis="418px"
+	
+></p>
+<p><strong>如果要显示最后修改于</strong>
+修改 themes/hugo-theme-stack/i18n 文件夹中的 zh-cn.yaml 文件
+<img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-3.png"
+	width="1518"
+	height="1215"
+	srcset="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-3_hu_56b0bf59f8158c0f.png 480w, /p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/image-3_hu_46d1b3b2e0c10bc6.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="124"
+		data-flex-basis="299px"
+	
+></p>
+</li>
+</ol>
+<h3 id="在文章开头就显示修改时间">在文章开头就显示修改时间
+</h3><p>参考：<br>
+<a class="link" href="https://letere-gzj.github.io/hugo-stack/p/hugo/custom-stack-theme/#3-%E6%98%BE%E7%A4%BA%E6%96%87%E7%AB%A0%E6%9B%B4%E6%96%B0%E6%97%B6%E9%97%B4"  target="_blank" rel="noopener"
+    >https://letere-gzj.github.io/hugo-stack/p/hugo/custom-stack-theme/#3-%E6%98%BE%E7%A4%BA%E6%96%87%E7%AB%A0%E6%9B%B4%E6%96%B0%E6%97%B6%E9%97%B4</a></p>
+<ol>
+<li>在themes\hugo-theme-satck\layouts\partials\article\components\details.html，在指定位置引入以下代码</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">        {{- if ne .Lastmod .Date -}}
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            {{ partial &#34;helper/icon&#34; &#34;clock&#34; }}
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;</span><span class="nt">time</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;article-time--published&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">                {{ T &#34;article.lastUpdatedOn&#34; }} {{ .Lastmod | time.Format ( or .Site.Params.dateFormat.lastUpdated &#34;Jan 02, 2006 15:04 MST&#34; ) }}
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;/</span><span class="nt">time</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        {{- end -}}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-2.png"
+	width="990"
+	height="661"
+	srcset="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-2_hu_963ffeb839db3e47.png 480w, /p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-2_hu_b658bfec7f8f4d11.png 1024w"
+	loading="lazy"
+	
+		alt="在details.html中插入代码"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="149"
+		data-flex-basis="359px"
+	
+></p>
+<ol start="2">
+<li>在主题的.yaml文件中添加</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># 更新时间：优先读取git时间 -&gt; git时间不存在，就读取本地文件修改时间</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">frontmatter</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">lastmod</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="p">:</span><span class="l">git</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="p">:</span><span class="l">fileModTime</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 允许获取Git信息		</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">enableGitInfo</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index.png"
+	width="925"
+	height="271"
+	srcset="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index_hu_630e33725c7b28f1.png 480w, /p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index_hu_420b1c5a7ff74b56.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="341"
+		data-flex-basis="819px"
+	
+></p>
+<p>这部分指定了Hugo获取lastmod值的优先级顺序：<br>
+:git：优先使用Git提交历史中的最后修改时间（更准确反映内容实际更新时间）。<br>
+:fileModTime：如果Git信息不可用，则使用本地文件的修改时间作为备选。<br>
+如果不设置这个，Hugo可能无法正确填充.Lastmod，导致你的代码 {{ if ne .Lastmod .Date }} 条件永远不生效。<br>
+enableGitInfo: true：<br>
+默认情况下，Hugo不会去查询Git信息（为了性能考虑）。<br>
+设置 enableGitInfo: true 后，Hugo会利用Git仓库的提交历史来填充页面变量（如 .Lastmod）。<br>
+如果你使用的是版本控制（比如GitHub），这个设置非常有用，因为它能确保修改时间反映的是内容的实际提交时间，而不是本地文件的时间（后者可能因环境不同而变化）。</p>
+<ol start="3">
+<li>修改github action文件.github/workflows/xxx.yaml，让可以读取git信息</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl">- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Git Configuration</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">    git config --global core.quotePath false
+</span></span></span><span class="line"><span class="cl"><span class="sd">    git config --global core.autocrlf false
+</span></span></span><span class="line"><span class="cl"><span class="sd">    git config --global core.safecrlf true
+</span></span></span><span class="line"><span class="cl"><span class="sd">    git config --global core.ignorecase false      </span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-1.png"
+	width="1018"
+	height="671"
+	srcset="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-1_hu_598b3e9d1714df3f.png 480w, /p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-1_hu_3aa43060e0799681.png 1024w"
+	loading="lazy"
+	
+		alt="代码修改位置"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="151"
+		data-flex-basis="364px"
+	
+></p>
+<p>这些配置确保Git在构建过程中能够正确处理文件路径和换行符等问题，避免因环境差异导致的异常。<br>
+core.quotePath false：确保特殊字符的文件名不会被转义。<br>
+core.autocrlf false：避免换行符转换问题（不同系统可能处理不同）。<br>
+core.safecrlf true：确保换行符处理安全。<br>
+core.ignorecase false：保持文件名大小写敏感。<br>
+这些设置虽然不直接决定.Lastmod，但能确保Git仓库的行为一致，避免潜在问题。</p>
+<h3 id="代码块过长折叠展开">代码块过长折叠&amp;展开
+</h3><ol>
+<li>准备一张图片作为代码展开的按钮，放到assets/icons文件夹下，并命名为codeMore.png</li>
+<li>将下面代码复制粘贴到layouts/partials/footer/custom.html中(文件没有就新建)，有报错不要管</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nc">highlight</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c">/* 你可以根据需要调整这个高度 */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">max-height</span><span class="p">:</span> <span class="mi">400</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">overflow</span><span class="p">:</span> <span class="kc">hidden</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nc">code-show</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">max-height</span><span class="p">:</span> <span class="kc">none</span> <span class="cp">!important</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nc">code-more-box</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">width</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">padding-top</span><span class="p">:</span> <span class="mi">78</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">background-image</span><span class="p">:</span> <span class="kp">-webkit-</span><span class="nf">gradient</span><span class="p">(</span><span class="kc">linear</span><span class="p">,</span> <span class="kc">left</span> <span class="kc">top</span><span class="p">,</span> <span class="kc">left</span> <span class="kc">bottom</span><span class="p">,</span> <span class="nf">from</span><span class="p">(</span><span class="nb">rgba</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span> <span class="nf">to</span><span class="p">(</span><span class="mh">#fff</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="k">position</span><span class="p">:</span> <span class="kc">absolute</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">left</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">right</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">bottom</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">z-index</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nc">code-more-btn</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">margin</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">width</span><span class="p">:</span> <span class="mi">44</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">height</span><span class="p">:</span> <span class="mi">22</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">background</span><span class="p">:</span> <span class="mh">#f0f0f5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">border-top-left-radius</span><span class="p">:</span> <span class="mi">8</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">border-top-right-radius</span><span class="p">:</span> <span class="mi">8</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">padding-top</span><span class="p">:</span> <span class="mi">6</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">cursor</span><span class="p">:</span> <span class="kc">pointer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nc">code-more-img</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">cursor</span><span class="p">:</span> <span class="kc">pointer</span> <span class="cp">!important</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">margin</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">width</span><span class="p">:</span> <span class="mi">22</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">height</span><span class="p">:</span> <span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">function</span> <span class="nx">initCodeMoreBox</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">codeBlocks</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s2">&#34;.highlight&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">codeBlocks</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">codeBlocks</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">codeBlock</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 校验是否overflow
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">if</span> <span class="p">(</span><span class="nx">codeBlock</span><span class="p">.</span><span class="nx">scrollHeight</span> <span class="o">&lt;=</span> <span class="nx">codeBlock</span><span class="p">.</span><span class="nx">clientHeight</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 元素初始化
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// codeMoreBox
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="kd">let</span> <span class="nx">codeMoreBox</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">codeMoreBox</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;code-more-box&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// codeMoreBtn
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="kd">let</span> <span class="nx">codeMoreBtn</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;span&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">codeMoreBtn</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;code-more-btn&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">codeMoreBtn</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">codeBlock</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;code-show&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">codeMoreBox</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 触发resize事件，重新计算目录位置
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nb">window</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="k">new</span> <span class="nx">Event</span><span class="p">(</span><span class="s1">&#39;resize&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">      <span class="p">})</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// img
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="kd">let</span> <span class="nx">img</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">img</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;code-more-img&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">img</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="p">{{</span> <span class="p">(</span><span class="nx">resources</span><span class="p">.</span><span class="nx">Get</span> <span class="s2">&#34;icons/codemore.png&#34;</span><span class="p">).</span><span class="nx">Permalink</span> <span class="p">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 元素添加
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="nx">codeMoreBtn</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">img</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">codeMoreBox</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">codeMoreBtn</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">codeBlock</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">codeMoreBox</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="nx">initCodeMoreBox</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-7.png"
+	width="200"
+	height="200"
+	srcset="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-7_hu_453f9ef50812949b.png 480w, /p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-7_hu_5cbd5937668329b5.png 1024w"
+	loading="lazy"
+	
+		alt="挖掘机图片作为展开按钮"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="100"
+		data-flex-basis="240px"
+	
+>
+<img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-6.png"
+	width="1194"
+	height="905"
+	srcset="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-6_hu_2c8b62501b349edd.png 480w, /p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-6_hu_8c700ce0ab51b567.png 1024w"
+	loading="lazy"
+	
+		alt="文件绝对位置"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="131"
+		data-flex-basis="316px"
+	
+></p>
+<h3 id="添加返回顶部按钮">添加’返回顶部’按钮
+</h3><ol>
+<li>图片还是和代码块过长一样放在/assets/icons文件夹下，命名为backtop.png</li>
+<li>修改layouts/partials/footer/custom.html文件，下面的代码是直接在代码块折叠的基础上又加了返回最顶按钮.粘贴代码一样也是，vscode报错也别理</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nc">highlight</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">max-height</span><span class="p">:</span> <span class="mi">400</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">overflow</span><span class="p">:</span> <span class="kc">hidden</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">position</span><span class="p">:</span> <span class="kc">relative</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nc">code-show</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">max-height</span><span class="p">:</span> <span class="kc">none</span> <span class="cp">!important</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nc">code-more-box</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">width</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">padding-top</span><span class="p">:</span> <span class="mi">78</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">background-image</span><span class="p">:</span> <span class="nb">linear-gradient</span><span class="p">(</span><span class="kc">to</span> <span class="kc">bottom</span><span class="p">,</span> <span class="nb">rgba</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mh">#fff</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">position</span><span class="p">:</span> <span class="kc">absolute</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">left</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">bottom</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">z-index</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nc">code-more-btn</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">margin</span><span class="p">:</span> <span class="mi">0</span> <span class="kc">auto</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">width</span><span class="p">:</span> <span class="mi">44</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">height</span><span class="p">:</span> <span class="mi">22</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">background</span><span class="p">:</span> <span class="mh">#f0f0f5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">border-top-left-radius</span><span class="p">:</span> <span class="mi">8</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">border-top-right-radius</span><span class="p">:</span> <span class="mi">8</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">padding-top</span><span class="p">:</span> <span class="mi">6</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">cursor</span><span class="p">:</span> <span class="kc">pointer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nc">code-more-img</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">margin</span><span class="p">:</span> <span class="mi">0</span> <span class="kc">auto</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">width</span><span class="p">:</span> <span class="mi">22</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">height</span><span class="p">:</span> <span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">#</span><span class="nn">backTopBtn</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">display</span><span class="p">:</span> <span class="kc">none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">position</span><span class="p">:</span> <span class="kc">fixed</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">bottom</span><span class="p">:</span> <span class="mi">30</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">right</span><span class="p">:</span> <span class="mi">20</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">z-index</span><span class="p">:</span> <span class="mi">99</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">cursor</span><span class="p">:</span> <span class="kc">pointer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">width</span><span class="p">:</span> <span class="mi">30</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">height</span><span class="p">:</span> <span class="mi">30</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">background-image</span><span class="p">:</span> <span class="nb">url</span><span class="p">(</span><span class="sx">{{ (resources.Get &#34;icons/backtop.png&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">RelPermalink</span> <span class="p">}</span><span class="err">}</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">background-size</span><span class="o">:</span> <span class="nt">cover</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">background-repeat</span><span class="o">:</span> <span class="nt">no-repeat</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nx">initCodeMoreBox</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kr">const</span> <span class="nx">codeBlocks</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s2">&#34;.highlight&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">codeBlocks</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="nx">codeBlocks</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">codeBlock</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="nx">codeBlock</span><span class="p">.</span><span class="nx">scrollHeight</span> <span class="o">&lt;=</span> <span class="nx">codeBlock</span><span class="p">.</span><span class="nx">clientHeight</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="kr">const</span> <span class="nx">codeMoreBox</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">codeMoreBox</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;code-more-box&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="kr">const</span> <span class="nx">codeMoreBtn</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;span&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">codeMoreBtn</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;code-more-btn&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="kr">const</span> <span class="nx">img</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">img</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;code-more-img&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">img</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&#34;{{ (resources.Get &#34;</span><span class="nx">icons</span><span class="o">/</span><span class="nx">codemore</span><span class="p">.</span><span class="nx">png</span><span class="s2">&#34;).RelPermalink }}&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">img</span><span class="p">.</span><span class="nx">alt</span> <span class="o">=</span> <span class="s1">&#39;Show more&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="nx">codeMoreBtn</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nx">codeBlock</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;code-show&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                    <span class="nx">codeMoreBox</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nb">window</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="k">new</span> <span class="nx">Event</span><span class="p">(</span><span class="s1">&#39;resize&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">                <span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="nx">codeMoreBtn</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">img</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">codeMoreBox</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">codeMoreBtn</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">codeBlock</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">codeMoreBox</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">});</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Error in initCodeMoreBox:&#39;</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nx">initScrollTop</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kr">const</span> <span class="nx">rightSideBar</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&#34;.right-sidebar&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">rightSideBar</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">console</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="s1">&#39;Right sidebar not found&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="kr">const</span> <span class="nx">btn</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&#34;div&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">btn</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="s2">&#34;backTopBtn&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">btn</span><span class="p">.</span><span class="nx">onclick</span> <span class="o">=</span> <span class="nx">backToTop</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">rightSideBar</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">btn</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="nb">window</span><span class="p">.</span><span class="nx">onscroll</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">scrollTop</span> <span class="o">&gt;</span> <span class="mi">20</span> <span class="o">||</span> <span class="nb">document</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">.</span><span class="nx">scrollTop</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nx">btn</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">&#34;block&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nx">btn</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">&#34;none&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Error in initScrollTop:&#39;</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nx">backToTop</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">window</span><span class="p">.</span><span class="nx">scrollTo</span><span class="p">({</span> <span class="nx">top</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">behavior</span><span class="o">:</span> <span class="s2">&#34;smooth&#34;</span> <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;DOMContentLoaded&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">initCodeMoreBox</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">initScrollTop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-8.png"
+	width="200"
+	height="200"
+	srcset="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-8_hu_423783002521f7d2.png 480w, /p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-8_hu_b7e506994ffed3e3.png 1024w"
+	loading="lazy"
+	
+		alt="小火箭图标"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="100"
+		data-flex-basis="240px"
+	
+>
+<img src="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-5.png"
+	width="1065"
+	height="753"
+	srcset="/p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-5_hu_f94fd518739f8a44.png 480w, /p/2-hugo%E4%B8%BB%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE/images/index/index-5_hu_af237bd377e69963.png 1024w"
+	loading="lazy"
+	
+		alt="代码粘贴位置"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="141"
+		data-flex-basis="339px"
+	
+></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/hugo/">Hugo</a>
+        
+            <a href="/tags/blog/">Blog</a>
+        
+    </section>
+
+
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后修改于 Mar 03, 2025 18:20 CST
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/4-%E8%87%AA%E5%AE%9A%E4%B9%89python%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%91%8A%E5%88%AB%E7%B9%81%E7%90%90%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E8%BE%93%E5%85%A5/">
+        
+        
+            <div class="article-image">
+                <img src="/p/4-%E8%87%AA%E5%AE%9A%E4%B9%89python%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%91%8A%E5%88%AB%E7%B9%81%E7%90%90%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E8%BE%93%E5%85%A5/images/index/index.82a580ecd31a9de4aab5df6e8f0b40a3.82a580ecd31a9de4aab5df6e8f0b40a3_hu_5edc37060edcb180.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 4-自定义Python函数创建博客：告别繁琐的文件头输入"
+                        
+                        data-hash="md5-gqWA7NManeSqtd9ujwtAow==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">4-自定义Python函数创建博客：告别繁琐的文件头输入</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/3-hugo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90netlify-cms/">
+        
+        
+            <div class="article-image">
+                <img src="/p/3-hugo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90netlify-cms/images/index/index.82a580ecd31a9de4aab5df6e8f0b40a3.82a580ecd31a9de4aab5df6e8f0b40a3_hu_5edc37060edcb180.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 3-hugo博客集成Netlify CMS"
+                        
+                        data-hash="md5-gqWA7NManeSqtd9ujwtAow==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">3-hugo博客集成Netlify CMS</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/hugo%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/index.md/">
+        
+        
+            <div class="article-image">
+                <img src="/p/hugo%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/index.md/images/index/head.07bd97b23c8644ee7e4d8367ffc512b5.07bd97b23c8644ee7e4d8367ffc512b5_hu_c71dab5ba123e10f.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 1-hugo使用"
+                        data-key="hugo安装使用/index.md" 
+                        data-hash="md5-B72XsjyGRO5&#43;TYNn/8UStQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">1-hugo使用</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">
+        
+        
+            <div class="article-image">
+                <img src="/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/images/index/head.82a580ecd31a9de4aab5df6e8f0b40a3_hu_5edc37060edcb180.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 5-引入 Giscus 评论系统"
+                        
+                        data-hash="md5-gqWA7NManeSqtd9ujwtAow==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">5-引入 Giscus 评论系统</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/postman/">
+        
+        
+            <div class="article-image">
+                <img src="/p/postman/images/index/index.0bd64898bfd91eece3cb76fe199dda91.0bd64898bfd91eece3cb76fe199dda91_hu_5226f666a5a4c0f6.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post postman"
+                        
+                        data-hash="md5-C9ZImL/ZHuzjy3b&#43;GZ3akQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">postman</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="zata-zhangtao/ZataTree"
+    data-repo-id="R_kgDON7mZJg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDON7mZJs4Cnk-l"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2025 Example Person
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.d2e1bb8da704fd56f67fd39fe2d77b41bd20a01559d1c24b7fd99ed4102cd281.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<style>
+    .highlight {
+        max-height: 400px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: 0 auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        display: block;
+        margin: 0 auto;
+        width: 22px;
+        height: 16px;
+    }
+
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url(/icons/backtop.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+
+<script>
+    function initCodeMoreBox() {
+        try {
+            const codeBlocks = document.querySelectorAll(".highlight");
+            if (!codeBlocks.length) return;
+
+            codeBlocks.forEach(codeBlock => {
+                if (codeBlock.scrollHeight <= codeBlock.clientHeight) return;
+
+                const codeMoreBox = document.createElement('div');
+                codeMoreBox.classList.add('code-more-box');
+
+                const codeMoreBtn = document.createElement('span');
+                codeMoreBtn.classList.add('code-more-btn');
+
+                const img = document.createElement('img');
+                img.classList.add('code-more-img');
+                img.src = "\/icons\/codemore.png";
+                img.alt = 'Show more';
+
+                codeMoreBtn.addEventListener('click', () => {
+                    codeBlock.classList.add('code-show');
+                    codeMoreBox.style.display = 'none';
+                    window.dispatchEvent(new Event('resize'));
+                });
+
+                codeMoreBtn.appendChild(img);
+                codeMoreBox.appendChild(codeMoreBtn);
+                codeBlock.appendChild(codeMoreBox);
+            });
+        } catch (error) {
+            console.error('Error in initCodeMoreBox:', error);
+        }
+    }
+
+    function initScrollTop() {
+        try {
+            const rightSideBar = document.querySelector(".right-sidebar");
+            if (!rightSideBar) {
+                console.warn('Right sidebar not found');
+                return;
+            }
+
+            const btn = document.createElement("div");
+            btn.id = "backTopBtn";
+            btn.onclick = backToTop;
+            rightSideBar.appendChild(btn);
+
+            window.onscroll = function () {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    btn.style.display = "block";
+                } else {
+                    btn.style.display = "none";
+                }
+            };
+        } catch (error) {
+            console.error('Error in initScrollTop:', error);
+        }
+    }
+
+    function backToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initCodeMoreBox();
+        initScrollTop();
+    });
+</script>
+    </body>
+</html>

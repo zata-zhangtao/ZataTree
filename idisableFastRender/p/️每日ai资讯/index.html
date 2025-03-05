@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="❤️每日AI资讯\r2025-03-04\r百度发布ai画图，功能是可以调用多模态模型，生成的时候也能生成包含文字和图片的内容等，一个看似很有潜力的应用 flora推出无限画布，有点像coze，工作流 中国ai产业已经很吊了 (https://www.aibase.com/zh/news/15884) 阿里万相大模型登顶开源榜首 DeepSeek开源周第六天：极致推理优化系统，提高GPU计算效率 Sesame发布超真实的AI语音产品：几乎没有AI味道 People are using Super Mario to benchmark AI now 2025-03-03\rDeepSeek 官方测算模型成本利润率为 545% ai以后肯定会普及\n2025-02-27\rOpenAI 发布 GPT-4.5：性能提升，价格不菲 微软开源多模态模型 Phi-4-Multimodal 和轻量化 Phi-4-Mini Mercury：首个商用大语言扩散模型：比传统模型快约 10 倍，编程性能差不多相当于 GPT-4o-mini。 Ideogram 2a 发布：速度快、成本低的文生图模型（闭源） 首个能生成黄色音频的模型：OCTAVE Deepseek开源周第四弹：用于大模型训练的并行策略工具DualPipe、EPLB、Profile-data 微软开源Phi 4新模型：Phi-4-multimodal 和 Phi-4-mini Raycast推出AI Extensions：能操作本地应用的智能体 2025-02-24\r微软发布量子计算芯片Majorana 1，标志着量子计算领域的重大突破。 - [虎嗅网] - [2025-02-23] 法国成功点亮“人造太阳”22分钟，展示了AI在能源领域的潜力。 - [虎嗅网] - [2025-02-23] 谷歌推出AI“共科学家”工具，加速科研进展。 - [虎嗅网] - [2025-02-23] 研究发现AI在预感失败时可能作弊，引发对AI伦理的讨论。 - [虎嗅网] - [2025-02-23] 欧盟AI法案被指存在版权漏洞，可能影响未来的AI发展。 - [虎嗅网] - [2025-02-23] 微软发布生成式AI模型Muse，具备世界与人类动作模型功能。 - [虎嗅网] - [2025-02-23] Google在iOS上推出Lens AI屏幕搜索功能，提升用户体验。 - [虎嗅网] - [2025-02-23] Google发布PaliGemma 2 Mix，进一步提升AI性能。 - [虎嗅网] - [2025-02-23] 2025-02-22\rDeepSeek宣布下周将开源五个项目，推动AI技术进步。 - [AIbase] - [2025-02-21] 阿里通义万相将开源视频生成模型WanX 2.1，提升视频生成能力。 - [AIbase] - [2025-02-21] ChatGPT周活跃用户突破4亿，显示出AI聊天机器人的广泛应用。 - [AIbase] - [2025-02-21] 腾讯文档接入DeepSeek，上线PPT直出、周报神器、文献速读功能。 - [AIbase] - [2025-02-21] Figure推出新型智能模型Helix，让人形机器人接受语音命令做家务。 - [AIbase] - [2025-02-21] Midjourney网站新增多项组织功能，提升用户体验。 - [AIbase] - [2025-02-21] 微软Azure全力支撑OpenAI新模型GPT-5，或于5月下旬震撼登场。 - [AIbase] - [2025-02-20] 2025-02-12\r阿里通义实验室开源音乐生成技术InspireMusic 推测：未来ai可能并不像之前预言的那么耗电 2025-02-11\rIs AI making us dumb? 豆包开源视觉模型VideoWorld 2025-02-10\r法国巴黎人工智能行动峰会开幕 AI应用行业投资景气 OpenAI 首款自研 AI 芯片据悉即将完成 明年料将量产 百度风投回应错过投资DeepSeek：曾第一时间拜访 但幻方不差钱 黑客利用 “损坏” pickle 文件在 HuggingFace 上传恶意 AI 模型 思考： 轻量大模型在本地定制的推荐系统方面的应用如何？\n">
+<title>❤️每日AI资讯</title>
+
+<link rel='canonical' href='//localhost:1313/p/%EF%B8%8F%E6%AF%8F%E6%97%A5ai%E8%B5%84%E8%AE%AF/'>
+
+<link rel="stylesheet" href="/scss/style.min.b9c8156d464c343bdacaf14a871581fb94cbbdb9dd5cbce4ba017361187cc930.css"><meta property='og:title' content="❤️每日AI资讯">
+<meta property='og:description' content="❤️每日AI资讯\r2025-03-04\r百度发布ai画图，功能是可以调用多模态模型，生成的时候也能生成包含文字和图片的内容等，一个看似很有潜力的应用 flora推出无限画布，有点像coze，工作流 中国ai产业已经很吊了 (https://www.aibase.com/zh/news/15884) 阿里万相大模型登顶开源榜首 DeepSeek开源周第六天：极致推理优化系统，提高GPU计算效率 Sesame发布超真实的AI语音产品：几乎没有AI味道 People are using Super Mario to benchmark AI now 2025-03-03\rDeepSeek 官方测算模型成本利润率为 545% ai以后肯定会普及\n2025-02-27\rOpenAI 发布 GPT-4.5：性能提升，价格不菲 微软开源多模态模型 Phi-4-Multimodal 和轻量化 Phi-4-Mini Mercury：首个商用大语言扩散模型：比传统模型快约 10 倍，编程性能差不多相当于 GPT-4o-mini。 Ideogram 2a 发布：速度快、成本低的文生图模型（闭源） 首个能生成黄色音频的模型：OCTAVE Deepseek开源周第四弹：用于大模型训练的并行策略工具DualPipe、EPLB、Profile-data 微软开源Phi 4新模型：Phi-4-multimodal 和 Phi-4-mini Raycast推出AI Extensions：能操作本地应用的智能体 2025-02-24\r微软发布量子计算芯片Majorana 1，标志着量子计算领域的重大突破。 - [虎嗅网] - [2025-02-23] 法国成功点亮“人造太阳”22分钟，展示了AI在能源领域的潜力。 - [虎嗅网] - [2025-02-23] 谷歌推出AI“共科学家”工具，加速科研进展。 - [虎嗅网] - [2025-02-23] 研究发现AI在预感失败时可能作弊，引发对AI伦理的讨论。 - [虎嗅网] - [2025-02-23] 欧盟AI法案被指存在版权漏洞，可能影响未来的AI发展。 - [虎嗅网] - [2025-02-23] 微软发布生成式AI模型Muse，具备世界与人类动作模型功能。 - [虎嗅网] - [2025-02-23] Google在iOS上推出Lens AI屏幕搜索功能，提升用户体验。 - [虎嗅网] - [2025-02-23] Google发布PaliGemma 2 Mix，进一步提升AI性能。 - [虎嗅网] - [2025-02-23] 2025-02-22\rDeepSeek宣布下周将开源五个项目，推动AI技术进步。 - [AIbase] - [2025-02-21] 阿里通义万相将开源视频生成模型WanX 2.1，提升视频生成能力。 - [AIbase] - [2025-02-21] ChatGPT周活跃用户突破4亿，显示出AI聊天机器人的广泛应用。 - [AIbase] - [2025-02-21] 腾讯文档接入DeepSeek，上线PPT直出、周报神器、文献速读功能。 - [AIbase] - [2025-02-21] Figure推出新型智能模型Helix，让人形机器人接受语音命令做家务。 - [AIbase] - [2025-02-21] Midjourney网站新增多项组织功能，提升用户体验。 - [AIbase] - [2025-02-21] 微软Azure全力支撑OpenAI新模型GPT-5，或于5月下旬震撼登场。 - [AIbase] - [2025-02-20] 2025-02-12\r阿里通义实验室开源音乐生成技术InspireMusic 推测：未来ai可能并不像之前预言的那么耗电 2025-02-11\rIs AI making us dumb? 豆包开源视觉模型VideoWorld 2025-02-10\r法国巴黎人工智能行动峰会开幕 AI应用行业投资景气 OpenAI 首款自研 AI 芯片据悉即将完成 明年料将量产 百度风投回应错过投资DeepSeek：曾第一时间拜访 但幻方不差钱 黑客利用 “损坏” pickle 文件在 HuggingFace 上传恶意 AI 模型 思考： 轻量大模型在本地定制的推荐系统方面的应用如何？\n">
+<meta property='og:url' content='//localhost:1313/p/%EF%B8%8F%E6%AF%8F%E6%97%A5ai%E8%B5%84%E8%AE%AF/'>
+<meta property='og:site_name' content='Zata-砸它'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='news' /><meta property='article:published_time' content='2025-02-24T00:00:00&#43;08:00'/><meta property='article:modified_time' content='2025-03-04T11:53:14&#43;08:00'/>
+<meta name="twitter:title" content="❤️每日AI资讯">
+<meta name="twitter:description" content="❤️每日AI资讯\r2025-03-04\r百度发布ai画图，功能是可以调用多模态模型，生成的时候也能生成包含文字和图片的内容等，一个看似很有潜力的应用 flora推出无限画布，有点像coze，工作流 中国ai产业已经很吊了 (https://www.aibase.com/zh/news/15884) 阿里万相大模型登顶开源榜首 DeepSeek开源周第六天：极致推理优化系统，提高GPU计算效率 Sesame发布超真实的AI语音产品：几乎没有AI味道 People are using Super Mario to benchmark AI now 2025-03-03\rDeepSeek 官方测算模型成本利润率为 545% ai以后肯定会普及\n2025-02-27\rOpenAI 发布 GPT-4.5：性能提升，价格不菲 微软开源多模态模型 Phi-4-Multimodal 和轻量化 Phi-4-Mini Mercury：首个商用大语言扩散模型：比传统模型快约 10 倍，编程性能差不多相当于 GPT-4o-mini。 Ideogram 2a 发布：速度快、成本低的文生图模型（闭源） 首个能生成黄色音频的模型：OCTAVE Deepseek开源周第四弹：用于大模型训练的并行策略工具DualPipe、EPLB、Profile-data 微软开源Phi 4新模型：Phi-4-multimodal 和 Phi-4-mini Raycast推出AI Extensions：能操作本地应用的智能体 2025-02-24\r微软发布量子计算芯片Majorana 1，标志着量子计算领域的重大突破。 - [虎嗅网] - [2025-02-23] 法国成功点亮“人造太阳”22分钟，展示了AI在能源领域的潜力。 - [虎嗅网] - [2025-02-23] 谷歌推出AI“共科学家”工具，加速科研进展。 - [虎嗅网] - [2025-02-23] 研究发现AI在预感失败时可能作弊，引发对AI伦理的讨论。 - [虎嗅网] - [2025-02-23] 欧盟AI法案被指存在版权漏洞，可能影响未来的AI发展。 - [虎嗅网] - [2025-02-23] 微软发布生成式AI模型Muse，具备世界与人类动作模型功能。 - [虎嗅网] - [2025-02-23] Google在iOS上推出Lens AI屏幕搜索功能，提升用户体验。 - [虎嗅网] - [2025-02-23] Google发布PaliGemma 2 Mix，进一步提升AI性能。 - [虎嗅网] - [2025-02-23] 2025-02-22\rDeepSeek宣布下周将开源五个项目，推动AI技术进步。 - [AIbase] - [2025-02-21] 阿里通义万相将开源视频生成模型WanX 2.1，提升视频生成能力。 - [AIbase] - [2025-02-21] ChatGPT周活跃用户突破4亿，显示出AI聊天机器人的广泛应用。 - [AIbase] - [2025-02-21] 腾讯文档接入DeepSeek，上线PPT直出、周报神器、文献速读功能。 - [AIbase] - [2025-02-21] Figure推出新型智能模型Helix，让人形机器人接受语音命令做家务。 - [AIbase] - [2025-02-21] Midjourney网站新增多项组织功能，提升用户体验。 - [AIbase] - [2025-02-21] 微软Azure全力支撑OpenAI新模型GPT-5，或于5月下旬震撼登场。 - [AIbase] - [2025-02-20] 2025-02-12\r阿里通义实验室开源音乐生成技术InspireMusic 推测：未来ai可能并不像之前预言的那么耗电 2025-02-11\rIs AI making us dumb? 豆包开源视觉模型VideoWorld 2025-02-10\r法国巴黎人工智能行动峰会开幕 AI应用行业投资景气 OpenAI 首款自研 AI 芯片据悉即将完成 明年料将量产 百度风投回应错过投资DeepSeek：曾第一时间拜访 但幻方不差钱 黑客利用 “损坏” pickle 文件在 HuggingFace 上传恶意 AI 模型 思考： 轻量大模型在本地定制的推荐系统方面的应用如何？\n">
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_f2420e0b32244fa9.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="//localhost:1313/">Zata-砸它</a></h1>
+            <h2 class="site-description"></h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/zata-zhangtao/ZataTree'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="//localhost:1313/en/" >English</option>
+                                
+                                    <option value="//localhost:1313/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#2025-03-04">2025-03-04</a></li>
+    <li><a href="#2025-03-03">2025-03-03</a></li>
+    <li><a href="#2025-02-27">2025-02-27</a></li>
+    <li><a href="#2025-02-24">2025-02-24</a></li>
+    <li><a href="#2025-02-22">2025-02-22</a></li>
+    <li></li>
+    <li><a href="#2025-02-12">2025-02-12</a></li>
+    <li><a href="#2025-02-11">2025-02-11</a></li>
+    <li><a href="#2025-02-10">2025-02-10</a></li>
+    <li><a href="#2025-02-09">2025-02-09</a></li>
+    <li><a href="#2025-02-08">2025-02-08</a></li>
+    <li><a href="#2025-02-07">2025-02-07</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/knowledge/" >
+                Knowledge
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%EF%B8%8F%E6%AF%8F%E6%97%A5ai%E8%B5%84%E8%AE%AF/">❤️每日AI资讯</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 24, 2025</time>
+            </div>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+            <time class="article-time--published">
+                最后修改于 Mar 04, 2025 11:53 CST
+            </time>
+        </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 1 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="每日ai资讯">❤️每日AI资讯
+</h1><h2 id="2025-03-04">2025-03-04
+</h2><ol>
+<li>百度发布ai画图，功能是可以调用多模态模型，生成的时候也能生成包含文字和图片的内容等，一个看似很有潜力的应用</li>
+<li>flora推出无限画布，有点像coze，工作流</li>
+<li>中国ai产业已经很吊了 (<a class="link" href="https://www.aibase.com/zh/news/15884"  target="_blank" rel="noopener"
+    >https://www.aibase.com/zh/news/15884</a>)</li>
+<li>阿里万相大模型登顶开源榜首</li>
+<li>DeepSeek开源周第六天：极致推理优化系统，提高GPU计算效率</li>
+<li>Sesame发布超真实的AI语音产品：几乎没有AI味道</li>
+<li>People are using Super Mario to benchmark AI now</li>
+</ol>
+<h2 id="2025-03-03">2025-03-03
+</h2><ol>
+<li>DeepSeek 官方测算模型成本利润率为 545%</li>
+</ol>
+<p>ai以后肯定会普及</p>
+<h2 id="2025-02-27">2025-02-27
+</h2><ul>
+<li>OpenAI 发布 GPT-4.5：性能提升，价格不菲</li>
+<li>微软开源多模态模型 Phi-4-Multimodal 和轻量化 Phi-4-Mini</li>
+<li>Mercury：首个商用大语言扩散模型：比传统模型快约 10 倍，编程性能差不多相当于 GPT-4o-mini。</li>
+<li>Ideogram 2a 发布：速度快、成本低的文生图模型（闭源）</li>
+<li>首个能生成黄色音频的模型：OCTAVE</li>
+<li>Deepseek开源周第四弹：用于大模型训练的并行策略工具DualPipe、EPLB、Profile-data</li>
+<li>微软开源Phi 4新模型：Phi-4-multimodal 和 Phi-4-mini</li>
+<li>Raycast推出AI Extensions：能操作本地应用的智能体</li>
+</ul>
+<h2 id="2025-02-24">2025-02-24
+</h2><ol>
+<li>微软发布量子计算芯片Majorana 1，标志着量子计算领域的重大突破。 - [虎嗅网] - [2025-02-23]</li>
+<li>法国成功点亮“人造太阳”22分钟，展示了AI在能源领域的潜力。 - [虎嗅网] - [2025-02-23]</li>
+<li>谷歌推出AI“共科学家”工具，加速科研进展。 - [虎嗅网] - [2025-02-23]</li>
+<li>研究发现AI在预感失败时可能作弊，引发对AI伦理的讨论。 - [虎嗅网] - [2025-02-23]</li>
+<li>欧盟AI法案被指存在版权漏洞，可能影响未来的AI发展。 - [虎嗅网] - [2025-02-23]</li>
+<li>微软发布生成式AI模型Muse，具备世界与人类动作模型功能。 - [虎嗅网] - [2025-02-23]</li>
+<li>Google在iOS上推出Lens AI屏幕搜索功能，提升用户体验。 - [虎嗅网] - [2025-02-23]</li>
+<li>Google发布PaliGemma 2 Mix，进一步提升AI性能。 - [虎嗅网] - [2025-02-23]</li>
+</ol>
+<h2 id="2025-02-22">2025-02-22
+</h2><ul>
+<li>DeepSeek宣布下周将开源五个项目，推动AI技术进步。 - [AIbase] - [2025-02-21]</li>
+<li>阿里通义万相将开源视频生成模型WanX 2.1，提升视频生成能力。 - [AIbase] - [2025-02-21]</li>
+<li>ChatGPT周活跃用户突破4亿，显示出AI聊天机器人的广泛应用。 - [AIbase] - [2025-02-21]</li>
+<li>腾讯文档接入DeepSeek，上线PPT直出、周报神器、文献速读功能。 - [AIbase] - [2025-02-21]</li>
+<li>Figure推出新型智能模型Helix，让人形机器人接受语音命令做家务。 - [AIbase] - [2025-02-21]</li>
+<li>Midjourney网站新增多项组织功能，提升用户体验。 - [AIbase] - [2025-02-21]</li>
+</ul>
+<h2 id="">
+</h2><ul>
+<li>微软Azure全力支撑OpenAI新模型GPT-5，或于5月下旬震撼登场。 - [AIbase] - [2025-02-20]</li>
+</ul>
+<hr>
+<h2 id="2025-02-12">2025-02-12
+</h2><ol>
+<li>阿里通义实验室开源音乐生成技术InspireMusic</li>
+<li>推测：未来ai可能并不像之前预言的那么耗电</li>
+</ol>
+<h2 id="2025-02-11">2025-02-11
+</h2><ol start="2">
+<li>Is AI making us dumb?</li>
+<li>豆包开源视觉模型VideoWorld</li>
+</ol>
+<h2 id="2025-02-10">2025-02-10
+</h2><ol>
+<li>法国巴黎人工智能行动峰会开幕</li>
+<li>AI应用行业投资景气</li>
+<li>OpenAI 首款自研 AI 芯片据悉即将完成 明年料将量产</li>
+<li>百度风投回应错过投资DeepSeek：曾第一时间拜访 但幻方不差钱</li>
+<li>黑客利用 “损坏” pickle 文件在 HuggingFace 上传恶意 AI 模型</li>
+</ol>
+<p>思考： 轻量大模型在本地定制的推荐系统方面的应用如何？</p>
+<h2 id="2025-02-09">2025-02-09
+</h2><ol>
+<li>DataWhale人工智能学习活动昨日启动</li>
+<li>三大运营商全面接入deepseek</li>
+<li>机器人概念股大涨</li>
+</ol>
+<p>思考： 机器人概念股大涨， 我之前对于具身智能一定会在今年迎来爆发的预言可能是正确的。</p>
+<h2 id="2025-02-08">2025-02-08
+</h2><ol>
+<li>法国公共投资银行宣布，计划向法国的人工智能领域投资高达 100 亿欧元</li>
+<li>unsloth优化了GRPO在训练时的显存占用，最高可以减少80%，15G显存即可在本地训练Llama-3.1 (8B)和Phi-4 (14B)的推理能力。</li>
+<li>pika是华人在美创建的公司，主打文生视频Ai模型，目前推出Pikadditions功能,可以一键把人或物P进视频里，带动作、带风格。</li>
+<li>Google删除“不将Ai用于武器”承诺</li>
+<li>Anthropic CEO声称deepseek在安全测试中是“最坏”的，因为其生成了关于生物武器的内容</li>
+</ol>
+<p>思考：1. 现在模型这么轻量，完全可以集成到个人博客当中，在个人博客当中，直接问ai，ai根据你历史记录的博客内容回答问题，感觉很有前景；2. 经常有远控家里电脑的需求，我自己在电脑上装了一个远程开机卡，但是有时候因为电脑里面某些软件的问题，可能会导致向日葵不能正常打开，或者由于“纸飞机”原因，导致网络连接异常，所以有时候有一个实体的远程控制硬件挺有用的。但是看了向日葵的实体控制器，也太贵了，也就是一个视频传输和鼠标动作传输，感觉也不需要很复杂的代码或者硬件，而且实际上我基本上只需要实体硬件保证冗余就够了，开机之后我可以用向日葵啊，可不可以自己做一个这样的产品，只要把价格做的很低就一定会有很多人需要的。</p>
+<h2 id="2025-02-07">2025-02-07
+</h2><ol>
+<li>韩束公司老板声称“要用AI淘汰95%客服50%法务” 【来源：观察者网】</li>
+<li>Omdia：中国生成式人工智能市场规模将增长超4倍【来源：银柿财经】</li>
+<li>​亚马逊计划2025年投资超1000亿美元加速人工智能发展</li>
+<li>谷歌重磅发布Gemini2.0全系列模型，性能成本平衡，博客地址： <a class="link" href="https://blog.google/technology/google-deepmind/gemini-model-updates-february-2025/"  target="_blank" rel="noopener"
+    >google blog</a></li>
+<li>OpenAI放大招:免费开放ChatGPT搜索</li>
+<li>李飞飞团队用不到50美元成本训练出效果堪比R1的模型名为s1，地址：<a class="link" href="https://github.com/simplescaling/s1"  target="_blank" rel="noopener"
+    >Github</a></li>
+</ol>
+<p>思考： AI时刻真的到来了，不同于22年底openai所带来的震撼。以前人们也知道ai很厉害，但是巨大的成本让很多人望而却步，现在越来越多的成果证明，使用少量的成本就可以训练出超强能力的模型；很明显，未来的几个月内，ai市场将进一步井喷，更多的资金会投入到轻量化模型的竞争当中；ai的应用落地也将被提上日程。回顾第一条新闻，可以预见的是未来必然会有一大波的客服人员会被取代，一个显而易见的应用将是：将ai接入到与客户的对话中，当碰到无法解决的问题，ai提示人工客服手动接管，随着ai的进步，人类将充当一个监控者的角色。【大人，时代变了】</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/news/">News</a>
+        
+    </section>
+
+
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后修改于 Mar 04, 2025 11:53 CST
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%80%8E%E4%B9%88%E4%BF%9D%E5%AD%98.env%E6%96%87%E4%BB%B6%E5%88%B0github%E5%85%AC%E5%BC%80%E7%9A%84%E4%BB%93%E5%BA%93/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%80%8E%E4%B9%88%E4%BF%9D%E5%AD%98.env%E6%96%87%E4%BB%B6%E5%88%B0github%E5%85%AC%E5%BC%80%E7%9A%84%E4%BB%93%E5%BA%93/images/index/index.4cf1bd98f6238717fd5f44bdad52f2cf_hu_4b3df77e402fd535.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 怎么保存.env文件到github公开的仓库"
+                        
+                        data-hash="md5-TPG9mPYjhxf9X0S9rVLyzw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">怎么保存.env文件到github公开的仓库</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E8%BF%91%E7%BA%A2%E5%A4%96%E5%85%89%E8%B0%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E8%BF%91%E7%BA%A2%E5%A4%96%E5%85%89%E8%B0%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/images/index/index.dce0aa6f22cff34e9fc306deec44d58d_hu_69894b31960df3ce.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 近红外光谱的知识点"
+                        
+                        data-hash="md5-3OCqbyLP806fwwbe7ETVjQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">近红外光谱的知识点</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/categories%E7%B1%BB%E5%88%AB%E5%92%8Ctags%E6%A0%87%E7%AD%BE%E7%9A%84%E5%8C%BA%E5%88%AB/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">“categories”（类别）和“tags”（标签）的区别</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="zata-zhangtao/ZataTree"
+    data-repo-id="R_kgDON7mZJg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDON7mZJs4Cnk-l"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2025 Example Person
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.d2e1bb8da704fd56f67fd39fe2d77b41bd20a01559d1c24b7fd99ed4102cd281.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<style>
+    .highlight {
+        max-height: 400px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: 0 auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        display: block;
+        margin: 0 auto;
+        width: 22px;
+        height: 16px;
+    }
+
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url(/icons/backtop.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+
+<script>
+    function initCodeMoreBox() {
+        try {
+            const codeBlocks = document.querySelectorAll(".highlight");
+            if (!codeBlocks.length) return;
+
+            codeBlocks.forEach(codeBlock => {
+                if (codeBlock.scrollHeight <= codeBlock.clientHeight) return;
+
+                const codeMoreBox = document.createElement('div');
+                codeMoreBox.classList.add('code-more-box');
+
+                const codeMoreBtn = document.createElement('span');
+                codeMoreBtn.classList.add('code-more-btn');
+
+                const img = document.createElement('img');
+                img.classList.add('code-more-img');
+                img.src = "\/icons\/codemore.png";
+                img.alt = 'Show more';
+
+                codeMoreBtn.addEventListener('click', () => {
+                    codeBlock.classList.add('code-show');
+                    codeMoreBox.style.display = 'none';
+                    window.dispatchEvent(new Event('resize'));
+                });
+
+                codeMoreBtn.appendChild(img);
+                codeMoreBox.appendChild(codeMoreBtn);
+                codeBlock.appendChild(codeMoreBox);
+            });
+        } catch (error) {
+            console.error('Error in initCodeMoreBox:', error);
+        }
+    }
+
+    function initScrollTop() {
+        try {
+            const rightSideBar = document.querySelector(".right-sidebar");
+            if (!rightSideBar) {
+                console.warn('Right sidebar not found');
+                return;
+            }
+
+            const btn = document.createElement("div");
+            btn.id = "backTopBtn";
+            btn.onclick = backToTop;
+            rightSideBar.appendChild(btn);
+
+            window.onscroll = function () {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    btn.style.display = "block";
+                } else {
+                    btn.style.display = "none";
+                }
+            };
+        } catch (error) {
+            console.error('Error in initScrollTop:', error);
+        }
+    }
+
+    function backToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initCodeMoreBox();
+        initScrollTop();
+    });
+</script>
+    </body>
+</html>

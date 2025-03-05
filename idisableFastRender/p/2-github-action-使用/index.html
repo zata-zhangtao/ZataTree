@@ -1,0 +1,2054 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="GitHub Actions 是 GitHub 提供的自动化工具，可以帮助你在代码仓库中实现持续集成（CI）和持续部署（CD）。通过定义工作流（Workflow），你可以在代码推送、拉取请求或特定事件触发时自动运行测试、构建、部署等任务。">
+<title>2-github action 使用</title>
+
+<link rel='canonical' href='//localhost:1313/p/2-github-action-%E4%BD%BF%E7%94%A8/'>
+
+<link rel="stylesheet" href="/scss/style.min.b9c8156d464c343bdacaf14a871581fb94cbbdb9dd5cbce4ba017361187cc930.css"><meta property='og:title' content="2-github action 使用">
+<meta property='og:description' content="GitHub Actions 是 GitHub 提供的自动化工具，可以帮助你在代码仓库中实现持续集成（CI）和持续部署（CD）。通过定义工作流（Workflow），你可以在代码推送、拉取请求或特定事件触发时自动运行测试、构建、部署等任务。">
+<meta property='og:url' content='//localhost:1313/p/2-github-action-%E4%BD%BF%E7%94%A8/'>
+<meta property='og:site_name' content='Zata-砸它'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='git&amp;github' /><meta property='article:published_time' content='2025-03-03T00:00:00&#43;08:00'/><meta property='article:modified_time' content='2025-03-03T17:07:53&#43;08:00'/>
+<meta name="twitter:title" content="2-github action 使用">
+<meta name="twitter:description" content="GitHub Actions 是 GitHub 提供的自动化工具，可以帮助你在代码仓库中实现持续集成（CI）和持续部署（CD）。通过定义工作流（Workflow），你可以在代码推送、拉取请求或特定事件触发时自动运行测试、构建、部署等任务。">
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_f2420e0b32244fa9.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="//localhost:1313/">Zata-砸它</a></h1>
+            <h2 class="site-description"></h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/zata-zhangtao/ZataTree'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="//localhost:1313/en/" >English</option>
+                                
+                                    <option value="//localhost:1313/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#常用知识">常用知识</a></li>
+        <li><a href="#基础概念"><strong>基础概念</strong></a></li>
+        <li><a href="#构建画爱心为可执行程序">构建画爱心为可执行程序</a></li>
+        <li><a href="#快速入门教程"><strong>快速入门教程</strong></a>
+          <ol>
+            <li><a href="#目标"><strong>目标</strong></a></li>
+            <li><a href="#步骤"><strong>步骤</strong></a></li>
+          </ol>
+        </li>
+        <li><a href="#进阶示例"><strong>进阶示例</strong></a>
+          <ol>
+            <li><a href="#运行测试并部署"><strong>运行测试并部署</strong></a></li>
+          </ol>
+        </li>
+        <li><a href="#常用配置"><strong>常用配置</strong></a></li>
+        <li><a href="#调试技巧"><strong>调试技巧</strong></a></li>
+        <li><a href="#常见问题"><strong>常见问题</strong></a></li>
+        <li><a href="#扩展阅读"><strong>扩展阅读</strong></a></li>
+        <li><a href="#on字段">on字段</a></li>
+        <li><a href="#on-可填写的触发事件类型"><code>on</code> 可填写的触发事件类型</a>
+          <ol>
+            <li><a href="#1-workflow_dispatch手动触发">1. <code>workflow_dispatch</code>（手动触发）</a></li>
+            <li><a href="#2-push推送事件">2. <code>push</code>（推送事件）</a></li>
+            <li><a href="#3-pull_request拉取请求事件">3. <code>pull_request</code>（拉取请求事件）</a></li>
+            <li><a href="#4-schedule定时触发">4. <code>schedule</code>（定时触发）</a></li>
+            <li><a href="#5-release发布事件">5. <code>release</code>（发布事件）</a></li>
+            <li><a href="#6-issues问题事件">6. <code>issues</code>（问题事件）</a></li>
+            <li><a href="#7-workflow_run工作流运行事件">7. <code>workflow_run</code>（工作流运行事件）</a></li>
+            <li><a href="#8-其他事件">8. 其他事件</a></li>
+            <li><a href="#组合使用">组合使用</a></li>
+            <li><a href="#参数总结表">参数总结表</a></li>
+            <li><a href="#针对你的需求">针对你的需求</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/projectapplication/" >
+                Project&amp;Application
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/2-github-action-%E4%BD%BF%E7%94%A8/">2-github action 使用</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            GitHub Actions 是 GitHub 提供的自动化工具，可以帮助你在代码仓库中实现持续集成（CI）和持续部署（CD）。通过定义工作流（Workflow），你可以在代码推送、拉取请求或特定事件触发时自动运行测试、构建、部署等任务。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 03, 2025</time>
+            </div>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+            <time class="article-time--published">
+                最后修改于 Mar 03, 2025 17:07 CST
+            </time>
+        </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 9 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>参考：</p>
+<ul>
+<li><a class="link" href="https://github.com/tech-shrimp/GithubActionSample"  target="_blank" rel="noopener"
+    >https://github.com/tech-shrimp/GithubActionSample</a></li>
+<li><a class="link" href="https://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html"  target="_blank" rel="noopener"
+    >https://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html</a> [LXF,挺有用]</li>
+</ul>
+<h3 id="常用知识">常用知识
+</h3><h3 id="基础概念"><strong>基础概念</strong>
+</h3><ol>
+<li>
+<p><strong>Workflow（工作流）</strong><br>
+工作流是一个自动化过程，定义在一或多个 YAML 文件中，存放在 <code>.github/workflows</code> 目录下。一个项目可以有多个工作流，他们顺序执行，你也可以在一个工作流里面引用执行另一个工作流</p>
+</li>
+<li>
+<p><strong>Event（事件）</strong><br>
+触发工作流的事件，例如 <code>push</code>（推送代码）、<code>pull_request</code>（拉取请求）或定时触发。也可以手动执行，</p>
+</li>
+<li>
+<p><strong>Job（任务）</strong><br>
+工作流中的一组步骤（Steps），运行在同一个虚拟机上。多个 Job 可以并行或按顺序执行。</p>
+</li>
+<li>
+<p><strong>Step（步骤）</strong><br>
+Job 中的单个操作，例如运行命令或调用一个 Action。</p>
+</li>
+<li>
+<p><strong>Action（动作）</strong><br>
+可重用的代码单元，通常由社区或官方提供，简化常见任务。</p>
+</li>
+<li>
+<p><strong>Runner（运行器）</strong><br>
+执行工作流的服务器，GitHub 提供托管的 Runner，也支持自托管。</p>
+</li>
+<li>
+<p><strong>共享的action</strong>
+很多操作在不同项目里面是类似的，完全可以共享。GitHub 注意到了这一点，想出了一个很妙的点子，允许开发者把每个操作写成独立的脚本文件，存放到代码仓库，使得其他开发者可以引用。</p>
+<p>如果你需要某个 action，不必自己写复杂的脚本，直接引用他人写好的 action 即可，整个持续集成过程，就变成了一个 actions 的组合。这就是 GitHub Actions 最特别的地方。</p>
+<p>GitHub 做了一个官方市场 <a class="link" href="https://github.com/marketplace?type=actions"  target="_blank" rel="noopener"
+    >https://github.com/marketplace?type=actions</a> ，可以搜索到他人提交的 actions。另外，还有一个 awesome actions 的仓库 <a class="link" href="https://github.com/sdras/awesome-actions"  target="_blank" rel="noopener"
+    >https://github.com/sdras/awesome-actions</a> ，也可以找到不少 action。</p>
+<p><img src="/p/2-github-action-%E4%BD%BF%E7%94%A8/image/index/index.jpg"
+	width="1912"
+	height="990"
+	srcset="/p/2-github-action-%E4%BD%BF%E7%94%A8/image/index/index_hu_4669d8cd51dfc3c.jpg 480w, /p/2-github-action-%E4%BD%BF%E7%94%A8/image/index/index_hu_9e4d312954a65f95.jpg 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="193"
+		data-flex-basis="463px"
+	
+>
+每个 action 就是一个独立脚本，因此可以做成代码仓库，使用userName/repoName的语法引用 action。比如，actions/setup-node就表示github.com/actions/setup-node这个仓库，它代表一个 action，作用是安装 Node.js。事实上，GitHub 官方的 actions 都放在 github.com/actions 里面。
+既然 actions 是代码仓库，当然就有版本的概念，用户可以引用某个具体版本的 action。下面都是合法的 action 引用，用的就是 Git 的指针概念，详见官方文档。https://docs.github.com/en/actions/sharing-automations/creating-actions/about-custom-actions#versioning-your-action</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">actions/setup-node@74bc508 # 指向一个 commit
+</span></span><span class="line"><span class="cl">actions/setup-node@v1.0    # 指向一个标签
+</span></span><span class="line"><span class="cl">actions/setup-node@master  # 指向一个分支
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>仓库密钥和环境密钥的区别，以及组织密钥</p>
+<p>参考：</p>
+<p><a class="link" href="https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions"  target="_blank" rel="noopener"
+    >https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions</a></p>
+<p><img src="/p/2-github-action-%E4%BD%BF%E7%94%A8/image/index/index-1.jpg"
+	width="1912"
+	height="954"
+	srcset="/p/2-github-action-%E4%BD%BF%E7%94%A8/image/index/index-1_hu_821a9aba9ed15832.jpg 480w, /p/2-github-action-%E4%BD%BF%E7%94%A8/image/index/index-1_hu_e11f4b0f8763b6af.jpg 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="200"
+		data-flex-basis="481px"
+	
+></p>
+<p>仓库密钥：（仓库下面的所有分支和标签可用）</p>
+<ul>
+<li>仓库密钥是在 GitHub 仓库级别设置的，用于保护仓库的访问权限和敏感信息。</li>
+<li>仓库密钥可以在仓库的“Settings” &gt; “Secrets” &gt; “Actions”中设置。</li>
+<li>仓库密钥只能在仓库内使用，不能跨仓库共享。</li>
+</ul>
+<p>环境密钥：（可设置哪些分支可用）</p>
+<ul>
+<li>环境密钥是在 GitHub 分支级别设置的，可以通过设置去设置哪些分支可用</li>
+</ul>
+<p><img src="/p/2-github-action-%E4%BD%BF%E7%94%A8/image/index/index-2.jpg"
+	width="1912"
+	height="954"
+	srcset="/p/2-github-action-%E4%BD%BF%E7%94%A8/image/index/index-2_hu_561f85a7af2e9a8.jpg 480w, /p/2-github-action-%E4%BD%BF%E7%94%A8/image/index/index-2_hu_ff1c0bb222825bd1.jpg 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="200"
+		data-flex-basis="481px"
+	
+></p>
+<p>组织密钥：（可以设置哪些仓库可用）</p>
+<p><code>另外，在工作流里面是打印不出来密钥的</code></p>
+</li>
+</ol>
+<hr>
+<h3 id="构建画爱心为可执行程序">构建画爱心为可执行程序
+</h3><p>原始代码效果：</p>
+<p><img src="/p/2-github-action-%E4%BD%BF%E7%94%A8/image/index/index.gif"
+	width="646"
+	height="516"
+	srcset="/p/2-github-action-%E4%BD%BF%E7%94%A8/image/index/index_hu_aaacfeee10cb754.gif 480w, /p/2-github-action-%E4%BD%BF%E7%94%A8/image/index/index_hu_79797d793f13c338.gif 1024w"
+	loading="lazy"
+	
+		alt="画爱心效果"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="125"
+		data-flex-basis="300px"
+	
+></p>
+<p>代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 版权https://github.com/royalneverwin/beating-heart</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="o">*</span>  <span class="c1"># 导入tkinter库，用于创建GUI界面</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">log</span>  <span class="c1"># 导入数学函数，用于心形计算</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">random</span>  <span class="c1"># 导入随机数模块，用于生成随机点</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">time</span>  <span class="c1"># 导入时间模块（当前代码未使用，但保留）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 定义画布的宽度和高度</span>
+</span></span><span class="line"><span class="cl"><span class="n">CANVAS_WIDTH</span> <span class="o">=</span> <span class="mi">640</span>
+</span></span><span class="line"><span class="cl"><span class="n">CANVAS_HEIGHT</span> <span class="o">=</span> <span class="mi">480</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 计算画布中心坐标</span>
+</span></span><span class="line"><span class="cl"><span class="n">CANVAS_CENTER_X</span> <span class="o">=</span> <span class="n">CANVAS_WIDTH</span> <span class="o">/</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl"><span class="n">CANVAS_CENTER_Y</span> <span class="o">=</span> <span class="n">CANVAS_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 心形放大倍数</span>
+</span></span><span class="line"><span class="cl"><span class="n">IMAGE_ENLARGE</span> <span class="o">=</span> <span class="mi">11</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">scatter_inside</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.15</span><span class="p">):</span>  <span class="c1"># 在心形内部生成散点</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;使用对数分布在给定点附近生成内部散点&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ratiox</span> <span class="o">=</span> <span class="o">-</span><span class="n">beta</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span>  <span class="c1"># 对数分布计算x方向偏移量，可调整beta值改变分布</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ratioy</span> <span class="o">=</span> <span class="o">-</span><span class="n">beta</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span>  <span class="c1"># 对数分布计算y方向偏移量</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span> <span class="o">=</span> <span class="n">ratiox</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">CANVAS_CENTER_X</span><span class="p">)</span>  <span class="c1"># 计算x方向的实际偏移</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dy</span> <span class="o">=</span> <span class="n">ratioy</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">CANVAS_CENTER_Y</span><span class="p">)</span>  <span class="c1"># 计算y方向的实际偏移</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">dx</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">dy</span>  <span class="c1"># 返回散点的新坐标</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">heart_function</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">enlarge_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">IMAGE_ENLARGE</span><span class="p">):</span>  <span class="c1"># 定义心形曲线方程</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;根据参数t生成心形曲线的x,y坐标&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 心形曲线参数方程</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="mi">16</span> <span class="o">*</span> <span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mi">13</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="n">cos</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">t</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 放大心形</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">*=</span> <span class="n">enlarge_ratio</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">*=</span> <span class="n">enlarge_ratio</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 将心形移动到画布中心</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">+=</span> <span class="n">CANVAS_CENTER_X</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">+=</span> <span class="n">CANVAS_CENTER_Y</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>  <span class="c1"># 返回整数坐标</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">shrink</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ratio</span><span class="p">):</span>  <span class="c1"># 向心形中心收缩点</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;根据距离中心点的平方反比计算收缩量&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sk_range</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">CANVAS_CENTER_X</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">CANVAS_CENTER_Y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># 平方反比因子</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span> <span class="o">=</span> <span class="n">ratio</span> <span class="o">*</span> <span class="n">sk_range</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">CANVAS_CENTER_X</span><span class="p">)</span>  <span class="c1"># x方向收缩量</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dy</span> <span class="o">=</span> <span class="n">ratio</span> <span class="o">*</span> <span class="n">sk_range</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">CANVAS_CENTER_Y</span><span class="p">)</span>  <span class="c1"># y方向收缩量</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">dx</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">dy</span>  <span class="c1"># 返回收缩后的坐标</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Heart</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>  <span class="c1"># 初始化心形类</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>  <span class="c1"># 存储心形曲线上的点</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">edge_points</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>  <span class="c1"># 存储边缘散点</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">inside_points</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>  <span class="c1"># 存储内部散点</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">all_points</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># 存储每一帧的所有点坐标</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>  <span class="c1"># 构建初始点集，可调整点的数量</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span>  <span class="c1"># 动画的总帧数</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>  <span class="c1"># 预计算每一帧的点位置</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">random_halo</span> <span class="o">=</span> <span class="mi">1000</span>  <span class="c1"># 用于光晕效果的随机点数量（未直接使用）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="p">):</span>  <span class="c1"># 生成初始点集</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;在心形上生成随机点及其边缘和内部散点&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 在心形曲线上随机生成number个点</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">t</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span><span class="p">)</span>  <span class="c1"># 随机生成角度t</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">heart_function</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>  <span class="c1"># 计算心形上的点</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">shrink</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="mi">1000</span><span class="p">)</span>  <span class="c1"># 向中心收缩点</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>  <span class="c1"># 添加到点集</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 生成边缘散点</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">px</span><span class="p">,</span> <span class="n">py</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>  <span class="c1"># 每个点生成3个边缘散点，可调整数量</span>
+</span></span><span class="line"><span class="cl">                <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">scatter_inside</span><span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>  <span class="c1"># 在点附近生成散点，可调整beta值</span>
+</span></span><span class="line"><span class="cl">                <span class="bp">self</span><span class="o">.</span><span class="n">edge_points</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>  <span class="c1"># 添加到边缘点集</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 生成内部散点</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pt_ls</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>  <span class="c1"># 将点集转为列表以便随机选择</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4000</span><span class="p">):</span>  <span class="c1"># 生成4000个内部散点，可调整数量</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">pt_ls</span><span class="p">)</span>  <span class="c1"># 随机选择一个基础点</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">scatter_inside</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># 在其附近生成散点</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">inside_points</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>  <span class="c1"># 添加到内部点集</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">cal_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ratio</span><span class="p">):</span>  <span class="c1"># 计算点在跳动时的位置</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;根据距离中心的平方反比计算跳动幅度&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">bt_range</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">CANVAS_CENTER_X</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">CANVAS_CENTER_Y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># 跳动因子</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dx</span> <span class="o">=</span> <span class="n">ratio</span> <span class="o">*</span> <span class="n">bt_range</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">CANVAS_CENTER_X</span><span class="p">)</span> <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># x方向位移</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dy</span> <span class="o">=</span> <span class="n">ratio</span> <span class="o">*</span> <span class="n">bt_range</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">CANVAS_CENTER_Y</span><span class="p">)</span> <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># y方向位移</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">dx</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">dy</span>  <span class="c1"># 返回跳动后的位置</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>  <span class="c1"># 计算每一帧的点位置</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;预计算每帧中所有点的动态位置&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ratio</span> <span class="o">=</span> <span class="mi">800</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">frame</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">pi</span><span class="p">)</span>  <span class="c1"># 跳动幅度随正弦变化，30fps，可调整</span>
+</span></span><span class="line"><span class="cl">        <span class="n">all_pts</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># 存储当前帧所有点的列表</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 生成光晕效果</span>
+</span></span><span class="line"><span class="cl">        <span class="n">halo_radius</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">4</span> <span class="o">+</span> <span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">pi</span><span class="p">)))</span>  <span class="c1"># 光晕半径随时间变化</span>
+</span></span><span class="line"><span class="cl">        <span class="n">halo_number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">3000</span> <span class="o">+</span> <span class="mi">4000</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">pi</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1"># 光晕点数量</span>
+</span></span><span class="line"><span class="cl">        <span class="n">heart_halo_point</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>  <span class="c1"># 存储光晕点</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">halo_number</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">t</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span><span class="p">)</span>  <span class="c1"># 随机角度</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">heart_function</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">enlarge_ratio</span><span class="o">=</span><span class="mf">11.6</span><span class="p">)</span>  <span class="c1"># 生成光晕基础点</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">shrink</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">halo_radius</span><span class="p">)</span>  <span class="c1"># 向中心收缩</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">heart_halo_point</span><span class="p">:</span>  <span class="c1"># 避免重复</span>
+</span></span><span class="line"><span class="cl">                <span class="n">heart_halo_point</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="n">x</span> <span class="o">+=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>  <span class="c1"># 添加随机偏移</span>
+</span></span><span class="line"><span class="cl">                <span class="n">y</span> <span class="o">+=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">size</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1"># 随机选择点大小</span>
+</span></span><span class="line"><span class="cl">                <span class="n">all_pts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="p">))</span>  <span class="c1"># 添加到点列表</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 计算心形曲线上的点</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cal_position</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ratio</span><span class="p">)</span>  <span class="c1"># 计算跳动位置</span>
+</span></span><span class="line"><span class="cl">            <span class="n">size</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># 随机点大小，可调整</span>
+</span></span><span class="line"><span class="cl">            <span class="n">all_pts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 计算边缘点</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_points</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cal_position</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ratio</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">size</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># 随机点大小，可调整</span>
+</span></span><span class="line"><span class="cl">            <span class="n">all_pts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 计算内部点</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inside_points</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cal_position</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ratio</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">size</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># 随机点大小，可调整</span>
+</span></span><span class="line"><span class="cl">            <span class="n">all_pts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">all_points</span><span class="p">[</span><span class="n">frame</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_pts</span>  <span class="c1"># 保存当前帧的点数据</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>  <span class="c1"># 渲染点到画布上</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;在画布上绘制当前帧的所有点&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_points</span><span class="p">[</span><span class="n">frame</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">]:</span>  <span class="c1"># 循环取帧数据</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 绘制矩形点，颜色为粉红色</span>
+</span></span><span class="line"><span class="cl">            <span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">+</span><span class="n">size</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="n">size</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;#ff7171&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="n">root</span><span class="p">:</span> <span class="n">Tk</span><span class="p">,</span> <span class="n">canvas</span><span class="p">:</span> <span class="n">Canvas</span><span class="p">,</span> <span class="n">heart</span><span class="p">:</span> <span class="n">Heart</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>  <span class="c1"># 动画绘制函数</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;递归调用实现心形跳动动画&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">canvas</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>  <span class="c1"># 清空画布</span>
+</span></span><span class="line"><span class="cl">    <span class="n">heart</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>  <span class="c1"># 绘制当前帧</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 每30毫秒刷新一次，相当于约33fps</span>
+</span></span><span class="line"><span class="cl">    <span class="n">root</span><span class="o">.</span><span class="n">after</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">draw</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">heart</span><span class="p">,</span> <span class="n">frame</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>  <span class="c1"># 主程序入口</span>
+</span></span><span class="line"><span class="cl">    <span class="n">root</span> <span class="o">=</span> <span class="n">Tk</span><span class="p">()</span>  <span class="c1"># 创建主窗口</span>
+</span></span><span class="line"><span class="cl">    <span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;漂亮宝贝一周年快乐&#39;</span><span class="p">)</span>  <span class="c1"># 设置窗口标题</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 创建画布，背景黑色</span>
+</span></span><span class="line"><span class="cl">    <span class="n">canvas</span> <span class="o">=</span> <span class="n">Canvas</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">CANVAS_HEIGHT</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">CANVAS_WIDTH</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">canvas</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>  <span class="c1"># 将画布添加到窗口</span>
+</span></span><span class="line"><span class="cl">    <span class="n">heart</span> <span class="o">=</span> <span class="n">Heart</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>  <span class="c1"># 创建心形对象，帧数设为20</span>
+</span></span><span class="line"><span class="cl">    <span class="n">draw</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">heart</span><span class="p">)</span>  <span class="c1"># 开始动画</span>
+</span></span><span class="line"><span class="cl">    <span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>  <span class="c1"># 进入主循环，显示窗口</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后创建一个.github/workflows文件夹，并在其中创建一个love_heart.yml文件。文件内容如下填写,功能是创建一个windows的可执行程序</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># This workflow will install Python dependencies, run tests and lint with a single version of Python</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 这是一个 GitHub Actions 工作流，用于安装 Python 依赖、运行测试和代码检查，使用单一 Python 版本</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 更多信息请参考上述 GitHub 文档链接</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">画爱心Windows版 </span><span class="w"> </span><span class="c"># 工作流名称，显示在 GitHub Actions 界面上，表示这是一个在 Windows 上构建“画爱心”程序的工作流</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">on</span><span class="p">:</span><span class="w">  </span><span class="c"># 定义触发工作流的事件</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">workflow_dispatch</span><span class="p">:</span><span class="w">  </span><span class="c"># 手动触发事件，允许用户通过 GitHub 界面手动运行此工作流</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">permissions</span><span class="p">:</span><span class="w">  </span><span class="c"># 设置工作流的权限</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l">read </span><span class="w"> </span><span class="c"># 授予读取仓库内容的权限，确保工作流可以访问代码</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">jobs</span><span class="p">:</span><span class="w">  </span><span class="c"># 定义工作流中的任务</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">pyinstaller-build</span><span class="p">:</span><span class="w">  </span><span class="c"># 任务名称，表示使用 PyInstaller 构建可执行文件</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l">windows-latest </span><span class="w"> </span><span class="c"># 指定运行环境为最新的 Windows 系统</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w">  </span><span class="c"># 定义任务的具体步骤</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Create Executable </span><span class="w"> </span><span class="c"># 步骤名称，表示创建可执行文件</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">sayyid5416/pyinstaller@v1 </span><span class="w"> </span><span class="c"># 使用社区提供的 PyInstaller Action，版本为 v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w">  </span><span class="c"># 配置 Action 的参数</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">python_ver</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.12&#39;</span><span class="w">  </span><span class="c"># 指定使用的 Python 版本为 3.12</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">spec</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;love_heart.py&#39;</span><span class="w">  </span><span class="c"># 指定 PyInstaller 的构建配置文件或主 Python 文件为 love_heart.py</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">upload_exe_with_name</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;love_heart&#39;</span><span class="w">  </span><span class="c"># 指定上传的可执行文件名称为 love_heart</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">options</span><span class="p">:</span><span class="w"> </span>--<span class="l">onefile, --name &#34;love_heart&#34;, --windowed, </span><span class="w"> </span><span class="c"># PyInstaller 的构建选项</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="c"># --onefile: 将所有内容打包为单个可执行文件（生成 .exe 文件）</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="c"># --name &#34;love_heart&#34;: 设置输出可执行文件的名称为 love_heart（最终为 love_heart.exe）</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="c"># --windowed: 生成无控制台窗口的 GUI 应用程序，适合 Windows 上的图形界面程序</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="c"># 注意：选项之间用逗号分隔，最后一个选项后不需要逗号，但此处保留原始格式</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="快速入门教程"><strong>快速入门教程</strong>
+</h3><h4 id="目标"><strong>目标</strong>
+</h4><p>创建一个简单的 GitHub Actions 工作流，在每次推送代码时运行一个脚本，输出 &ldquo;Hello, GitHub Actions!&quot;。</p>
+<h4 id="步骤"><strong>步骤</strong>
+</h4><ol>
+<li>
+<p><strong>创建仓库</strong><br>
+在 GitHub 上创建一个新仓库（或使用现有仓库）。</p>
+</li>
+<li>
+<p><strong>添加工作流文件</strong></p>
+<ul>
+<li>在仓库根目录下创建文件夹 <code>.github/workflows</code>。</li>
+<li>在该文件夹中创建一个文件，例如 <code>hello.yml</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>编写工作流文件</strong><br>
+将以下内容写入 <code>hello.yml</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Hello World Workflow</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 触发条件：在推送代码到 main 分支时运行</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">push</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">main</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 定义任务</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">jobs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">say-hello</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l">ubuntu-latest</span><span class="w"> </span><span class="c"># 使用 GitHub 提供的最新 Ubuntu 虚拟机</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Checkout code</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/checkout@v3</span><span class="w"> </span><span class="c"># 检出代码到虚拟机</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Say Hello</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">echo &#34;Hello, GitHub Actions!&#34;</span><span class="w"> </span><span class="c"># 运行简单的 shell 命令</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><strong>提交文件</strong><br>
+将 <code>hello.yml</code> 提交到仓库的 <code>main</code> 分支。</p>
+</li>
+<li>
+<p><strong>查看运行结果</strong></p>
+<ul>
+<li>转到仓库的 <strong>Actions</strong> 标签页。</li>
+<li>你会看到名为 &ldquo;Hello World Workflow&rdquo; 的工作流正在运行。</li>
+<li>点击工作流名称，查看日志，确认 &ldquo;Hello, GitHub Actions!&rdquo; 已输出。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="进阶示例"><strong>进阶示例</strong>
+</h3><h4 id="运行测试并部署"><strong>运行测试并部署</strong>
+</h4><p>假设你有一个 Node.js 项目，想在推送代码时运行测试并部署到服务器。</p>
+<ol>
+<li>
+<p><strong>工作流文件示例</strong><br>
+创建 <code>.github/workflows/test-and-deploy.yml</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Test and Deploy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">push</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">main</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">jobs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">test</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l">ubuntu-latest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Checkout code</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/checkout@v3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Setup Node.js</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/setup-node@v3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">node-version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;16&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Install dependencies</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">npm install</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Run tests</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">npm test</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">deploy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w"> </span><span class="c"># 在 test 任务成功后运行</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l">ubuntu-latest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Checkout code</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/checkout@v3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Deploy to server</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">          echo &#34;Deploying to server...&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sd">          # 这里可以添加实际部署命令，例如通过 SSH</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><strong>添加秘密（Secrets）</strong><br>
+如果部署需要敏感信息（如 SSH 密钥）：</p>
+<ul>
+<li>转到仓库的 <strong>Settings &gt; Secrets and variables &gt; Actions</strong>。</li>
+<li>点击 <strong>New repository secret</strong>，添加密钥（如 <code>SSH_KEY</code>）。</li>
+<li>在工作流中通过 <code>secrets.SSH_KEY</code> 使用它。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="常用配置"><strong>常用配置</strong>
+</h3><ol>
+<li>
+<p><strong>触发事件</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">push</span><span class="p">:</span><span class="w"> </span><span class="c"># 推送时触发</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">main</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span><span class="w"> </span><span class="c"># 拉取请求时触发</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">main</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">schedule</span><span class="p">:</span><span class="w"> </span><span class="c"># 定时触发（每天凌晨0点）</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;0 0 * * *&#39;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><strong>设置环境变量</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">env</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">MY_VAR</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Hello&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">jobs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">example</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l">ubuntu-latest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">echo $MY_VAR</span><span class="w"> </span><span class="c"># 输出 &#34;Hello&#34;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><strong>使用社区 Action</strong><br>
+示例：使用 <code>actions/cache</code> 缓存依赖：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl">- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Cache node modules</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/cache@v3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">with</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">~/.npm</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">${{ runner.os }}-node-${{ hashFiles(&#39;**/package-lock.json&#39;) }}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<hr>
+<h3 id="调试技巧"><strong>调试技巧</strong>
+</h3><ul>
+<li><strong>查看日志</strong>：在 Actions 标签页点击工作流，展开每个 Job 和 Step 查看详细输出。</li>
+<li><strong>添加调试步骤</strong>：在步骤中运行 <code>ls -la</code>（Linux）或 <code>dir</code>（Windows）检查文件。</li>
+<li><strong>使用 GitHub 提供的测试工具</strong>：在本地安装 <code>act</code>（需要 Docker）模拟运行工作流。</li>
+</ul>
+<hr>
+<h3 id="常见问题"><strong>常见问题</strong>
+</h3><ol>
+<li>
+<p><strong>工作流没触发？</strong><br>
+检查 <code>on</code> 配置是否匹配事件和分支。</p>
+</li>
+<li>
+<p><strong>权限不足？</strong><br>
+在仓库设置中确认 Actions 已启用（Settings &gt; Actions &gt; General）。</p>
+</li>
+<li>
+<p><strong>需要更多计算资源？</strong><br>
+考虑使用自托管 Runner。</p>
+</li>
+</ol>
+<hr>
+<h3 id="扩展阅读"><strong>扩展阅读</strong>
+</h3><ul>
+<li>官方文档：https://docs.github.com/en/actions</li>
+<li>社区 Actions：https://github.com/marketplace?type=actions</li>
+</ul>
+<h3 id="on字段">on字段
+</h3><p>在 GitHub Actions 的 <code>on</code> 字段中，你可以定义触发工作流的事件。<code>workflow_dispatch</code> 是其中一种触发方式，表示手动触发。除了 <code>workflow_dispatch</code>，还有许多其他触发事件可以选择，具体取决于你的需求。以下是 <code>on</code> 可以填写的参数（触发事件类型），以及它们的用途和可能配置项：</p>
+<hr>
+<h3 id="on-可填写的触发事件类型"><code>on</code> 可填写的触发事件类型
+</h3><h4 id="1-workflow_dispatch手动触发">1. <code>workflow_dispatch</code>（手动触发）
+</h4><ul>
+<li><strong>作用</strong>：允许用户通过 GitHub 界面手动触发工作流。</li>
+<li><strong>可选配置</strong>：
+<ul>
+<li><code>inputs</code>：定义手动触发时可以输入的参数。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">workflow_dispatch</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">inputs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;输入你的名字&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">  </span><span class="c"># 是否必填</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;Anonymous&#39;</span><span class="w">  </span><span class="c"># 默认值</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;选择版本&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">choice </span><span class="w"> </span><span class="c"># 类型可以是 string, boolean, choice 等</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">options</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="s1">&#39;v1&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="s1">&#39;v2&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li><strong>用途</strong>：适合需要用户干预或自定义参数的场景，例如手动选择构建版本。</li>
+</ul>
+<hr>
+<h4 id="2-push推送事件">2. <code>push</code>（推送事件）
+</h4><ul>
+<li><strong>作用</strong>：当代码被推送到指定分支或路径时触发。</li>
+<li><strong>可选配置</strong>：
+<ul>
+<li><code>branches</code>：指定触发分支。</li>
+<li><code>branches-ignore</code>：忽略特定分支。</li>
+<li><code>paths</code>：指定触发文件路径。</li>
+<li><code>paths-ignore</code>：忽略特定文件路径。</li>
+<li><code>tags</code>：指定触发标签。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">push</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">main</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s1">&#39;feature/*&#39;</span><span class="w">  </span><span class="c"># 支持通配符</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">paths</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s1">&#39;src/**&#39;</span><span class="w">  </span><span class="c"># 只在 src 目录下文件变更时触发</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">tags</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s1">&#39;v*&#39;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li><strong>用途</strong>：适合每次代码提交时自动构建或测试。</li>
+</ul>
+<hr>
+<h4 id="3-pull_request拉取请求事件">3. <code>pull_request</code>（拉取请求事件）
+</h4><ul>
+<li><strong>作用</strong>：当拉取请求（PR）被创建、更新或合并时触发。</li>
+<li><strong>可选配置</strong>：
+<ul>
+<li><code>branches</code>：目标分支。</li>
+<li><code>types</code>：触发的事件类型（如 <code>opened</code>, <code>synchronize</code>, <code>closed</code>）。</li>
+<li><code>paths</code>：触发文件路径。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">main</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">types</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">opened </span><span class="w"> </span><span class="c"># PR 创建时触发</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">synchronize </span><span class="w"> </span><span class="c"># PR 更新时触发</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">paths</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s1">&#39;*.py&#39;</span><span class="w">  </span><span class="c"># 只在 Python 文件变更时触发</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li><strong>用途</strong>：用于 PR 的自动化检查或构建。</li>
+</ul>
+<hr>
+<h4 id="4-schedule定时触发">4. <code>schedule</code>（定时触发）
+</h4><ul>
+<li><strong>作用</strong>：按计划时间触发，使用 cron 表达式。</li>
+<li><strong>可选配置</strong>：
+<ul>
+<li><code>cron</code>：定义运行时间（UTC）。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">schedule</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;0 0 * * *&#39;</span><span class="w">  </span><span class="c"># 每天 UTC 00:00 触发</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;*/15 * * * *&#39;</span><span class="w">  </span><span class="c"># 每 15 分钟触发一次</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li><strong>用途</strong>：适合定时任务，例如每天构建或检查。</li>
+</ul>
+<hr>
+<h4 id="5-release发布事件">5. <code>release</code>（发布事件）
+</h4><ul>
+<li><strong>作用</strong>：当 GitHub 发布（release）相关操作发生时触发。</li>
+<li><strong>可选配置</strong>：
+<ul>
+<li><code>types</code>：触发类型（如 <code>published</code>, <code>created</code>, <code>edited</code>）。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">release</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">types</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">published </span><span class="w"> </span><span class="c"># 发布时触发</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">prereleased </span><span class="w"> </span><span class="c"># 预发布时触发</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li><strong>用途</strong>：用于发布版本时的自动化构建或部署。</li>
+</ul>
+<hr>
+<h4 id="6-issues问题事件">6. <code>issues</code>（问题事件）
+</h4><ul>
+<li><strong>作用</strong>：当 GitHub Issues 相关操作发生时触发。</li>
+<li><strong>可选配置</strong>：
+<ul>
+<li><code>types</code>：触发类型（如 <code>opened</code>, <code>closed</code>, <code>labeled</code>）。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">issues</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">types</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">opened </span><span class="w"> </span><span class="c"># 新建 issue 时触发</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">labeled </span><span class="w"> </span><span class="c"># 添加标签时触发</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li><strong>用途</strong>：适合与问题管理相关的自动化任务。</li>
+</ul>
+<hr>
+<h4 id="7-workflow_run工作流运行事件">7. <code>workflow_run</code>（工作流运行事件）
+</h4><ul>
+<li><strong>作用</strong>：当另一个工作流完成时触发当前工作流。</li>
+<li><strong>可选配置</strong>：
+<ul>
+<li><code>workflows</code>：指定监听的工作流名称。</li>
+<li><code>types</code>：触发类型（如 <code>completed</code>）。</li>
+<li><code>branches</code>：触发分支。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">workflow_run</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">workflows</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;Build&#39;</span><span class="p">]</span><span class="w">  </span><span class="c"># 监听名为 Build 的工作流</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">types</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">completed </span><span class="w"> </span><span class="c"># Build 完成后触发</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">main</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li><strong>用途</strong>：用于工作流间的依赖关系，例如先构建再部署。</li>
+</ul>
+<hr>
+<h4 id="8-其他事件">8. 其他事件
+</h4><ul>
+<li><strong><code>create</code></strong>：当创建分支或标签时触发。
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">create</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s1">&#39;feature/*&#39;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li><strong><code>delete</code></strong>：当删除分支或标签时触发。</li>
+<li><strong><code>fork</code></strong>：当仓库被 fork 时触发。</li>
+<li><strong><code>watch</code></strong>：当用户点击“Star”时触发。
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">watch</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">types</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">started </span><span class="w"> </span><span class="c"># 用户 star 仓库时触发</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<hr>
+<h4 id="组合使用">组合使用
+</h4><p>你可以组合多个事件类型。例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">push</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">main</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">main</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">workflow_dispatch</span><span class="p">:</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样，工作流会在推送、拉取请求或手动触发时运行。</p>
+<hr>
+<h4 id="参数总结表">参数总结表
+</h4><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>触发事件</th>
+          <th>主要配置项</th>
+          <th>示例用途</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>workflow_dispatch</code></td>
+          <td><code>inputs</code></td>
+          <td>手动构建，带自定义参数</td>
+      </tr>
+      <tr>
+          <td><code>push</code></td>
+          <td><code>branches</code>, <code>paths</code>, <code>tags</code></td>
+          <td>代码提交时构建</td>
+      </tr>
+      <tr>
+          <td><code>pull_request</code></td>
+          <td><code>branches</code>, <code>types</code>, <code>paths</code></td>
+          <td>PR 检查</td>
+      </tr>
+      <tr>
+          <td><code>schedule</code></td>
+          <td><code>cron</code></td>
+          <td>定时任务</td>
+      </tr>
+      <tr>
+          <td><code>release</code></td>
+          <td><code>types</code></td>
+          <td>发布版本</td>
+      </tr>
+      <tr>
+          <td><code>issues</code></td>
+          <td><code>types</code></td>
+          <td>Issue 管理</td>
+      </tr>
+      <tr>
+          <td><code>workflow_run</code></td>
+          <td><code>workflows</code>, <code>types</code>, <code>branches</code></td>
+          <td>工作流依赖</td>
+      </tr>
+      <tr>
+          <td><code>create</code></td>
+          <td><code>branches</code></td>
+          <td>创建分支或标签</td>
+      </tr>
+  </tbody>
+</table></div>
+<hr>
+<h4 id="针对你的需求">针对你的需求
+</h4><p>你的工作流目前使用 <code>workflow_dispatch</code>，适合手动触发构建“画爱心”程序。如果需要其他触发方式：</p>
+<ul>
+<li><strong>自动构建</strong>：用 <code>push</code> 或 <code>pull_request</code>，在代码变更时触发。</li>
+<li><strong>定时构建</strong>：用 <code>schedule</code>，每天生成新版本。</li>
+<li><strong>发布版本</strong>：用 <code>release</code>，在发布时生成可执行文件。</li>
+</ul>
+<p>如果你想具体调整（例如添加 <code>push</code> 或 <code>schedule</code>），可以告诉我，我帮你写出对应配置！</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/gitgithub/">Git&amp;github</a>
+        
+    </section>
+
+
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后修改于 Mar 03, 2025 17:07 CST
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E7%9A%84py%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8github-action%E6%AF%8F%E6%97%A5%E6%89%A7%E8%A1%8C/image/index/index.323614ef50ba43eecad816b66d9f7160_hu_fca17a4957aa5f3c.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 一个自动签到的py并且使用github action每日执行"
+                        
+                        data-hash="md5-MjYU71C6Q&#43;7K2Ba2bZ9xYA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一个自动签到的py并且使用github action每日执行</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/gitgithub/index.md/">
+        
+        
+            <div class="article-image">
+                <img src="/p/gitgithub/index.md/image/index/index.0ed19dcd46dcd95913e4129e6d1090bb_hu_49a5bb9cb2d64579.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 1-git&amp;github使用"
+                        data-key="git&amp;github/index.md" 
+                        data-hash="md5-DtGdzUbc2VkT5BKebRCQuw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">1-git&amp;github使用</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">
+        
+        
+            <div class="article-image">
+                <img src="/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/images/index/index.25a3513cb07bcf1167828f4236e1d109_hu_550ae3c0d7db4162.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 5-引入 Giscus 评论系统"
+                        
+                        data-hash="md5-JaNRPLB7zxFngo9CNuHRCQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">5-引入 Giscus 评论系统</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/postman/">
+        
+        
+            <div class="article-image">
+                <img src="/p/postman/images/index/index.0bd64898bfd91eece3cb76fe199dda91_hu_5226f666a5a4c0f6.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post postman"
+                        
+                        data-hash="md5-C9ZImL/ZHuzjy3b&#43;GZ3akQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">postman</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/polar-db/">
+        
+        
+            <div class="article-image">
+                <img src="/p/polar-db/images/index/index-1.6f6c0892d17d92a42398a5526c0547a8_hu_450e17c6f172031f.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post polar-DB"
+                        
+                        data-hash="md5-b2wIktF9kqQjmKVSbAVHqA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">polar-DB</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="zata-zhangtao/ZataTree"
+    data-repo-id="R_kgDON7mZJg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDON7mZJs4Cnk-l"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2025 Example Person
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.d2e1bb8da704fd56f67fd39fe2d77b41bd20a01559d1c24b7fd99ed4102cd281.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<style>
+    .highlight {
+        max-height: 400px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .code-show {
+        max-height: none !important;
+    }
+
+    .code-more-box {
+        width: 100%;
+        padding-top: 78px;
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .code-more-btn {
+        display: block;
+        margin: 0 auto;
+        width: 44px;
+        height: 22px;
+        background: #f0f0f5;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding-top: 6px;
+        cursor: pointer;
+    }
+
+    .code-more-img {
+        display: block;
+        margin: 0 auto;
+        width: 22px;
+        height: 16px;
+    }
+
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url(/icons/backtop.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+
+<script>
+    function initCodeMoreBox() {
+        try {
+            const codeBlocks = document.querySelectorAll(".highlight");
+            if (!codeBlocks.length) return;
+
+            codeBlocks.forEach(codeBlock => {
+                if (codeBlock.scrollHeight <= codeBlock.clientHeight) return;
+
+                const codeMoreBox = document.createElement('div');
+                codeMoreBox.classList.add('code-more-box');
+
+                const codeMoreBtn = document.createElement('span');
+                codeMoreBtn.classList.add('code-more-btn');
+
+                const img = document.createElement('img');
+                img.classList.add('code-more-img');
+                img.src = "\/icons\/codemore.png";
+                img.alt = 'Show more';
+
+                codeMoreBtn.addEventListener('click', () => {
+                    codeBlock.classList.add('code-show');
+                    codeMoreBox.style.display = 'none';
+                    window.dispatchEvent(new Event('resize'));
+                });
+
+                codeMoreBtn.appendChild(img);
+                codeMoreBox.appendChild(codeMoreBtn);
+                codeBlock.appendChild(codeMoreBox);
+            });
+        } catch (error) {
+            console.error('Error in initCodeMoreBox:', error);
+        }
+    }
+
+    function initScrollTop() {
+        try {
+            const rightSideBar = document.querySelector(".right-sidebar");
+            if (!rightSideBar) {
+                console.warn('Right sidebar not found');
+                return;
+            }
+
+            const btn = document.createElement("div");
+            btn.id = "backTopBtn";
+            btn.onclick = backToTop;
+            rightSideBar.appendChild(btn);
+
+            window.onscroll = function () {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    btn.style.display = "block";
+                } else {
+                    btn.style.display = "none";
+                }
+            };
+        } catch (error) {
+            console.error('Error in initScrollTop:', error);
+        }
+    }
+
+    function backToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initCodeMoreBox();
+        initScrollTop();
+    });
+</script>
+    </body>
+</html>
