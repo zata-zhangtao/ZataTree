@@ -18,6 +18,12 @@ categories:
 
 # Python程序打包exe
 
+<span style="color: red;">如果打包成无控制台模式，你使用 YOUR_PROGRAM  运行程序时可能不报任何print。</span>
+
+
+
+
+
 ![alt text](image/python程序打包exe/python程序打包exe.jpg)
 
 
