@@ -7,16 +7,17 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Example Person</copyright>
-        <lastBuildDate>Wed, 05 Mar 2025 14:51:43 +0800</lastBuildDate><atom:link href="//localhost:1313/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 05 Mar 2025 15:50:19 +0800</lastBuildDate><atom:link href="//localhost:1313/post/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>5-引入 Giscus 评论系统</title>
         <link>//localhost:1313/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</link>
         <pubDate>Wed, 05 Mar 2025 14:46:18 +0800</pubDate>
         
         <guid>//localhost:1313/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</guid>
-        <description>&lt;img src="//localhost:1313/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/images/index/index.png" alt="Featured image of post 5-引入 Giscus 评论系统" /&gt;&lt;p&gt;参考：&lt;/p&gt;
+        <description>&lt;img src="//localhost:1313/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/images/index/head.png" alt="Featured image of post 5-引入 Giscus 评论系统" /&gt;&lt;p&gt;参考：&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.lixueduan.com/posts/blog/02-add-giscus-comment/#1-%E9%80%89%E6%8B%A9%E4%B8%80%E4%B8%AA%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://www.lixueduan.com/posts/blog/02-add-giscus-comment/#1-%E9%80%89%E6%8B%A9%E4%B8%80%E4%B8%AA%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;1-登录绑定应用&#34;&gt;1. 登录绑定应用
+&lt;h2 id=&#34;stack-主题&#34;&gt;Stack 主题
+&lt;/h2&gt;&lt;h3 id=&#34;1-登录绑定应用&#34;&gt;1. 登录绑定应用
 &lt;/h3&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/apps/giscus&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://github.com/apps/giscus&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;然后选择你需要绑定的仓库&lt;/p&gt;
@@ -50,22 +51,44 @@
 	
 &gt;&lt;/p&gt;
 &lt;h3 id=&#34;3获取配置信息&#34;&gt;3.获取配置信息
-&lt;/h3&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://giscus.app/zh-CN&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h3&gt;&lt;p&gt;进到下面的这个网站里面&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://giscus.app/zh-CN&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://giscus.app/zh-CN&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/images/index/index-2.png&#34;
-	width=&#34;1108&#34;
-	height=&#34;1190&#34;
-	srcset=&#34;//localhost:1313/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/images/index/index-2_hu_f7b0ead413e0c25e.png 480w, //localhost:1313/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/images/index/index-2_hu_5caacdb2e980718e.png 1024w&#34;
+&lt;p&gt;然后按照这样配置就可以得到最后的配置文件&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/images/index/index-3.png&#34;
+	width=&#34;762&#34;
+	height=&#34;2795&#34;
+	srcset=&#34;//localhost:1313/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/images/index/index-3_hu_8fe36e4cf0b6b051.png 480w, //localhost:1313/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/images/index/index-3_hu_e03a3ba26ff4efba.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;配置步骤&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;27&#34;
+		data-flex-basis=&#34;65px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;4回到hugoyaml把刚刚的配置填进去&#34;&gt;4.回到hugo.yaml把刚刚的配置填进去
+&lt;/h3&gt;&lt;p&gt;红框里面是要改的地方&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;//localhost:1313/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/images/index/index-4.png&#34;
+	width=&#34;712&#34;
+	height=&#34;1248&#34;
+	srcset=&#34;//localhost:1313/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/images/index/index-4_hu_66fcf2e132a87f0c.png 480w, //localhost:1313/p/5-%E5%BC%95%E5%85%A5-giscus-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/images/index/index-4_hu_2562f8b120be7aa8.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;alt text&#34;
 	
 	
 		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;93&#34;
-		data-flex-basis=&#34;223px&#34;
+		data-flex-grow=&#34;57&#34;
+		data-flex-basis=&#34;136px&#34;
 	
 &gt;&lt;/p&gt;
+&lt;h3 id=&#34;碰到的坑&#34;&gt;碰到的坑
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;上面的参考文章里面写的页面&amp;ndash;discussion映射关系是使用pathname，但是我发现会乱码，就改成用title了&lt;/li&gt;
+&lt;/ol&gt;
 </description>
         </item>
         <item>
