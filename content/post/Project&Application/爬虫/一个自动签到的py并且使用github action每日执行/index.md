@@ -2,7 +2,7 @@
 title: 一个自动签到的py并且使用github action每日执行
 date: 2025-03-03T14:40:00+08:00
 # slug: 文件夹名/index.md ## 必填，文件夹名/index.md
-# image: helena-hertz-wWZzXlDpMog-unsplash.jpg
+image: image/index/index.png
 categories:
     # - DeepLearning
     # - Chart
@@ -25,6 +25,8 @@ tags:
 ![alt text](image/index/index.jpg)
 
 
+
+## 使用Cookie进行自动登录（简单，但是很容易因为Cookie过期而需要重新获取Cookie更新）
 
 ### Cookie的获取
 参考：
@@ -143,7 +145,152 @@ datetime
 ### 设置仓库密钥
 ![alt text](image/index/index-1.jpg)
 
-把前面Cookie 填进去
+把前面Cookie 填进去 **粘贴过来的时候可以把引号去掉，我记得是不用加引号的，如果发现自己电脑上面测试可以，Action不行的话可以再试试加引号**
+
+
+---
+
+上面的方法很受限于网站对于cookie的验证，如果网站对cookie验证过于严格，可以尝试下面的方法。
+
+## 使用账号密码进行自动登录（复杂，但是可以避免Cookie过期的问题）
+
+这里我只是给了一个简单的配置，很多网站登录的时候可能会多重验证，那就麻烦了....
+
+### 找到登录的接口
+
+当然每个网站不一样，不能一概而论
+
+![alt text](images/index/index.png)
+
+
+### 代码
+
+```py
+# checkin
+import requests
+import schedule
+import time
+from datetime import datetime
+import os
+import json
+
+from dotenv import load_dotenv
+load_dotenv()
+
+
+def refresh_cookie():
+    """刷新 Cookie 的逻辑（需要根据实际网站实现）"""
+    global Cookie
+    try:
+        # 替换为实际的登录 URL 和登录数据
+        login_url = "https://mxwljsq.top/auth/login"
+        login_data = {
+            "email": os.environ.get("MX_EMAIL"),  # 从环境变量获取邮箱
+            "passwd": os.environ.get("MX_PASSWORD"),  # 从环境变量获取密码
+        }
+
+        print(login_data)
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+        # exit()
+        # 发送登录请求
+        response = requests.post(login_url, data=login_data, headers=headers)
+        print(response.text)
+        if response.status_code == 200:
+            # 假设登录成功后 Cookie 在响应头中返回
+            new_cookie = response.cookies.get_dict()
+            Cookie = "; ".join([f"{k}={v}" for k, v in new_cookie.items()])
+            print(f"{datetime.now()} Cookie 刷新成功")
+            return True
+        else:
+            print(f"{datetime.now()} Cookie 刷新失败：{response.text}")
+            return False
+    except Exception as e:
+        print(f"{datetime.now()} Cookie 刷新异常：{str(e)}")
+        return False
+
+def checkin():
+    refresh_cookie()
+    global Cookie
+    if Cookie is None:
+        print("Cookie 为空，请先刷新 Cookie")
+        return False
+    url = "https://mxwljsq.top/user/checkin"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        "Content-Type": "application/json",
+        "Cookie": Cookie,
+    }
+
+    try:
+        response = requests.post(url, headers=headers)
+        response_json = response.json()
+
+        if response.status_code == 200:
+            print(f"{datetime.now()} 签到成功：{response_json.get('msg')}")
+            return True
+        else:
+            print(f"{datetime.now()} 签到失败：{response_json.get('msg')}")
+            # 如果是登录失效，尝试刷新 Cookie
+            return False
+    except Exception as e:
+        print(f"{datetime.now()} 签到请求失败：{str(e)}")
+        return False
+
+if __name__ == "__main__":
+    print("自动签到脚本已启动...")
+    # 加载本地 Cookie，如果没有则使用环境变量中的
+    # 首次运行立即签到
+    print(f"{datetime.now()} 开始执行签到任务...")
+    checkin()
+```
+
+```yaml
+# mx_checkin.yml
+name: mx_checkin
+
+on:
+  schedule:
+    # 此处是UTC时间，对应北京时间早八点
+    - cron : '00 00 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.12"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Run checkin script
+      run: |
+        python mx_checkin.py
+      env:
+        MX_EMAIL: ${{ secrets.MX_EMAIL }}
+        MX_PASSWORD: ${{ secrets.MX_PASSWORD }}
+
+```
+
+### 设置仓库密钥
+
+![设置仓库密钥](images/index/index-1.png)
+
+这里是肯定不需要加引号的，因为邮箱和密码都是字符串，加引号的话会被认为是字符串。（我试过了）
+
+
 
 
 

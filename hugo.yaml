@@ -22,7 +22,7 @@ languages:
                 subtitle: Example description  # 英文侧边栏描述
     zh-cn:
         languageName: 中文             # 语言名称为“中文”
-        title: Zata's Blog             # 中文版本的网站标题
+        title: Zata-砸它               # 中文版本的网站标题
         weight: 2                      # 优先级低于英文
         params:
             sidebar:
@@ -59,7 +59,7 @@ params:
     favicon: /favicon.ico  # 网站图标路径#e.g.:favicon placed instatic/favicon.icoof your site folder,then set thisfield to/favicon.ico(/is necessay)
 
     footer:
-        since: 2020                    # 显示网站起始年份（如“© 2020-2025”）
+        since: 2024                    # 显示网站起始年份（如“© 2020-2025”）
         customText:                    # 自定义页脚文本（未设置）
 
     dateFormat:
