@@ -3,6 +3,7 @@ languageCode: en-us                     # 指定默认语言代码（如 en-us �
 theme: hugo-theme-stack                 # 指定使用的 Hugo 主题名称
 title: Example Site                     # 网站的默认标题，显示在浏览器标签页或页面中
 copyright: Example Person               # 网站版权声明，通常显示在页脚
+timeout: 6000
 
 # Theme i18n support
 # Available values: ar, bn, ca, de, el, en, es, fr, hu, id, it, ja, ko, nl, pt-br, th, uk, zh-cn, zh-hk, zh-tw
