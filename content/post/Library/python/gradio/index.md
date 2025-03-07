@@ -2,7 +2,7 @@
 title: gradio
 description: ""
 date: 2025-03-05T21:52:18+08:00
-image: images/index/index.png
+# image: images/index/image.png
 categories:
     - Library
 tags:
