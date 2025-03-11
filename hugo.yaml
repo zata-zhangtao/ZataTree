@@ -261,7 +261,7 @@ markup:
         codeFences: true               # 启用代码块
         guessSyntax: true              # 自动检测代码语言
         lineNoStart: 1                 # 行号从 1 开始
-        lineNos: true                  # 显示行号
+        lineNos: False                  # 显示行号
         lineNumbersInTable: true       # 行号显示在表格中
         tabWidth: 4                    # 制表符宽度
 

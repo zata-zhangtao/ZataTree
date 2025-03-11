@@ -32,6 +32,7 @@ https://letere-gzj.github.io/hugo-stack/
 
 #### B站
 1. 直接可以点击分享的嵌入代码然后粘贴到md文件中
+
 ![alt text](images/index/image-5.png)
 ```html
 <iframe 
@@ -63,6 +64,7 @@ allowfullscreen="true">
 
 
 创建一个模板文件，内容可以为：
+
 ![bilibili的嵌入视频模板](images/index/image-7.png)
 
 代码：
