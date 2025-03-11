@@ -2,7 +2,7 @@
 title: 01-metaGPT_快速开始
 description: ""
 date: 2025-03-05T22:27:01+08:00
-# image: images/index/index.png
+image: images/index/index.png
 categories:
     - Agent
 tags:
@@ -10,7 +10,7 @@ tags:
 ---
 
 
-
+![alt text](images/index/index.png)
 
 ## 开始
 
@@ -53,6 +53,15 @@ async def startup(idea: str):
 ```
 history = await startup(idea="write a 2048 game")  # 这是jupyter代码
 ```
+
+
+
+### 效果
+
+它就去跑了，然后会在workspace里面生成代码
+
+![运行过程](images/index/index-1.png)
+![生成代码](images/index/index-2.png)
 
 
 ## 介绍
