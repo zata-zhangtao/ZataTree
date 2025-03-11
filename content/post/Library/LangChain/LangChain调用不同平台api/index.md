@@ -19,7 +19,10 @@ tags:
 
 依赖
 ```bash
-pip install langchain_openai
+# python=3.11
+pip install langchain_openai==0.3.8
+pip install langchain-community==0.3.19
+pip install dashscope
 ```
 
 使用示例
@@ -73,6 +76,12 @@ print(response.json())
 ```
 
 ### 文本嵌入模型
+
+参考：
+
+https://python.langchain.com/api_reference/community/embeddings/langchain_community.embeddings.dashscope.DashScopeEmbeddings.html
+
+
 
 依赖
 
