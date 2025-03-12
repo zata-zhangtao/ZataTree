@@ -61,6 +61,7 @@ https://www.bilibili.com/video/BV1QA94YPEMK
    ```python
    # my_package/__init__.py
    __all__ = ['module1', 'module2']
+   from . import module1, module2
    ```
 
 4. **历史背景**  
