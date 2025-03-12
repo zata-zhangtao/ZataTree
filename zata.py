@@ -89,7 +89,7 @@ image: images/index/index.png
     except Exception as e:
         return False, f"发生错误: {str(e)}"
 
-# 新增函数：获取现有 Category 和 Tag 列表
+# 获取现有 Category 和 Tag 列表的函数
 def get_existing_categories():
     base_path = os.path.join("content", "post")
     if not os.path.exists(base_path):
@@ -139,6 +139,7 @@ def create_gui():
         # 成功后刷新下拉框
         if success:
             update_category_combobox()
+            update_tag_category_combobox()
 
     ttk.Button(category_frame, text="创建Category", command=create_category_btn).pack(pady=10)
 
@@ -146,19 +147,31 @@ def create_gui():
     tag_frame = ttk.Frame(notebook)
     notebook.add(tag_frame, text="创建Tag")
 
-    ttk.Label(tag_frame, text="所属Category:").pack(pady=5)
-    tag_category_entry = ttk.Entry(tag_frame, width=40)
-    tag_category_entry.pack(pady=5)
+    ttk.Label(tag_frame, text="选择Category:").pack(pady=5)
+    tag_category_combobox = ttk.Combobox(tag_frame, width=37, state="readonly")
+    tag_category_combobox.pack(pady=5)
     
     ttk.Label(tag_frame, text="Tag名称:").pack(pady=5)
     tag_entry = ttk.Entry(tag_frame, width=40)
     tag_entry.pack(pady=5)
 
+    # 更新Tag选项卡中Category下拉框的函数
+    def update_tag_category_combobox():
+        categories = get_existing_categories()
+        tag_category_combobox["values"] = categories
+        if categories:
+            tag_category_combobox.set(categories[0])
+        else:
+            tag_category_combobox.set("")
+
     def create_tag_btn():
-        category = tag_category_entry.get().strip()
+        category = tag_category_combobox.get()
         tag = tag_entry.get().strip()
-        if not category or not tag:
-            messagebox.showerror("错误", "请输入Category和Tag名称")
+        if not category:
+            messagebox.showerror("错误", "请先创建一个Category")
+            return
+        if not tag:
+            messagebox.showerror("错误", "请输入Tag名称")
             return
         success, msg = create_tag(category, tag)
         messagebox.showinfo("结果", msg)
@@ -210,6 +223,7 @@ def create_gui():
 
     # 初始化下拉框
     update_category_combobox()
+    update_tag_category_combobox()
     update_tag_combobox()
 
     def create_post_btn():
@@ -262,48 +276,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-"""
-#### 1. 通过命令行使用
-在命令行中运行 `zata.exe`，支持以下命令：
-- **创建Category**：
-  ```
-  zata.exe create-category -c "tech"
-  ```
-  输出：`Category目录 'content/post/tech' 创建成功！`
-- **创建Tag**：
-  ```
-  zata.exe create-tag -c "tech" -t "python"
-  ```
-  输出：`Tag目录 'content/post/tech/python' 创建成功！`
-- **创建文章**：
-  - 指定Category：
-    ```
-    zata.exe create -c "tech" -t "python" -b "my-python-post"
-    ```
-    输出：`文件夹 'content/post/tech/python/my-python-post' 和 'index.md' 创建成功！`
-  - 只使用Tag（假设Tag唯一）：
-    ```
-    zata.exe create -t "python" -b "my-python-post"
-    ```
-    输出：`文件夹 'content/post/tech/python/my-python-post' 和 'index.md' 创建成功！`
-- **查看帮助**：
-  ```
-  zata.exe
-  ```
-  显示所有可用命令和参数。
-
-#### 2. 通过GUI使用
-运行以下命令启动图形界面：
-```
-zata.exe gui
-```
-- **界面功能**：
-  - **创建Category**：在“创建Category”选项卡输入名称，点击按钮。
-  - **创建Tag**：在“创建Tag”选项卡输入Category和Tag名称，点击按钮。
-  - **创建文章**：在“创建文章”选项卡选择Category（可选）、Tag，输入标题，点击按钮。
-- **操作结果**：通过弹窗显示成功或错误信息。
-- **动态更新**：创建新Category或Tag后，文章选项卡的下拉框会自动刷新。
-
-"""
