@@ -18,7 +18,114 @@ https://huggingface.co/blog/zh/moe
 
 
 
-# 什么是混合专家模型？
+## MoE 示例：
+
+```python
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+# 定义单个专家网络
+class Expert(nn.Module):
+    def __init__(self, input_dim, hidden_dim, output_dim):
+        super(Expert, self).__init__()
+        self.layer1 = nn.Linear(input_dim, hidden_dim)
+        self.layer2 = nn.Linear(hidden_dim, output_dim)
+    
+    def forward(self, x):
+        x = F.relu(self.layer1(x))
+        x = self.layer2(x)
+        return x
+
+# 定义门控网络
+class Gate(nn.Module):
+    def __init__(self, input_dim, num_experts):
+        super(Gate, self).__init__()
+        self.layer = nn.Linear(input_dim, num_experts)
+    
+    def forward(self, x):
+        return F.softmax(self.layer(x), dim=-1)
+
+# 定义 MoE 模型
+class MixtureOfExperts(nn.Module):
+    def __init__(self, input_dim, hidden_dim, output_dim, num_experts):
+        super(MixtureOfExperts, self).__init__()
+        # 初始化多个专家
+        self.experts = nn.ModuleList([
+            Expert(input_dim, hidden_dim, output_dim) 
+            for _ in range(num_experts)
+        ])
+        # 初始化门控网络
+        self.gate = Gate(input_dim, num_experts)
+        self.num_experts = num_experts
+    
+    def forward(self, x):
+        # 获取门控输出 (batch_size, num_experts)
+        gate_output = self.gate(x)
+        
+        # 获取每个专家的输出 (batch_size, output_dim, num_experts)
+        expert_outputs = torch.stack([expert(x) for expert in self.experts], dim=2)
+        
+        # 加权组合专家输出 (batch_size, output_dim)
+        output = torch.einsum('be,bde->bd', gate_output, expert_outputs)
+        return output
+
+# 测试代码
+def main():
+    # 设置参数
+    input_dim = 10
+    hidden_dim = 20
+    output_dim = 5
+    num_experts = 3
+    batch_size = 32
+    
+    # 创建模型
+    model = MixtureOfExperts(input_dim, hidden_dim, output_dim, num_experts)
+    
+    # 生成随机输入数据
+    x = torch.randn(batch_size, input_dim)
+    
+    # 前向传播
+    output = model(x)
+    
+    print(f"Input shape: {x.shape}")
+    print(f"Output shape: {output.shape}")
+    print(f"Sample output: {output[0]}")
+
+if __name__ == "__main__":
+    # 检查是否有 GPU
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Using device: {device}")
+    main()
+```
+
+### 代码说明：
+1. **`Expert` 类**: 定义了一个简单的两层神经网络作为专家模型。
+2. **`Gate` 类**: 定义了门控网络，用于为每个输入分配专家的权重。
+3. **`MixtureOfExperts` 类**: 组合了多个专家和一个门控网络，通过加权求和得到最终输出。
+4. **`main` 函数**: 测试代码，创建模型并运行一个随机输入。
+
+### 输出示例：
+运行代码后，你会看到类似以下的输出：
+```
+Using device: cpu
+Input shape: torch.Size([32, 10])
+Output shape: torch.Size([32, 5])
+Sample output: tensor([ 0.1234, -0.5678,  0.9101, -0.2345,  0.6789])
+```
+
+### 注意事项：
+- 这个实现是一个基础版本，实际应用中可能需要添加正则化、噪声（如在门控网络中加入 Gumbel-Softmax）或更复杂的专家结构。
+
+
+
+
+
+
+
+
+
+## 什么是混合专家模型？
 模型规模是提升模型性能的关键因素之一。在有限的计算资源预算下，用更少的训练步数训练一个更大的模型，往往比用更多的步数训练一个较小的模型效果更佳。
 
 混合专家模型 (MoE) 的一个显著优势是它们能够在远少于稠密模型所需的计算资源下进行有效的预训练。这意味着在相同的计算预算条件下，您可以显著扩大模型或数据集的规模。特别是在预训练阶段，与稠密模型相比，混合专家模型通常能够更快地达到相同的质量水平。
@@ -39,7 +146,7 @@ https://huggingface.co/blog/zh/moe
 了解了 MoE 的基本概念后，让我们进一步探索推动这类模型发展的研究。
 
 
-# 开源混合专家模型
+## 开源混合专家模型
 目前，下面这些开源项目可以用于训练混合专家模型 (MoE):
 
 Megablocks: https://github.com/stanford-futuredata/megablocks
