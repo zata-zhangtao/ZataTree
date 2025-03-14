@@ -3,8 +3,10 @@ from datetime import datetime
 import argparse
 import tkinter as tk
 from tkinter import ttk, messagebox
+import subprocess  # 用于打开文件
+import sys  # 用于检测操作系统平台
 
-# 原有函数保持不变，返回值改为元组以适应 GUI 使用
+# 创建category目录
 def create_category(category):
     """创建category目录"""
     target_path = os.path.join("content", "post", category)
@@ -14,6 +16,7 @@ def create_category(category):
     except Exception as e:
         return False, f"创建category时发生错误: {str(e)}"
 
+# 创建tag目录
 def create_tag(category, tag):
     """创建tag目录，必须指定category"""
     base_path = os.path.join("content", "post")
@@ -29,6 +32,7 @@ def create_tag(category, tag):
     except Exception as e:
         return False, f"创建tag时发生错误: {str(e)}"
 
+# 创建文章目录和index.md文件
 def create_folder_and_md(categories, tags, title):
     """创建文章目录和index.md文件"""
     current_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S+08:00")
@@ -112,11 +116,11 @@ def get_existing_tags(category=None):
                 tags.update([d for d in os.listdir(cat_path) if os.path.isdir(os.path.join(cat_path, d))])
     return sorted(list(tags))
 
-# 修改后的 GUI
+# GUI 界面
 def create_gui():
     root = tk.Tk()
     root.title("Zata - 博客管理工具")
-    root.geometry("500x400")
+    root.geometry("500x450")  # 增加高度以容纳新功能
 
     notebook = ttk.Notebook(root)
     notebook.pack(pady=10, fill="both", expand=True)
@@ -136,7 +140,6 @@ def create_gui():
             return
         success, msg = create_category(category)
         messagebox.showinfo("结果", msg)
-        # 成功后刷新下拉框
         if success:
             update_category_combobox()
             update_tag_category_combobox()
@@ -155,7 +158,6 @@ def create_gui():
     tag_entry = ttk.Entry(tag_frame, width=40)
     tag_entry.pack(pady=5)
 
-    # 更新Tag选项卡中Category下拉框的函数
     def update_tag_category_combobox():
         categories = get_existing_categories()
         tag_category_combobox["values"] = categories
@@ -175,7 +177,6 @@ def create_gui():
             return
         success, msg = create_tag(category, tag)
         messagebox.showinfo("结果", msg)
-        # 成功后刷新下拉框
         if success:
             update_tag_combobox()
 
@@ -183,14 +184,13 @@ def create_gui():
 
     # 文章选项卡
     post_frame = ttk.Frame(notebook)
-    notebook.add(post_frame, text="创建文章")
+    notebook.add(post_frame, text="创建/打开文章")
 
-    # Category 下拉框
+    # 创建文章部分
     ttk.Label(post_frame, text="选择Category（可选）:").pack(pady=5)
     category_combobox = ttk.Combobox(post_frame, width=37, state="readonly")
     category_combobox.pack(pady=5)
     
-    # Tag 下拉框
     ttk.Label(post_frame, text="选择Tag:").pack(pady=5)
     tag_combobox = ttk.Combobox(post_frame, width=37, state="readonly")
     tag_combobox.pack(pady=5)
@@ -199,10 +199,9 @@ def create_gui():
     post_title_entry = ttk.Entry(post_frame, width=40)
     post_title_entry.pack(pady=5)
 
-    # 更新下拉框内容的函数
     def update_category_combobox():
         categories = get_existing_categories()
-        category_combobox["values"] = [""] + categories  # 空字符串表示可选
+        category_combobox["values"] = [""] + categories
         if categories:
             category_combobox.set("")
     
@@ -218,13 +217,7 @@ def create_gui():
         else:
             tag_combobox.set("")
 
-    # 绑定 Category 下拉框的选择事件
     category_combobox.bind("<<ComboboxSelected>>", update_tag_combobox)
-
-    # 初始化下拉框
-    update_category_combobox()
-    update_tag_category_combobox()
-    update_tag_combobox()
 
     def create_post_btn():
         category = category_combobox.get() or None
@@ -236,7 +229,55 @@ def create_gui():
         success, msg = create_folder_and_md(category, tag, title)
         messagebox.showinfo("结果", msg)
 
-    ttk.Button(post_frame, text="创建文章", command=create_post_btn).pack(pady=10)
+    ttk.Button(post_frame, text="创建文章", command=create_post_btn).pack(pady=5)
+
+    # 打开文章部分
+    ttk.Separator(post_frame, orient="horizontal").pack(fill="x", pady=10)
+    
+    ttk.Label(post_frame, text="输入要打开的文章标题:").pack(pady=5)
+    open_title_entry = ttk.Entry(post_frame, width=40)
+    open_title_entry.pack(pady=5)
+
+    def open_post_btn():
+        title = open_title_entry.get().strip()
+        if not title:
+            messagebox.showerror("错误", "请输入文章标题")
+            return
+        
+        base_path = os.path.join("content", "post")
+        found_paths = []
+        
+        for root, dirs, files in os.walk(base_path):
+            if title in dirs:
+                md_path = os.path.join(root, title, "index.md")
+                if os.path.exists(md_path):
+                    found_paths.append(md_path)
+        
+        if not found_paths:
+            messagebox.showerror("错误", f"未找到标题为 '{title}' 的文章")
+            return
+        elif len(found_paths) > 1:
+            messagebox.showwarning("警告", f"找到多个标题为 '{title}' 的文章，将打开第一个:\n{found_paths[0]}")
+            file_path = found_paths[0]
+        else:
+            file_path = found_paths[0]
+        
+        try:
+            if os.name == 'nt':  # Windows
+                os.startfile(file_path)
+            elif os.name == 'posix':  # MacOS/Linux
+                opener = 'open' if sys.platform == 'darwin' else 'xdg-open'
+                subprocess.call([opener, file_path])
+            messagebox.showinfo("成功", f"已打开文件: {file_path}")
+        except Exception as e:
+            messagebox.showerror("错误", f"打开文件失败: {str(e)}")
+
+    ttk.Button(post_frame, text="打开文章", command=open_post_btn).pack(pady=5)
+
+    # 初始化下拉框
+    update_category_combobox()
+    update_tag_category_combobox()
+    update_tag_combobox()
 
     root.mainloop()
 

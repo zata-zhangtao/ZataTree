@@ -1,5 +1,5 @@
 ---
-title: 几种LLM效果的对比
+title: 对比了几种大模型在相同任务下的表现
 description: ""
 date: 2025-03-06T15:11:55+08:00
 image: images/index/index.png
@@ -14,7 +14,9 @@ tags:
 `每个模型我试了多次，然后取比较好的，当然可能也和提示词有关！！！`
 
 
-### 内容梳理任务
+## 内容梳理任务
+
+### 总结文档的内容-1
 ```text
 Summarize the content from the following websites:
 
@@ -28,29 +30,29 @@ Task:
 ```
 
 
-#### 模型效果
+**模型效果**
 - Qwen      ☆☆☆☆☆
 - Grok      ☆☆☆☆☆
 - Deepseek  ☆☆
 - ChatGLM   ☆
 
 
-#### Qwen ☆☆☆☆☆
+#### Qwen2.5-max ☆☆☆☆☆
 
 ![alt text](images/index/index-1.png)
 
 
-#### Grok ☆☆☆☆☆
+#### Grok3 ☆☆☆☆☆
 
 ![alt text](images/index/index-2.png)
 
 
-#### DeepSeek ☆☆
+#### DeepSeek-V3 ☆☆
 
 ![alt text](images/index/index-4.png)
 
 
-#### ChatGLM ☆
+#### ChatGLM-plus ☆
 
 ![alt text](images/index/index-3.png)
 
@@ -58,5 +60,61 @@ Task:
 
 
 
+### 总结文档的内容-2 （检查是否更新
 
+
+**模型效果**
+- qwq-32b       ☆☆☆☆☆
+- Grok      ☆☆☆☆☆
+- Deepseek  ☆☆
+- ChatGLM   ☆
+
+
+
+
+<span style="color:red"> 这里我给出一个实际上没有更新的内容，最好应该就是返回没有更新 </span>
+
+```text
+
+你是一个订阅号运营专家，可以根据差异内容总结出订阅内容的更新情况，请对以下内容差异进行总结：
+            "[""Changed: '53  分钟' -> '1  小时'"", ""Changed: '1' -> '2'"", ""Changed: '3' -> '4'"", ""Changed: '3' -> '4'"", ""Changed: '4' -> '5'"", ""Changed: '4' -> '5'""]"
+
+            注意，有些内容的可能仅仅是时间或者数据的变化，这样的内容更新是不需要总结的，可以看作没有更新，返回空数组
+
+            要求：
+            1. 提供简洁的内容更新概要
+            2. 提取关键点
+            3. 计算内容的列表长度
+            返回结果使用中文,如果内容更新或者没有关键点，请返回空数组。
+            请根据以上要求，总结出订阅内容的更新情况，并返回结果。
+            
+
+            返回格式json（请严格按照以下格式返回）：
+            {{
+                "summary": {{
+                    "content": [],
+                    "key_points": [],
+                    "word_count": 0,
+                    "generated_at": ""
+                }},
+            }}
+            
+
+            """
+```
+
+
+#### qwq-32b ☆☆☆☆☆
+
+非常可以，只返回了json，没有一点多余的内容
+
+
+![alt text](images/index/index-5.png)
+
+
+#### Grok3 ☆☆☆☆
+
+也非常可以，对了，但是比起qwq-32b ，还是没有做到：只返回json
+
+![alt text](images/index/index-6.png)
 
