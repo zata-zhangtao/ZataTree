@@ -56,4 +56,24 @@ curl -sSL https://resource.fit2cloud.com/1panel/package/quick_start.sh -o quick_
 
 2. 使用docker编排进行部署
 
+```bash
+version: '3'
+
+services:
+  newsnow:
+    image: ghcr.io/ourongxing/newsnow:latest
+    container_name: newsnow
+    restart: always
+    ports:
+      - '4444:4444'
+    environment:
+      - G_CLIENT_ID=
+      - G_CLIENT_SECRET=
+      - JWT_SECRET=
+      - INIT_TABLE=true
+      - ENABLE_CACHE=true
+```
+
 ![alt text](images/index/index-6.png)
+
+3. 打开你的ip地址:4444
