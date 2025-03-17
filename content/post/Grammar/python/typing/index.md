@@ -1,5 +1,5 @@
 ---
-title: typing
+title: typing-提高代码可读性
 description: ""
 date: 2025-03-15T20:34:43+08:00
 # image: images/index/index.png
@@ -8,6 +8,115 @@ categories:
 tags:
     - python
 ---
+
+
+## 首先掌握
+
+
+### typedDict
+
+```python
+from typing import TypedDict
+
+# 定义一个 TypedDict
+class Person(TypedDict):
+    name: str
+    age: int
+    email: NotRequired[str]  # 可选字段
+
+# 使用这个类型
+person: Person = {"name": "Alice", "age": 25}  # 合法
+# person = {"name": "Alice"}  # 非法：缺少 'age' 键
+# person = {"name": "Alice", "age": "25"}  # 非法：'age' 应该是 int 类型
+```
+**特点**
+1. **固定键**：`TypedDict` 定义的键是固定的，不能随意添加或删除未定义的键。
+2. **类型检查**：类型检查工具（如 `mypy`）会验证字典是否符合定义的结构。
+3. **继承性**：可以通过继承扩展 `TypedDict`。
+
+
+### 基本类型注解
+```python
+from typing import List, Dict, Tuple, Set, Optional, Union
+
+# 基本类型
+name: str = "Alice"
+age: int = 25
+height: float = 1.75
+is_student: bool = True
+
+# 容器类型
+numbers: List[int] = [1, 2, 3]
+scores: Dict[str, int] = {"Alice": 90, "Bob": 85}
+point: Tuple[int, int, str] = (10, 20, "origin")
+unique_numbers: Set[int] = {1, 2, 3}
+
+# 可选类型和联合类型
+middle_name: Optional[str] = None  # 可以是字符串或 None
+id: Union[int, str] = 123  # 可以是整数或字符串
+
+
+# 函数注解
+def greet(name: str) -> str:
+    return f"Hello, {name}!"
+
+# 类注解
+class Point:
+    x: int
+    y: int
+    def __init__(self, x: int, y: int):
+        self.x = x
+        self.y = y
+
+# 泛型
+from typing import TypeVar
+T = TypeVar('T') # 表示任何类型
+def identity(item: T) -> T:
+    return item
+T = TypeVar('T', int, float)
+def add(a: T, b: T) -> T:
+    return a + b
+
+# 嵌套类型
+from typing import List, Dict
+def process_data(data: List[Dict[str, int]]) -> List[int]:
+    return [item["value"] for item in data]
+    
+# callable类型
+from typing import Callable
+def apply(func: Callable[[int], int], value: int) -> int:
+    return func(value)
+
+# Any类型
+from typing import Any
+def print_anything(value: Any) -> None:
+    print(value)
+
+# 类型别名
+Vector = List[float]
+def normalize(vector: Vector) -> Vector:
+    return [v / sum(vector) for v in vector]
+
+# 自定义类型
+from typing import NewType
+UserId = NewType('UserId', int)
+```
+
+
+
+
+
+
+
+---
+
+
+## typing
+
+
+
+
+{{<bilibili BV14Q4y1n7jz>}}
 
 
 
