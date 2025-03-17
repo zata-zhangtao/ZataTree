@@ -4,7 +4,7 @@ description: ""
 date: 2025-03-11T11:05:13+08:00
 # image: images/index/index.png
 categories:
-    - Library
+    - Agent
 tags:
     - LangChain
 ---

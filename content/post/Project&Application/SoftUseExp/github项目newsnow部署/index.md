@@ -10,7 +10,10 @@ tags:
 ---
 
 
-![newsnow](images/index/index.png)
+<!-- ![newsnow](images/index/index.png) -->
+
+{{< bilibili BV1X8QhY5EB5 >}}
+
 
 ### 项目介绍
 
