@@ -34,7 +34,9 @@ def create_tag(category, tag):
 
 # 创建文章目录和index.md文件
 def create_folder_and_md(categories, tags, title):
-    """创建文章目录和index.md文件"""
+    """创建文章目录和index.md文件，并复制tag目录下的index.png（如果存在）"""
+    import shutil  # 添加 shutil 用于文件复制
+
     current_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S+08:00")
     base_path = os.path.join("content", "post")
     
@@ -67,6 +69,7 @@ def create_folder_and_md(categories, tags, title):
             categories = os.path.basename(os.path.dirname(parent_path))
 
     try:
+        # 创建目标目录
         os.makedirs(target_path, exist_ok=True)
         md_file_path = os.path.join(target_path, "index.md")
         
@@ -85,11 +88,22 @@ image: images/index/index.png
 ---
 """
         
+        # 创建 index.md 文件
         if not os.path.exists(md_file_path):
             with open(md_file_path, 'w', encoding='utf-8') as f:
                 f.write(header_content)
-            return True, f"文件夹 '{target_path}' 和 'index.md' 创建成功！"
-        return True, f"文件夹 '{target_path}' 已存在，跳过创建 'index.md'。"
+
+        # 检查并复制 index.png
+        source_image = os.path.join(parent_path, "index.png")
+        target_image_dir = os.path.join(target_path, "images", "index")
+        target_image_path = os.path.join(target_image_dir, "index.png")
+        
+        if os.path.exists(source_image):
+            os.makedirs(target_image_dir, exist_ok=True)
+            shutil.copy2(source_image, target_image_path)
+            return True, f"文件夹 '{target_path}' 和 'index.md' 创建成功！已复制图片到 '{target_image_path}'"
+        
+        return True, f"文件夹 '{target_path}' 和 'index.md' 创建成功！"
     except Exception as e:
         return False, f"发生错误: {str(e)}"
 

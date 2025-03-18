@@ -9,13 +9,22 @@ tags:
     - others
 ---
 
+项目地址：
 
+https://github.com/zzzgydi/clash-verge/tree/main
+
+[![Download](https://img.shields.io/badge/Download-Install%20Package-blue)](images/index/Clash.Verge_1.3.8_x64-setup.exe)
 
 
 
 ### 修改clash中的配置信息
 
 <span style="color:red"> 改过配置之后不要刷新订阅，不然就没了，不过不更新又不会加载规则，可以通过切换订阅文件的方式加载规则</span>
+
+
+可以复制一个你原有的规则，然后修改里面的内容，然后保存。通过加载本地文件的方式加载
+
+![新建内容](images/index/index.png)
 
 
 
