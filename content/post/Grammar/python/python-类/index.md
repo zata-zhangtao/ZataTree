@@ -8,10 +8,12 @@ categories:
     # - DeepLearning
     # - DeepLearning
     # - Chart
-    - Python
+    - Grammar
     # - LLM
     # - Library
     # - PaperReading
+tags:
+    - python
 ---
 
 

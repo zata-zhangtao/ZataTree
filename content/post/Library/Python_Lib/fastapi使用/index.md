@@ -8,11 +8,12 @@ categories:
     # - DeepLearning
     # - DeepLearning
     # - Chart
-    - Python
+    - 
     # - LLM
     - Library
-    - web
     # - PaperReading
+tags:
+    - Python_Library
 ---
 #  ☆ FASTAPI
 ## 运行环境和安装

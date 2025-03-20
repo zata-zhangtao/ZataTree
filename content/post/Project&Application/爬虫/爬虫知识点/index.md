@@ -1,5 +1,5 @@
 ---
-title: 1-爬虫的知识点
+title: 爬虫-基础介绍
 description: 
 date: 2025-03-03T00:00:00+08:00
 # slug: 文件夹名/index.md ## 必填，文件夹名/index.md
@@ -183,52 +183,6 @@ crawl(start_url)
 #### 可视化与编程化
 
 可视化爬虫/抓取工具降低了编程技能需求，通过高亮数据教学用户使用。例如，Needlebase（被Google作为ITA Labs的一部分收购，[Needlebase](http://www.needlebase.com)）是典型代表，简化了数据提取过程[Web Crawler - Wikipedia](https://en.wikipedia.org/wiki/Web_crawler)。
-
-#### Python代码示例详解
-
-以下代码使用`requests`和`BeautifulSoup`库，展示了一个基本爬虫，从给定URL开始，爬取页面上的所有链接并打印：
-
-```python
-import requests
-from bs4 import BeautifulSoup
-from urllib.parse import urljoin, urlparse
-
-def crawl(url):
-    # 发送GET请求到URL
-    response = requests.get(url)
-    
-    # 检查请求是否成功
-    if response.status_code != 200:
-        print(f"无法检索 {url}")
-        return
-    
-    # 解析HTML内容
-    soup = BeautifulSoup(response.text, 'html.parser')
-    
-    # 查找页面上的所有链接
-    for link in soup.find_all('a'):
-        # 获取href属性
-        href = link.get('href')
-        
-        # 如果href为空，跳过此链接
-        if href is None:
-            continue
-        
-        # 将相对URL转换为绝对URL
-        absolute_url = urljoin(url, href)
-        
-        # 打印绝对URL
-        print(absolute_url)
-        
-        # 在实际应用中，可以将此URL添加到队列中以供后续爬取
-        # 这里仅打印以简化
-
-# 示例用法
-start_url = 'https://www.example.com'
-crawl(start_url)
-```
-
-此代码提供了一个基本框架，实际应用中需处理重复URL、遵守robots.txt等。
 
 #### 总结
 

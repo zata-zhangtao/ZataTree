@@ -5,7 +5,7 @@ date: 2025-02-27
 slug: scipy/index.md
 # image: helena-hertz-wWZzXlDpMog-unsplash.jpg
 categories:
-    - python
+    - Python-Library
     - library
 ---
 

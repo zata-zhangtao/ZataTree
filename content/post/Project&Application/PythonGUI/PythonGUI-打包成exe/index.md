@@ -7,10 +7,11 @@ image: image/python程序打包exe/python程序打包exe.png
 categories:
     # - DeepLearning
     # - Chart
-    - Python
+    - Project&Application
     # - LLM
-    - Library
     # - PaperReading
+tags:
+    - PythonGUI
 
 ---
 

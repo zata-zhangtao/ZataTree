@@ -172,13 +172,13 @@ params:
             - type: search             # 主页小部件：搜索框
             - type: archives           # 主页小部件：归档列表
               params:
-                  limit: 5             # 归档列表限制显示 5 个
+                  limit: 1             # 归档列表限制显示 5 个
             - type: categories         # 主页小部件：分类列表
               params:
-                  limit: 10            # 分类列表限制显示 10 个
+                  limit: 100            # 分类列表限制显示 10 个
             - type: tag-cloud          # 主页小部件：标签云
               params:
-                  limit: 10            # 标签云限制显示 10 个
+                  limit: 100            # 标签云限制显示 10 个
         page:
             - type: toc                # 单页小部件：目录
 
@@ -231,7 +231,7 @@ related:
     toLower: false                     # 标签/分类是否忽略大小写
     indices:
         - name: tags                   # 根据标签匹配相关文章
-          weight: 100                  # 标签权重
+          weight: 1000                  # 标签权重
         - name: categories             # 根据分类匹配相关文章
           weight: 200                  # 分类权重
 
