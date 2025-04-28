@@ -22,7 +22,7 @@ tags:
 
 --- 
 
-## 打包示例
+## 打包示例（20250426）： 不推荐，打包出来的文件非常大
 
 ### 1 代码的例子
 
@@ -102,8 +102,9 @@ pyi-makespec --onefile  --collect-all aiofiles --collect-all annotated_types --c
 
 
 然后增加一行
-
-module_collection_mode={ 'gradio': 'py',},
+```py
+module_collection_mode={'gradio': 'py',},
+```
 
 ![增加一行编译方式](images/index/image3.png)
 

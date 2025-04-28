@@ -64,11 +64,19 @@ https://blog.csdn.net/weixin_46474921/article/details/132841711
 
 参考 https://juejin.cn/post/7244809769794289721
 
+
+
+打开粘贴选项
+
+![Edit-Paste As：Enable 勾选](index/PixPin_2025-04-28_10-21-02.png)
+
+
 ![vscode写markdown插入图片时放在指定目录](image/index/index-7.png)
 
 ```bash
-**/*.md      assets/${documentDirName}/${fileName}   # 以原始文件名放到 ./assets/<md文件名>/<图片文件名>
-**/*.md      assets/${documentBaseName}/${documentBaseName}.${fileExtName}   # 重新以md文件名命名图片名
+**/*.md      images/${documentDirName}/${fileName}   # 以原始文件名放到 ./assets/<md文件名>/<图片文件名>
+**/*.md      images/${documentBaseName}/${documentBaseName}.${fileExtName}   # 重新以md文件名命名图片名
+**/*.md      images/${documentBaseName}/image.${fileExtName}   # 以image.png重命名放到images/文件名    文件夹下
 ```
 
 ## vscode折叠代码
