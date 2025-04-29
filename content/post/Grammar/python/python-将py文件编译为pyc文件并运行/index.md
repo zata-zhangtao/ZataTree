@@ -15,7 +15,7 @@ tags:
 
 ### 问题提醒
 
-#### 1. 版本号问题：编译版本和runtime版本不一致报错
+#### 1. 版本号问题：编译版本和runtime版本不一致会导致报错
 
 ![编译版本和runtime版本不一致报错](images/index/image.png)
 
