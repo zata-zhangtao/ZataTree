@@ -304,13 +304,15 @@ $`  和  `$
 ```
 来包围单行公式，如下
 
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/230396f603874e5e82ae2bbb1c7010e3.jpeg)
+![alt text](images/index/image.png)
+
 `第二种方法： 插件`
 
 但是还是会有一部分显示不正确
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/2fc1936490f84904b8a12ab12eb47ad4.jpeg)
+![alt text](images/index/image-1.png)
+
 解决方法：安装插件：https://chrome.google.com/webstore/detail/mathjax-plugin-for-github/ioemnmodlmafdkllaclgeombjnmnbima/related
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/9db763b4137e473d8c7eac94d6044c17.jpeg)
+![插件名](images/index/image-2.png)
 
 
 
@@ -346,30 +348,29 @@ cat id_rsa // 查看本地的私钥
 > github上点击头像，点击Settings，进入后点击 SSH and GPS keys，接着点击 New SSH key
 > 将公钥粘贴在key输入框那里，Title则随便输入可以就行
 
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/655a1a04316a483c8bb21b535aca31f6.jpeg)
-
-
+![github ssh](images/index/image-3.png)
 
 ## `git 使用token登录github 并拉取项目` （如果电脑上已经登录过了，需要把账户信息清除掉。**如果是用ssh密钥登录的也不行**，清除token账户信息请看下面“清除电脑上已经登录的github账户信息”）
+
 
 <table>
     <tr>
         <td >
-        	<img src="https://i-blog.csdnimg.cn/direct/29000ed66efe469eab478a184d1df37d.png" >图1  打开设置
+        	<img src="images/index/image-4.png" >图1  打开设置
         </td>
         <td >
-       		<img src="https://i-blog.csdnimg.cn/direct/efd91004eb7c436895145fe70886154e.png"  >图2 开发者设置
+       		<img src="images/index/image-5.png"  >图2 开发者设置
        	</td>
        	        <td >
-       		<img src="https://i-blog.csdnimg.cn/direct/a3ac8181595f40cba51f74aa46678595.png"  >图3 点击Token
+       		<img src="images/index/image-6.png"  >图3 点击Token
        	</td>
     </tr>
         <tr>
         <td >
-        	<img src="https://i-blog.csdnimg.cn/direct/e9b8e868a98a46faa2808c257dd4a8c4.png" >图4  生成classic Token
+        	<img src="images/index/image-7.png" >图4  生成classic Token
         </td>
         <td >
-       		<img src="https://i-blog.csdnimg.cn/direct/4050e0ba1fc044cca920a96e04e7ed21.png"  >图5 设置命名和权限
+       		<img src="images/index/image-8.png"  >图5 设置命名和权限
        	</td>
     </tr>
 </table>
@@ -386,17 +387,25 @@ cat id_rsa // 查看本地的私钥
 
 
 如果是第一次登录，看到github要求进行2FA，可以安装如下  chrome插件：Github 2FA（去chrome商店搜索）
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/66753e4bf1e34c1aabfbc509e6e1951b.jpeg)
+
+![Github 2FA应用图标](images/index/image-12.png)
+
 然后你回到github页面刷新，在上面图片红框的那个位置就会出现一个30s的密码，输入就可以确认，确认好之后会让你下周恢复密钥，记得下载保存
 
 
 ## github 清除电脑上已经登录的github账户信息
 step1： 进入控制面板点击用户账户
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/6f6c881d65a14a88b86455bbb3799be8.jpeg)
+
+![控制面板-用户账户](images/index/image-9.png)
+
 step2：管理windows凭证
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/4602bdbd04f8401bb2f536e5a14cb85f.jpeg)
+
+![windows凭证](images/index/image-10.png)
+
 step3：删除github相关的凭证
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/1d5c1e7d17464e869b78334963295b8f.png)
+
+
+![删除github凭证](images/index/image-11.png)
 
 ## `git clone 出现以下问题：fatal: unable to access XXX: gnutls_handshake() failed: The TLS connection was non-properly terminated.`
 
