@@ -26,6 +26,7 @@ tags:
 - cx_Freeze：老牌打包工具，稳定可靠
 - Auto-py-to-exe：PyInstaller的GUI版本，适合新手使用
 - Py2exe：仅支持Windows平台的经典工具
+- PyStand： 非常容易快捷的打包方式，只需要把源码和环境拖入制定文件夹就可以
 
 
 
