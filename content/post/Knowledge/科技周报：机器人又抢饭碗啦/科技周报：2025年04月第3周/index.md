@@ -22,7 +22,10 @@ tags:
 
 - https://github.com/microsoft/markitdown 【微软推出，用于将各类文件转换为markdown，现在提供mcp】 期待度：★★★★★
 
-- https://github.com/Byaidu/PDFMathTranslate 【多语言的pdf翻译转换工具】 期待度：★★★★★
+- https://github.com/Byaidu/PDFMathTranslate 【多语言的pdf翻译转换工具】 期待度：★★★★★   ---- 20250423试了，效果还可以，而且我还是用的默认的google翻译，可能用ai会更好
+
+![原始pdf](images/index/image.png)
+![翻译后的pdf](images/index/image2.png)
 
 - https://github.com/dgtlmoon/changedetection.io?tab=readme-ov-file 【监控网页变化】
 
