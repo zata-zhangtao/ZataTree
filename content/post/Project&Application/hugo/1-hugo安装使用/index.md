@@ -1,5 +1,5 @@
 ---
-title: 1-hugo使用
+title: 1-hugo安装使用
 description:  Hugo 是一个快速、灵活的开源静态网站生成器，广泛用于构建博客、文档和个人网站。
 date: 2025-02-28
 slug: hugo安装使用/index.md ## 必填，文件夹名/index.md
@@ -61,7 +61,7 @@ md文件+图片的组合，文件夹的名称是随意命名的，但文件夹�
 
 ## hugo在ubuntu系统下安装使用
 
-
+<span style="color:red" >  2025年5月5日，本来想要在服务器上部署到，试了没成功，感觉挺难的，最后把服务器改成了windows系统  </span>
 
 
 https://gohugo.io/getting-started/quick-start/
@@ -79,6 +79,9 @@ sudo apt install hugo
 ```bash
 sudo apt install git-all
 ```
+
+
+
 
 
 

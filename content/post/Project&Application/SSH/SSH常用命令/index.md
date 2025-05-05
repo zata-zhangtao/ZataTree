@@ -402,10 +402,52 @@ sudo systemctl restart ssh
 
 ```
 
-## 
+## SSH 连接到远程服务器 （linux和windows）
+
+### 服务器安装ssh服务
+1. linux
+```bash
+sudo apt update # 更新仓库
+sudo apt install openssh-server # 安装openssh
+sudo service ssh restart # 重启服务，然后就可以连接了，有时候root用户连不上，可以用普通用户登录再切换到root
+```
+
+2. windows
+参考： https://blog.csdn.net/weixin_72910567/article/details/132414264
+![安装openssh服务](https://i-blog.csdnimg.cn/blog_migrate/4777336bf541fca7eb655f0af5056890.png)
+
+```bash 
+# 1. 在设置-应用和功能里安装openssh服务
+
+# 2. 查看是否安装成功
+Get-WindowsCapability -Online | ? Name -like 'OpenSSH*'  
+
+# 3. 开启服务
+net start sshd
+
+# 4. 设置开机自启动
+Set-Service -Name sshd -StartupType 'Automatic'
+```
 
 
-# Windows 下关闭 SSH 后台连接的方法 （在使用端口转发设置参数为-f时）
+### 本地机器生成密钥并复制到远程服务器（下次ssh连接就不需要输入密码）
+
+```bash
+# 生成 SSH 密钥对
+ssh-keygen -t rsa -b 4096
+
+# 复制公钥到远程服务器
+ssh-copy-id username@hostname
+
+# 查看已知主机
+cat ~/.ssh/known_hosts
+```
+
+
+
+
+
+## Windows 下关闭 SSH 后台连接的方法 （在使用端口转发设置参数为-f时）
 
 1. 使用任务管理器：
 ```powershell
