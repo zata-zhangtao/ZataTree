@@ -2,7 +2,7 @@
 title: 1-git&github使用
 description: git&github使用指南
 date: 2025-02-28
-slug: git&github/index.md ## 必填，文件夹名/index.md
+slug: git&github/index.md ### 必填，文件夹名/index.md
 image: image/index/index.png
 categories:
     # - DeepLearning
@@ -19,8 +19,8 @@ tags: ["git&github"]
 
 ---
 
-#  git基本使用
-## 简单常用命令
+##  git基本使用
+### 简单常用命令
 
 
 ```bash
@@ -187,15 +187,42 @@ git merge origin/feature
 关于merge的详解可见参考[git merge](#git-merge详解)
 
 
+### tag
+
+```bash
+# 创建标签
+git tag <tagname>                          # 轻量标签
+git tag -a <tagname> -m "<message>"       # 带注释标签
+git tag <tagname> <commit-hash>           # 为特定提交打轻量标签
+git tag -a <tagname> <commit-hash> -m "<message>" # 为特定提交打注释标签
+git tag -s <tagname> -m "<message>"       # 创建带 GPG 签名的标签
+
+# 查看标签
+git tag                                   # 列出所有标签
+git tag -l                                # 同上
+git tag -l "<pattern>"                    # 按模式查找标签（如 v1.*）
+git show <tagname>                        # 显示标签详细信息
+git tag -v <tagname>                      # 验证签名标签
+
+# 推送标签
+git push origin <tagname>                 # 推送单个标签
+git push origin --tags                    # 推送所有标签
+
+# 删除标签
+git tag -d <tagname>                      # 删除本地标签
+git push origin --delete <tagname>        # 删除远程标签
+
+# 切换到标签
+git checkout <tagname>                    # 检出标签（进入分离头指针状态）
+```
 
 
 
 
+## 一些问题解决
 
-# 一些问题
 
-
-## git 版本标签
+### git 版本标签
 
 1. 什么是版本标签？
 标签（Tag） 是 Git 中的一个引用（reference），指向某个特定的提交。
@@ -233,7 +260,7 @@ git push origin --delete v1
 ```
 
 
-## git merge详解
+### git merge详解
 
 
 如果没有冲突，Git 会自动完成合并，并创建一个合并提交（merge commit，如果需要的话）。如果有冲突，Git 会暂停合并，提示你解决冲突（后面会讲怎么处理）。
@@ -278,7 +305,7 @@ git merge --no-ff feature
 
 
 
-## |git pull|merge| git 多人协作的时候怎么解决冲突？
+### |git pull|merge| git 多人协作的时候怎么解决冲突？
 
 
 使用git-pull 然后git-commit 最后git-push 
@@ -290,7 +317,7 @@ git merge --no-ff feature
 
 
 
-## |公式 | github | github不显示md文件中的公式
+### |公式 | github | github不显示md文件中的公式
 `第一种方法：使用github推荐的公式写法（推荐）`
 在写md的时候，使用
 ```
@@ -304,17 +331,19 @@ $`  和  `$
 ```
 来包围单行公式，如下
 
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/230396f603874e5e82ae2bbb1c7010e3.jpeg)
+![alt text](images/index/image.png)
+
 `第二种方法： 插件`
 
 但是还是会有一部分显示不正确
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/2fc1936490f84904b8a12ab12eb47ad4.jpeg)
+![alt text](images/index/image-1.png)
+
 解决方法：安装插件：https://chrome.google.com/webstore/detail/mathjax-plugin-for-github/ioemnmodlmafdkllaclgeombjnmnbima/related
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/9db763b4137e473d8c7eac94d6044c17.jpeg)
+![插件名](images/index/image-2.png)
 
 
 
-## git 使用ssh密钥登录github
+### git 使用ssh密钥登录github
 ` 注意一个密钥只能登录一个github，如果你想要在新的github账户上面添加旧的ssh密钥，就会报错`
 准备工作：本地先下载安装好git，注册并登陆github账号
 在注册好后的github账号中先创建一个仓库
@@ -346,30 +375,29 @@ cat id_rsa // 查看本地的私钥
 > github上点击头像，点击Settings，进入后点击 SSH and GPS keys，接着点击 New SSH key
 > 将公钥粘贴在key输入框那里，Title则随便输入可以就行
 
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/655a1a04316a483c8bb21b535aca31f6.jpeg)
+![github ssh](images/index/image-3.png)
 
+### `git 使用token登录github 并拉取项目` （如果电脑上已经登录过了，需要把账户信息清除掉。**如果是用ssh密钥登录的也不行**，清除token账户信息请看下面“清除电脑上已经登录的github账户信息”）
 
-
-## `git 使用token登录github 并拉取项目` （如果电脑上已经登录过了，需要把账户信息清除掉。**如果是用ssh密钥登录的也不行**，清除token账户信息请看下面“清除电脑上已经登录的github账户信息”）
 
 <table>
     <tr>
         <td >
-        	<img src="https://i-blog.csdnimg.cn/direct/29000ed66efe469eab478a184d1df37d.png" >图1  打开设置
+        	<img src="images/index/image-4.png" >图1  打开设置
         </td>
         <td >
-       		<img src="https://i-blog.csdnimg.cn/direct/efd91004eb7c436895145fe70886154e.png"  >图2 开发者设置
+       		<img src="images/index/image-5.png"  >图2 开发者设置
        	</td>
        	        <td >
-       		<img src="https://i-blog.csdnimg.cn/direct/a3ac8181595f40cba51f74aa46678595.png"  >图3 点击Token
+       		<img src="images/index/image-6.png"  >图3 点击Token
        	</td>
     </tr>
         <tr>
         <td >
-        	<img src="https://i-blog.csdnimg.cn/direct/e9b8e868a98a46faa2808c257dd4a8c4.png" >图4  生成classic Token
+        	<img src="images/index/image-7.png" >图4  生成classic Token
         </td>
         <td >
-       		<img src="https://i-blog.csdnimg.cn/direct/4050e0ba1fc044cca920a96e04e7ed21.png"  >图5 设置命名和权限
+       		<img src="images/index/image-8.png"  >图5 设置命名和权限
        	</td>
     </tr>
 </table>
@@ -378,7 +406,7 @@ cat id_rsa // 查看本地的私钥
 在新设备上pull或者push的时候，会让你登录，有两种方式，一种是账号密码，另一种就算token，选择token，然后粘贴上一步生成的token就可以了
 
 
-## github 要求2FA认证
+### github 要求2FA认证
 今天上线的时候突然发现，github要求我设置2FA认证，不然就不能登录，手机号我必然是没有的，只能用安全密钥控制
 具体的github说明在这里：https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication
 
@@ -386,19 +414,27 @@ cat id_rsa // 查看本地的私钥
 
 
 如果是第一次登录，看到github要求进行2FA，可以安装如下  chrome插件：Github 2FA（去chrome商店搜索）
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/66753e4bf1e34c1aabfbc509e6e1951b.jpeg)
+
+![Github 2FA应用图标](images/index/image-12.png)
+
 然后你回到github页面刷新，在上面图片红框的那个位置就会出现一个30s的密码，输入就可以确认，确认好之后会让你下周恢复密钥，记得下载保存
 
 
-## github 清除电脑上已经登录的github账户信息
+### github 清除电脑上已经登录的github账户信息
 step1： 进入控制面板点击用户账户
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/6f6c881d65a14a88b86455bbb3799be8.jpeg)
-step2：管理windows凭证
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/4602bdbd04f8401bb2f536e5a14cb85f.jpeg)
-step3：删除github相关的凭证
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/1d5c1e7d17464e869b78334963295b8f.png)
 
-## `git clone 出现以下问题：fatal: unable to access XXX: gnutls_handshake() failed: The TLS connection was non-properly terminated.`
+![控制面板-用户账户](images/index/image-9.png)
+
+step2：管理windows凭证
+
+![windows凭证](images/index/image-10.png)
+
+step3：删除github相关的凭证
+
+
+![删除github凭证](images/index/image-11.png)
+
+### `git clone 出现以下问题：fatal: unable to access XXX: gnutls_handshake() failed: The TLS connection was non-properly terminated.`
 
 `git clone 出现以下问题：fatal: unable to access 'https://github.com/QwenLM/Qwen.git/': gnutls_handshake() failed: The TLS connection was non-properly terminated.`
 
@@ -413,7 +449,7 @@ apt-get install curl
 
 
 
-## `[git push] ssh: connect to host github.com port 22: Connection timed out fatal: Could not....`
+### `[git push] ssh: connect to host github.com port 22: Connection timed out fatal: Could not....`
 最有可能是防火墙问题，可以参考github官方的解决方法 用443端口解决
 https://docs.github.com/en/authentication/troubleshooting-ssh/using-ssh-over-the-https-port
 
@@ -439,7 +475,7 @@ git clone ssh://git@ssh.github.com:443/YOUR-USERNAME/YOUR-REPOSITORY.git
 
 
 
-## `远程分支是v3版本，本地的v2版本，但是本地修改了文件还没有add也没有commit，应该怎么更新本地？`
+### `远程分支是v3版本，本地的v2版本，但是本地修改了文件还没有add也没有commit，应该怎么更新本地？`
 **1. 第一步：首先保存你的本地修改：**
 
 > `git stash `
@@ -471,3 +507,195 @@ git clone ssh://git@ssh.github.com:443/YOUR-USERNAME/YOUR-REPOSITORY.git
 如果合并时遇到问题，随时可以用 git status 查看当前状态
 如果想放弃当前操作回到起点，可以用 git reset --hard HEAD（注意这会丢失未提交的修改）
 
+
+
+### 用git hooks解决github大文件报错，100M限制或50M限制|大文件|50M|git hooks|git
+
+见：[zata csdn](https://blog.csdn.net/qq_41685627/article/details/135477107)
+
+
+
+如果你已经commit了大文件，并且报错了，可以
+
+
+```bash
+# 1. 把大文件取消追踪
+git rm --cached "path/to/large/file"   # 引号括起来的是大文件地址
+# 2. 把大文件加入.gitignore
+echo "path/to/large/file" >> .gitignore
+# 3. 更改提交  （当然不commit直接git push  XXX 也是可以的）
+git add .gitignore
+git commit -m "Update .gitignore to exclude large files"
+git push XXX main:main --force
+```
+
+如果上面不起作用，可以使用以下方法
+```bash
+# 1. 撤销最近的提交，但保留更改
+git reset --soft HEAD~1
+# 如果大文件在更早的提交（比如倒数第二次），用 HEAD~2 或具体哈希：
+# git reset --soft abc123^  # abc123 是包含大文件的提交
+
+# 2. 移除大文件
+git rm --cached "大文件名"
+
+# 3.重新提交
+git commit -m "Remove large file XXX"
+
+# 4. 强制推送
+git push XXX main:main --force
+
+```
+
+
+我写了一个git hooks 文件，在commit大于设定size的文件的时候，拦截commit，并且把大文件名写入.gitignore ，同时从缓存区中移除大文件
+**进行版本控制的时候，经常会由于大文件导致上传github出问题，并且版本回退也比较麻烦。
+实际上我们很少代码文件会超过50M，而往往是由于数据文件过大导致错误，这些数据文件往往我们可能都不需要进行版本控制**
+<font color = "red" size = 5>于是，不如直接通过脚本，默认不对这些大文件进行版本控制
+</font>
+
+
+代码   （文件名设置为pre-commit，防在.git/hooks目录下，注意文件名要一致，这涉及到git hooks的逻辑，不做过多解释）
+
+
+```py
+#!/bin/python
+import subprocess
+import os
+
+
+if __name__ == "__main__":
+    files = subprocess.check_output(['git', 'diff', '--cached', '--name-status'], text=True, encoding='utf-8').split('\n')
+    for file in files:
+        if len(file.split("\t")[0]) > 0 and file.split("\t")[0] != 'D':
+            file_path = file.split("\t")[-1]
+            file_size = os.path.getsize(file_path)
+            size_in_mb = file_size / (1024 * 1024)
+            if size_in_mb >= 50:
+                with open('.gitignore', 'a', encoding='utf-8') as f:
+                    f.write(file_path + '\n')
+                try:
+                    # Remove the file from the Git index (staged area)
+                    subprocess.check_output(['git', 'rm', '--cached', file_path])
+                    print("Removed {} from stage".format(file_path))
+                except subprocess.CalledProcessError as e:
+                    print("Error removing file from stage: {}".format(e))
+                
+                try:
+                    # Reset the file to unstage changes
+                    subprocess.check_output(['git', 'reset', file_path])
+                except subprocess.CalledProcessError as e:
+                    print("Error while resetting file: {}".format(e))
+
+                print("The file is larger than 50MB and has been added to .gitignore. Please confirm and recommit!")
+                print(file_path + "\n")
+                exit(1)
+
+```
+
+![](images/index/index.png)
+
+
+![演示](images/index/index-1.png)
+
+
+**下面可以配置全局Git 钩子**
+
+
+
+LINUX平台
+```bash
+# 创建全局 Git 钩子目录
+mkdir -p ~/.git-template/hooks
+
+# 创建并编辑 pre-commit 钩子脚本
+cat > ~/.git-template/hooks/pre-commit << 'EOF'
+#!/bin/bash
+MAX_SIZE=$((50 * 1024 * 1024)) # 50MB in bytes
+
+# 获取暂存区所有文件的列表
+files=$(git diff --cached --name-only --diff-filter=ACM)
+
+for file in $files; do
+    # 检查文件是否存在
+    if [ -f "$file" ]; then
+        # 获取文件大小（字节）
+        size=$(stat -f%z "$file" 2>/dev/null || stat -c%s "$file" 2>/dev/null)
+        if [ "$size" -gt "$MAX_SIZE" ]; then
+            echo "错误：文件 '$file' 超过 50MB（大小：$((size / 1024 / 1024))MB）"
+            exit 1
+        fi
+    fi
+done
+exit 0
+EOF
+
+# 赋予执行权限
+chmod +x ~/.git-template/hooks/pre-commit
+
+# 配置 Git 使用全局钩子模板
+git config --global init.templatedir ~/.git-template
+
+# （可选）为现有仓库手动复制钩子（替换 /path/to/your/repo 为实际路径）
+# cp ~/.git-template/hooks/pre-commit /path/to/your/repo/.git/hooks/pre-commit
+# chmod +x /path/to/your/repo/.git/hooks/pre-commit
+```
+
+
+WINDOWS平台
+
+需要 POWERSHELL  因为环境变量
+```powershell
+# 创建全局 Git 钩子目录
+$templateDir = "$env:USERPROFILE\.git-template\hooks"
+New-Item -ItemType Directory -Force -Path $templateDir
+
+# 创建 pre-commit 钩子脚本
+$hookPath = "$templateDir\pre-commit"
+Set-Content -Path $hookPath -Value @'
+#!/bin/sh
+MAX_SIZE=$((50 * 1024 * 1024)) # 50MB in bytes
+
+# 获取暂存区所有文件的列表
+files=$(git diff --cached --name-only --diff-filter=ACM)
+
+for file in $files; do
+    # 检查文件是否存在
+    if [ -f "$file" ]; then
+        # 获取文件大小（字节）
+        size=$(wc -c < "$file")
+        if [ "$size" -gt "$MAX_SIZE" ]; then
+            echo "错误：文件 '$file' 超过 50MB（大小：$((size / 1024 / 1024))MB）"
+            exit 1
+        fi
+    fi
+done
+exit 0
+'@
+
+# 赋予执行权限（Windows 下无需 chmod，但确保 Git Bash 支持）
+# 配置 Git 使用全局钩子模板
+git config --global init.templatedir "$env:USERPROFILE\.git-template"  # 如果你不用变量，那么就赋绝对路径
+
+# （可选）为现有仓库手动复制钩子（将以下路径替换为实际仓库路径）
+# $repoPath = "C:\path\to\your\repo"
+# Copy-Item -Path $hookPath -Destination "$repoPath\.git\hooks\pre-commit"
+```
+
+
+**也可以按照下面进行手动配置**
+
+1. 首先创建一个文件夹，然后git init，可以手动将上面代码粘贴修改pre-commit文件
+
+![配置文件夹](images/index/index-3.png)
+
+2. 配置全局钩子，需要绝对路径
+
+![配置全局](images/index/index-2.png)
+
+
+3. 可以测试一下，原理就是git init的时候，把设置的这些配置复制一份
+
+![创建的新本地git仓库](images/index/index-4.png)
+
+![测试大文件](images/index/index-5.png)
