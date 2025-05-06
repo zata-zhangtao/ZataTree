@@ -144,6 +144,16 @@ git push origin v1.0.0
 
 ![推送tag到远程](images/index/index-7.png)
 
+如果想要删除tag，使用下面的命令
+```bash
+# 删除本地tag
+git tag -d v1.0.0
+
+# 删除远程tag
+git push origin --delete v1.0.0
+```
+
+
 **步骤 2：使用 GitHub CLI 创建 Release**
 
 在 Tag 推送到 GitHub 后，你可以使用 GitHub CLI 命令来创建 Release。
