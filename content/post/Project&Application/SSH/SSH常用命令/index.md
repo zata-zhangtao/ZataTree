@@ -358,8 +358,8 @@ sudo systemctl restart ssh
 这些是 Ubuntu 下管理 SSH 服务的基本操作，建议在修改配置时先备份，并保持一个可用的连接会话，以防配置错误导致无法连接。
 
 
-# SSH 问题
-## 解决 ssh 连接远程主机超时未使用自动断开
+## SSH 问题
+### 解决 ssh 连接远程主机超时未使用自动断开
 参考：https://blog.csdn.net/Gelomen/article/details/109121069
 
 ```json
@@ -402,7 +402,7 @@ sudo systemctl restart ssh
 
 ```
 
-## SSH 连接到远程服务器 （linux和windows）
+### SSH 连接到远程服务器 （linux和windows）
 
 ### 服务器安装ssh服务
 1. linux
@@ -432,6 +432,10 @@ Set-Service -Name sshd -StartupType 'Automatic'
 
 ### 本地机器生成密钥并复制到远程服务器（下次ssh连接就不需要输入密码）
 
+
+注意：
+ssh-copy-id 是专门为linux系统适配的，windows系统不好用，需要手动复制公钥到.ssh文件夹下面的authorized_keys文件中
+
 ```bash
 # 生成 SSH 密钥对
 ssh-keygen -t rsa -b 4096
@@ -447,7 +451,9 @@ cat ~/.ssh/known_hosts
 
 
 
-## Windows 下关闭 SSH 后台连接的方法 （在使用端口转发设置参数为-f时）
+
+
+### Windows 下关闭 SSH 后台连接的方法 （在使用端口转发设置参数为-f时）
 
 1. 使用任务管理器：
 ```powershell
