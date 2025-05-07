@@ -28,6 +28,7 @@ title: XXX
 description: XXX
 date: 2025-02-24
 slug: XXX/index.md ## 必填，文件夹名/index.md
+draft: true  # 设置文章为草稿状态，Hugo 默认不会渲染，但是本地使用hugo server -D可以查看到
 image: XXX
 categories:
     # - DeepLearning
