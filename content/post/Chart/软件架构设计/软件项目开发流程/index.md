@@ -1,5 +1,5 @@
 ---
-title: 软件项目开发流程(AI生成)
+title: 软件项目开发流程
 description: ""
 date: 2025-04-23T17:50:29+08:00
 image: images/index/index.png
