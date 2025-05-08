@@ -4,9 +4,9 @@ description: ""
 date: 2025-03-17T11:00:41+08:00
 image: images/index/index.png
 categories:
-    - Library
+    - Agent
 tags:
-    - langchain_core
+    - LangChain
 ---
 
 ![output_parsers包中的类](images/index/index.png)

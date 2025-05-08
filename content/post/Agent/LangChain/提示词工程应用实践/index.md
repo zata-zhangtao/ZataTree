@@ -1,13 +1,33 @@
 ---
-title: 提示词的重要性
+title: 提示词工程应用实践
 description: ""
 date: 2025-03-14T16:26:52+08:00
 image: images/index/index.png
 categories:
-    - Knowledge
+    - Agent
 tags:
-    - others
+    - LangChain
 ---
+
+
+
+
+
+
+### Langchin提示词模版
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -141,3 +161,6 @@ tags:
 ![qwq-32b](images/index/index-5.png)
 
 这个感觉也没什么问题，qwq-32b的效果更好
+
+
+
