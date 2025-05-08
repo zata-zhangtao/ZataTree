@@ -309,16 +309,35 @@ conda config --add channels conda-forge
 
 ---
 
-### **常见问题解答**
-1. **pip 和 conda 可以一起用吗？**  
+### **问题解答**
+####  **pip 和 conda 可以一起用吗？**  
    可以，但建议优先使用 conda 安装依赖，若 conda 源中没有，再用 pip。
 
-2. **如何选择？**  
+####  **如何选择？**  
    - 小型项目或纯 Python 开发：用 pip + venv。
    - 数据科学、机器学习或需要管理多种依赖：用 conda。
+   - 20250508，现在又出来一个uv
 
-3. **安装失败怎么办？**  
-   - 检查网络连接或更换镜像源。
-   - 确保命令在正确的环境下运行。
+#### get_installed_distributions 出错
 
-如果你有具体的使用场景或问题，可以告诉我，我会进一步帮你优化方案！
+项目场景：开源项目 graph-tiger
+
+在跑这个项目的时候，有一行代码一直报错
+
+> from pip._internal.utils.misc import get_installed_distributions
+
+
+这一行代码一直有问题，一开始我以为是环境的问题，后来才发现是pip版本的问题，好像在pip21.3版本之后就不支持这样写了
+
+解决方案：
+
+降级pip版本，可以降级到21.2版本
+
+```
+pip install -u pip==21.2
+或者
+pip intall pip==21.2
+或者其他降级方法
+```
+
+
