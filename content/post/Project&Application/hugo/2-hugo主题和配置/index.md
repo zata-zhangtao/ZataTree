@@ -723,6 +723,13 @@ core.ignorecase false：保持文件名大小写敏感。
 
 ![关于tags](images/index/image-12.png)
 
+---
+后续： 2025-05-08
+
+![我的尝试](images/index/image-13.png)
+
+我去试了一些，直接修改主题并没有它示例上面的功能，但是想要改配置的话也没有教程可以参考，所以放弃
+
 
 
 ### Lovelt
