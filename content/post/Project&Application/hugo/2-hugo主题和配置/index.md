@@ -4,12 +4,6 @@ description:  主题和配置通过模板文件和配置文件（如 .toml或者
 date: 2025-03-02T00:00:00+08:00
 image: images/index/2025-03-02-03-12-15.png
 categories:
-    # - DeepLearning
-    # - Chart
-    # - Python
-    # - LLMhttps://letere-gzj.github.io/hugo-stack/
-    # - Library
-    # - PaperReading
     - Project&Application
 tags:
     - hugo
@@ -719,3 +713,17 @@ core.ignorecase false：保持文件名大小写敏感。
 ![小火箭图标](images/index/index-8.png)
 ![代码粘贴位置](images/index/index-5.png)
 
+
+
+## 其他主题（还没使用的
+
+### Book
+
+![BOOK主题](images/index/image-10.png)
+
+![关于tags](images/index/image-12.png)
+
+
+
+### Lovelt
+![Lovelt](images/index/image-11.png)

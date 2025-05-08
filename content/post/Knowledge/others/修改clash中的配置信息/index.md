@@ -1,5 +1,5 @@
 ---
-title: 修改clash中的配置信息
+title: clash 教程
 description: ""
 date: 2025-03-06T10:51:58+08:00
 # image: images/index/index.png
@@ -9,6 +9,13 @@ tags:
     - others
 ---
 
+
+
+
+## clash 
+
+
+
 项目地址：
 
 https://github.com/zzzgydi/clash-verge/tree/main
@@ -16,8 +23,147 @@ https://github.com/zzzgydi/clash-verge/tree/main
 [![Download](https://img.shields.io/badge/Download-Install%20Package-blue)](images/index/Clash.Verge_1.3.8_x64-setup.exe)
 
 
+### clash 基础知识 - clash 介绍
 
-### 修改clash中的配置信息
+参考
+
+[Clash for Windows 使用教程快速入门篇](https://clashforwindows.org/)
+
+
+
+Clash for Windows是代理工具Clash在Windows系统的图形客户端，同时还支持Windows、Linux、macOS三大系统，功能强大且支持多种代理协议，如Shadowsocks(SS)、ShadowsocksR(SSR)、Socks、Snell、V2Ray、Trojan等代理协议。通过本文2025最新Clash for Windows使用教程快速入门篇所掌握的技巧，能快速方便配置代理协议进行代理访问。
+
+![clash界面](images/index/image.png)
+
+
+官方的clash现在已经删库跑路了，不过还是有很多其他人在做，下面是其中一些
+
+[clash verge - github](https://github.com/zzzgydi/clash-verge)
+
+![clash verge](images/index/image-1.png)
+
+
+[clash verge rev - github](https://github.com/clash-verge-rev/clash-verge-rev)
+
+![alt text](images/index/image-2.png)
+
+#### 界面介绍
+![中文版界面](images/index/image-3.png)
+
+- General（常规）：
+
+Port、Socks Port；分别为 HTTP、SOCKS 代理端口，点击终端图案可以打开一个配置了代理的命令行窗口，点击端口数字可以复制该命令；
+
+Allow LAN：启用局域网共享代理功能；
+
+Log Level：日志等级；
+
+Home Directory：点击下方路径直达 C:\Users\用户名\.config\clash 文件夹；
+
+GeoIP Database：点击下方日期可更新 GeoIP 数据库；
+
+UWP Loopback ：可以用来使 UWP 应用解除回环代理限制；
+
+Tap Device ：安装 cfw-tap 网卡，可用于处理不遵循系统代理的软件（实际启动 tap 模式需要更改配置文件）；
+
+General YML：编辑 config.yml 文件，可用于配置部分 General 页面内容；
+
+Dark Theme：控制暗色模式；
+
+System Proxy：启用系统代理；
+
+Start with Windows：设置开机自启；
+
+- Proxies（代理）：选择代理方式（Global - 全局、Rule - 规则、Direct - 直连）及策略组节点选择；
+
+- Profiles（配置管理）：
+
+用来下载远端配置文件和创建本地副本，且可在多个配置文件间切换；
+对配置进行节点、策略组和规则的管理（添加节点、策略组和规则在各自编辑界面选择 Add, 调整策略组顺序、节点顺序及策略组节点使用拖拽的方式）；
+
+- Logs（日志）：显示当前请求命中规则类型和策略；
+- Connections (连接): 显示当前的 TCP 连接，可对某个具体连接执行关闭操作；
+- Settings（设置）：软件详细设置；
+- Feedback（反馈）：显示软件、作者相关信息。
+
+#### 如何添加订阅
+
+1. 远程订阅地址订阅
+
+远程订阅地址即通过 URL 链接导入，一般的服务商都会直接提供Clash节点地址，直接复制服务商提供的节点订阅地址即可，如下图所示：
+
+![订阅地址](images/index/image-4.png)
+
+![复制订阅地址](images/index/image-5.png)
+
+然后点击界面左侧菜单 配置，在顶部输入框填入刚才复制的 URL 连接地址并点击 下载 即可，下载完成后点击对应的配置文件即可添加配置文件，如下图所示。
+
+![下载订阅](images/index/image-6.png)
+
+
+2. 本地配置文件
+
+本地配置文件即通过本地文件拖拽导入，一般为无法通过远程订阅地址导入的情况下使用，可尝试在浏览器中下载配置文件后直接通过拖拽方式导入或点击 Import 导入，如下图所示。
+
+![本地导入](images/index/image-7.png)
+
+#### 选择代理节点
+
+在添加完订阅地址之后，需要选择一个代理节点使用，点击软件主界面左侧的 代理 选项卡，软件右上角代理规则处默认保持 规则 即可，代理模式主要有以下四种：
+
+- 规则：所有请求根据配置文件规则进行分流
+- 全局：所有请求直接发往代理服务器
+- 直连：所有请求直接发往目的地，即不使用代理
+- 脚本：所有请求根据脚本文件规则进行分流
+
+全局模式可能会导致国内流量也走代理访问，除了网络会变慢外，还会消耗套餐流量。规则模式的好处就是区分国内国外的流量只有在规则内的国外网站才会走代理，这样即不影响国内访问速度，又节省套餐流量，所以如果没有什么特别的需求，一般选择 规则 即可。
+
+<span style = " color:red "> 有一点值得注意，选择了全局模式，而全局模式中的节点挂掉了，会导致无法访问国内的网站 </span>
+
+
+然后在展开的节点组之中任意单击鼠标左键选择一个节点即可，如下图所示：
+
+![选择代理节点](images/index/image-8.png)
+
+
+#### 启用代理
+
+启用代理，需要点击界面左侧菜单 主页 选项卡，找到 系统代理 并开启开关即可，开启状态下按钮状态为绿色，如下图所示为开启状态。
+
+![启用代理](images/index/image-9.png)
+
+启动代理后系统托盘的图标会变色金色猫咪，以下是系统托盘图标颜色说明。
+
+![图标说明](images/index/image-10.png)
+
+
+
+#### 设置开机启动
+
+设置开机自启动，需要点击界面左侧菜单 主页 选项卡，找到 开机自启动 并开启开关即可，开启状态下按钮状态为绿色，如下图所示为开启状态。
+
+![开机启动](images/index/image-11.png)
+
+<span style = " color:red "> 有一点值得注意，如果未选择开机启动，而关机的时候直接未退出clash就关机了，会导致下次开机的时候无法连接网络，解决方式是重新打开clash，然后正常退出或者不退出clash都可能  </span>
+
+
+#### 更新配置文件
+
+点击界面左侧菜单 配置，点击 更新全部 即可更新所有配置文件，如下图所示。
+
+<span style = " color:red "> 这个更新只针对远程导入的订阅 </span>
+
+
+
+![更新配置文件](images/index/image-12.png)
+
+
+
+
+
+
+
+### 修改clash中的规则信息
 
 <span style="color:red"> 改过配置之后不要刷新订阅，不然就没了，不过不更新又不会加载规则，可以通过切换订阅文件的方式加载规则</span>
 
