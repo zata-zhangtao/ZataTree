@@ -714,6 +714,50 @@ core.ignorecase false：保持文件名大小写敏感。
 ![代码粘贴位置](images/index/index-5.png)
 
 
+### 如何修改导航栏
+
+![导航栏](images/index/image-14.png)
+
+修改content文件夹中的page文件夹下的文件夹，每一个文件夹代表一个导航栏
+
+![page下每一个文件夹代表一个导航栏](images/index/image-15.png)
+
+
+文件夹中的md文件就是`页面`
+
+![md文件](images/index/image-16.png)
+
+这里有一个奇怪的页面archives
+
+![archives](images/index/image-17.png)
+
+看到源码，实际上主要是layout这个属性
+
+![layout](images/index/image-18.png)
+
+这个layout属性对应的就是一个html页面，在主题中定义
+![定义位置](images/index/image-19.png)
+
+
+
+
+### archives页面中，卡片对应的图片在哪里
+
+![archives页面卡片图片](images/index/image-20.png)
+
+
+这些图片对应的也是页面，在content根目录下面创建两个文件夹，分别是categories和tags就可以了
+
+![categories和tags](images/index/image-21.png)
+
+
+
+
+
+
+
+
+
 
 ## 其他主题（还没使用的
 

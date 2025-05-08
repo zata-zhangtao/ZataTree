@@ -2,35 +2,104 @@ import os
 from datetime import datetime
 import argparse
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, filedialog
 import subprocess  # 用于打开文件
 import sys  # 用于检测操作系统平台
+import shutil  # 用于文件复制
 
 # 创建category目录
-def create_category(category):
-    """创建category目录"""
-    target_path = os.path.join("content", "post", category)
+def create_category(category, image_path=None):
+    """创建category目录，可选指定图片"""
+    # 创建post下的category目录
+    post_target_path = os.path.join("content", "post", category)
+    # 创建categories下的category目录
+    categories_target_path = os.path.join("content", "categories", category)
+    
     try:
-        os.makedirs(target_path, exist_ok=True)
-        return True, f"Category目录 '{target_path}' 创建成功！"
+        # 创建两个目录
+        os.makedirs(post_target_path, exist_ok=True)
+        os.makedirs(categories_target_path, exist_ok=True)
+        
+        # 如果提供了图片，复制到categories目录
+        if image_path and os.path.exists(image_path):
+            image_name = os.path.basename(image_path)
+            target_image_path = os.path.join(categories_target_path, image_name)
+            shutil.copy2(image_path, target_image_path)
+            
+            # 创建_index.md文件
+            index_md_path = os.path.join(categories_target_path, "_index.md")
+            with open(index_md_path, 'w', encoding='utf-8') as f:
+                f.write(f"""---
+title: "{category}"
+description: "This is category {category}"
+date: {datetime.now().strftime("%Y-%m-%dT%H:%M:%S+08:00")}
+slug: "{category}"
+image: "{image_name}"
+style:
+    background: "#2a9d8f"
+    color: "#fff"
+---
+""")
+            return True, f"Category目录创建成功！图片已复制，_index.md已创建。"
+        
+        return True, f"Category目录 '{post_target_path}' 和 '{categories_target_path}' 创建成功！"
     except Exception as e:
         return False, f"创建category时发生错误: {str(e)}"
 
+
+
 # 创建tag目录
-def create_tag(category, tag):
-    """创建tag目录，必须指定category"""
-    base_path = os.path.join("content", "post")
-    target_path = os.path.join(base_path, category, tag)
+def create_tag(category, tag, image_path=None):
+    """创建tag目录，必须指定category，可选指定图片"""
+    # 创建post下的tag目录
+    post_base_path = os.path.join("content", "post")
+    post_target_path = os.path.join(post_base_path, category, tag)
     
-    category_path = os.path.join(base_path, category)
+    # 创建tags下的tag目录
+    tags_target_path = os.path.join("content", "tags", tag)
+    
+    category_path = os.path.join(post_base_path, category)
     if not os.path.exists(category_path):
         return False, f"错误：Category目录 '{category_path}' 不存在！请先创建category"
     
     try:
-        os.makedirs(target_path, exist_ok=True)
-        return True, f"Tag目录 '{target_path}' 创建成功！"
+        # 创建两个目录
+        os.makedirs(post_target_path, exist_ok=True)
+        os.makedirs(tags_target_path, exist_ok=True)
+        
+        # 如果提供了图片，复制到tags目录
+        if image_path and os.path.exists(image_path):
+            image_name = os.path.basename(image_path)
+            target_image_path = os.path.join(tags_target_path, image_name)
+            shutil.copy2(image_path, target_image_path)
+            # 复制图片到post目录下并重命名为index.png
+            target_post_image_path = os.path.join(post_target_path, "index.png")
+            shutil.copy2(image_path, target_post_image_path)
+            
+            # 创建_index.md文件
+            index_md_path = os.path.join(tags_target_path, "_index.md")
+            with open(index_md_path, 'w', encoding='utf-8') as f:
+                f.write(f"""---
+title: "{tag}"
+description: "This is tag {tag}"
+date: {datetime.now().strftime("%Y-%m-%dT%H:%M:%S+08:00")}
+slug: "{tag}"
+image: "{image_name}"
+style:
+    background: "#2a9d8f"
+    color: "#fff"
+---
+""")
+            return True, f"Tag目录创建成功！图片已复制，_index.md已创建。"
+        
+        return True, f"Tag目录 '{post_target_path}' 和 '{tags_target_path}' 创建成功！"
     except Exception as e:
         return False, f"创建tag时发生错误: {str(e)}"
+
+
+
+
+
 
 # 创建文章目录和index.md文件
 def create_folder_and_md(categories, tags, title):
@@ -134,7 +203,7 @@ def get_existing_tags(category=None):
 def create_gui():
     root = tk.Tk()
     root.title("Zata - 博客管理工具")
-    root.geometry("500x450")  # 增加高度以容纳新功能
+    root.geometry("500x550")  # 增加高度以容纳新功能
 
     notebook = ttk.Notebook(root)
     notebook.pack(pady=10, fill="both", expand=True)
@@ -147,12 +216,30 @@ def create_gui():
     category_entry = ttk.Entry(category_frame, width=40)
     category_entry.pack(pady=5)
 
+    # 添加图片选择
+    category_image_path = tk.StringVar()
+    ttk.Label(category_frame, text="Category图片:").pack(pady=5)
+    category_image_frame = ttk.Frame(category_frame)
+    category_image_frame.pack(pady=5)
+    category_image_entry = ttk.Entry(category_image_frame, textvariable=category_image_path, width=30)
+    category_image_entry.pack(side=tk.LEFT, padx=5)
+
+    def select_category_image():
+        filename = filedialog.askopenfilename(
+            title="选择Category图片",
+            filetypes=[("Image files", "*.png *.jpg *.jpeg *.gif *.bmp")]
+        )
+        if filename:
+            category_image_path.set(filename)
+
+    ttk.Button(category_image_frame, text="浏览", command=select_category_image).pack(side=tk.LEFT)
+
     def create_category_btn():
         category = category_entry.get().strip()
         if not category:
             messagebox.showerror("错误", "请输入Category名称")
             return
-        success, msg = create_category(category)
+        success, msg = create_category(category, category_image_path.get() if category_image_path.get() else None)
         messagebox.showinfo("结果", msg)
         if success:
             update_category_combobox()
@@ -172,6 +259,24 @@ def create_gui():
     tag_entry = ttk.Entry(tag_frame, width=40)
     tag_entry.pack(pady=5)
 
+    # 添加图片选择
+    tag_image_path = tk.StringVar()
+    ttk.Label(tag_frame, text="Tag图片:").pack(pady=5)
+    tag_image_frame = ttk.Frame(tag_frame)
+    tag_image_frame.pack(pady=5)
+    tag_image_entry = ttk.Entry(tag_image_frame, textvariable=tag_image_path, width=30)
+    tag_image_entry.pack(side=tk.LEFT, padx=5)
+
+    def select_tag_image():
+        filename = filedialog.askopenfilename(
+            title="选择Tag图片",
+            filetypes=[("Image files", "*.png *.jpg *.jpeg *.gif *.bmp")]
+        )
+        if filename:
+            tag_image_path.set(filename)
+
+    ttk.Button(tag_image_frame, text="浏览", command=select_tag_image).pack(side=tk.LEFT)
+
     def update_tag_category_combobox():
         categories = get_existing_categories()
         tag_category_combobox["values"] = categories
@@ -189,7 +294,7 @@ def create_gui():
         if not tag:
             messagebox.showerror("错误", "请输入Tag名称")
             return
-        success, msg = create_tag(category, tag)
+        success, msg = create_tag(category, tag, tag_image_path.get() if tag_image_path.get() else None)
         messagebox.showinfo("结果", msg)
         if success:
             update_tag_combobox()
@@ -306,10 +411,12 @@ def main():
 
     category_parser = subparsers.add_parser("create-category", help="创建category目录")
     category_parser.add_argument("-c", "--category", required=True, help="要创建的category名称")
+    category_parser.add_argument("-i", "--image", help="category的图片路径")
 
     tag_parser = subparsers.add_parser("create-tag", help="创建tag目录")
     tag_parser.add_argument("-c", "--category", required=True, help="所属category")
     tag_parser.add_argument("-t", "--tag", required=True, help="要创建的tag名称")
+    tag_parser.add_argument("-i", "--image", help="tag的图片路径")
 
     gui_parser = subparsers.add_parser("gui", help="启动图形界面")
 
@@ -319,10 +426,10 @@ def main():
         success, msg = create_folder_and_md(args.categories, args.tags, args.title)
         print(msg)
     elif args.command == "create-category":
-        success, msg = create_category(args.category)
+        success, msg = create_category(args.category, args.image)
         print(msg)
     elif args.command == "create-tag":
-        success, msg = create_tag(args.category, args.tag)
+        success, msg = create_tag(args.category, args.tag, args.image)
         print(msg)
     elif args.command == "gui":
         create_gui()
