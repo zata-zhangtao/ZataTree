@@ -2,11 +2,11 @@
 title: Markdown中常用的图标或徽章
 description: ""
 date: 2025-03-18T11:33:14+08:00
-# image: images/index/index.png
+image: images/index/index.png
 categories:
     - Knowledge
 tags:
-    - others
+    - markdown
 ---
 
 
