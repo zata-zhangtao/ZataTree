@@ -2490,6 +2490,10 @@ LangChain 还支持许多其他提供商，如 Anthropic, Cohere, Google Vertex 
         * LLM 和 ChatModel 接口都有 `stream()` (同步) 和 `astream()` (异步) 方法。
         * 当调用这些方法时，它们返回一个迭代器 (同步) 或异步迭代器 (异步)，你可以遍历它来获取模型生成的各个片段。
         * 通常与回调函数 (Callbacks)，特别是实现了 `on_llm_new_token` 或类似方法的处理器（如 `StreamingStdOutCallbackHandler`）结合使用，以便在每个新片段到达时执行特定操作（如打印到控制台、发送到 WebSocket）。
+
+        <span style="color:red">关于回调函数的知识请见：[07-回调系统](/p/07-%E5%9B%9E%E8%B0%83%E7%B3%BB%E7%BB%9Fevents%E4%BA%8B%E4%BB%B6/)</span>
+
+
     * **优点**:
         * **改善用户体验**: 用户可以更快地看到初步结果，而不是长时间等待。
         * **实时交互**: 适用于需要实时反馈的应用。
@@ -2498,20 +2502,13 @@ LangChain 还支持许多其他提供商，如 Anthropic, Cohere, Google Vertex 
         import asyncio
         from langchain_openai import ChatOpenAI
         from langchain_core.callbacks import StreamingStdOutCallbackHandler # 也可以自定义回调
-        
-        async def stream_response():
-            chat = ChatOpenAI(streaming=True) #  可以传入回调
-        
-             # 使用 stream 方法
-             # for chunk in chat.stream("给我讲一个关于太空旅行的长故事。"):
-             #     print(chunk.content, end="", flush=True)
-        
-             # 使用 astream 方法 (异步)
-             async for chunk in chat.astream("给我讲一个关于太空旅行的长故事。"):
-                 print(chunk.content, end="", flush=True)
-            print()
-        
-        # asyncio.run(stream_response())
+        import os
+        def stream_response():
+            chat = ChatOpenAI(streaming=True) 
+
+            for chunk in chat.stream("给我讲一个关于太空旅行的长故事。"):
+                print(chunk.content, end="", flush=True)
+        stream_response()
         ```
 
 #### 4.6 模型参数配置与优化 (temperature, max_tokens 等)
@@ -2574,41 +2571,1652 @@ LangChain 还支持许多其他提供商，如 Anthropic, Cohere, Google Vertex 
 * **注意成本**: `max_tokens` 和选择的模型类型会直接影响 API 成本。
 * **实验和迭代**: 找到最佳参数组合通常需要反复试验。
 
-通过合理配置这些参数，你可以更好地控制 LLM 的输出，使其更符合你的应用需求。
+
+### 第五章：与聊天模型 (Chat Models) 交互
+
+与传统的语言模型 (LLM) 主要处理文本补全不同，聊天模型 (Chat Models) 专为对话场景设计。它们通过一系列消息的交互来理解上下文并生成回应。LangChain 提供了强大的工具来与这些模型进行交互。
+
+#### 5.1 理解 Chat Models 的消息类型 (SystemMessage, HumanMessage, AIMessage)
+
+聊天模型的核心交互单元是“消息”。LangChain 定义了几种标准的消息类型，用于构建对话流程：
+
+* **`SystemMessage` (系统消息)**:
+    * **用途**: 用于向 AI 模型提供高级别的指示、上下文或角色设定。它通常是对话开始时的第一条消息，或者用于在对话中途引导模型的行为。
+    * **特点**: `SystemMessage` 帮助设定 AI 的“个性”、行为准则或其在对话中应扮演的角色（例如，“你是一个乐于助人的编程助手”或“你是一个只用莎士比亚风格回答问题的海盗”）。
+    * **示例**:
+        ```python
+        from langchain_core.messages import SystemMessage
+
+        system_prompt = "你是一个经验丰富的旅行规划师，专门为用户推荐小众但精彩的旅游目的地。"
+        system_message = SystemMessage(content=system_prompt)
+        ```
+
+* **`HumanMessage` (用户消息)**:
+    * **用途**: 代表对话中由人类用户输入的消息或提出的问题。
+    * **特点**: 这是用户与 AI 模型直接交流的内容。模型会根据这些消息以及上下文来生成回应。
+    * **示例**:
+        ```python
+        from langchain_core.messages import HumanMessage
+
+        user_query = "我想找一个适合夏天徒步，并且游客不多的欧洲国家，有什么建议吗？"
+        human_message = HumanMessage(content=user_query)
+        ```
+
+* **`AIMessage` (AI 消息 / 助手消息)**:
+    * **用途**: 代表 AI 模型生成的回应或消息。
+    * **特点**: 这是模型对 `HumanMessage` 或整个对话历史的回应。在构建多轮对话历史时，将模型之前的输出作为 `AIMessage` 传入，可以帮助模型保持对话的连贯性。
+    * **示例**:
+        ```python
+        from langchain_core.messages import AIMessage
+
+        ai_response_text = "考虑到您的要求，我推荐斯洛文尼亚。那里有美丽的阿尔卑斯山脉适合徒步，夏季气候宜人，而且相比西欧热门国家，游客要少得多。特别是朱利安阿尔卑斯山区的索查河谷，景色非常壮观。"
+        ai_message = AIMessage(content=ai_response_text)
+        ```
+
+* **其他消息类型 (进阶)**:
+    * **`ChatMessage`**: 一个更通用的消息类型，可以用来表示任何角色的消息，通过 `role` 参数指定。
+    * **`FunctionMessage` (已弃用, 现为 `ToolMessage`)**: 用于表示函数调用的结果。当模型决定调用外部工具或函数时，其输出会通过 `ToolMessage` 返回给模型，以便它继续生成回应。 (这部分与后续的 Tool/Function calling 功能紧密相关)
+
+理解并正确使用这些消息类型是构建有效聊天应用的基础。它们共同构成了传递给聊天模型的对话历史，模型将基于此历史来理解上下文并生成下一个回应。
+
+#### 5.2 构建聊天应用的 Prompt Templates
+
+与 LLM 的 `PromptTemplate` 类似，`ChatPromptTemplate` 使得为聊天模型构建动态和结构化的输入更为容易。它允许你定义一个由多种消息类型组成的模板，其中可以包含变量。
+
+* **核心组件**: `ChatPromptTemplate` 通常由一个或多个消息提示模板 (Message Prompt Templates) 组成。
+    * `SystemMessagePromptTemplate`: 用于创建系统消息的模板。
+    * `HumanMessagePromptTemplate`: 用于创建用户消息的模板。
+    * `AIMessagePromptTemplate`: 用于创建 AI 消息的模板（较少直接在初始提示中定义，更多用于构建历史）。
+
+* **工作方式**:
+    1.  定义包含占位符的消息模板。
+    2.  使用 `ChatPromptTemplate.from_messages` 来组合这些消息模板。
+    3.  在运行时，使用 `.format_messages()` 或 `.format_prompt()` 方法，并传入变量的值，来生成一个完整的消息列表或格式化的提示值 (PromptValue)。
+
+* **优点**:
+    * **结构清晰**: 将对话结构（系统指令、用户问题等）与具体内容分离。
+    * **可复用性**: 方便地为不同的输入创建一致的对话格式。
+    * **动态性**: 轻松地将变量插入到对话的各个部分。
+
+* **示例**:
+
+    ```python
+    from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
+    from langchain_openai import ChatOpenAI
+
+    # 1. 定义消息模板
+    system_template = "你是一个专业的翻译助手，可以将用户的文本从{input_language}翻译成{output_language}。"
+    human_template = "{text_to_translate}"
+
+    system_message_prompt = SystemMessagePromptTemplate.from_template(system_template)
+    human_message_prompt = HumanMessagePromptTemplate.from_template(human_template)
+
+    # 2. 构建 ChatPromptTemplate
+    chat_prompt_template = ChatPromptTemplate.from_messages(
+        [system_message_prompt, human_message_prompt]
+    )
+
+    # 3. 格式化提示 (生成消息列表)
+    formatted_messages = chat_prompt_template.format_messages(
+        input_language="中文",
+        output_language="英文",
+        text_to_translate="你好，世界！"
+    )
+    # formatted_messages 将是:
+    # [
+    # SystemMessage(content='你是一个专业的翻译助手，可以将用户的文本从中文翻译成英文。'),
+    # HumanMessage(content='你好，世界！')
+    # ]
+
+    # print(formatted_messages)
+
+    # # 与模型结合使用
+    # async def translate_text():
+    #     chat = ChatOpenAI(model="gpt-3.5-turbo")
+    #     response = await chat.ainvoke(formatted_messages)
+    #     print(f"翻译结果: {response.content}")
+
+    # import asyncio
+    # asyncio.run(translate_text())
+    ```
+
+`ChatPromptTemplate` 是构建可维护和灵活的聊天应用的关键组件，尤其是在需要根据不同场景或用户输入动态调整系统指令或问题格式时。
+
+#### 5.3 聊天历史管理 (Chat History Management)
+
+在多轮对话中，模型需要记住之前的交流内容才能提供连贯且相关的回答。聊天历史管理 (通常称为 "Memory") 是实现这一目标的关键。LangChain 提供了多种内置的 Memory 类型来简化历史记录的存储和检索。
+
+* **为什么需要聊天历史管理?**:
+    * **上下文感知**: 使模型能够理解当前问题与先前讨论内容的关系。
+    * **个性化体验**: 记住用户的偏好或之前的回答，提供更个性化的互动。
+    * **避免重复**: 防止模型重复已经说过的信息或用户已经提供的信息。
+
+* **核心概念**:
+    * **存储 (Storage)**: 聊天消息（`HumanMessage`, `AIMessage` 等）被存储起来。
+    * **检索 (Retrieval)**: 在向模型发送新请求之前，从存储中检索相关的历史消息，并将其与当前用户输入一起传递给模型。
+    * **消息窗口 (Message Window)**: 为了控制传递给模型的上下文长度（避免超出 token 限制和降低成本），通常只使用最近的 N 条消息或一定 token 数量内的消息。
+    * **摘要 (Summarization)**: 对于非常长的对话，可以将早期的对话内容进行摘要，而不是保留所有原始消息。
+
+* **LangChain 中的 Memory 组件**:
+    * **`ChatMessageHistory`**: LangChain 中最基础的内存接口，提供了添加和检索消息的方法。可以基于此构建自定义的内存存储方案（如存入数据库、文件等）。
+        ```python
+        from langchain_core.chat_history import InMemoryChatMessageHistory
+
+        history = InMemoryChatMessageHistory()
+        history.add_user_message("你好，我的名字是小明。")
+        history.add_ai_message("你好小明！很高兴认识你。")
+        # print(history.messages)
+        ```
+    * **`ConversationBufferMemory`**:
+        * 将完整的对话历史存储在内存中，并在每次调用时将其全部发送给模型。
+        * 适用于对话历史较短的情况。
+        * 可以通过 `memory_key` 参数指定模板中用于插入历史记录的变量名 (默认为 `"history"`).
+        * `return_messages=True` 会使其返回消息对象列表，而不是单个字符串。
+    * **`ConversationBufferWindowMemory`**:
+        * 只保留最近 `k` 轮对话（一轮对话通常指一个用户消息和一个 AI 回应）。
+        * 有助于控制上下文长度，防止超出模型的 token 限制。
+        * 参数 `k` 控制窗口大小。
+    * **`ConversationSummaryMemory`**:
+        * 随着对话的进行，逐步将对话内容进行摘要。
+        * 需要一个额外的 LLM 来执行摘要任务。
+        * 适用于非常长的对话，其中保留所有细节不切实际。
+    * **`ConversationSummaryBufferMemory`**:
+        * 结合了 `ConversationBufferWindowMemory` 和 `ConversationSummaryMemory` 的优点。
+        * 它在内存中保留最近的对话片段，并将更早的对话进行摘要。
+        * 当缓存的对话长度超过 `max_token_limit` 时，会将旧消息转化为摘要。
+
+* **在 Chain 中使用 Memory**:
+    Memory 组件通常与 `LLMChain` 或其他类型的 Chain 结合使用。Chain 会自动处理从 Memory 中加载历史记录，并在处理完请求后更新 Memory。
+
+    ```python
+    from langchain.chains import ConversationChain
+    from langchain_openai import ChatOpenAI
+    from langchain.memory import ConversationBufferWindowMemory
+
+    # 概念性示例
+    llm = ChatOpenAI(temperature=0)
+    memory = ConversationBufferWindowMemory(k=3, return_messages=True) # 保留最近3轮对话
+
+    conversation = ConversationChain(
+        llm=llm,
+        memory=memory,
+        verbose=True # 可以看到 Chain 的思考过程和最终的提示
+    )
+
+    # 第一次对话
+    response1 = conversation.predict(input="你好，我叫张三。")
+    print(response1)
+
+    # 第二次对话
+    response2 = conversation.predict(input="我喜欢蓝色。")
+    print(response2)
+
+    # 第三次对话 - 模型应该能记住张三的名字和喜好
+    response3 = conversation.predict(input="你还记得我叫什么，喜欢什么颜色吗？")
+    print(response3)
+
+    # 查看 Memory 中的内容
+    print(memory.load_memory_variables({}))
+    ```
+
+选择合适的 Memory 类型取决于应用的具体需求，如对话长度、成本考虑、以及上下文保留的详细程度。
+
+#### 5.4 结合 Output Parsers 实现更复杂的聊天交互
+
+虽然聊天模型可以直接生成文本回复，但在许多应用场景中，我们希望模型能以特定结构（如 JSON、列表、自定义对象等）返回信息，或者在模型输出后进行校验和转换。这时，输出解析器 (Output Parsers) 就派上了用场。
+
+* **为什么需要 Output Parsers?**:
+    * **结构化输出**: 将模型的自然语言回复转换为程序易于处理的结构化数据。
+    * **数据提取**: 从模型回复中精确提取特定信息（例如，从一段文本中提取姓名、日期、地点）。
+    * **格式化与校验**: 确保模型输出符合预期的格式，并可以进行数据校验。
+    * **调用外部工具**: 解析模型的输出以确定是否需要调用某个函数或 API，并提取相应的参数。
+
+* **LangChain 中的 Output Parsers**: LangChain 提供了多种预置的输出解析器，并且允许自定义解析器。
+    * **`StrOutputParser`**: 最简单的解析器，直接将模型的输出（通常是 `AIMessage.content`）作为字符串返回。这是许多链的默认输出解析器。
+    * **`CommaSeparatedListOutputParser`**: 将模型生成的、以逗号分隔的列表字符串解析为 Python 列表。
+    * **`SimpleJsonOutputParser`**: 尝试将模型的文本输出解析为 JSON 对象。
+    * **`PydanticOutputParser`**: 允许你定义一个 Pydantic 模型，并指示 LLM 生成符合该模型结构的输出。解析器会自动将 LLM 的文本输出转换为 Pydantic 对象实例，并进行类型校验。这非常强大，因为它结合了 LLM 的生成能力和 Pydantic 的数据验证能力。
+    * **`DatetimeOutputParser`**: 解析日期和时间相关的文本。
+    * **`XMLOutputParser`**: 解析 XML 格式的输出。
+    * **`StructuredOutputParser`**: 通过定义一个响应模式 (response schema) 来指导模型生成特定字段的输出，然后解析这些字段。
+    * **`RetryOutputParser`**: 如果初始解析失败（例如模型输出格式不完全正确），它可以给模型一个新的提示（通常包含错误信息和修正指令），让模型重新生成输出，然后再次尝试解析。
+
+* **工作流程**:
+    1.  **定义输出格式**: 在提示中明确告知模型期望的输出格式（例如，“请以 JSON 格式返回结果，包含 'name' 和 'age' 字段”）。对于像 `PydanticOutputParser` 这样的解析器，可以自动生成格式指令。
+    2.  **获取模型原始输出**: 模型生成文本回复。
+    3.  **解析输出**: 输出解析器接收模型的原始文本输出，并尝试将其转换为期望的 Python 对象或数据结构。
+    4.  **处理结果**: 应用可以使用解析后的结构化数据进行后续操作。
+
+* **示例 (使用 `PydanticOutputParser` 和 `ChatOpenAI`)**:
+
+    ```python
+    import asyncio
+    from typing import List
+    from langchain_core.prompts import ChatPromptTemplate
+    from langchain_core.pydantic_v1 import BaseModel, Field # 注意这里用 langchain_core.pydantic_v1
+    from langchain_openai import ChatOpenAI
+    from langchain_core.output_parsers import PydanticOutputParser
+
+    # 1. 定义 Pydantic 模型 (期望的输出结构)
+    class Joke(BaseModel):
+        setup: str = Field(description="笑话的铺垫部分")
+        punchline: str = Field(description="笑话的笑点部分")
+        rating: int = Field(description="对笑话的幽默程度打分，1-10分")
+
+    async def get_structured_joke():
+        # 2. 创建 PydanticOutputParser 实例
+        parser = PydanticOutputParser(pydantic_object=Joke)
+
+        # 3. 创建包含格式化指令的 PromptTemplate
+        # parser.get_format_instructions() 会生成如何格式化输出的说明
+        prompt_template = ChatPromptTemplate.from_messages(
+            [
+                ("system", "你是一个幽默的AI，擅长讲编程相关的笑话。请严格按照用户的格式要求输出。"),
+                ("human", "给我讲一个关于 Python 的笑话。\n{format_instructions}")
+            ]
+        )
+
+        # 4. 实例化 ChatModel
+        chat = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
+
+        # 5. 创建链 (Prompt + Model + Parser)
+        # LCEL (LangChain Expression Language) 风格
+        chain = prompt_template | chat | parser
+
+        # 6. 调用链
+        try:
+            response_joke = await chain.ainvoke({"format_instructions": parser.get_format_instructions()})
+            print(f"笑话铺垫: {response_joke.setup}")
+            print(f"笑点: {response_joke.punchline}")
+            print(f"评分: {response_joke.rating}")
+            print(f"原始对象类型: {type(response_joke)}")
+
+        except Exception as e: # langchain_core.exceptions.OutputParserException
+            print(f"解析输出时发生错误: {e}")
+            # 这里可以加入重试逻辑，例如使用 RetryOutputParser
+
+    # asyncio.run(get_structured_joke())
+    ```
+
+通过在提示中明确指定输出格式，并结合相应的输出解析器，可以大大提高从聊天模型中获取可用、结构化数据的可靠性和便捷性，从而支持更复杂的应用逻辑和交互流程。当与函数调用 (Function Calling / Tool Calling) 结合时，其能力会进一步增强。
+
+### 第六章：文本嵌入模型 (Text Embedding Models)
+
+文本嵌入模型是将文本（如单词、句子或整个文档）转换为固定大小的数字向量（称为嵌入或向量表示）的 AI 模型。这些向量捕捉了文本的语义信息，使得具有相似含义的文本在向量空间中彼此靠近。LangChain 提供了与多种文本嵌入模型交互的便捷接口。
+
+#### 6.1 文本嵌入的原理和应用场景
+
+* **原理 (Principle)**:
+    * **向量空间模型 (Vector Space Model)**: 文本嵌入的核心思想是将文本映射到一个高维的向量空间。在这个空间中，每个文本片段都由一个向量表示。
+    * **语义相似性 (Semantic Similarity)**: 模型的训练目标是使得语义上相似的文本片段在向量空间中的距离更近，而语义上不相关的文本片段距离更远。例如，“小狗”和“宠物狗”的向量表示会比“小狗”和“计算机”的向量表示更接近。
+    * **降维与信息保留**: 尽管原始文本信息复杂多样，嵌入模型试图在降维（从无限的文本可能性到固定大小的向量）的同时，尽可能多地保留关键的语义信息。
+    * **训练方法**: 这些模型通常通过在大型文本语料库上进行无监督学习来训练，例如预测上下文中的单词 (Word2Vec, GloVe) 或预测下一句话 (BERT 及其变体)。
+
+* **应用场景 (Application Scenarios)**:
+    * **语义搜索 (Semantic Search)**: 搜索引擎不再仅仅依赖关键词匹配，而是理解查询的语义，并找到语义上相关的文档。用户搜索“最近的健康餐馆”，系统可以返回提到“有机食品”、“沙拉吧”或“低脂菜肴”的餐馆，即使它们没有完全匹配“健康餐馆”这个词。
+    * **文本相似度计算 (Text Similarity Calculation)**: 判断两段文本在语义上的相似程度。例如，比较两篇文章是否讨论相似主题，或者查找重复或近似重复的内容。
+    * **文本聚类 (Text Clustering)**: 将大量文本自动分组到具有相似主题的簇中。例如，将新闻文章按主题（体育、政治、科技）分类。
+    * **推荐系统 (Recommendation Systems)**: 根据用户过去喜欢的项目（如文章、产品）的嵌入，推荐语义上相似的新项目。
+    * **问答系统 (Question Answering)**: 将问题和潜在答案都转换为嵌入，然后找到与问题嵌入最相似的答案嵌入。这是许多 RAG (Retrieval Augmented Generation) 应用的基础。
+    * **异常检测 (Anomaly Detection)**: 识别与文本数据集中大多数文本语义上显著不同的文本。
+    * **特征提取 (Feature Extraction for Downstream Tasks)**: 将文本嵌入作为输入特征，用于训练其他机器学习模型（如分类器、情感分析器）。
+
+文本嵌入是自然语言处理 (NLP) 中一项基础且强大的技术，为机器理解和处理文本的深层含义提供了可能。
+
+#### 6.2 使用不同的文本嵌入模型 (OpenAI Embeddings, Hugging Face Embeddings 等)
+
+LangChain 抽象了与不同文本嵌入模型提供商交互的细节，提供了一个统一的 `Embeddings` 接口。这意味着你可以相对轻松地切换不同的嵌入模型，而无需大幅修改代码。
+
+* **通用接口**: LangChain 的 `Embeddings` 类定义了两个核心方法：
+    * `embed_documents(texts: List[str]) -> List[List[float]]`: 接收一个文本列表，为每个文本生成一个嵌入，并返回一个嵌入列表（每个嵌入本身是一个浮点数列表）。
+    * `embed_query(text: str) -> List[float]`: 接收单个文本（通常是用户查询），为其生成嵌入，并返回单个嵌入。这两个方法的存在是为了某些模型可能会对“文档”和“查询”使用不同的嵌入策略或模型。
+
+* **OpenAI Embeddings**:
+    * 由 OpenAI 提供的高质量文本嵌入模型，如 `text-embedding-ada-002` 或更新的模型如 `text-embedding-3-small` 和 `text-embedding-3-large`。
+    * 使用时需要 OpenAI API 密钥。
+    * **优点**: 性能强大，易于使用。
+    * **缺点**: 付费 API，有速率限制。
+
+    ```python
+    from langchain_openai import OpenAIEmbeddings
+    import os
+
+    # 确保设置了 OPENAI_API_KEY 环境变量
+    # os.environ["OPENAI_API_KEY"] = "YOUR_OPENAI_API_KEY"
+
+    # 使用默认模型 (通常是 text-embedding-ada-002 或更新的兼容模型)
+    embeddings_openai = OpenAIEmbeddings()
+
+    # 或者指定模型
+    # embeddings_openai_ada = OpenAIEmbeddings(model="text-embedding-ada-002")
+    # embeddings_openai_3_small = OpenAIEmbeddings(model="text-embedding-3-small")
+    # embeddings_openai_3_large = OpenAIEmbeddings(model="text-embedding-3-large")
+
+
+    documents_to_embed = ["这是一段示例文本。", "LangChain 非常好用！"]
+    document_embeddings = embeddings_openai.embed_documents(documents_to_embed)
+    print(f"OpenAI Document Embeddings (第一个文档的维度): {len(document_embeddings[0])}")
+
+    query_to_embed = "什么是文本嵌入？"
+    query_embedding = embeddings_openai.embed_query(query_to_embed)
+    print(f"OpenAI Query Embedding (维度): {len(query_embedding)}")
+    ```
+
+* **Hugging Face Embeddings**:
+    * 允许你使用 Hugging Face Hub 上提供的各种开源嵌入模型，例如 Sentence Transformers (`sentence-transformers/all-MiniLM-L6-v2`)、BERT、RoBERTa 等。
+    * 可以在本地运行（如果模型已下载）或通过 Hugging Face Inference API (需要 API 密钥和特定配置)。
+    * **优点**: 模型选择多样，许多模型可免费在本地运行，对数据隐私有更好控制。
+    * **缺点**: 本地运行可能需要一定的计算资源 (CPU/GPU)；模型性能参差不齐，需要根据任务选择。
+
+    ```python
+    from langchain_community.embeddings import HuggingFaceEmbeddings
+    from langchain_community.embeddings import HuggingFaceInferenceAPIEmbeddings # 使用推理端点
+
+    # 1. 在本地运行 (推荐，需要安装 sentence_transformers: pip install sentence_transformers)
+    #    模型会自动下载（如果本地不存在）
+    model_name = "sentence-transformers/all-MiniLM-L6-v2" # 一个流行的轻量级模型
+    model_kwargs = {'device': 'cpu'} # 如果有GPU可以设置为 'cuda'
+    encode_kwargs = {'normalize_embeddings': False} # 取决于模型是否需要归一化
+
+    embeddings_hf_local = HuggingFaceEmbeddings(
+        model_name=model_name,
+        model_kwargs=model_kwargs,
+        encode_kwargs=encode_kwargs
+    )
+
+    documents_to_embed_hf = ["使用Hugging Face进行嵌入。", "本地模型更灵活。"]
+    document_embeddings_hf = embeddings_hf_local.embed_documents(documents_to_embed_hf)
+    print(f"Hugging Face Local Document Embeddings (第一个文档的维度): {len(document_embeddings_hf[0])}")
+
+    query_to_embed_hf = "开源嵌入模型有哪些？"
+    query_embedding_hf = embeddings_hf_local.embed_query(query_to_embed_hf)
+    print(f"Hugging Face Local Query Embedding (维度): {len(query_embedding_hf)}")
+
+
+    # 2. 使用 Hugging Face Inference API (需要Hugging Face API Token)
+    # HF_API_TOKEN = "YOUR_HUGGINGFACE_API_TOKEN"
+    embeddings_hf_api = HuggingFaceInferenceAPIEmbeddings(
+    api_key=HF_API_TOKEN, model_name="sentence-transformers/all-MiniLM-L6-v2"
+    )
+    query_embedding_hf_api = embeddings_hf_api.embed_query("通过API获取嵌入。")
+    print(f"Hugging Face API Query Embedding (维度): {len(query_embedding_hf_api)}")
+    ```
+
+* **其他嵌入模型**:
+    * LangChain 支持许多其他嵌入模型提供商，例如 Cohere, Google PaLM/Vertex AI, Bedrock (AWS), Aleph Alpha 等。
+    * 通常，只需要从相应的 `langchain_community.embeddings` 或特定提供商的包 (如 `langchain_cohere`, `langchain_google_vertexai`) 中导入对应的类并实例化即可。
+
+选择哪种嵌入模型取决于项目的具体需求，包括预算、性能要求、数据隐私考虑以及对特定语言或领域知识的需求。
+
+#### 6.3 生成文本的向量表示
+
+一旦选择了并实例化了一个嵌入模型对象，生成文本的向量表示就非常直接了。
+
+* **嵌入单个文档 (Embedding a Single Document/Query)**:
+    * 使用 `embed_query(text: str)` 方法。这通常用于嵌入用户的搜索查询或单个需要比较的文本。
+
+    ```python
+    from langchain_openai import OpenAIEmbeddings
+
+    embeddings_model = OpenAIEmbeddings() # 或任何其他 LangChain Embeddings 实现
+
+    text1 = "机器学习正在改变世界。"
+    vector1 = embeddings_model.embed_query(text1)
+
+    print(f"文本: '{text1}'")
+    print(f"向量表示 (前5个维度): {vector1[:5]}") # 向量通常很高维，这里只显示前5个
+    print(f"向量维度: {len(vector1)}")
+    ```
+
+* **嵌入多个文档 (Embedding Multiple Documents)**:
+    * 使用 `embed_documents(texts: List[str])` 方法。这在预处理文档集合以构建向量数据库或进行批量比较时非常有用。
+
+    ```python
+    from langchain_openai import OpenAIEmbeddings
+
+    embeddings_model = OpenAIEmbeddings()
+
+    corpus = [
+    "深度学习是机器学习的一个分支。",
+    "自然语言处理专注于计算机与人类语言的交互。",
+    "文本嵌入用于将文本转换为数字向量。"
+    ]
+
+    document_vectors = embeddings_model.embed_documents(corpus)
+
+    for i, doc in enumerate(corpus):
+        print(f"\n文档: '{doc}'")
+        print(f"向量表示 (前5个维度): {document_vectors[i][:5]}")
+        print(f"向量维度: {len(document_vectors[i])}")
+    ```
+
+* **异步操作**:
+    * 与 LLM 和 ChatModel 类似，Embeddings 类也提供了异步版本的方法：
+        * `aembed_documents(texts: List[str]) -> List[List[float]]`
+        * `aembed_query(text: str) -> List[float]`
+    * 这在需要同时嵌入大量文本或在异步应用中使用嵌入时非常有用。
+
+    ```python
+    import asyncio
+    from langchain_openai import OpenAIEmbeddings
+
+    embeddings_model = OpenAIEmbeddings()
+
+    async def main_async_embed():
+        texts_async = ["异步嵌入示例文本1", "异步嵌入示例文本2"]
+        embeddings_async = await embeddings_model.aembed_documents(texts_async)
+        # print(f"异步嵌入结果 (第一个文档前3维): {embeddings_async[0][:3]}")
+
+        query_async = "单个异步查询"
+        query_embedding_async = await embeddings_model.aembed_query(query_async)
+        # print(f"异步查询嵌入 (前3维): {query_embedding_async[:3]}")
+
+    # asyncio.run(main_async_embed())
+    ```
+
+生成的向量表示是后续进行相似度计算、聚类、语义搜索等操作的基础。向量的维度取决于所使用的具体嵌入模型（例如，OpenAI 的 `text-embedding-ada-002` 生成 1536 维向量，`text-embedding-3-small` 也是 1536 维，而 `text-embedding-3-large` 是 3072 维；`sentence-transformers/all-MiniLM-L6-v2` 生成 384 维向量）。
+
+#### 6.4 比较文本相似度
+
+获得了文本的向量表示后，可以通过计算这些向量之间的“距离”或“角度”来量化它们之间的语义相似度。
+
+* **常用的相似度/距离度量**:
+    * **余弦相似度 (Cosine Similarity)**:
+        * 最常用的度量文本嵌入相似度的方法。
+        * 计算两个向量之间夹角的余弦值。结果范围在 -1 到 1 之间。
+        * 值为 1 表示向量指向完全相同的方向（最大相似度）。
+        * 值为 0 表示向量正交（不相关）。
+        * 值为 -1 表示向量指向完全相反的方向（最大不相似度）。
+        * 对于非负向量（许多嵌入模型生成的是非负向量），范围通常是 0 到 1。
+        * 计算公式: $S_{cosine}(\vec{a}, \vec{b}) = \frac{\vec{a} \cdot \vec{b}}{\|\vec{a}\| \|\vec{b}\|}$
+    * **欧氏距离 (Euclidean Distance)**:
+        * 向量空间中两点之间的直线距离。
+        * 距离越小，表示相似度越高。
+        * 计算公式: $D_{euclidean}(\vec{a}, \vec{b}) = \sqrt{\sum_{i=1}^{n} (a_i - b_i)^2}$
+    * **点积 (Dot Product)**:
+        * 如果向量已经归一化 (长度为1)，则点积等同于余弦相似度。
+        * $S_{dot}(\vec{a}, \vec{b}) = \vec{a} \cdot \vec{b} = \sum_{i=1}^{n} a_i b_i$
+
+* **在 Python 中计算**:
+    * 可以使用 `numpy` 或 `scipy.spatial.distance` 等库来轻松计算这些度量。
+
+* **示例**:
+
+    ```python
+    import numpy as np
+    from sklearn.metrics.pairwise import cosine_similarity # scikit-learn 提供了便捷的函数
+    from scipy.spatial.distance import cosine # scipy 的 cosine 返回的是 (1 - similarity) 即距离
+
+    from langchain_openai import OpenAIEmbeddings
+
+    # 假设我们已经通过 embeddings_model.embed_documents() 或 embed_query() 获得了向量
+    embeddings_model = OpenAIEmbeddings()
+
+    text_A = "今天天气真好，适合出去玩。"
+    text_B = "阳光明媚，是个散步的好日子。"
+    text_C = "这部电影的剧情非常复杂。"
+
+    vector_A = embeddings_model.embed_query(text_A)
+    vector_B = embeddings_model.embed_query(text_B)
+    vector_C = embeddings_model.embed_query(text_C)
+
+    # 将向量转换为 NumPy 数组以便计算
+    vec_A_np = np.array(vector_A).reshape(1, -1) # reshape 用于 cosine_similarity 函数的输入格式
+    vec_B_np = np.array(vector_B).reshape(1, -1)
+    vec_C_np = np.array(vector_C).reshape(1, -1)
+
+    # 1. 使用 sklearn.metrics.pairwise.cosine_similarity
+    similarity_AB = cosine_similarity(vec_A_np, vec_B_np)[0][0]
+    similarity_AC = cosine_similarity(vec_A_np, vec_C_np)[0][0]
+    similarity_BC = cosine_similarity(vec_B_np, vec_C_np)[0][0]
+
+    print(f"文本 A: '{text_A}'")
+    print(f"文本 B: '{text_B}'")
+    print(f"文本 C: '{text_C}'")
+    print(f"A 和 B 之间的余弦相似度: {similarity_AB:.4f}") # 应该较高
+    print(f"A 和 C 之间的余弦相似度: {similarity_AC:.4f}") # 应该较低
+    print(f"B 和 C 之间的余弦相似度: {similarity_BC:.4f}") # 应该较低
+
+    # 2. 使用 NumPy 手动计算余弦相似度 (更底层)
+    def manual_cosine_similarity(vec1, vec2):
+        dot_product = np.dot(vec1, vec2)
+        norm_vec1 = np.linalg.norm(vec1)
+        norm_vec2 = np.linalg.norm(vec2)
+        if norm_vec1 == 0 or norm_vec2 == 0:
+            return 0.0 # 避免除以零
+        return dot_product / (norm_vec1 * norm_vec2)
+
+    similarity_AB_manual = manual_cosine_similarity(np.array(vector_A), np.array(vector_B))
+    print(f"A 和 B 之间的手动计算余弦相似度: {similarity_AB_manual:.4f}")
+
+    # 欧氏距离示例 (使用 scipy)
+    from scipy.spatial.distance import euclidean
+    distance_AB = euclidean(np.array(vector_A), np.array(vector_B))
+    distance_AC = euclidean(np.array(vector_A), np.array(vector_C))
+    print(f"A 和 B 之间的欧氏距离: {distance_AB:.4f}") # 距离越小越相似
+    print(f"A 和 C 之间的欧氏距离: {distance_AC:.4f}") # 距离越大越不相似
+    ```
+
+在实际应用中（如语义搜索），通常会将一个查询向量与大量文档向量进行比较，然后根据相似度得分对文档进行排序，返回最相似的文档。向量数据库 (Vector Databases) 专门为此类大规模相似性搜索进行了优化。
+
+## 模块三：数据连接 (Data Connection) 详解
+
+在构建基于大型语言模型 (LLM) 的应用程序时，往往需要将外部数据源与 LLM 连接起来。这可能是为了给 LLM 提供最新的信息、特定领域的知识，或者允许 LLM 与用户私有数据进行交互 (例如，在 RAG - Retrieval Augmented Generation 架构中)。LangChain 的数据连接模块提供了一系列工具来加载、转换和存储数据，以便 LLM 可以有效地使用它们。“文档 (Document)”是 LangChain 中表示一块文本及其关联元数据 (metadata) 的核心概念。
+
+---
+
+### 第七章：文档加载 (Document Loaders)
+
+文档加载器 (Document Loaders) 负责从各种来源获取数据，并将其统一转换为 LangChain 的 `Document` 对象。每个 `Document` 对象包含 `page_content` (文本内容) 和 `metadata` (关于该文本的附加信息，如来源、页码、标题等)。
+
+#### 7.1 从不同数据源加载文档
+
+LangChain 提供了大量的内置文档加载器，支持从各种常见及不常见的数据源加载数据。这使得开发者可以轻松地将不同格式和来源的数据整合到其 LLM 应用中。
+
+**支持的数据源类型包括但不限于**:
+
+* **文件系统 (File System)**:
+    * 纯文本文件 (`.txt`, `.md`, `.csv`, `.json`, `.html` 等)
+    * PDF 文件 (`.pdf`)
+    * Word 文档 (`.doc`, `.docx`)
+    * PowerPoint 演示文稿 (`.ppt`, `.pptx`)
+    * Excel 表格 (`.xls`, `.xlsx`)
+    * 代码文件 (各种编程语言)
+    * EPUB 电子书
+* **网页内容 (Web Content)**:
+    * 单个网页 HTML
+    * 整个网站爬取 (Sitemaps, Recursive crawling)
+    * YouTube 视频字幕
+    * RSS Feeds
+* **在线服务和数据库 (Online Services & Databases)**:
+    * Notion 页面和数据库
+    * Google Drive (Docs, Sheets, Slides)
+    * Slack 频道
+    * Discord 聊天记录
+    * GitHub 仓库 (Issues, PRs, Code)
+    * SQL 数据库
+    * NoSQL 数据库 (MongoDB, Elasticsearch 等)
+    * Confluence 页面
+    * Jira Issues
+    * Airbyte (通过 Airbyte 加载各种数据源)
+    * Wikipedia
+    * Hacker News
+    * AWS S3 存储桶中的文件
+* **多媒体与其他 (Multimedia & Others)**:
+    * 图片 (通过 OCR 提取文本)
+    * 音频 (通过语音转文本服务提取文本)
+
+LangChain 的文档加载器生态系统非常庞大且持续增长，大部分加载器位于 `langchain_community.document_loaders` 包中。
+
+#### 7.2 常用 Document Loaders 介绍和使用
+
+下面介绍几种常用的文档加载器及其基本用法。
+
+* **`TextLoader` (文本文件加载器)**:
+    * 用途: 加载本地文件系统中的纯文本文件 (如 `.txt`, `.md`, `.py`, `.json` 等)。
+    * 特点: 简单直接，通常将整个文件内容加载为一个 `Document`。
+    * 安装: 通常是 LangChain 核心库的一部分，无需额外安装。
+
+    ```python
+    from langchain_community.document_loaders import TextLoader
+
+    # 假设有一个名为 example.txt 的文件
+    # file_path = "./example.txt"
+    # with open(file_path, "w", encoding="utf-8") as f:
+    #     f.write("这是示例文本文件的第一行。\n")
+    #     f.write("这是第二行，包含一些 LangChain 的信息。\n")
+
+    loader_txt = TextLoader("./example.txt", encoding="utf-8") # 指定编码很重要
+    documents_txt = loader_txt.load()
+
+    print(f"从 TXT 文件加载了 {len(documents_txt)} 个文档。")
+    for doc in documents_txt:
+        print(f"内容 (前50字符): {doc.page_content[:50]}...")
+        print(f"元数据: {doc.metadata}")
+        # metadata 通常包含 {'source': './example.txt'}
+    ```
+
+* **`PyPDFLoader` (PDF 文件加载器)**:
+    * 用途: 加载 PDF 文件中的文本内容。
+    * 特点: 逐页加载 PDF，每页内容成为一个单独的 `Document` 对象。元数据通常包含源文件名和页码。
+    * 安装: 需要安装 `pypdf` 包 (`pip install pypdf`)。
+
+    ```python
+    from langchain_community.document_loaders import PyPDFLoader
+
+    # 假设有一个名为 sample.pdf 的文件
+    # 为了运行此示例，你需要一个PDF文件。你可以创建一个简单的PDF。
+    # file_path_pdf = "./sample.pdf"
+
+    loader_pdf = PyPDFLoader("./sample.pdf") # 替换为你的PDF文件路径
+    documents_pdf = loader_pdf.load() # load_and_split() 方法会同时加载并按页分割
+
+    print(f"从 PDF 文件加载了 {len(documents_pdf)} 个文档 (每页一个文档)。")
+    if documents_pdf:
+        print(f"第一页内容 (前100字符): {documents_pdf[0].page_content[:100]}...")
+        print(f"第一页元数据: {documents_pdf[0].metadata}")
+        # metadata 通常包含 {'source': './sample.pdf', 'page': 0}
+    ```
+    * **其他 PDF 加载器**: LangChain 还支持其他 PDF 加载器，如 `PDFMinerLoader`, `PyMuPDFLoader` (fitz), `UnstructuredPDFLoader` 等，它们在处理复杂布局或扫描PDF方面可能有不同表现。
+
+* **`WebBaseLoader` (网页加载器)**:
+    * 用途: 从给定的 URL 加载网页内容。
+    * 特点: 通常会尝试提取网页的主要文本内容，去除 HTML 标签。
+    * 安装: 需要安装 `beautifulsoup4` 包 (`pip install beautifulsoup4`)。
+
+    ```python
+    from langchain_community.document_loaders import WebBaseLoader
+
+    url = "[https://lilianweng.github.io/posts/2023-06-23-agent/](https://lilianweng.github.io/posts/2023-06-23-agent/)" # 一个示例博客文章
+    loader_web = WebBaseLoader(url)
+    documents_web = loader_web.load()
+
+    print(f"从 URL 加载了 {len(documents_web)} 个文档。")
+    if documents_web:
+        print(f"网页内容 (前200字符): {documents_web[0].page_content[:200]}...")
+        print(f"网页元数据: {documents_web[0].metadata}")
+        # metadata 通常包含 {'source': url, 'title': '...', 'description': '...', 'language': '...'}
+    ```
+    * **异步版本和批量加载**: `WebBaseLoader` 也支持异步加载和一次加载多个 URL。
+        ```python
+        loader_web_multiple = WebBaseLoader(
+            ["[https://www.espn.com](https://www.espn.com)", "[https://www.cnn.com](https://www.cnn.com)"]
+        )
+        # docs_multiple = loader_web_multiple.load()
+
+        # 异步加载 (需要运行在 asyncio 事件循环中)
+        async def main_web_async():
+            loader_web_async = WebBaseLoader("[https://www.bbc.com/news](https://www.bbc.com/news)")
+            docs_async = await loader_web_async.aload()
+            print(f"异步加载的文档内容 (前100字符): {docs_async[0].page_content[:100]}...")
+        # import asyncio
+        # asyncio.run(main_web_async())
+        ```
+
+* **`CSVLoader` (CSV 文件加载器)**:
+    * 用途: 加载 CSV 文件中的数据。
+    * 特点: 通常将 CSV 文件中的每一行视为一个独立的 `Document`。你可以指定哪一列作为 `page_content`，其他列可以作为 `metadata`。
+    * 安装: 通常是 LangChain 核心库的一部分，但依赖 Python 内置的 `csv` 模块。
+
+    ```python
+    from langchain_community.document_loaders.csv_loader import CSVLoader
+    import csv
+
+    # 创建一个示例 CSV 文件
+    # csv_file_path = "./sample_data.csv"
+    # with open(csv_file_path, mode='w', newline='', encoding='utf-8') as file:
+    #     writer = csv.writer(file)
+    #     writer.writerow(["id", "question", "answer", "category"])
+    #     writer.writerow([1, "什么是 LangChain?", "一个LLM应用开发框架。", "技术"])
+    #     writer.writerow([2, "Python 难学吗?", "因人而异，但有大量学习资源。", "编程"])
+
+    loader_csv = CSVLoader(
+        file_path="./sample_data.csv",
+        csv_args={ # 可以传递给 Python csv.DictReader 的参数
+            'delimiter': ',',
+            'quotechar': '"',
+            # 'fieldnames': ['id', 'question', 'answer', 'category'] # 如果没有表头行，可以指定
+        },
+        source_column="id", # 可选，指定哪一列作为 document.metadata['source']
+        # content_columns=['question', 'answer'] # 指定多列合并为 page_content (实验性)
+    )
+    # 默认情况下，CSVLoader 会将所有列的键值对形式作为 page_content
+    # 例如: "id: 1\nquestion: 什么是 LangChain?\nanswer: 一个LLM应用开发框架。\ncategory: 技术"
+
+    # 如果你想让某一特定列作为 page_content，而其他列作为 metadata，
+    # 通常的做法是加载后进行转换，或者构建自定义的加载逻辑，
+    # 或者使用更高级的加载器如 `DataFrameLoader` (如果数据适合Pandas DataFrame)。
+
+    # 简单加载，每行是一个文档，内容是所有列的组合
+    documents_csv = loader_csv.load()
+    # print(f"从 CSV 文件加载了 {len(documents_csv)} 个文档。")
+    # if documents_csv:
+    #     print(f"第一个文档内容: {documents_csv[0].page_content}")
+    #     print(f"第一个文档元数据: {documents_csv[0].metadata}")
+    #     # metadata 通常包含 {'source': '1', 'row': 0} (如果source_column='id')
+    ```
+    * 对于更复杂的 CSV 处理或希望将特定列作为 `page_content`，可能需要结合 `pandas` 和 `DataFrameLoader`，或者在加载后进行自定义处理。
+
+* **`YoutubeLoader` (YouTube 视频加载器)**:
+    * 用途: 加载 YouTube 视频的字幕/转录稿。
+    * 特点: 需要视频 URL，并会下载可用的字幕。
+    * 安装: 需要安装 `youtube-transcript-api` 包 (`pip install youtube-transcript-api`)。
+
+    ```python
+    from langchain_community.document_loaders import YoutubeLoader
+
+    video_url = "[https://www.youtube.com/watch?v=j_K3_T3eSbw](https://www.youtube.com/watch?v=j_K3_T3eSbw)" # 示例视频 (一个关于冥想的短视频)
+    loader_youtube = YoutubeLoader.from_youtube_url(
+        video_url,
+        add_video_info=True,  # 会在 metadata 中添加视频标题、作者等信息
+        language=["en", "zh-Hans"], # 尝试加载英文或简体中文字幕
+        translation="en", # 如果找到其他语言字幕，尝试翻译成英文
+    )
+    documents_youtube = loader_youtube.load()
+
+    print(f"从 YouTube URL 加载了 {len(documents_youtube)} 个文档。")
+    if documents_youtube:
+        print(f"视频字幕内容 (前200字符): {documents_youtube[0].page_content[:200]}...")
+        print(f"视频元数据: {documents_youtube[0].metadata}")
+        # metadata 可能包含 {'source': 'j_K3_T3eSbw', 'title': '...', 'author': '...', 'length': ..., 'publish_date': ...}
+    ```
+
+这只是众多可用加载器中的一小部分。选择哪个加载器取决于你的数据源和特定需求。LangChain 文档网站是查找特定加载器及其选项的最佳资源。
+
+#### 7.3 自定义 Document Loader
+
+尽管 LangChain 提供了大量预置的文档加载器，但有时你可能需要从 LangChain 尚不支持的专有数据源、特定格式的文件或内部 API 加载数据。在这种情况下，你可以创建自己的自定义文档加载器。
+
+* **基本步骤**:
+    1.  **继承 `BaseLoader`**: 你的自定义加载器类需要继承自 `langchain_core.document_loaders.base.BaseLoader`。
+    2.  **实现 `load()` 或 `lazy_load()` 方法**:
+        * `load() -> List[Document]`: 这个方法应该包含从你的数据源加载数据并将其转换为一个或多个 `Document` 对象列表的逻辑。这是最常用的实现方式。
+        * `lazy_load() -> Iterator[Document]`: 这个方法返回一个文档的迭代器。这对于处理非常大的数据集或流式数据源很有用，因为它允许你逐个处理文档，而不是一次性将所有文档加载到内存中。如果你实现了 `lazy_load`，`BaseLoader` 会自动提供一个基于它的 `load` 实现。
+    3.  **构造 `Document` 对象**: 在你的加载方法中，你需要创建 `langchain_core.documents.Document` 的实例，至少提供 `page_content` (字符串) 和可选的 `metadata` (字典)。
+
+* **示例：一个简单的自定义加载器，从字符串列表加载数据**
+
+    ```python
+    from typing import List, Iterator
+    from langchain_core.document_loaders.base import BaseLoader
+    from langchain_core.documents import Document
+
+    class MyCustomStringListLoader(BaseLoader):
+        """一个简单的自定义加载器，从字符串列表加载数据，每个字符串成为一个文档。"""
+
+        def __init__(self, string_list: List[str], source_name: str = "custom_list"):
+            self.string_list = string_list
+            self.source_name = source_name
+
+        def lazy_load(self) -> Iterator[Document]:
+            """惰性加载，逐个产生文档。"""
+            for i, text_content in enumerate(self.string_list):
+                metadata = {
+                    "source": self.source_name,
+                    "index": i,
+                    "length": len(text_content)
+                }
+                yield Document(page_content=text_content, metadata=metadata)
+
+        # 如果只实现 lazy_load，load() 方法会自动获得。
+        # 如果想覆盖 load() 以实现不同逻辑（例如一次性加载），也可以直接实现它：
+        # def load(self) -> List[Document]:
+        #     """一次性加载所有文档。"""
+        #     documents = []
+        #     for i, text_content in enumerate(self.string_list):
+        #         metadata = {
+        #             "source": self.source_name,
+        #             "index": i,
+        #             "length": len(text_content)
+        #         }
+        #         documents.append(Document(page_content=text_content, metadata=metadata))
+        #     return documents
+
+    # # 使用自定义加载器
+    # my_data = [
+    #     "这是第一个自定义文档。",
+    #     "LangChain 允许创建自定义组件。",
+    #     "第三条简单记录。"
+    # ]
+    # custom_loader = MyCustomStringListLoader(string_list=my_data, source_name="my_string_source")
+
+    # # 使用 load()
+    # # loaded_docs_custom = custom_loader.load()
+    # # print(f"\n--- 自定义加载器 (load) ---")
+    # # for doc in loaded_docs_custom:
+    # #     print(f"内容: {doc.page_content}")
+    # #     print(f"元数据: {doc.metadata}")
+
+    # # 使用 lazy_load()
+    # # print(f"\n--- 自定义加载器 (lazy_load) ---")
+    # # for doc in custom_loader.lazy_load():
+    # #     print(f"内容: {doc.page_content}")
+    # #     print(f"元数据: {doc.metadata}")
+    ```
+
+通过实现自定义加载器，你可以将任何可以编程访问的数据源集成到 LangChain 工作流中，极大地扩展了 LangChain 应用的数据连接能力。在实现时，务必考虑错误处理、资源管理（如关闭文件或网络连接）以及如何有效地构造有用的元数据。
+
+### 第八章：文档转换 (Document Transformers)
+
+在将文档加载到 LangChain 后，通常需要对这些文档进行进一步处理，然后才能有效地将它们用于 LLM 应用（例如，在 RAG 流程中构建向量索引或直接作为 LLM 的上下文）。文档转换器 (Document Transformers) 就是用于执行这些转换操作的组件。它们接收一个或多个 `Document` 对象，并返回经过转换的 `Document` 对象列表。
+
+常见的转换操作包括：将长文档分割成小块、清洗文本内容、提取或添加元数据等。
+
+#### 8.1 文本分割 (Text Splitters)：按字符、Token、递归等方式分割长文本
+
+大型语言模型 (LLMs) 通常对其可以处理的上下文长度有限制（即 token 限制）。因此，在处理长文档时，必须将其分割成更小的、符合模型限制的块 (chunks)。文本分割器 (Text Splitters) 就是为此设计的。
+
+* **为什么需要文本分割？**
+    * **LLM 上下文窗口限制**: 大多数 LLM 无法一次处理非常长的文本。例如，一些模型的上下文窗口可能是几千个 token。
+    * **检索效率和相关性**: 在 RAG 架构中，将文档分割成较小的、语义连贯的块，可以提高检索到最相关信息的几率。用户查询可能只与长文档中的一小部分相关。
+    * **成本和性能**: 处理更小的文本块通常更快，API 调用成本也更低。
+
+* **常用的文本分割策略和 LangChain 中的实现**:
+
+    * **`CharacterTextSplitter` (按字符分割)**:
+        * **原理**: 按照指定的字符（或字符串序列）来分割文本，并尝试将块保持在指定的大小 (`chunk_size`) 附近。它还支持 `chunk_overlap` 参数，用于在相邻块之间创建重叠部分，以帮助保持上下文的连续性。
+        * **适用场景**: 简单文本，当分隔符明确且一致时。
+        * **示例**:
+            ```python
+            from langchain_text_splitters import CharacterTextSplitter
+            from langchain_core.documents import Document
+
+            long_text = "这是一段非常非常长的文本，需要被分割成多个小块。我们希望每个小块大约10个字符，并且块之间有2个字符的重叠。LangChain 提供了多种分割器。"
+            doc = Document(page_content=long_text, metadata={"source": "my_long_document"})
+
+            char_splitter = CharacterTextSplitter(
+                separator="。",  # 按句号分割
+                chunk_size=20,   # 目标块大小 (字符数)
+                chunk_overlap=5, # 块之间的重叠字符数
+                length_function=len, # 用于计算长度的函数
+                is_separator_regex=False,
+            )
+            
+            chunks = char_splitter.split_documents([doc]) # 也可以用 split_text(long_text)
+                        # # print(f"原始文档分割成了 {len(chunks)} 个块:")
+            for i, chunk in enumerate(chunks):
+                print(f"--- 块 {i+1} ---")
+                print(f"内容: {chunk.page_content}")
+                print(f"元数据: {chunk.metadata}") # 元数据会被继承
+            ```
+
+    * **`RecursiveCharacterTextSplitter` (递归字符分割)**:
+        * **原理**: 这是推荐的通用入门分割器。它接收一个字符列表作为分隔符的优先级顺序 (例如 `["\n\n", "\n", " ", ""]`)。它首先尝试按第一个分隔符分割。如果得到的块仍然太大，它会递归地使用列表中的下一个分隔符来分割这些块，直到块大小符合要求。
+        * **适用场景**: 适用于大多数文本类型，因为它能较好地尝试在语义边界（如段落、句子）上进行分割。
+        * **示例**:
+            ```python
+            from langchain_text_splitters import RecursiveCharacterTextSplitter
+            from langchain_core.documents import Document
+
+            another_long_text = "第一段内容。\n\n这是第二段，包含多个句子。例如这个句子。还有另一个句子。\n第三段只有一句话。"
+            doc_recursive = Document(page_content=another_long_text, metadata={"source": "recursive_doc"})
+
+            recursive_splitter = RecursiveCharacterTextSplitter(
+                chunk_size=50,    # 目标块大小 (字符数)
+                chunk_overlap=10,   # 块之间的重叠字符数
+                separators=["\n\n", "\n", "。", "，", " ", ""], # 尝试按这些分隔符顺序分割
+                length_function=len,
+            )
+            
+            chunks_recursive = recursive_splitter.split_documents([doc_recursive])
+            
+            print(f"\n递归分割器将文档分割成了 {len(chunks_recursive)} 个块:")
+            for i, chunk in enumerate(chunks_recursive):
+                print(f"--- 块 {i+1} ---")
+                print(f"内容: {chunk.page_content}")
+                print(f"元数据: {chunk.metadata}")
+            ```
+
+    * **按 Token 分割 (Token-based Splitters)**:
+        * **原理**: 这些分割器根据 LLM 计算 token 的方式来分割文本。这对于精确控制传递给模型的 token 数量非常重要。
+        * **实现**:
+            * **`TokenTextSplitter`**: 使用指定的编码（如 OpenAI 的 `cl100k_base` for `gpt-3.5-turbo` and `gpt-4`）来计算 token 数量并分割。
+            * **`SentenceTransformersTokenTextSplitter`**: 针对 Sentence Transformers 模型使用的 tokenization。
+            * 通常需要安装相应的 tokenizer 库 (如 `tiktoken` for OpenAI)。
+        * **适用场景**: 当需要严格遵守特定模型的 token 限制时。
+        * **示例 (使用 `tiktoken`，概念上类似于 `TokenTextSplitter`)**:
+            ```python
+            from langchain_text_splitters import TokenTextSplitter # 或者 CharacterTextSplitter.from_tiktoken_encoder
+            from langchain_core.documents import Document
+            import tiktoken # pip install tiktoken
+
+            openai_text = "This is a text that we want to split based on OpenAI's token counting for gpt-3.5-turbo. Tokens are fundamental units for LLMs."
+            doc_openai = Document(page_content=openai_text, metadata={"source": "openai_token_doc"})
+
+            # 获取特定模型的编码器
+            # encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+
+            token_splitter = TokenTextSplitter(
+                model_name="gpt-3.5-turbo", # 或者直接提供 encoding_name="cl100k_base"
+                chunk_size=20,  # 目标块大小 (token 数)
+                chunk_overlap=5 # 块之间的重叠 token 数
+            )
+            # 更推荐的方式是使用 CharacterTextSplitter.from_tiktoken_encoder
+            # from langchain_text_splitters import CharacterTextSplitter
+            # token_splitter = CharacterTextSplitter.from_tiktoken_encoder(
+            #     model_name="gpt-3.5-turbo",
+            #     chunk_size=20,
+            #     chunk_overlap=5,
+            # )
+
+
+            chunks_token = token_splitter.split_documents([doc_openai])
+            
+            print(f"\nToken 分割器将文档分割成了 {len(chunks_token)} 个块:")
+            for i, chunk in enumerate(chunks_token):
+                print(f"--- 块 {i+1} ---")
+                print(f"内容: {chunk.page_content}")
+                # 可以验证 token 数量
+                # chunk_tokens = encoding.encode(chunk.page_content)
+                # print(f"Token 数量: {len(chunk_tokens)}")
+                print(f"元数据: {chunk.metadata}")
+            ```
+
+    * **其他分割器**: LangChain 还提供了针对特定格式 (如 Markdown, LaTeX, Python 代码) 的分割器，它们能够更好地理解这些格式的结构并进行智能分割。
+        * `MarkdownTextSplitter`
+        * `PythonCodeTextSplitter`
+        * `LatexTextSplitter`
+
+* **选择分割策略的关键因素**:
+    * **文本类型**: 结构化文本（如代码、Markdown）可能受益于特定格式的分割器。
+    * **语义连贯性**: 尽量在自然的断点（句子、段落）处分割，以保持块的语义完整性。`RecursiveCharacterTextSplitter` 通常在这方面做得不错。
+    * **`chunk_size` 和 `chunk_overlap`**: 这些参数需要根据目标 LLM 的上下文窗口大小、嵌入模型的限制以及应用需求进行调整。适当的重叠有助于在块之间保持上下文。
+    * **元数据保留**: 分割器通常会将原始文档的元数据复制到所有生成的块中，并可能添加新的元数据（如块的序号）。
+
+#### 8.2 文本清洗和预处理
+
+从各种来源加载的文档通常包含不需要的字符、格式问题或对 LLM 处理不友好的内容。在进行分割或嵌入之前，对文本进行清洗和预处理是很重要的一步。
+
+* **常见的清洗任务**:
+    * **去除 HTML 标签**: 从网页加载的内容通常包含 HTML 标签。
+    * **去除多余空白**: 删除不必要的空格、换行符、制表符。
+    * **规范化文本**: 转换为小写、处理特殊字符、去除不可见字符。
+    * **去除噪音**: 删除广告、导航栏、页眉页脚等与主要内容无关的部分 (这可能在加载阶段或通过更专门的工具完成)。
+    * **修正编码问题**。
+
+* **LangChain 中的实现方式**:
+    * **结合自定义代码**: 最常见的方法是使用 Python 的标准库 (如 `re` for 正则表达式, `html.parser` 或 `BeautifulSoup` for HTML) 或其他文本处理库，在 LangChain 的 `Document` 对象上直接操作 `page_content`。
+    * **自定义 `DocumentTransformer`**: 你可以创建一个继承自 `BaseDocumentTransformer` 的类，并实现其 `transform_documents` 方法来封装你的清洗逻辑。
+    * **链式操作**: LangChain 允许将多个文档转换器（包括文本分割器和自定义的清洗转换器）链接起来形成一个处理流水线。
+    * **使用现有的转换器**: 一些社区提供的加载器或转换器可能内置了部分清洗功能。例如，`WebBaseLoader` 会尝试去除一些 HTML 结构。
+
+* **示例：一个简单的自定义清洗转换器**
+
+    ```python
+    import re
+    from typing import Sequence, Any
+    from langchain_core.documents import Document
+    from langchain_core.document_transformers import BaseDocumentTransformer
+
+    class SimpleTextCleaner(BaseDocumentTransformer):
+        """一个简单的文本清洗器，去除多余空格并将文本转为小写。"""
+
+        def transform_documents(
+            self, documents: Sequence[Document], **kwargs: Any
+        ) -> Sequence[Document]:
+            cleaned_documents = []
+            for doc in documents:
+                cleaned_content = doc.page_content.lower() # 转为小写
+                cleaned_content = re.sub(r'\s+', ' ', cleaned_content).strip() # 去除多余空格
+                # 可以添加更多清洗规则，例如去除特定字符等
+                # cleaned_content = re.sub(r'[^\w\s]', '', cleaned_content) # 去除非字母数字空格字符
+
+                # 创建新的 Document 或修改现有的 (推荐创建新的以保持不变性)
+                cleaned_doc = Document(page_content=cleaned_content, metadata=doc.metadata.copy())
+                cleaned_documents.append(cleaned_doc)
+            return cleaned_documents
+
+        async def atransform_documents(
+            self, documents: Sequence[Document], **kwargs: Any
+        ) -> Sequence[Document]:
+            # 简单的同步转异步实现，实际应用中如果清洗逻辑IO密集，可以优化
+            return self.transform_documents(documents, **kwargs)
+
+
+    # 假设我们有一些待清洗的文档
+    raw_docs = [
+        Document(page_content="  这是   一个 \n\n 文档，包含 大写字母   和 多余空格. HTML: <p>text</p>", metadata={"source": "doc1"}),
+        Document(page_content="另一个   例子\t需要清理一下.", metadata={"source": "doc2"})
+    ]
+
+    cleaner = SimpleTextCleaner()
+    cleaned_docs = cleaner.transform_documents(raw_docs)
+
+    print("\n--- 清洗后的文档 ---")
+    for doc in cleaned_docs:
+        print(f"内容: '{doc.page_content}'")
+        print(f"元数据: {doc.metadata}")
+    ```
+    * **注意**: 对于复杂的 HTML 清洗，使用 `BeautifulSoup` 通常更稳健。可以在加载器中集成，或者创建一个专门的 `BeautifulSoupTransformer`。LangChain 社区中可能有类似的实现。
+
+#### 8.3 元数据提取和添加
+
+文档的元数据 (metadata) 对于后续的检索、过滤和上下文理解非常重要。文档转换器也可以用来从文档内容中提取新的元数据，或添加/修改现有的元数据。
+
+* **为什么重要？**
+    * **增强检索**: 可以根据元数据字段（如日期、作者、类别、关键词）过滤搜索结果。
+    * **上下文提供**: 将元数据信息（如文档标题、来源）与文本块一起提供给 LLM，可以帮助 LLM 更好地理解块的上下文。
+    * **数据分析和组织**: 元数据有助于对文档集合进行分析和组织。
+
+* **实现方式**:
+    * **自定义 `DocumentTransformer`**:
+        * 创建一个转换器，分析 `doc.page_content` 来提取信息（如使用正则表达式提取日期、实体，或使用小型 NLP 模型提取关键词）。
+        * 将提取的信息添加到 `doc.metadata` 字典中。
+    * **结合 LLM**:
+        * 对于更复杂的元数据提取，如生成摘要、提取主题或判断情感，可以设计一个链 (Chain)，将文档内容传递给 LLM，并指示 LLM 输出所需的元数据信息。然后，使用一个转换器将 LLM 的输出添加到文档的元数据中。
+        * LangChain 提供了如 `LLMChainExtractor` (旧版) 或通过 LCEL 构建类似的逻辑。
+    * **修改现有元数据**: 例如，在文本分割后，可以添加块的序号或计算块的 token 数量作为新的元数据。
+
+* **示例：一个简单的转换器，添加文本长度和修改来源元数据**
+
+    ```python
+    from typing import Sequence, Any
+    from langchain_core.documents import Document
+    from langchain_core.document_transformers import BaseDocumentTransformer
+
+    class MetadataEnhancer(BaseDocumentTransformer):
+        """一个简单的元数据增强器，添加文本长度并修改来源。"""
+
+        def __init__(self, source_prefix: str = "processed_"):
+            self.source_prefix = source_prefix
+
+        def transform_documents(
+            self, documents: Sequence[Document], **kwargs: Any
+        ) -> Sequence[Document]:
+            enhanced_documents = []
+            for doc in documents:
+                new_metadata = doc.metadata.copy() # 复制现有元数据
+                new_metadata["text_length"] = len(doc.page_content)
+                if "source" in new_metadata:
+                    new_metadata["original_source"] = new_metadata["source"] # 保留原始来源
+                    new_metadata["source"] = f"{self.source_prefix}{new_metadata['source']}"
+                else:
+                    new_metadata["source"] = f"{self.source_prefix}unknown"
+
+                enhanced_doc = Document(page_content=doc.page_content, metadata=new_metadata)
+                enhanced_documents.append(enhanced_doc)
+            return enhanced_documents
+
+        async def atransform_documents(
+            self, documents: Sequence[Document], **kwargs: Any
+        ) -> Sequence[Document]:
+            return self.transform_documents(documents, **kwargs)
+
+    # 假设我们有一些文档
+    docs_to_enhance = [
+        Document(page_content="这是一个示例文档。", metadata={"source": "fileA.txt", "author": "AI"}),
+        Document(page_content="另一个不同长度的文档。", metadata={"source": "web_page_B"})
+    ]
+
+    enhancer = MetadataEnhancer(source_prefix="enhanced_v1_")
+    enhanced_docs = enhancer.transform_documents(docs_to_enhance)
+
+    print("\n--- 元数据增强后的文档 ---")
+    for doc in enhanced_docs:
+        print(f"内容: '{doc.page_content}'")
+        print(f"元数据: {doc.metadata}")
+    ```
+
+* **使用 LLM 提取元数据 (概念性)**
+    * 你可以构建一个提示，要求 LLM 从文本中提取特定信息或生成摘要。
+    * 例如，提示可以是：“请从以下文本中提取主要议题，并以逗号分隔的列表形式返回：\n\n{document_content}”
+    * 然后，将 LLM 的输出解析并添加到 `metadata` 中。这通常涉及构建一个包含 `PromptTemplate`, LLM 和 `OutputParser` 的链。
+
+文档转换是数据准备流程中的关键步骤，确保了输入到 LLM 或向量存储中的数据是干净、结构化且包含有用元数据的。通过组合使用 LangChain 提供的内置转换器和自定义转换器，可以构建强大的数据处理流水线。
 
 
 
-* 第五章：与聊天模型 (Chat Models) 交互
-    * 5.1 理解 Chat Models 的消息类型 (SystemMessage, HumanMessage, AIMessage)
-    * 5.2 构建聊天应用的 Prompt Templates
-    * 5.3 聊天历史管理
-    * 5.4 结合 Output Parsers 实现更复杂的聊天交互
-* 第六章：文本嵌入模型 (Text Embedding Models)
-    * 6.1 文本嵌入的原理和应用场景
-    * 6.2 使用不同的文本嵌入模型 (OpenAI Embeddings, Hugging Face Embeddings 等)
-    * 6.3 生成文本的向量表示
-    * 6.4 比较文本相似度
-模块三：数据连接 (Data Connection) 详解
-* 第七章：文档加载 (Document Loaders)
-    * 7.1 从不同数据源加载文档 (文本文件, PDF, 网页, YouTube, Notion 等)
-    * 7.2 常用 Document Loaders 介绍和使用
-    * 7.3 自定义 Document Loader
-* 第八章：文档转换 (Document Transformers)
-    * 8.1 文本分割 (Text Splitters)：按字符、Token、递归等方式分割长文本
-    * 8.2 文本清洗和预处理
-    * 8.3 元数据提取和添加
-* 第九章：向量存储 (Vector Stores) 与检索 (Retrievers)
-    * 9.1 向量数据库的基本概念 (FAISS, Chroma, Pinecone, Weaviate 等)
-    * 9.2 将文档嵌入并存储到向量数据库
-    * 9.3 构建不同类型的检索器 (VectorStoreRetriever, MultiQueryRetriever, SelfQueryRetriever 等)
-    * 9.4 相似性搜索与语义检索的原理
-    * 9.5 优化检索效果 (Top K, 过滤等)
-模块四：构建强大的链 (Chains)
-* 第十章：基础与顺序链 (Basic and Sequential Chains)
-    * 10.1 LLMChain：最基础的链
-    * 10.2 SimpleSequentialChain：单输入单输出的顺序链
-    * 10.3 SequentialChain：多输入多输出的顺序链
-    * 10.4 链的输入输出管理
+### 第九章：向量存储 (Vector Stores) 与检索 (Retrievers)
+
+在 Retrieval Augmented Generation (RAG) 等应用中，核心环节是将用户查询与一个大规模的文档集合进行匹配，找出最相关的文档片段，然后将这些片段作为上下文提供给 LLM 以生成更准确、更具信息量的回答。向量存储 (Vector Stores) 和检索器 (Retrievers) 是实现这一目标的关键组件。
+
+#### 9.1 向量数据库的基本概念 (FAISS, Chroma, Pinecone, Weaviate 等)
+
+* **什么是向量数据库 (Vector Database)？**
+    * 向量数据库是专门设计用来存储、管理和高效检索高维向量（即文本嵌入）的数据库系统。
+    * 传统的数据库主要处理结构化数据（如关系型数据库）或键值对（如 NoSQL 数据库），而向量数据库则优化了对向量数据的相似性搜索操作。
+
+* **为什么需要向量数据库？**
+    * **高效相似性搜索**: 当文档集合非常大时（成千上万甚至数百万个嵌入向量），线性地计算查询向量与每个文档向量之间的相似度会非常慢。向量数据库使用近似最近邻 (Approximate Nearest Neighbor, ANN) 搜索算法，能够在牺牲极小精度的情况下，极大地提升搜索速度。
+    * **可扩展性**: 能够处理大规模的向量数据，并支持数据的动态添加、更新和删除。
+    * **元数据过滤**: 除了向量相似性搜索，许多向量数据库还支持根据与向量关联的元数据 (metadata) 进行过滤，从而实现更精确的检索。
+    * **持久化存储**: 提供数据的持久化存储和管理功能。
+
+* **常见的向量数据库/库**:
+    LangChain 与多种向量数据库和库集成，可以分为以下几类：
+
+    1.  **内存/本地库 (In-memory / Local Libraries)**:
+        * **`FAISS` (Facebook AI Similarity Search)**: 一个由 Facebook AI 开发的高效相似性搜索库。非常适合快速原型验证和中小型数据集，可以直接在内存中运行。LangChain 通过 `FAISS` 类集成。
+        * **`Chroma`**: 一个开源的嵌入数据库，设计为易于使用和集成。可以作为内存数据库运行，也可以作为客户端-服务器模式运行。LangChain 通过 `Chroma` 类集成。它也支持元数据过滤和多种特性。
+        * **`LanceDB`**: 一个开源的、为AI设计的嵌入式向量数据库，支持零拷贝、版本控制和生态系统集成。
+
+    2.  **开源自托管数据库 (Open-source Self-hosted Databases)**:
+        * **`Weaviate`**: 一个开源的、云原生的向量搜索引擎。支持模块化架构，可以集成不同的嵌入模型，并提供 GraphQL API。LangChain 通过 `Weaviate` 类集成。
+        * **`Milvus`**: 一个开源的云原生向量数据库，专为大规模向量搜索设计，具有高可用性和可扩展性。
+        * **`Qdrant`**: 一个开源的向量相似性搜索引擎和向量数据库，提供 REST API 和多种客户端库。
+        * **`PGVector`**: PostgreSQL 的一个开源扩展，使其能够存储和搜索向量嵌入。
+
+    3.  **托管云服务 (Managed Cloud Services)**:
+        * **`Pinecone`**: 一个完全托管的向量数据库服务，易于使用且高度可扩展，专为生产环境设计。LangChain 通过 `Pinecone` 类集成。
+        * **`Weaviate Cloud Services (WCS)`**: Weaviate 的托管云服务。
+        * **`Google Cloud Vertex AI Vector Search` (以前的 Matching Engine)**: Google Cloud 提供的托管相似性搜索服务。
+        * **`Azure AI Search` (以前的 Azure Cognitive Search)**: 微软 Azure 提供的搜索服务，支持向量搜索功能。
+        * **`Amazon OpenSearch Service` / `Amazon Kendra`**: AWS 提供的服务，也支持向量搜索能力。
+        * 许多其他云数据库提供商也开始集成向量搜索功能。
+
+* **核心特性**:
+    * **向量索引 (Vector Indexing)**: 为了加速搜索，向量数据库会对存储的向量构建索引结构 (如 HNSW, IVF, LSH 等)。
+    * **CRUD 操作**: 支持向量及其元数据的创建 (Create)、读取 (Read)、更新 (Update) 和删除 (Delete)。
+    * **相似性搜索**: 根据查询向量找到最相似的 K 个向量 (Top-K search)。
+    * **元数据过滤**: 在进行向量搜索之前或之后，根据附加的元数据条件过滤结果。
+
+#### 9.2 将文档嵌入并存储到向量数据库
+
+将文档加载到向量数据库通常涉及以下步骤：
+
+1.  **加载文档 (Load Documents)**: 使用文档加载器 (Document Loaders) 从各种来源加载原始数据。
+2.  **分割文档 (Split Documents)**: 使用文本分割器 (Text Splitters) 将长文档分割成较小的、语义连贯的块。这是因为嵌入模型通常对输入文本长度有限制，并且较小的块能提供更精确的检索结果。
+3.  **选择嵌入模型 (Choose Embedding Model)**: 选择一个文本嵌入模型 (Text Embedding Model) 将文本块转换为向量表示。
+4.  **嵌入并存储 (Embed and Store)**: 将分割后的文本块通过嵌入模型转换为向量，然后将这些向量及其关联的文本内容和元数据一起存储到向量数据库中。
+
+LangChain 提供了便捷的方法来执行这些操作，通常是通过向量存储类的 `from_documents()` 方法。
+
+* **示例 (使用 `Chroma` 作为本地向量存储和 `OpenAIEmbeddings`)**:
+
+    ```python
+    from langchain_community.document_loaders import TextLoader
+    from langchain_text_splitters import CharacterTextSplitter
+    from langchain_openai import OpenAIEmbeddings
+    from langchain_community.vectorstores import Chroma
+    from langchain_core.documents import Document
+    import os
+
+    # 0. 设置环境 (例如 OpenAI API Key)
+    # os.environ["OPENAI_API_KEY"] = "YOUR_OPENAI_API_KEY"
+
+    # 1. 准备示例文档 (实际应用中会用 Document Loaders)
+    documents_data = [
+        Document(page_content="猫是一种小型食肉哺乳动物。", metadata={"source": "doc1", "category": "animal"}),
+        Document(page_content="狗是人类的好朋友，也是一种哺乳动物。", metadata={"source": "doc2", "category": "animal"}),
+        Document(page_content="苹果是一种常见的水果，富含维生素。", metadata={"source": "doc3", "category": "fruit"}),
+        Document(page_content="香蕉是热带水果，口感香甜。", metadata={"source": "doc4", "category": "fruit"}),
+        Document(page_content="LangChain 是一个用于构建 LLM 应用的框架。", metadata={"source": "doc5", "category": "tech"})
+    ]
+
+    # 2. 初始化文本分割器 (如果文档较长)
+    text_splitter = CharacterTextSplitter(chunk_size=100, chunk_overlap=0)
+    docs_split = text_splitter.split_documents(documents_data)
+    # 对于上面的短文本，可以不分割，直接使用 documents_data
+
+    # 3. 初始化嵌入模型
+    embeddings_model = OpenAIEmbeddings() # 假设使用 OpenAI
+
+    # 4. 将文档嵌入并存储到 Chroma 向量数据库
+    # persist_directory 用于指定 Chroma 数据持久化存储的路径
+    # 如果目录不存在，它会被创建。如果已存在且包含数据，则会加载现有数据。
+    persist_directory = 'db_chroma_example'
+
+    vector_store = Chroma.from_documents(
+        documents=documents_data, # 或者 docs_split 如果进行了分割
+        embedding=embeddings_model,
+        persist_directory=persist_directory # 指定持久化目录
+    )
+
+    print(f"文档已成功嵌入并存储到 Chroma at '{persist_directory}'")
+
+    # 如果后续想从持久化存储中加载向量数据库：
+    # vector_store_loaded = Chroma(persist_directory=persist_directory, embedding_function=embeddings_model)
+    # print("从持久化存储中成功加载 Chroma 数据库。")
+
+    # 测试一下相似性搜索
+    # query = "关于动物的信息"
+    # similar_docs = vector_store.similarity_search(query, k=2)
+    # print(f"\n与查询 '{query}' 最相似的 {len(similar_docs)} 个文档:")
+    # for doc in similar_docs:
+    #     print(f" - 内容: {doc.page_content}")
+    #     print(f"   元数据: {doc.metadata}")
+    ```
+    在这个例子中，`Chroma.from_documents()` 内部处理了将 `documents_data` 中的每个 `Document` 的 `page_content` 通过 `embeddings_model` 转换为向量，并将这些向量连同原始文本和元数据一起存入 `Chroma` 数据库中。
+
+#### 9.3 构建不同类型的检索器 (VectorStoreRetriever, MultiQueryRetriever, SelfQueryRetriever 等)
+
+一旦数据存储在向量数据库中，就需要一个“检索器 (Retriever)”来根据用户查询从中获取相关文档。检索器是 LangChain 中的一个标准接口，它只有一个核心方法 `get_relevant_documents(query: str)` (及其异步版本 `aget_relevant_documents`)。
+
+* **`VectorStoreRetriever`**:
+    * 这是最基础和最常用的检索器。它直接与向量存储交互，执行相似性搜索。
+    * **配置**:
+        * `search_type`: 可以是 `"similarity"` (默认，返回最相似的), `"mmr"` (Maximal Marginal Relevance，平衡相似性和多样性), 或 `"similarity_score_threshold"` (返回超过特定相似度阈值的文档)。
+        * `search_kwargs`: 一个字典，传递给向量存储的搜索方法的参数，如 `k` (返回的文档数量) 或 `score_threshold`。
+    * **示例**:
+        ```python
+        # 假设 vector_store 已经创建并加载了数据 (如上一节的 Chroma 实例)
+        vector_store = Chroma(persist_directory='db_chroma_example', embedding_function=OpenAIEmbeddings())
+
+
+        retriever_basic = vector_store.as_retriever(
+            search_type="similarity",
+            search_kwargs={'k': 2} # 获取最相似的2个文档
+        )
+
+        query = "关于水果的信息"
+        relevant_docs_basic = retriever_basic.invoke(query) # invoke 是 Runnable 接口的方法
+
+        print(f"\nVectorStoreRetriever 为查询 '{query}' 检索到的文档:")
+        for doc in relevant_docs_basic:
+            print(f" - 内容: {doc.page_content}, 元数据: {doc.metadata}")
+        ```
+
+* **`MultiQueryRetriever`**:
+    * **原理**: 针对用户的一个初始查询，使用 LLM 从不同角度生成多个相似的查询。然后，对每个生成的查询都从向量存储中检索文档，最后合并所有结果并去重。
+    * **目的**: 改善召回率，特别是当用户的原始查询可能不够明确或措辞不佳时。
+    * **需要**: 一个 LLM 来生成查询变体。
+    * **示例**:
+        ```python
+        from langchain.retrievers.multi_query import MultiQueryRetriever
+        from langchain_openai import ChatOpenAI
+
+        # 假设 vector_store 和 embeddings_model 已初始化
+        vector_store = Chroma(persist_directory='db_chroma_example', embedding_function=OpenAIEmbeddings())
+        llm = ChatOpenAI(temperature=0) # 用于生成查询变体
+
+        retriever_multiquery = MultiQueryRetriever.from_llm(
+            retriever=vector_store.as_retriever(search_kwargs={'k': 1}), # 每个子查询检索1个文档
+            llm=llm
+        )
+
+        user_query_complex = "告诉我一些关于动物的有趣事实，特别是那些毛茸茸的。"
+        # # LangChain 会生成类似这样的日志，显示生成的查询：
+        # # INFO:langchain.retrievers.multi_query:Generated queries:
+        # # ['动物有哪些有趣的事实？', '关于毛茸茸的动物，有什么独特之处？', '哪些动物以其毛发闻名，它们有什么特别的习性？']
+
+        relevant_docs_multiquery = retriever_multiquery.invoke(user_query_complex)
+        print(f"\nMultiQueryRetriever 为查询 '{user_query_complex}' 检索到的文档:")
+        unique_contents = set()
+        for doc in relevant_docs_multiquery:
+            if doc.page_content not in unique_contents:
+                print(f" - 内容: {doc.page_content}, 元数据: {doc.metadata}")
+                unique_contents.add(doc.page_content)
+        ```
+
+* **`SelfQueryRetriever` (自查询检索器)**:
+    * **原理**: 允许用户使用自然语言提问，该检索器内部使用 LLM 将自然语言查询转换为一个结构化的查询，这个结构化查询可以包含对向量存储中元数据的过滤条件，以及原始查询的语义部分。
+    * **目的**: 实现更精确的检索，允许用户通过自然语言同时利用语义搜索和元数据过滤。
+    * **需要**:
+        * 一个 LLM。
+        * 关于元数据字段的描述 (名称、类型、描述)，以便 LLM 知道可以过滤哪些字段。
+        * 向量存储必须支持元数据过滤。
+    * **示例**:
+        ```python
+        from langchain.chains.query_constructor.base import AttributeInfo
+        from langchain.retrievers.self_query.base import SelfQueryRetriever
+        from langchain_openai import ChatOpenAI
+
+        # 假设 vector_store 和 embeddings_model 已初始化
+        vector_store = Chroma(persist_directory='db_chroma_example', embedding_function=OpenAIEmbeddings())
+        llm_self_query = ChatOpenAI(temperature=0)
+
+        # 定义元数据字段的信息，以便 LLM 理解
+        metadata_field_info = [
+            AttributeInfo(
+                name="source",
+                description="文档的来源，例如 'doc1', 'doc2', 'web_page_X'",
+                type="string",
+            ),
+            AttributeInfo(
+                name="category",
+                description="文档的类别，例如 'animal', 'fruit', 'tech'",
+                type="string",
+            ),
+        ]
+        document_content_description = "关于各种主题的简短文本片段" # 描述文档内容本身
+
+        self_query_retriever = SelfQueryRetriever.from_llm(
+            llm=llm_self_query,
+            vectorstore=vector_store,
+            document_contents=document_content_description,
+            metadata_field_info=metadata_field_info,
+            verbose=True, # 可以看到 LLM 生成的结构化查询
+            enable_limit=True, # 允许在查询中指定返回数量限制
+        )
+
+        natural_language_query = "我想找一些关于水果的文档，特别是那些来源是 'doc3' 的"
+        # LLM 可能会生成类似这样的结构化查询:
+        # query='水果' filter=Comparison(comparator=<Comparator.EQ: 'eq'>, attribute='source', value='doc3') limit=None
+
+        relevant_docs_selfquery = self_query_retriever.invoke(natural_language_query)
+        print(f"\nSelfQueryRetriever 为查询 '{natural_language_query}' 检索到的文档:")
+        for doc in relevant_docs_selfquery:
+            print(f" - 内容: {doc.page_content}, 元数据: {doc.metadata}")
+        ```
+
+* **其他检索器**:
+    * **`ContextualCompressionRetriever`**: 在基础检索器之上工作，获取初始结果后，使用一个 `DocumentCompressor` (通常是 LLM) 来过滤掉不相关的文档或从文档中提取只与查询相关的片段，从而使传递给 LLM 的上下文更简洁、更相关。
+    * **`EnsembleRetriever`**: 组合多个不同检索器的结果，并使用某种排序算法（如 Reciprocal Rank Fusion）对结果进行重新排序和融合。
+    * **`ParentDocumentRetriever`**: 存储小块文本用于检索，但返回它们所属的更大的父文档块，以提供更完整的上下文。
+
+#### 9.4 相似性搜索与语义检索的原理
+
+* **语义检索 (Semantic Retrieval)**:
+    * 核心思想是理解用户查询的“意图”或“含义”，而不仅仅是关键词匹配。
+    * 通过文本嵌入模型，将查询和文档都转换为高维向量空间中的点。在这个空间中，语义上相似的文本（即使措辞不同）其向量表示也彼此靠近。
+
+* **相似性搜索 (Similarity Search)**:
+    * 一旦查询被转换为向量，相似性搜索的目标就是在向量数据库中找到与该查询向量最“接近”的文档向量。
+    * **常用度量 (Recap from Chapter 6)**:
+        * **余弦相似度 (Cosine Similarity)**: 衡量向量间的方向一致性。最常用，范围 [-1, 1] 或 [0, 1]。值越大越相似。
+        * **欧氏距离 (Euclidean Distance / L2 Distance)**: 向量空间中两点间的直线距离。距离越小越相似。
+        * **点积 (Dot Product / Inner Product)**: 如果向量已归一化，则等价于余弦相似度。
+    * 不同的向量数据库可能默认使用不同的距离度量，或者允许用户指定。
+
+* **近似最近邻 (ANN) 搜索**:
+    * 对于非常大的数据集，精确地找到绝对最近的邻居（Exact Nearest Neighbor, ENN）计算成本太高。
+    * ANN 算法通过构建巧妙的数据结构（索引）来加速搜索过程，例如：
+        * **基于树的方法 (Tree-based)**: 如 Annoy。
+        * **基于聚类的方法 (Clustering-based)**: 如 IVFADC (Inverted File with Asymmetric Distance Computation)，FAISS 中常用。将向量聚类，搜索时先定位到查询向量可能属于的簇，再在这些簇内搜索。
+        * **基于图的方法 (Graph-based)**: 如 HNSW (Hierarchical Navigable Small World graphs)。构建一个多层图结构，从顶层粗略定位，逐层向下细化搜索。性能通常很好，是许多现代向量数据库（如 Weaviate, Qdrant, Chroma）的默认或推荐索引类型。
+        * **LSH (Locality Sensitive Hashing)**: 通过哈希函数将相似项映射到相同的桶中。
+    * ANN 算法在速度和精度之间进行权衡。通常可以配置索引参数来调整这种权衡。
+
+#### 9.5 优化检索效果 (Top K, 过滤等)
+
+仅仅检索出一些文档是不够的，还需要确保这些文档的质量和相关性。以下是一些优化检索效果的常用方法：
+
+* **Top K (返回数量)**:
+    * `k` 参数控制返回最相似文档的数量。
+    * 选择合适的 `k` 值很重要：太小可能错过相关信息，太大可能引入噪音并增加后续 LLM 处理的成本和上下文长度。通常需要根据应用场景和 LLM 的上下文窗口大小来实验确定。
+
+* **相似度得分阈值 (Similarity Score Threshold)**:
+    * 除了返回 Top-K，还可以设置一个相似度得分的下限。只有相似度（或距离，取决于度量）超过（或低于）此阈值的文档才会被返回。
+    * 这有助于过滤掉那些虽然在 Top-K 之内但与查询相关性不高的文档。
+    * 在 LangChain 中，`VectorStoreRetriever` 的 `search_type="similarity_score_threshold"` 和 `search_kwargs={'score_threshold': ...}` 可以实现此功能。
+
+* **元数据过滤 (Metadata Filtering)**:
+    * 如 `SelfQueryRetriever` 所示，可以在向量搜索之前或之后根据文档的元数据进行过滤。
+    * 例如，只在特定类别、特定日期范围或特定来源的文档中进行语义搜索。
+    * 这能极大地缩小搜索范围，提高结果的相关性和搜索效率。大多数向量数据库都支持在查询时进行元数据过滤。
+
+* **最大边际相关性 (Maximal Marginal Relevance - MMR)**:
+    * 标准相似性搜索可能会返回多个彼此非常相似（冗余）的文档。
+    * MMR 试图在返回与查询相关的文档的同时，也最大化文档之间的多样性。
+    * 它迭代地选择文档，每次选择的文档不仅要与查询相似，也要与已选中的文档不那么相似。
+    * 在 `VectorStoreRetriever` 中设置 `search_type="mmr"` 可以启用此功能。通常需要配置 `k` (总共获取的数量) 和 `Workspace_k` (MMR算法从中挑选的候选文档数量，通常 `Workspace_k > k`) 以及 `lambda_mult` (控制相似度和多样性之间的平衡，1 表示纯多样性，0 表示纯相似性)。
+
+* **上下文压缩 (Contextual Compression)**:
+    * `ContextualCompressionRetriever` 包装一个基础检索器和一个 `BaseDocumentCompressor`。
+    * 基础检索器先获取一批文档，然后 `DocumentCompressor` 对这些文档进行处理：
+        * **过滤**: 移除与查询完全不相关的文档。
+        * **摘要/提取**: 从相关文档中提取与查询最相关的片段，或对文档进行摘要。
+    * 常用的压缩器是 `LLMChainExtractor`，它使用 LLM 来判断文档的相关性或提取相关片段。
+    * 目标是减少传递给最终 LLM 的上下文量，同时保留关键信息，提高效率和回答质量。
+
+* **重新排序 (Re-ranking)**:
+    * 在初始检索（例如基于向量相似性）之后，可以使用一个更复杂或更强大的模型（可能是另一个 LLM，如 Cohere Rerank API，或者交叉编码器模型）对检索到的 Top-K 文档进行重新排序。
+    * 这个重排模型可以考虑更细致的语义关系或特定任务的偏好，从而将最相关的文档排在更前面。
+
+* **混合搜索 (Hybrid Search)**:
+    * 结合基于关键词的传统搜索（如 BM25）和向量语义搜索的优点。
+    * 一些向量数据库和搜索引擎支持混合搜索，可以平衡两种搜索方式的结果。
+
+优化检索是一个迭代的过程，通常需要根据具体应用和数据进行实验和调整。目标是为下游的 LLM 提供最相关、最简洁且信息量最丰富的上下文。
+
+
+
+## 模块四：构建强大的链 (Chains)
+
+在 LangChain 中，“链 (Chain)” 是一个核心概念，它代表了一系列对组件（如 LLM、工具、提示、解析器、其他链等）的调用，这些调用以特定的顺序组织起来，以完成一个更复杂的任务。链使得构建结构化、可重用和模块化的 LLM 应用成为可能。本模块将深入探讨不同类型的链以及如何有效地使用它们。
+
+---
+
+### 第十章：基础与顺序链 (Basic and Sequential Chains)
+
+本章我们从最基础的链类型开始，逐步了解如何将多个步骤串联起来形成顺序执行的工作流。
+
+#### 10.1 LLMChain：最基础的链
+
+`LLMChain` 是 LangChain 中最基本也是最常用的链之一。它封装了与语言模型交互的核心流程：接收用户输入，使用这些输入格式化一个提示 (Prompt)，将格式化后的提示发送给语言模型 (LLM 或 ChatModel)，最后（可选地）通过输出解析器 (Output Parser)处理模型的响应。
+
+* **核心组件**:
+    1.  **提示模板 (Prompt Template)**: 如 `PromptTemplate` 或 `ChatPromptTemplate`，定义了如何根据输入变量构建发送给 LLM 的实际提示。
+    2.  **语言模型 (LLM/ChatModel)**: 如 `ChatOpenAI`, `HuggingFaceHub` 等，负责根据提示生成文本。
+    3.  **输出解析器 (Output Parser) (可选)**: 如 `StrOutputParser`, `PydanticOutputParser` 等，用于将 LLM 的原始输出（通常是字符串或消息对象）转换为更结构化或更易于使用的格式。
+
+* **工作流程**:
+    1.  接收一个包含输入变量的字典。
+    2.  使用输入变量通过 Prompt Template 格式化提示。
+    3.  将格式化后的提示发送给 LLM/ChatModel。
+    4.  LLM/ChatModel 返回响应。
+    5.  如果配置了 Output Parser，则用它解析 LLM 的响应。
+    6.  返回最终结果（通常是包含输出键的字典，或者如果使用 LCEL 并且最后是解析器，则为解析后的类型）。
+
+* **示例**:
+
+    ```python
+    from langchain_openai import ChatOpenAI
+    from langchain_core.prompts import ChatPromptTemplate
+    from langchain_core.output_parsers import StrOutputParser
+    # from langchain.chains import LLMChain # Legacy way
+    import os
+
+    # 0. 设置环境 (例如 OpenAI API Key)
+    # os.environ["OPENAI_API_KEY"] = "YOUR_OPENAI_API_KEY"
+
+    # 1. 初始化组件
+    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
+    prompt_template = ChatPromptTemplate.from_template(
+        "写一个关于 {topic} 的非常简短的单行笑话。"
+    )
+    output_parser = StrOutputParser() # 简单地将 AIMessage.content 提取为字符串
+
+    # 2. 构建 LLMChain (使用 LCEL - LangChain Expression Language)
+    # LCEL 是现代 LangChain 中组合组件的首选方式
+    llm_chain_lcel = prompt_template | llm | output_parser
+
+    # 3. 调用链 (invoke)
+    topic_input = {"topic": "程序员"}
+    # response_lcel = llm_chain_lcel.invoke(topic_input)
+    # print(f"LCEL LLMChain 响应: {response_lcel}")
+
+    # --- Legacy LLMChain (了解即可) ---
+    # from langchain.chains import LLMChain
+    # legacy_llm_chain = LLMChain(llm=llm, prompt=prompt_template, output_parser=output_parser)
+    # 对于 legacy LLMChain，它期望输出是一个字典，需要指定 output_key
+    # # legacy_llm_chain.output_key = "joke"
+    # # response_legacy = legacy_llm_chain.invoke(topic_input)
+    # # print(f"Legacy LLMChain 响应: {response_legacy}")
+    # # # response_legacy 会是 {'topic': '程序员', 'joke': '为什么程序员喜欢戴眼镜？因为他们 C#'}
+    # # print(f"Legacy LLMChain 的笑话: {response_legacy.get('joke')}")
+
+    # 对于 LCEL 链，如果最后是 StrOutputParser，结果直接是字符串。
+    # 如果想让 LCEL 链也返回字典，可以这样做：
+    # from langchain_core.runnables import RunnablePassthrough
+    # chain_with_dict_output = RunnablePassthrough.assign(joke=llm_chain_lcel)
+    # response_dict_lcel = chain_with_dict_output.invoke(topic_input)
+    # print(f"LCEL LLMChain (字典输出) 响应: {response_dict_lcel}")
+    # # response_dict_lcel 会是 {'topic': '程序员', 'joke': '为什么程序员从不打扫卫生？因为他们有垃圾回收机制！'}
+
+    ```
+    虽然 LCEL 是组合 `PromptTemplate | LLM | OutputParser` 的现代方式，理解 `LLMChain` 的概念对于理解更复杂的传统链（如 `SequentialChain`）仍然有帮助。
+
+#### 10.2 SimpleSequentialChain：单输入单输出的顺序链
+
+`SimpleSequentialChain` 是一种按顺序执行多个链或可调用对象（callables）的链。它的特点是“简单”：前一个链的单个输出直接作为下一个链的单个输入。
+
+* **特点**:
+    * **线性流程**: 严格按照定义的顺序执行。
+    * **单输入/单输出传递**: 每个子链必须只有一个输出，这个输出成为下一个子链的唯一输入。
+    * **最终输出**: 整个 `SimpleSequentialChain` 的输出是最后一个子链的输出。
+    * 只支持一个初始输入。
+
+* **适用场景**: 适用于简单的、线性的多步骤任务，其中每个步骤的输出自然地成为下一步的输入，无需复杂的输入/输出映射。
+
+* **示例**:
+    假设我们想先生成一个关于某个主题的笑话（第一个 `LLMChain`），然后让另一个 `LLMChain` 评论这个笑话的幽默程度。
+
+    ```python
+    from langchain_openai import ChatOpenAI
+    from langchain_core.prompts import ChatPromptTemplate
+    from langchain.chains import LLMChain # 使用 legacy LLMChain 以便与 SimpleSequentialChain 配合
+    from langchain.chains import SimpleSequentialChain
+    import os
+
+    # os.environ["OPENAI_API_KEY"] = "YOUR_OPENAI_API_KEY"
+
+    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
+
+    # 第一个链：生成笑话
+    prompt_joke = ChatPromptTemplate.from_template(
+        "写一个关于 {topic} 的简短笑话。"
+    )
+    # 对于 SimpleSequentialChain，子链的输出应该是原始文本，而不是字典。
+    # 因此，我们通常不在这里为子 LLMChain 指定 output_parser，或者用 StrOutputParser，
+    # 但 SimpleSequentialChain 会自动处理从 LLMChain 输出字典中提取文本。
+    chain_one = LLMChain(llm=llm, prompt=prompt_joke) # 输出将是包含 'text'键 的字典
+
+    # 第二个链：评论笑话
+    prompt_review = ChatPromptTemplate.from_template(
+        "请评价以下笑话的幽默程度（1-10分），并简要说明理由：\n笑话：{joke_text}"
+    )
+    chain_two = LLMChain(llm=llm, prompt=prompt_review)
+
+    # 构建 SimpleSequentialChain
+    # 它会自动将 chain_one 的 'text' 输出作为 chain_two 的 'joke_text' 输入（如果名称不匹配，它会假设输入变量名为前一链的输出）
+    # 或者更准确地说，它期望前一个链的输出是一个字符串，这个字符串作为下一个链的输入。
+    # LLMChain 默认输出一个包含 'text' 键的字典，SimpleSequentialChain 会智能地从中提取 'text' 值。
+    overall_simple_chain = SimpleSequentialChain(
+        chains=[chain_one, chain_two],
+        verbose=True # 可以看到链的执行过程和中间步骤的输入输出
+    )
+
+    # 调用链
+    input_topic = {"topic": "人工智能"} # SimpleSequentialChain 的输入变量名由第一个子链的输入变量名决定
+    # final_review = overall_simple_chain.invoke(input_topic)
+    # print("\n--- SimpleSequentialChain 最终输出 ---")
+    # print(final_review) # final_review 将是 chain_two 的输出文本
+    ```
+    **注意**: `SimpleSequentialChain` 期望每个子链的输出是一个单一的字符串值，这个字符串值将作为下一个链的输入（通常是填充下一个链提示模板中的某个变量）。如果子链（如 `LLMChain`）返回一个字典，`SimpleSequentialChain` 会尝试从中提取一个合适的字符串值（通常是键为 `text` 的值）。
+
+#### 10.3 SequentialChain：多输入多输出的顺序链
+
+`SequentialChain` 是 `SimpleSequentialChain` 的一个更通用和强大的版本。它也按顺序执行一系列子链，但它提供了更灵活的输入和输出管理：
+
+* **特点**:
+    * **多初始输入**: 可以接受多个初始输入变量。
+    * **显式输入/输出映射**: 你需要明确指定每个子链的输入变量来自哪里（可以是初始输入，也可以是前面链的输出），以及每个子链的输出变量叫什么名字。
+    * **中间步骤的输出可访问**: 可以将中间步骤的输出变量也包含在最终的输出结果中。
+    * **最终输出**: 返回一个包含所有在 `output_variables` 中指定的变量的字典。
+
+* **适用场景**: 适用于更复杂的顺序工作流，其中：
+    * 需要从多个初始输入开始。
+    * 一个链的输出需要被明确命名，并作为后续特定链的特定输入。
+    * 希望保留并返回某些中间步骤的结果。
+
+* **示例**:
+    我们想构建一个流程：
+    1.  根据用户提供的 `language` 和 `topic`，生成一篇简短的介绍性段落 (chain_intro)。
+    2.  对这个介绍性段落 (intro_paragraph) 进行总结，生成一个 `summary` (chain_summary)。
+    3.  根据原始 `topic` 和生成的 `summary`，提出 3 个相关的后续问题 (chain_questions)。
+    我们希望最终能得到 `intro_paragraph`, `summary`, 和 `follow_up_questions`。
+
+    ```python
+    from langchain_openai import ChatOpenAI
+    from langchain_core.prompts import ChatPromptTemplate
+    from langchain.chains import LLMChain
+    from langchain.chains import SequentialChain # 注意不是 SimpleSequentialChain
+    import os
+
+    # os.environ["OPENAI_API_KEY"] = "YOUR_OPENAI_API_KEY"
+
+    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
+
+    # 链1: 生成介绍段落
+    prompt_intro = ChatPromptTemplate.from_template(
+        "请用{language}写一段关于“{topic}”的简短介绍性文字（约50字）。"
+    )
+    chain_intro = LLMChain(
+        llm=llm,
+        prompt=prompt_intro,
+        output_key="intro_paragraph" # 指定此链输出的键名
+    )
+
+    # 链2: 总结介绍段落
+    prompt_summary = ChatPromptTemplate.from_template(
+        "请将以下段落总结成一句核心观点：\n{intro_paragraph}"
+    )
+    chain_summary = LLMChain(
+        llm=llm,
+        prompt=prompt_summary,
+        output_key="summary" # 指定此链输出的键名
+    )
+
+    # 链3: 根据主题和总结提出问题
+    prompt_questions = ChatPromptTemplate.from_template(
+        "基于主题“{topic}”和以下总结：“{summary}”，请提出3个相关的后续研究问题。"
+    )
+    chain_questions = LLMChain(
+        llm=llm,
+        prompt=prompt_questions,
+        output_key="follow_up_questions" # 指定此链输出的键名
+    )
+
+    # 构建 SequentialChain
+    overall_sequential_chain = SequentialChain(
+        chains=[chain_intro, chain_summary, chain_questions],
+        input_variables=["language", "topic"], # 定义整个顺序链的初始输入变量
+        output_variables=["intro_paragraph", "summary", "follow_up_questions"], # 定义希望从最终结果中获取的变量
+        verbose=True
+    )
+
+    # 调用链
+    initial_inputs = {"language": "中文", "topic": "可持续能源"}
+    final_outputs = overall_sequential_chain.invoke(initial_inputs)
+
+    print("\n--- SequentialChain 最终输出 ---")
+    print(f"介绍段落: {final_outputs.get('intro_paragraph')}")
+    print(f"总结: {final_outputs.get('summary')}")
+    print(f"后续问题: {final_outputs.get('follow_up_questions')}")
+    print(f"完整的输出字典: {final_outputs}")
+    ```
+    在 `SequentialChain` 中，LangChain 会自动管理变量的传递。例如，`chain_intro` 的输出 `intro_paragraph` 会被传递给 `chain_summary` 作为其输入。`chain_questions` 会接收到初始的 `topic` 输入以及 `chain_summary` 的输出 `summary`。
+
+#### 10.4 链的输入输出管理
+
+有效地管理链的输入和输出对于构建清晰、可维护和可预测的 LangChain 应用至关重要。
+
+* **输入 (Inputs)**:
+    * 大多数链（尤其是那些继承自 `Chain` 基类的传统链）期望其输入是一个**字典**，其中键是输入变量的名称，值是相应的输入值。
+    * `LLMChain` 的输入变量由其 `PromptTemplate` 中的占位符决定。
+    * `SimpleSequentialChain` 的输入变量由其第一个子链的输入变量决定，并且它只接受一个初始输入键。
+    * `SequentialChain` 通过 `input_variables` 参数明确声明其接受的初始输入键列表。
+    * 在使用 LCEL 构建链时，输入可以是单个值（如果提示只需要一个变量）或一个字典。LCEL 链通常会从 `PromptTemplate` 推断其输入模式。
+
+* **输出 (Outputs)**:
+    * 传统 `Chain` 对象（如 `LLMChain`, `SequentialChain`）的 `invoke()` 或 `run()` 方法通常返回一个**字典**。
+        * `LLMChain`: 如果没有 `output_parser` 且没有显式设置 `output_key`，默认输出键是 `text`。如果设置了 `output_key`，则 LLM 的响应会存储在该键下。如果使用了 `output_parser` 且链是 LCEL 风格的 `prompt | llm | parser`，则输出直接是解析后的类型；如果是传统的 `LLMChain(..., output_parser=...)`，则解析后的结果仍可能在输出字典的 `output_key` 下。
+        * `SimpleSequentialChain`: 其输出是其最后一个子链的输出（通常是一个字符串）。
+        * `SequentialChain`: 其输出是一个字典，包含在 `output_variables` 参数中声明的所有变量。这些变量可以是初始输入，也可以是任何子链的输出。
+    * LCEL 风格的链的输出类型取决于链的最后一个组件。如果是 `StrOutputParser`，则输出是字符串；如果是 `PydanticOutputParser`，则是 Pydantic 对象实例；如果是 LLM/ChatModel 本身，则是 `LLMResult` 或 `AIMessage`。
+
+* **中间变量与传递 (Intermediate Variables & Passing)**:
+    * 在 `SequentialChain` 中，一个子链的输出（由其 `output_key` 定义）可以作为后续子链的输入（在其 `PromptTemplate` 中引用）。LangChain 会自动处理这种“记忆”和传递。
+    * 所有在 `SequentialChain` 中生成的变量（包括初始输入和所有子链的输出）都在一个内部的“记忆空间 (memory scratchpad)”中可用，直到链执行完毕。
+    * `SimpleSequentialChain` 的传递机制更简单，它只是将前一步的字符串输出直接作为下一步的输入。
+
+* **显式声明的重要性**:
+    * 在 `SequentialChain` 中，明确声明 `input_variables` 和 `output_variables` 非常重要。
+        * `input_variables`: 告诉链期望哪些初始输入。
+        * `output_variables`: 决定了链最终返回结果中包含哪些内容。如果你希望访问某个中间步骤的输出，就必须将其名称包含在 `output_variables` 列表中。
+
+* **LCEL 与字典传递**:
+    * LCEL 提供了 `RunnablePassthrough` 和 `RunnableParallel` (或字典形式的并行) 等工具来更灵活地管理输入输出和数据流。
+    * 例如，`RunnablePassthrough().assign(new_key=another_runnable)` 可以将 `another_runnable` 的输出添加到原始输入的字典中，并以 `new_key` 命名。
+
+    ```python
+    # LCEL 示例：模拟类似 SequentialChain 的多步骤和多输出
+    from langchain_core.runnables import RunnablePassthrough
+
+    # llm, ChatPromptTemplate, StrOutputParser 如前定义
+    prompt_intro = ChatPromptTemplate.from_template("介绍 {topic} ({language})")
+    prompt_summary = ChatPromptTemplate.from_template("总结: {intro_paragraph}")
+    prompt_questions = ChatPromptTemplate.from_template("关于 {topic} 和总结 '{summary}' 的问题?")
+
+    # 定义与之前 LLMChain 类似的可运行对象
+    intro_generator = {"intro_paragraph": prompt_intro | llm | StrOutputParser()}
+    summary_generator = {"summary": prompt_summary | llm | StrOutputParser()}
+    questions_generator = {"follow_up_questions": prompt_questions | llm | StrOutputParser()}
+
+    full_lcel_chain = RunnablePassthrough.assign(**intro_generator) \
+                      .assign(**summary_generator) \
+                      .assign(**questions_generator)
+
+    input_data = {"topic": "太空探索", "language": "英文"}
+    result = full_lcel_chain.invoke(input_data)
+    print(result)
+    # 结果会是一个包含 topic, language, intro_paragraph, summary, follow_up_questions 的字典
+    ```
+
+理解并熟练运用这些输入输出管理机制，是构建复杂但行为可控的链式应用的基础。对于新项目，推荐优先考虑使用 LCEL 进行链的组合，因为它提供了更强大和灵活的数据流控制。但理解传统的 `SequentialChain` 等对于维护现有代码或理解某些 LangChain 文档和示例仍然有价值。
+
+
 * 第十一章：高级链应用
     * 11.1 转换链 (TransformChain)：在链中进行数据转换
     * 11.2 路由链 (RouterChain)：根据输入动态选择下一个链
