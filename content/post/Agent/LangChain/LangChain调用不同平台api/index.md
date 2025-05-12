@@ -366,6 +366,10 @@ embeddings_ollama = OllamaEmbeddings(model="nomic-embed-text")
 ### 🦐调用阿里云api
 
 
+
+[官方示例](https://bailian.console.aliyun.com/?tab=api#/api/?type=model&url=https%3A%2F%2Fhelp.aliyun.com%2Fdocument_detail%2F2587654.html&renderType=iframe)
+
+
 由于阿里云百炼的计费方式不一样，没有办法单独充值消费，会直接重控制台里面扣钱，所以要设置高消费预警
 
 ![alt text](images/index/index.png)
@@ -375,63 +379,55 @@ embeddings_ollama = OllamaEmbeddings(model="nomic-embed-text")
 
 #### 聊天模型
 
-依赖
-```bash
-# python=3.11
-pip install langchain_openai==0.3.8
-pip install langchain-community==0.3.19
-pip install dashscope
-```
-
-使用示例
-```python
-from langchain_openai import ChatOpenAI
-from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain
-import os
-from dotenv import load_dotenv
-load_dotenv()
-
-chatLLM = ChatOpenAI(
-    api_key=os.getenv("api_key"),
-    base_url=os.getenv("base_url"),
-    model="qwen-plus",  # 此处以qwen-plus为例，您可按需更换模型名称。模型列表：https://help.aliyun.com/zh/model-studio/getting-started/models
-    # other params...
-)
 
 
-###################调用方法一########################
-result = chatLLM.stream("2025年的技术趋势是什么？")
-for chunk in result:
-    print(chunk.content, end='', flush=True)
-###################################################
+1. 使用Openai兼容模式
+
+    pip install langchain_openai
+
+    ```py
+    from langchain_openai import ChatOpenAI
+    import os
+
+    chatLLM = ChatOpenAI(
+        api_key=os.getenv("DASHSCOPE_API_KEY"),
+        base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+        model="qwen-plus",  # 此处以qwen-plus为例，您可按需更换模型名称。模型列表：https://help.aliyun.com/zh/model-studio/getting-started/models
+        # other params...
+    )
+    messages = [
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "你是谁？"}]
+    response = chatLLM.invoke(messages)
+    print(response.json())
+    ```
 
 
-###################调用方法二##########################
-# 定义提示模板
-prompt = PromptTemplate(
-    input_variables=["question"],
-    template="请简洁回答以下问题：{question}"
-)
 
-# 创建链
-chain = LLMChain(llm=chatLLM, prompt=prompt)
-
-# 运行链
-question = "2025年的技术趋势是什么？"
-response = chain.run(question)
-print(response)
-######################################################
+2. 使用DashScope
 
 
-###################调用方法三########################
-messages = [
-    {"role": "system", "content": "You are a helpful assistant."},
-    {"role": "user", "content": "你是谁？"}]
-response = chatLLM.invoke(messages)
-print(response.json())
-###################################################
-```
+    pip install langchain-community
+    
+    pip install dashscope
+
+
+    ```py
+    from langchain_community.chat_models.tongyi import ChatTongyi
+    from langchain_core.messages import HumanMessage
+
+    chatLLM = ChatTongyi(
+        model="qwen-max",   # 此处以qwen-max为例，您可按需更换模型名称。模型列表：https://help.aliyun.com/zh/model-studio/getting-started/models
+        streaming=True,
+        # other params...
+    )
+    res = chatLLM.stream([HumanMessage(content="hi")], streaming=True)
+    for r in res:
+        print("chat resp:", r.content)
+    ```
+
+
+
 
 #### 文本嵌入模型
 

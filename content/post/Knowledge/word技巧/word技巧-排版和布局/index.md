@@ -14,3 +14,9 @@ tags:
 参考：
 
 [知乎--排版技巧汇总](https://zhuanlan.zhihu.com/p/46966836)
+
+
+---
+
+示例：
+![突出主要内容](images/index/image.png)

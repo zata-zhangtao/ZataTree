@@ -414,7 +414,8 @@ sudo service ssh restart # 重启服务，然后就可以连接了，有时候ro
 
 2. windows
 参考： https://blog.csdn.net/weixin_72910567/article/details/132414264
-![安装openssh服务](https://i-blog.csdnimg.cn/blog_migrate/4777336bf541fca7eb655f0af5056890.png)
+![安装openssh服务](images/index/image-1.png)
+
 
 ```bash 
 # 1. 在设置-应用和功能里安装openssh服务
@@ -436,6 +437,7 @@ Set-Service -Name sshd -StartupType 'Automatic'
 注意：
 ssh-copy-id 是专门为linux系统适配的，windows系统不好用，需要手动复制公钥到.ssh文件夹下面的authorized_keys文件中
 
+
 ```bash
 # 生成 SSH 密钥对
 ssh-keygen -t rsa -b 4096
@@ -446,6 +448,17 @@ ssh-copy-id username@hostname
 # 查看已知主机
 cat ~/.ssh/known_hosts
 ```
+
+
+如果是windows服务器，使用如下方式将公钥内容追加
+
+``` bash 
+echo "你的公钥内容" >> 你的用户目录/.ssh/authorized_keys
+```
+
+
+
+
 
 
 
