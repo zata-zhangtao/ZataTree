@@ -1,5 +1,5 @@
 ---
-title: python-难点和遇到的问题
+title: python使用教程-难点和遇到的问题
 description: ""
 date: 2025-03-13T10:17:58+08:00
 image: images/index/index.png
@@ -7,14 +7,59 @@ categories:
     - Grammar
 tags:
     - python
+    - 教程
 ---
 
 
 <!-- ![alt text](images/index/index.png) -->
 
-# 一些功能的实现
+## 一些功能的实现
 
-## 从.py文件中获取函数对象和参数 的字典
+
+### python程序后台运行
+
+python后台运行
+
+1. linux 
+
+```py 
+# 1. 使用nohup
+nohup python3 script.py > output.log 2>&1 &
+
+# 2. 使用tmux
+
+sudo apt install tmux  # Ubuntu/Debian
+# 或
+sudo yum install tmux  # CentOS/RHEL
+
+tmux new -s my_session # 创建会话
+
+python3 your_script.py  # 在会话中运行 Python 脚本
+
+# 按 Ctrl+B，然后按 D   # 断开会话（脚本继续运行）
+
+---
+
+tmux attach -t my_session  #  恢复会话
+tmux kill-session -t my_session  # 终止会话
+
+```
+
+**nohup详细解释**
+
+    nohup python3 script.py > output.log 2>&1 &
+
+        作用：使 Python 脚本在终端关闭后继续运行。
+    解释：
+        nohup：忽略挂起信号（HUP），防止终端关闭导致进程终止。
+        python3 script.py：运行你的 Python 脚本。
+        > output.log：将标准输出重定向到 output.log。
+        2>&1：将标准错误输出也重定向到 output.log。
+        &：将进程放入后台运行。
+
+
+
+### 从.py文件中获取函数对象和参数 的字典
 
 在给定的Python脚本中，通过模块导入和反射机制，如何动态获取包含模型函数的模块中的函数及其默认参数，并构建一个字典以便后续使用？
 
@@ -69,7 +114,7 @@ print(getModelParamsFromAF())
 本问题涉及在Python脚本中通过模块导入和反射机制，动态获取包含模型函数的模块中的函数及其默认参数，并将其构建成一个字典。通过利用inspect模块获取函数参数信息，作者实现了一个函数getModelParamsFromAF()，该函数返回一个包含模型函数及其默认参数的字典。这种动态获取参数的方法可以方便后续使用，提高代码的灵活性和可维护性。最后，通过print语句输出获取到的模型函数及其默认参数，以便进行进一步的分析和使用。
 
 
-## Python 多进程
+### Python 多进程
 
 |相关问题| 地址 |
 |--------------|--|
@@ -225,7 +270,7 @@ else:
 ---
 ---
 
-## 文件所在文件夹外的另一文件导入函数或类
+### 文件所在文件夹外的另一文件导入函数或类
 
 
 要在一个Python文件中从位于该文件所在文件夹外的另一个文件导入函数或类，你需要确保两个文件都在Python的搜索路径中。假设你有如下的目录结构：
@@ -302,7 +347,7 @@ from utils import *
 
 选择最适合你项目结构和需求的方法来导入模块。如果你正在开发一个较大的项目，考虑使用环境变量或确保你的项目可以作为包运行，这通常更为稳定和灵活。
 
-## OS库常用函数
+### OS库常用函数
 
 
 1. **获取当前工作目录**：
@@ -347,7 +392,7 @@ from utils import *
 
 
 
-## 装饰器函数 @....
+### 装饰器函数 @....
 
 ![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/f922fef4614740289e23f6b36941deac.png)
 
@@ -699,7 +744,7 @@ def mean_absolute_error(
 ```
 
 
-## 函数中的*号和**号
+### 函数中的*号和**号
 在 Python 中，`*` 和 `**` 是用于处理函数参数的特殊符号。它们分别表示不同的含义，主要用于处理可变数量的参数和解包操作。以下是详细的介绍：
 
 ---
@@ -815,7 +860,7 @@ my_function(1, 2, 3, a=4, b=5)
 如果你有更多具体问题，欢迎继续提问！
 
 
-##  Pydantic 的Filed函数
+###  Pydantic 的Filed函数
 Pydantic 的Filed函数，用于在数据模型中定义字段的额外信息、验证和约束。它可以用于设置字段的默认值、限制字段的取值范围、添加字段描述等。以下是一些常用的 Field 用法：
 
 `设置默认值`
@@ -869,7 +914,7 @@ class MyClass(BaseModel):
 
 这些只是 Field 的一些基本用法。使用 Pydantic，您可以根据需要添加更多自定义验证和约束，以确保数据模型中的字段符合预期。
 
-## python 中的`async` 和 `await` （异步编程）
+### python 中的`async` 和 `await` （异步编程）
 异步操作（Asynchronous Operation）是指一种非阻塞的操作方式，允许程序在等待某些耗时任务（如 I/O 操作、网络请求等）完成的同时，继续执行其他任务。
 
 在 Python 中，`async` 和 `await` 是用于处理异步编程的关键字。它们允许你编写非阻塞的代码，特别适用于 I/O 密集型任务（如网络请求、文件读写等），以提高程序的并发性能。
@@ -1038,16 +1083,16 @@ main()
 
 
 
-## Python项目生成requirements.txt文件
+### Python项目生成requirements.txt文件
 
 
-### 1.使用pipreqs生成requirement.txt
+#### 1.使用pipreqs生成requirement.txt
 
 ```python
 pip install pipreqs
 pipreqs .  # .表示当前路径
 ```
-### 遇到问题
+#### 遇到问题
 **1. 遇到编码错误问题**
 
 > ![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/9b7c8a250113823a277df162dc9e1b20.png)
@@ -1061,7 +1106,7 @@ pipreqs .  # .表示当前路径
 
 
 
-### pipreqs --help
+#### pipreqs --help
 
 ```bash
 pipreqs - Generate pip requirements.txt file based on imports
@@ -1114,8 +1159,8 @@ Options:
 ---
 
 
-# 遇到的问题
-## 导入路径问题（原本main函数调用它，现在直接运行该文件，导包路径变化）
+## 遇到的问题
+### 导入路径问题（原本main函数调用它，现在直接运行该文件，导包路径变化）
 
 `问题描述`
 在运行 Python 文件时，可能会遇到以下错误：

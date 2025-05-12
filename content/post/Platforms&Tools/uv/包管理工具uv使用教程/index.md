@@ -72,7 +72,7 @@ UV 是一个由 Astral (Ruff 的开发者) 开发的、用 Rust 编写的极速 
     ```bash
     pipx install uv
     ```
-    如果你没有 `pipx`, 可以先安装它: `pip install pipx` 安装好之后就默认安装uv了
+    如果你没有 `pipx`, 可以先安装它: `pip install pipx` 
 
 ![安装pipx](images/index/image.png)
 
@@ -87,6 +87,8 @@ UV 是一个由 Astral (Ruff 的开发者) 开发的、用 Rust 编写的极速 
 ```bash
 uv --version
 ```
+
+*注意：如果你发现安装好之后，vscode/cursor中的terminal并没有生效，那么需要完全重启vscode/cursor*
 
 
 
@@ -267,6 +269,49 @@ uv pip freeze > requirements.txt
     ```
 
 ---
+
+### 与 Jupyter Notebook / JupyterLab 集成
+
+
+
+
+#### 4.2 设置步骤 
+
+
+```bash 
+# 4.2.1 创建并激活项目的 uv 虚拟环境 
+uv venv .venv && source .venv/bin/activate
+
+# 4.2.2 在 uv 环境中安装 Jupyter 和 ipykernel
+uv pip install jupyterlab ipykernel (或 notebook ipykernel)
+#建议将这些作为开发依赖添加到 pyproject.toml
+
+# 4.2.3 (推荐) 将 uv 环境注册为 Jupyter 内核 (Kernel) 
+uv run python -m ipykernel install --user --name=my-project-venv --display-name="Python (my-project-venv)"
+
+
+# 4.2.4 启动 JupyterLab 或 Jupyter Notebook 
+从已激活 uv 环境的终端启动：uv run jupyter lab 或 uv run jupyter notebook
+或者全局安装的 Jupyter 自动检测到注册的内核
+
+# 4.2.5 在 Jupyter 中选择和使用 uv 环境的内核
+
+```
+#### 4.3 管理项目依赖 
+
+在 Notebook 中通过 !uv pip install <new_package> (不推荐长期做法)
+
+正确做法：在终端中激活 uv 环境，使用 uv pip install，然后重启 Jupyter 内核
+
+使用 pyproject.toml 和 uv pip compile / uv pip sync 管理 Jupyter 项目的依赖
+
+#### 4.4 移除 Jupyter 内核 (如果已注册) 
+
+jupyter kernelspec list
+
+jupyter kernelspec uninstall my-project-venv
+
+
 
 ### 5. 高级用法和特性
 

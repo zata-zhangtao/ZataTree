@@ -7,6 +7,7 @@ categories:
     - Knowledge
 tags:
     - Linux
+    - 教程
 ---
 
 
