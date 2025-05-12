@@ -1,5 +1,5 @@
 ---
-title: 1-git&github使用教程
+title: 1-git使用教程&github使用教程
 description: git&github使用指南
 date: 2025-02-28
 slug: git&github/index.md ### 必填，文件夹名/index.md
@@ -695,3 +695,22 @@ git config --global init.templatedir "$env:USERPROFILE\.git-template"  # 如果�
 ![创建的新本地git仓库](images/index/index-4.png)
 
 ![测试大文件](images/index/index-5.png)
+
+
+### 云服务器无法访问Github导致git失败方案
+
+
+可以先去这个网站，哪些ip可用
+
+https://ping.chinaz.com/github.com
+
+
+然后要修改服务器端的HOSTS
+
+例如：
+```
+20.205.243.166 github.com
+20.205.243.166 raw.githubusercontent.com
+```
+
+hosts位置在    /etc/hosts
