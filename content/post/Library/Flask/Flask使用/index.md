@@ -1,5 +1,5 @@
 ---
-title: Flask使用
+title: Flask使用教程
 description: ""
 date: 2025-03-10T16:00:15+08:00
 # image: images/index/index.png
@@ -7,6 +7,7 @@ categories:
     - Library
 tags:
     - Flask
+    - 教程
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-title: VScode安装和配置
+title: VScode使用教程|cursor使用教程
 description: 
 date: 2025-03-03T00:00:00+08:00
 # slug: 文件夹名/index.md ## 必填，文件夹名/index.md
@@ -17,24 +17,32 @@ categories:
     # - Knowledge points
 tags:
     - VScode
+    - 教程
 
 ---
 
 
 参考：
 https://blog.csdn.net/weixin_46474921/article/details/132841711
-# 安装
-## 1. 下载安装
+
+## 安装及设置
+
+
+
+### 1. 下载安装
 [VScode官网](https://code.visualstudio.com/)
 注意，这一步最好全部打勾
 
 ![alt text](image/index/index.png)
 
 
-## 2. 设置默认terminal为cmd
+
+
+
+### 2. 设置默认terminal为cmd
 ![设置terminal](image/index/index-1.png)
 
-## 3. 修改Code Runner 的配置（右键运行）
+### 3. 修改Code Runner 的配置（右键运行）
 `首先你要安装好Code Runner 插件`
 - 修改点击右键运行时的运行环境，改为终端运行
 
@@ -51,8 +59,7 @@ https://blog.csdn.net/weixin_46474921/article/details/132841711
 
 
 
-# 其他相关设置
-## vscode右侧的预览窗口设置
+### vscode右侧的预览窗口设置
 ![预览窗口](image/index/index-5.png)
 
 设置方法，在设置里面搜索minimap  
@@ -60,7 +67,7 @@ https://blog.csdn.net/weixin_46474921/article/details/132841711
 ![设置显示预览窗口](image/index/index-6.png)
 
 
-## vscode写markdown插入图片时放在指定目录
+### vscode写markdown插入图片时放在指定目录
 
 参考 https://juejin.cn/post/7244809769794289721
 
@@ -79,7 +86,7 @@ https://blog.csdn.net/weixin_46474921/article/details/132841711
 **/*.md      images/${documentBaseName}/image.${fileExtName}   # 以image.png重命名放到images/文件名    文件夹下
 ```
 
-## vscode折叠代码
+### vscode折叠代码
 
 ![alt text](image/index/index-8.png)
 
@@ -92,8 +99,8 @@ https://blog.csdn.net/weixin_46474921/article/details/132841711
 ---
 
 
-# 遇到的问题
-## vscode 一直 reactivatiing terminals
+## 遇到的问题和解决方案
+### vscode 一直 reactivatiing terminals
 
 这个是由于python扩展找不到虚拟环境的问题，具体可以看    
 https://stackoverflow.com/questions/78886125/vscode-python-extension-loading-forever-saying-reactivating-terminals/78886126#78886126
@@ -103,3 +110,10 @@ https://stackoverflow.com/questions/78886125/vscode-python-extension-loading-for
 我的解决方法是把python Locator换成js
 
 ![把python Locator换成js](image/index/index-10.png)
+
+
+
+### 安装工具包之后，桌面cmd窗口可用，但是vscode/cursor不可用
+
+cmd加载成功，但是 cursor ternimal没有生效。
+解决办法：完全退出cursor，然后重启cursor

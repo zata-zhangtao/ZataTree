@@ -12,6 +12,22 @@ tags:
 
 
 
+## 软件架构图示例
+
+
+参考
+[知乎 - 亿图](https://zhuanlan.zhihu.com/p/269201440)
+
+
+![应用架构图](images/index/image.png)
+![产品架构图](images/index/image-1.png)
+![数据架构](images/index/image-2.png)
+
+
+
+
+
+
 ## 第一部分：软件架构基础
 
 ### 1. 什么是软件架构？
