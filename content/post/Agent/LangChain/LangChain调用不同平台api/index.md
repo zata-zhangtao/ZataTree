@@ -10,6 +10,35 @@ tags:
 ---
 
 
+
+### 初始化：添加永久性环境变量（以百炼为例
+
+```bash
+# windows CMD
+setx DASHSCOPE_API_KEY "YOUR_DASHSCOPE_API_KEY"
+echo %DASHSCOPE_API_KEY% # 验证
+
+
+# windows 系统属性
+GUi 手动添加，不再赘述
+
+
+# zsh
+echo "export DASHSCOPE_API_KEY='YOUR_DASHSCOPE_API_KEY'" >> ~/.zshrc
+source ~/.zshrc
+echo $DASHSCOPE_API_KEY # 验证
+
+# bash
+echo "export DASHSCOPE_API_KEY='YOUR_DASHSCOPE_API_KEY'" >> ~/.bashrc
+source ~/.bashrc
+echo $DASHSCOPE_API_KEY # 验证
+```
+
+
+
+
+
+
 ### 总结命令
 
 
