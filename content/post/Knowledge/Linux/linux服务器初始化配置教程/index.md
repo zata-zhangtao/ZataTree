@@ -1,5 +1,5 @@
 ---
-title: linux服务器初始化配置教程
+title: linux使用教程
 description: ""
 date: 2025-03-16T17:16:02+08:00
 # image: images/index/index.png
@@ -9,6 +9,12 @@ tags:
     - Linux
 ---
 
+
+
+
+
+
+## 服务器配置
 
 ### Ubuntu 初始化配置
 
@@ -43,3 +49,17 @@ usermod -aG sudo myuser
 
 ## 6. 连接服务器
 ssh root@服务器IP地址 -p [你自己设置的端口]
+
+```
+
+
+
+## 一些问题和解决方案
+
+### bash: ping: command not found  问题
+
+```bash
+apt-get update
+apt install iputils-ping
+apt install net-tools
+```
