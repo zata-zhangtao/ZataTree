@@ -17,6 +17,7 @@ tags:
 
 目录
 ```text
+
 模块一：LangChain 入门与核心概念
 
 第一章：LangChain 简介
@@ -55,6 +56,9 @@ Agent 的核心概念：Tools, Agent Executor, ReAct 框架等
 3.6 回调 (Callbacks)：监控和记录 LangChain 应用的执行过程
 回调的作用和使用场景
 常用的回调处理器
+
+
+
 模块二：模型 I/O (Model I/O) 深入
 
 第四章：与语言模型 (LLMs) 交互
@@ -77,6 +81,9 @@ Few-shot Prompt Template
 6.2 使用不同的文本嵌入模型 (OpenAI Embeddings, Hugging Face Embeddings 等)
 6.3 生成文本的向量表示
 6.4 比较文本相似度
+
+
+
 模块三：数据连接 (Data Connection) 详解
 
 第七章：文档加载 (Document Loaders)
@@ -93,6 +100,9 @@ Few-shot Prompt Template
 9.3 构建不同类型的检索器 (VectorStoreRetriever, MultiQueryRetriever, SelfQueryRetriever 等)
 9.4 相似性搜索与语义检索的原理
 9.5 优化检索效果 (Top K, 过滤等)
+
+
+
 模块四：构建强大的链 (Chains)
 
 第十章：基础与顺序链 (Basic and Sequential Chains)
@@ -108,6 +118,9 @@ load_qa_chain, RetrievalQA 等
 不同的 chain_type (stuff, map_reduce, refine, map_rerank)
 11.4 摘要链 (Summarization Chains)
 11.5 自定义链的创建与使用
+
+
+
 模块五：赋予应用记忆 (Memory)
 
 第十二章：记忆的类型与使用
@@ -123,6 +136,9 @@ load_qa_chain, RetrievalQA 等
 13.1 自定义记忆类型
 13.2 多轮对话中的记忆管理
 13.3 记忆的持久化与加载
+
+
+
 模块六：智能代理 (Agents) 的开发与应用
 
 第十四章：Agent 基础
@@ -142,6 +158,9 @@ load_qa_chain, RetrievalQA 等
 16.2 限制 Agent 的行为和资源使用
 16.3 构建复杂的 Agent 来完成多步骤任务
 16.4 Agent 与外部 API 的交互
+
+
+
 模块七：回调 (Callbacks) 与调试
 
 第十七章：使用 Callbacks 进行监控与日志记录
@@ -155,7 +174,12 @@ load_qa_chain, RetrievalQA 等
 18.2 使用 verbose=True 进行详细输出
 18.3 LangChain Debugging 工具 (如果 LangChain 自身提供)
 18.4 常见错误及其解决方法
-模块八：实战项目
+
+
+
+模块八 Tools
+
+模块九：实战项目
 
 第十九章：项目一：构建一个基于文档的问答机器人
 19.1 项目需求分析与设计
@@ -6781,7 +6805,162 @@ LangChain 自身提供的核心“调试工具”是其**回调系统**和官方
 
 
 
-## 模块八：实战项目
+## 模块八 ： Tools
+
+###  MCP 
+
+参考
+|---|
+|[MCP 终极指南  很值得读！！！](https://guangzhengli.com/blog/zh/model-context-protocol)|
+|[langchain-mcp-adapters](https://github.com/langchain-ai/langchain-mcp-adapters)|
+| [Using LangChain With Model Context Protocol (MCP)](https://cobusgreyling.medium.com/using-langchain-with-model-context-protocol-mcp-e89b87ee3c4c)|
+|[知乎-一文看懂：MCP(大模型上下文协议)](https://zhuanlan.zhihu.com/p/27327515233)|
+|[AI是如何确定应使用的MCP Server的?](https://www.zhihu.com/question/1890546618509538123)|
+[function call vs MCP](https://www.dailydoseofds.com/p/function-calling-mcp-for-llms/)
+
+---
+
+MCP (Model-Calling-Protocol) 是一种标准协议，允许大型语言模型调用外部工具。这个教程展示如何使用Langchain与MCP集成，创建一个简单的数学计算服务。
+
+
+
+#### 在Langchain中使用MCP的极简教程
+
+参考：
+
+[在Langchain中使用MCP的极简教程](https://zhuanlan.zhihu.com/p/1899053057435739384)
+
+---
+
+项目包含两个主要文件：
+- `math_server.py`: MCP服务器端，提供数学工具
+- `client.py`: 使用Langchain与MCP通信的客户端
+
+1.  步骤1: 创建MCP服务器
+
+首先，创建一个包含数学工具的MCP服务器：
+
+```python
+# math_server.py
+from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("Math")
+
+@mcp.tool()
+def add(a: int, b: int) -> int:
+    """Add two numbers"""
+    return a + b
+
+@mcp.tool()
+def multiply(a: int, b: int) -> int:
+    """Multiply two numbers"""
+    return a * b
+
+if __name__ == "__main__":
+    mcp.run(transport="stdio")
+```
+
+这个服务器定义了两个数学工具：
+- `add`: 将两个数字相加
+- `multiply`: 将两个数字相乘
+
+服务器使用stdio通信，这允许客户端通过标准输入/输出与服务器交互。
+
+2.  步骤2: 创建Langchain客户端
+
+接下来，创建一个使用Langchain调用MCP工具的客户端：
+
+```python
+# client.py
+import os
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+from langchain_mcp_adapters.tools import load_mcp_tools
+from langgraph.prebuilt import create_react_agent
+from langchain_openai import ChatOpenAI
+import asyncio
+
+# 设置LLM，这里使用Qwen-Plus
+model = ChatOpenAI(
+    api_key=os.getenv("DASHSCOPE_API_KEY"),
+    base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+    model="qwen-plus",
+)
+
+# 配置与MCP服务器的连接
+server_params = StdioServerParameters(
+    command="python",
+    args=["math_server.py"],
+)
+
+async def run_agent():
+    async with stdio_client(server_params) as (read, write):
+        async with ClientSession(read, write) as session:
+            # 初始化连接
+            await session.initialize()
+            
+            # 获取MCP工具
+            tools = await load_mcp_tools(session)
+            
+            # 创建并运行agent
+            agent = create_react_agent(model, tools)
+            agent_response = await agent.ainvoke({"messages": "what's (3 + 5) x 12?"})
+            return agent_response
+
+if __name__ == "__main__":
+    result = asyncio.run(run_agent())
+    print(result)
+```
+
+3. 运行流程
+
+    1. **启动MCP客户端**：客户端创建一个与math_server的连接
+    2. **初始化会话**：与MCP服务器建立连接
+    3. **加载工具**：通过`load_mcp_tools`将MCP工具加载到Langchain中
+    4. **创建Agent**：使用LLM和工具创建一个ReAct风格的agent
+    5. **执行查询**：Agent接收问题并使用MCP工具解决它
+    6. **返回结果**：返回计算结果
+
+4.  实现细节
+
+    - **通信方式**：使用stdio (标准输入/输出) 在客户端和服务器之间通信
+    - **工具定义**：使用装饰器(`@mcp.tool()`)和类型注解定义工具接口
+    - **Langchain集成**：使用`langchain_mcp_adapters`将MCP工具转换为Langchain工具
+    - **Agent实现**：使用`langgraph`创建reactive agent，能够理解问题并正确选择工具
+
+5.  如何扩展
+
+    您可以通过以下方式扩展这个例子：
+
+    1. 添加更多数学工具 (如除法、平方根等)
+    2. 使用其他通信方式 (如HTTP而不是stdio)
+    3. 实现更复杂的工具 (如金融计算器、文本处理等)
+    4. 改进Agent提示，使其更智能地使用工具
+
+6. 运行项目
+
+    1. 安装依赖:
+    ```
+    pip install mcp langchain_mcp_adapters langgraph langchain_openai
+    ```
+
+    2. 设置环境变量:
+    ```
+    export DASHSCOPE_API_KEY=your_api_key
+    ```
+
+    3. 运行客户端:
+    ```
+    python client.py
+    ```
+
+    客户端将启动math_server.py，提出问题 "what's (3 + 5) x 12?"，并输出结果。
+
+#### MCP和Function Call
+![](images/index/image.png)
+
+
+## 模块九：实战项目
 
 在前面的模块中，我们学习了 LangChain 的核心概念、组件以及如何构建链和 Agent。现在，是时候将这些知识付诸实践了。本模块将通过几个实战项目，带你一步步构建有用的 LLM 应用。
 

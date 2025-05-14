@@ -1,7 +1,7 @@
 ---
 title: gemini教程_langchain_v0.3
 description: ""
-date: 2025-05-08T23:08:17+08:00
+date: 2025-03-08T23:08:17+08:00
 image: images/index/index.png
 categories:
     - Agent
