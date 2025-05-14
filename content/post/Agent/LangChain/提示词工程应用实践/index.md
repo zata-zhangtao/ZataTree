@@ -1,5 +1,5 @@
 ---
-title: 提示词工程应用实践
+title: 提示词使用教程|工程应用实践
 description: ""
 date: 2025-03-14T16:26:52+08:00
 image: images/index/index.png
@@ -19,7 +19,25 @@ tags:
 
 
 
+### 提示词技巧
 
+
+[设计提示的通用技巧](https://www.promptingguide.ai/zh/introduction/tips)
+
+
+
+
+#### 少样本提示
+
+
+少样本提示可以作为一种技术，以启用上下文学习，我们在提示中提供演示以引导模型实现更好的性能。演示作为后续示例的条件，我们希望模型生成响应。
+
+
+
+
+#### PUA大模型
+
+![windsurf](images/index/image.png)
 
 
 

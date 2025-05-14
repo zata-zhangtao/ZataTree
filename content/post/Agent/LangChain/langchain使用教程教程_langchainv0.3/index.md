@@ -213,6 +213,9 @@ C. 推荐阅读和资源链接
 
 
 
+- LangChain 的包结构: 如 langchain-core (核心抽象), langchain (通用链、代理和检索策略), langchain-community (第三方集成), 以及像 langgraph (用于构建有状态的多参与者应用的扩展) 和 langserve (用于部署 LangChain 应用为 REST API 的包)。
+
+
 
 
 ## 模块一：LangChain 入门与核心概念

@@ -26,6 +26,30 @@ curl -sSL https://resource.fit2cloud.com/1panel/package/quick_start.sh -o quick_
 ### 问题和解决方案
 
 
+
+
+#### 云服务器，修改时区设置
+
+首先查看服务器时间，明显是错误的
+![查看服务器时间](images/index/image.png)
+
+
+![修改时区](images/index/image-1.png)
+
+
+```sh
+# 检查时区
+date  
+
+# 通过手动链接时区文件来更改时区：
+ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+# 如果有/etc/timezone 文件，可以更新它以确保一致性，当然不更新也可以
+cat /etc/timezone  
+echo "Asia/Shanghai" > /etc/timezone
+```
+
+
 #### 我自己使用1panel和云服务器的一些感悟
 
 **在云服务器部署碰到的麻烦事：**

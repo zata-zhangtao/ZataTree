@@ -26,6 +26,14 @@ python后台运行
 # 1. 使用nohup
 nohup python3 script.py > output.log 2>&1 &
 
+# 你也可以把上面这个代码放入.sh文件中
+echo 'nohup python3 script.py > output.log 2>&1 &' >> run_script.sh
+
+chmod +x script.py 
+
+./script.py 
+
+
 # 2. 使用tmux
 
 sudo apt install tmux  # Ubuntu/Debian

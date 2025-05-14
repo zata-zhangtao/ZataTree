@@ -218,6 +218,52 @@ git checkout <tagname>                    # 检出标签（进入分离头指针
 ## 一些问题解决
 
 
+
+### 在本地开发环境检查远程是否更新
+
+
+第一种方法
+
+```sh
+git log --oneline --graph --all
+```
+
+第二种方法
+
+```sh
+# 设置跟踪远程分支
+git branch --set-upstream-to=origin/<branch> <branch>  # git branch --set-upstream-to=origin/main main
+
+
+# 查看是否跟踪
+git branch -vv
+
+
+# 下载数据
+git fetch origin
+
+# 查看是否有更新
+git status 
+```
+
+是否跟踪对比
+
+![未跟踪](images/index/image-14.png)
+![已经跟踪](images/index/image-13.png)
+
+
+![可以看见本地和远程分支状态](images/index/image-15.png)
+
+### git clone 远程项目,同步远程项目更新
+
+```sh
+git fetch origin #查看远程项目更新
+git pull origin 远程分支：本地分支
+```
+
+
+
+
 ### git 版本标签
 
 1. 什么是版本标签？
