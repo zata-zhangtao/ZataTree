@@ -11,8 +11,66 @@ tags:
 
 
 
+uv常用命令
+```bash
+# 初始化一个新的 Python 项目
+uv init <project-name>
+
+# 创建虚拟环境
+uv venv
+
+# 激活虚拟环境（Unix/macOS）
+source .venv/bin/activate
+# 激活虚拟环境（Windows）
+.venv\Scripts\activate
+
+# 安装依赖
+uv pip install <package-name>
+
+# 安装项目依赖（从 pyproject.toml 或 requirements.txt）
+uv pip install -r requirements.txt
+# 或
+uv pip install .
+
+# 升级包
+uv pip install --upgrade <package-name>
+
+# 卸载包
+uv pip uninstall <package-name>
+
+# 列出已安装的包
+uv pip list
+
+# 导出依赖到 requirements.txt
+uv pip freeze > requirements.txt
+
+# 运行 Python 脚本或命令
+uv run <script.py>
+# 或
+uv run python <script.py>
+
+# 添加依赖到 pyproject.toml
+uv add <package-name>
+
+# 移除依赖从 pyproject.toml
+uv remove <package-name>
+
+# 同步项目依赖（确保虚拟环境与 pyproject.toml 一致）
+uv sync
+
+# 查看依赖树
+uv tree
+
+# 清理缓存
+uv cache clean
+
+# 检查 uv 版本
+uv --version
+```
+
 
 UV 是一个由 Astral (Ruff 的开发者) 开发的、用 Rust 编写的极速 Python 包安装器和解析器。它的目标是成为 `pip` 和 `venv` 的直接替代品，提供更快、更友好的用户体验。
+
 
 **教程大纲:**
 

@@ -20,6 +20,9 @@ tags: ["git&github","教程"]
 
 
 ```bash
+# 绑定本地分支和远程分支
+git branch --set-upstream-to=origin/<远程分支> <本地分支>
+
 %%设置用户签名%%
 git config --global user.name [username]      
 git config --global user.email [useremail]
