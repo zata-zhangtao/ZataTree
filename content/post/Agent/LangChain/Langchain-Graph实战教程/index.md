@@ -1,5 +1,5 @@
 ---
-title: Langchain-Graph实战教程
+title: Langchain-Graph langgraph实战教程
 description: ""
 date: 2025-05-06T11:07:13+08:00
 image: images/index/index.png
@@ -10,7 +10,9 @@ tags:
 ---
 
 
-**什么是 Langchain GRAPH？**
+### 基础知识
+
+1. **什么是 Langchain GRAPH？**
 
 Langchain GRAPH 是 Langchain 框架中用于处理和操作知识图谱（Knowledge Graphs）的模块。知识图谱是一种用节点（entities）和边（relationships）来表示知识的结构化方式。Langchain GRAPH 可以帮助你：
 
@@ -19,7 +21,7 @@ Langchain GRAPH 是 Langchain 框架中用于处理和操作知识图谱（Knowl
 * **知识图谱增强的问答：** 将知识图谱与大型语言模型（LLM）结合，以提供更准确、更具上下文的答案。
 * **推理：** 在知识图谱上进行推理，发现新的关系或知识。
 
-**核心概念**
+2. **核心概念**
 
 * **Graph Store (图存储):** 用于存储和管理知识图谱数据的后端。常见的有 Neo4j, NebulaGraph, Kùzu 等。Langchain 也支持内存中的 `NetworkXEntityGraph` 用于快速原型设计。
 * **Graph Document Loader (图文档加载器):** 用于从不同来源（如文本文件、网页、数据库）加载数据并转换为图结构。
@@ -27,7 +29,7 @@ Langchain GRAPH 是 Langchain 框架中用于处理和操作知识图谱（Knowl
 * **Graph Cypher QA Chain (图 Cypher 问答链):** 允许你使用自然语言提问，该链会将问题转换为 Cypher (一种图查询语言，常用于 Neo4j 等图数据库)，然后在图上执行查询并返回结果。
 * **Knowledge Graph Index (知识图谱索引):** 用于将知识图谱集成到检索增强生成 (RAG) 流程中，使 LLM 能够利用图谱中的信息。
 
-**与阿里云百炼平台的模型结合**
+3. **与阿里云百炼平台的模型结合**
 
 阿里云百炼平台提供了多种强大的大语言模型，我们可以将这些模型用于 Langchain GRAPH 中的以下任务：
 
@@ -36,7 +38,326 @@ Langchain GRAPH 是 Langchain 框架中用于处理和操作知识图谱（Knowl
 * **自然语言理解 (NLU):** 理解用户用自然语言提出的关于图谱的问题。
 * **答案生成 (Answer Generation):** 基于从图谱中检索到的信息生成自然的答案。
 
-**代码实战：使用阿里云百炼模型构建和查询知识图谱**
+
+### **代码实战： LangGraph 与 function call 构建智能天气查询助手教程**
+
+本教程将引导您了解如何使用 LangChain 和 LangGraph 构建一个能够理解自然语言并调用工具（在这里是查询天气）的智能应用。我们将详细解析代码中的每个关键部分。
+
+**核心目标：** 创建一个应用，用户可以用自然语言提问特定城市的天气（目前仅支持上海和北京），应用能自动判断是否需要调用天气查询工具，获取信息后返回给用户，并能记住对话上下文。
+
+**代码概览：**
+代码定义了一个天气查询工具 `get_weather_updates`，使用阿里巴巴的 DashScope 平台上的 `qwen-max` 模型作为语言模型，并通过 LangGraph 构建了一个状态机来协调模型调用和工具执行。它还使用了 `MemorySaver` 来保持对话的记忆。
+
+1. 环境准备与依赖
+
+    在运行代码之前，请确保：
+
+    **安装必要的库:**
+
+    ```bash
+    pip install langchain langgraph langchain_openai langchain_core typing os
+    ```
+    **设置环境变量 `DASHSCOPE_API_KEY`:**
+    这是访问 DashScope 平台模型所必需的 API 密钥。代码中包含检查此环境变量的逻辑。
+
+    ```python
+    import os
+    if not os.getenv("DASHSCOPE_API_KEY"):
+        # os.environ["DASHSCOPE_API_KEY"] = "your_actual_dashscope_api_key" # 仅供测试时直接设置
+        raise ValueError("DASHSCOPE_API_KEY environment variable not set. Please set it before running.")
+    ```
+
+    **知识点:**
+      * `os.getenv("DASHSCOPE_API_KEY")`: 从环境变量中读取 API 密钥，这是推荐的安全做法，避免将密钥硬编码到代码中。
+
+2. 工具定义 (Tool Definition)
+
+    ```python
+    from langchain_core.tools import tool
+
+    @tool
+    def get_weather_updates(query: str) -> str:
+        """
+        查询城市当前天气 (Query current weather for a city)
+        Use this tool to find out the current weather for a given city.
+        """
+        print(f"--- Tool 'get_weather_updates' called with query: {query} ---")
+        query_lower = query.lower()
+        if "上海" in query_lower or 'shanghai' in query_lower:
+            return "now is 30 celsius, foggy"
+        elif "北京" in query_lower or 'beijing' in query_lower:
+            return "now is 20 celsius, sunny"
+        else:
+            return f"Weather information for {query} not available with this tool. Only Shanghai and Beijing are supported."
+
+    tools = [get_weather_updates]
+    ```
+
+    **知识点:**
+
+    * `@tool` **装饰器:** 这是 LangChain 提供的一个便捷方式，用于将一个普通的 Python 函数转换为 LangChain 工具。LLM 可以被训练或提示来理解何时以及如何调用这个工具。
+    * **函数签名与文档字符串 (Docstring):**
+        * `query: str`:  类型提示明确了输入参数的类型。
+        * `-> str`: 类型提示明确了返回值的类型。
+        * **文档字符串 (Docstring):** 至关重要！LLM 会分析工具的名称和文档字符串来决定：
+            1.  **何时调用此工具**：基于用户的输入和文档字符串中描述的工具能力（例如，"查询城市当前天气"）。
+            2.  **如何调用此工具**：需要传递什么参数（例如，`query` 参数代表城市名称）。
+                因此，清晰、准确的文档字符串对于工具的正确使用至关重要。
+    * **工具逻辑:** 函数内部实现了简单的天气查询逻辑，目前只支持“上海”和“北京”。在实际应用中，这里可以是对接真实的天气 API。
+    * `tools = [get_weather_updates]`: 将定义好的工具放入一个列表，后续会绑定到 LLM 或在 LangGraph 中使用。
+
+3. 模型初始化与工具绑定
+
+    ```python
+    from langchain_openai import ChatOpenAI
+
+    model = ChatOpenAI(
+        model="qwen-max",
+        base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+        api_key=os.getenv("DASHSCOPE_API_KEY"),
+        temperature=0
+    )
+
+    model_with_tools = model.bind_tools(tools)
+    ```
+
+    **知识点:**
+
+    * `ChatOpenAI`: 虽然名为 `ChatOpenAI`，但通过指定 `base_url` 和 `api_key`，它可以配置为使用兼容 OpenAI API 接口的其他模型服务，如此处的 DashScope。
+    * `model="qwen-max"`: 指定使用的具体模型名称。
+    * `base_url`: DashScope 提供的与 OpenAI 兼容的 API 端点。
+    * `api_key`: DashScope 的 API 密钥。
+    * `temperature=0`: `temperature` 参数控制模型输出的随机性。设置为 `0` 时，模型输出会更具确定性，对于需要精确调用工具的场景通常是好的选择。
+    * `model.bind_tools(tools)`: 这是一个关键步骤，它将我们定义的 `tools` 列表与 LLM 实例进行绑定。这使得 LLM 在处理输入时，能够“意识”到这些工具的存在，并在认为合适的时候决定调用它们。绑定后，LLM 的输出可能会包含特殊的“工具调用”指令。
+
+4. LangGraph 状态定义与图构建
+
+    LangGraph 允许我们以图（Graph）的形式定义多步骤、可循环的智能体行为。图中的节点代表操作，边代表操作之间的转换逻辑。
+
+   ** 4.1 状态定义 (State Definition)**
+
+    ```python
+    from langchain_core.messages import HumanMessage, AIMessage, ToolMessage # Added ToolMessage
+    from langgraph.graph import StateGraph, MessagesState
+
+    # MessagesState 是一个特殊的 LangGraph 状态类型，它内部维护一个消息列表。
+    # 每次节点返回 {"messages": [...]} 时，这些消息会被追加到现有状态的消息列表中。
+    # class MessagesState(TypedDict):
+    #     messages: Annotated[list, add_messages]
+    ```
+
+    **知识点:**
+
+    * `MessagesState`: 这是 LangGraph 提供的一个预定义的状态类型，非常适合构建聊天机器人或需要维护消息历史的应用。它本质上是一个字典，其中有一个键 `messages`，对应的值是一个消息列表。
+    * `HumanMessage`, `AIMessage`, `ToolMessage`: LangChain 中定义的消息类型，分别代表用户的输入、AI 的回复以及工具执行的结果。`ToolMessage` 用于封装工具调用的输出，并包含一个 `tool_call_id` 以便将结果与特定的工具调用请求关联起来。
+
+   **** 4.2 图节点 (Graph Nodes)
+
+    ```python
+    from langgraph.prebuilt import ToolNode
+
+    tool_node = ToolNode(tools) # 创建一个工具节点，用于执行列表中的工具
+
+    def call_model(state: MessagesState): # 定义 Agent 节点逻辑
+        messages = state["messages"]
+        print(f"--- Calling model with {len(messages)} messages. Last message type: {type(messages[-1])} ---")
+        response = model_with_tools.invoke(messages) # 调用绑定了工具的 LLM
+        return {"messages": [response]} # 将 LLM 的响应（可能是普通消息或工具调用请求）添加到状态中
+    ```
+
+    **知识点:**
+
+    * `ToolNode(tools)`: LangGraph 的预构建节点，专门用于执行工具。当上一个节点（通常是 LLM）决定调用工具时，`ToolNode` 会接收到工具调用请求，执行相应的工具函数，并将工具的输出（包装在 `ToolMessage` 中）返回。
+    * `call_model(state: MessagesState)`: 这是我们自定义的“代理”或“Agent”节点。
+        * 它接收当前的 `MessagesState` 作为输入。
+        * `model_with_tools.invoke(messages)`: 调用绑定了工具的 LLM。LLM 会接收到目前为止的所有消息历史。
+            * 如果 LLM 认为可以直接回答，它会返回一个 `AIMessage`。
+            * 如果 LLM 认为需要调用工具，它会返回一个包含 `tool_calls` 属性的 `AIMessage`。这个 `tool_calls` 列表包含了要调用的工具名称、参数以及一个唯一的 `tool_call_id`。
+        * `return {"messages": [response]}`: 节点的输出必须符合状态的结构。这里，我们将 LLM 的响应封装成一个列表，并用键 `messages` 返回，`MessagesState` 会自动将这个新消息追加到总的消息列表中。
+
+    **** 4.3 条件边逻辑 (Conditional Edge Logic)
+
+    ```python
+    from typing import Literal
+    from langgraph.graph import END
+
+    def should_continue(state: MessagesState) -> Literal["tools", END]:
+        messages = state["messages"]
+        last_message = messages[-1]
+        # 检查最后一条消息是否是 AI 消息并且包含了工具调用请求
+        if hasattr(last_message, 'tool_calls') and last_message.tool_calls and len(last_message.tool_calls) > 0:
+            print(f"--- LLM decided to use tools: {last_message.tool_calls} ---")
+            return "tools" # 如果有工具调用，则路由到 "tools" 节点
+        print("--- LLM decided NOT to use tools, or no tool calls found. Ending or proceeding. ---")
+        return END # 否则，结束流程 (或根据需要路由到其他节点)
+    ```
+
+    **知识点:**
+
+    * `should_continue(state: MessagesState)`: 这个函数定义了从 `agent` 节点出发后的路由逻辑。它检查状态中的最后一条消息（通常是 `agent` 节点产生的 LLM 响应）。
+    * `last_message.tool_calls`: 如果 LLM 决定调用工具，其返回的 `AIMessage` 对象会有一个 `tool_calls` 属性。这是一个列表，因为 LLM 理论上可以一次请求调用多个工具（尽管在此示例中，`qwen-max` 和大多数模型一次只调用一个）。
+    * `Literal["tools", END]`: Python 的类型提示，表示该函数要么返回字符串 "tools"，要么返回 LangGraph 的特殊标记 `END`。
+    * **路由决策**:
+        * 如果检测到 `tool_calls`，函数返回 `"tools"`，意味着工作流应转到名为 `"tools"` 的节点（即我们定义的 `tool_node`）。
+        * 否则，函数返回 `END`，意味着当前轮次的流程结束，最终结果已经由 LLM 生成。
+
+    **** 4.4 构建图并编译
+
+    ```python
+    workflow = StateGraph(MessagesState) # 初始化状态图，并指定状态类型
+    workflow.add_node("agent", call_model) # 添加 "agent" 节点
+    workflow.add_node("tools", tool_node)  # 添加 "tools" 节点
+
+    workflow.set_entry_point("agent") # 设置图的入口点为 "agent" 节点
+
+    # 添加条件边：从 "agent" 节点出发，根据 should_continue 函数的返回值决定下一个节点
+    workflow.add_conditional_edges(
+        "agent",
+        should_continue,
+        {
+            "tools": "tools", # 如果 should_continue 返回 "tools"，则去 "tools" 节点
+            END: END          # 如果 should_continue 返回 END，则结束
+        }
+    )
+    workflow.add_edge("tools", "agent") # 从 "tools" 节点处理完后，总是回到 "agent" 节点
+
+    # 内存与检查点
+    from langgraph.checkpoint.memory import MemorySaver
+    checkpointer = MemorySaver() # 使用内存存储检查点，用于保存对话状态
+
+    # 编译图，并加入检查点机制
+    app = workflow.compile(checkpointer=checkpointer)
+    ```
+
+    **知识点:**
+
+    * `StateGraph(MessagesState)`: 创建一个状态图实例，并明确告知它管理的状态类型是 `MessagesState`。
+    * `workflow.add_node("node_name", node_function_or_callable)`: 向图中添加节点。第一个参数是节点的唯一名称，第二个参数是该节点要执行的逻辑（函数或可调用对象）。
+    * `workflow.set_entry_point("agent")`: 指定当图第一次被调用时，从哪个节点开始执行。
+    * `workflow.add_conditional_edges(...)`: 添加条件边。
+        * 第一个参数是起始节点名称 (`"agent"`)。
+        * 第二个参数是条件函数 (`should_continue`)，它的返回值将决定路径。
+        * 第三个参数是一个字典，映射条件函数的返回值到目标节点名称。
+    * `workflow.add_edge("tools", "agent")`: 添加一条常规边。在工具执行完毕后 (`"tools"` 节点)，流程总是返回到 `"agent"` 节点，以便 LLM 可以处理工具的输出并生成最终回复。这是一个典型的 ReAct (Reasoning and Acting) 循环。
+    * `MemorySaver()`: LangGraph 的检查点（checkpoint）机制之一。`MemorySaver` 将每个线程（对话）的状态保存在内存中。这使得对话可以具有上下文记忆。对于生产环境，可能会使用更持久的存储，如 Redis、数据库等。
+    * `app = workflow.compile(checkpointer=checkpointer)`: 编译图。编译过程将图的定义转换为一个可执行的应用。传入 `checkpointer` 使得应用能够保存和加载对话状态。
+
+5.  执行与交互
+
+    ```python
+    # 使用字符串作为 thread_id，用于区分不同的对话线程
+    thread_id = "chat_thread_42"
+    config = {"configurable": {"thread_id": thread_id}}
+
+    print("\nInvoking for Shanghai...")
+    shanghai_input = {"messages": [HumanMessage(content="what's the weather in Shanghai?")]}
+    try:
+        # 第一次调用，传入初始消息
+        final_state_shanghai = app.invoke(shanghai_input, config=config)
+
+        # 从最终状态中提取 AI 的回复
+        if final_state_shanghai["messages"] and isinstance(final_state_shanghai["messages"][-1], AIMessage):
+            result_shanghai = final_state_shanghai["messages"][-1].content
+            print(f"Final response for Shanghai: {result_shanghai}")
+        else:
+            print(f"Unexpected final state for Shanghai: {final_state_shanghai['messages']}")
+
+        print("\nInvoking for Beijing (same thread)...")
+        beijing_input_message = HumanMessage(content="what's the weather in Beijing?")
+        # 第二次调用，在同一个线程 (thread_id 相同)
+        # LangGraph 的 MessagesState 会自动将新的 beijing_input_message 追加到此线程已有的消息历史中
+        final_state_beijing = app.invoke({"messages": [beijing_input_message]}, config=config)
+
+        if final_state_beijing["messages"] and isinstance(final_state_beijing["messages"][-1], AIMessage):
+            result_beijing = final_state_beijing["messages"][-1].content
+            print(f"Final response for Beijing: {result_beijing}")
+        else:
+            print(f"Unexpected final state for Beijing: {final_state_beijing['messages']}")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        import traceback
+        traceback.print_exc()
+    ```
+
+    **知识点:**
+
+    * `thread_id`: 这是一个关键概念，用于区分不同的对话会话。当与 `checkpointer` 一起使用时，具有相同 `thread_id` 的调用会共享相同的对话历史。
+    * `config = {"configurable": {"thread_id": thread_id}}`: 在调用 `app.invoke` 时传入此配置，LangGraph 会根据 `thread_id` 加载或保存对应的对话状态。
+    * `app.invoke(input_messages, config=config)`: 执行编译好的 LangGraph 应用。
+        * `input_messages`: 对于 `MessagesState`，输入应该是一个字典，其中 `messages` 键对应一个包含新消息的列表。
+        * 第一次调用上海天气时，输入是 `{"messages": [HumanMessage(content="what's the weather in Shanghai?")]}`。
+        * 第二次调用北京天气时，由于 `MemorySaver` 和相同的 `thread_id`，`MessagesState` 已经包含了上海的对话历史。我们只需传入新的用户消息 `{"messages": [HumanMessage(content="what's the weather in Beijing?")]}`。`MessagesState` 的特性是它会自动将新消息追加到现有消息列表中，所以 LLM 在处理北京的请求时，是能看到之前关于上海的对话的。
+    * **结果提取**: `final_state_shanghai["messages"][-1].content` 获取最后一条 AI 消息的内容。通常，图执行完毕后，最后一条消息是 AI 对用户问题的最终回复。
+
+6. 执行流程梳理
+
+    当用户输入 "what's the weather in Shanghai?" 时：
+
+    1.  **入口 (`agent` 节点):**
+
+        * `call_model` 函数被调用。
+        * `model_with_tools.invoke` 接收到 `[HumanMessage(content="what's the weather in Shanghai?")]`。
+        * LLM (`qwen-max`) 分析输入和绑定的 `get_weather_updates` 工具的文档字符串。它判断出需要调用此工具，并确定参数 `query` 应该是 "Shanghai"。
+        * LLM 返回一个 `AIMessage`，其中包含 `tool_calls` 属性，例如：`tool_calls=[ToolCall(name='get_weather_updates', args={'query': 'Shanghai'}, id='call_abc123')]`。
+        * `call_model` 返回 `{"messages": [AIMessage_with_tool_call]}`。
+
+    2.  **条件路由 (`should_continue`):**
+
+        * `should_continue` 函数检查最后一条消息。发现有 `tool_calls`。
+        * 函数返回 `"tools"`。
+
+    3.  **工具执行 (`tools` 节点):**
+
+        * `ToolNode` 接收到 `tool_calls`。
+        * 它查找名为 `get_weather_updates` 的工具，并使用参数 `{'query': 'Shanghai'}` 调用它。
+        * `get_weather_updates("Shanghai")` 执行，返回字符串 `"now is 30 celsius, foggy"`。
+        * `ToolNode` 将此结果包装成一个 `ToolMessage`，例如：`ToolMessage(content="now is 30 celsius, foggy", tool_call_id='call_abc123')`。
+        * `ToolNode` 返回 `{"messages": [ToolMessage_with_result]}`。
+
+    4.  **返回 Agent (`agent` 节点):**
+
+        * 图的边配置为从 `tools` 节点返回到 `agent` 节点。
+        * `call_model` 再次被调用。此时，`state["messages"]` 包含了：
+            1.  `HumanMessage(content="what's the weather in Shanghai?")`
+            2.  `AIMessage(..., tool_calls=[...])`
+            3.  `ToolMessage(content="now is 30 celsius, foggy", tool_call_id='call_abc123')`
+        * `model_with_tools.invoke` 接收到这三条消息。
+        * LLM 现在看到了原始问题、它自己调用工具的决定以及工具的执行结果。
+        * 基于这些信息，LLM 生成一个自然的回复，例如：`AIMessage(content="The current weather in Shanghai is 30 degrees Celsius and foggy.")`。
+        * `call_model` 返回 `{"messages": [AIMessage_final_response]}`。
+
+    5.  **条件路由 (`should_continue`):**
+
+        * `should_continue` 检查最后一条消息（最终的 AI 回复）。这条消息没有 `tool_calls`。
+        * 函数返回 `END`。
+
+    6.  **结束:**
+
+        * 图的执行结束。`app.invoke` 返回最终的状态 `final_state_shanghai`。
+        * 代码从 `final_state_shanghai["messages"][-1].content` 中提取并打印最终回复。
+        * `MemorySaver` 会保存包含所有这四条消息的 `MessagesState` 到与 `thread_id="chat_thread_42"` 关联的内存中。
+
+    当后续询问北京天气时，由于 `thread_id` 相同，`call_model` 初始调用时，`state["messages"]` 就会包含之前上海的四条消息，再加上新的 `HumanMessage(content="what's the weather in Beijing?")`，使得 LLM 具有了上下文感知能力。
+
+7. 关键知识点回顾
+
+    * **Tool Definition (`@tool`):** 方便地将函数暴露给 LLM，文档字符串是关键。
+    * **Model Binding (`.bind_tools()`):** 让 LLM 知道有哪些工具可用。
+    * **`MessagesState`:** LangGraph 中用于管理对话消息历史的便捷状态。
+    * **`StateGraph`:** 定义应用流程的核心，包括节点和边。
+    * **Nodes (`agent`, `tools`):** 执行具体操作的单元。`ToolNode` 是预置的工具执行器。
+    * **Conditional Edges:** 基于函数逻辑动态决定流程走向。
+    * **`END`:** 特殊标记，表示图的一个执行路径结束。
+    * **Checkpointer (`MemorySaver`):** 实现对话记忆的关键，通过 `thread_id` 管理不同对话的状态。
+    * **Message Types (`HumanMessage`, `AIMessage`, `ToolMessage`):** LangChain 中标准化的消息对象，用于在不同组件间传递信息。`ToolMessage` 包含了 `tool_call_id` 以便将结果与请求关联。
+
+
+
+
+
+
+### **代码实战：使用阿里云百炼模型构建和查询知识图谱**
 
 在这个实战教程中，我们将演示如何：
 
@@ -464,4 +785,3 @@ for question in questions:
     * **复杂推理：** 在图上执行更复杂的推理任务，例如路径查找、社区检测、链接预测等。
     * **多跳查询 (Multi-hop Queries):** 回答需要连接多个信息片段才能得到的复杂问题。
 
-这个教程提供了一个基础的框架。在实际应用中，你可能需要根据你的具体需求和数据特性进行大量的定制和优化。祝你在使用 Langchain GRAPH 和阿里云百炼模型构建知识图谱的旅程中顺利！
