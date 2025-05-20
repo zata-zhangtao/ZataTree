@@ -2504,10 +2504,6 @@ LangChain 还支持许多其他提供商，如 Anthropic, Cohere, Google Vertex 
              response = await chat.ainvoke("写一首关于编程的短诗。")
              print(response.content)
         
-             responses = await chat.abatch(["1+1=?", "中国的首都是哪里?"])
-             for resp in responses:
-                 print(resp.content)
-        
          # asyncio.run(main())
         ```
 

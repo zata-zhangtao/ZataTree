@@ -18,7 +18,9 @@ https://1panel.cn/docs/installation/online_installation/
 
 ```bash
 # ubuntu
+apt install curl # 如果下面一行提示curl没有
 curl -sSL https://resource.fit2cloud.com/1panel/package/quick_start.sh -o quick_start.sh && sudo bash quick_start.sh
+1pctl --help # 查看是否安装成功
 ```
 
 

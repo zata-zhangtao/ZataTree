@@ -145,7 +145,7 @@ git remote set-url origin xxxx_url
 
 ```bash
 # 切换分支
-git checkout <分支名>
+git checkout <分支名或者commit>
 # 创建分支并切换
 git checkout -b <分支名>
 # 删除分支
@@ -219,6 +219,14 @@ git checkout <tagname>                    # 检出标签（进入分离头指针
 
 
 ## 一些问题解决
+
+
+### 如果想要临时查看某次commit时项目的全部代码
+```bash
+git log --oneline
+git checkout <commit哈希值>   # 查看代码
+git checkout main  # 返回主分支
+```
 
 
 

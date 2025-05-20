@@ -45,6 +45,13 @@ RAG (Retrieval Augmented Generation) 是一种结合了检索（Retrieval）和�
 
 ##  **代码实战：构建一个简单的 RAG 应用**
 
+|源文件|
+|---|
+|[example_doc.txt](./02-Langchain-Rag实战/example_doc.txt)|
+|[main.py](./02-Langchain-Rag实战/main.py)|
+
+
+
 下面我们将通过一个实际的例子来演示如何使用 Langchain 构建一个简单的 RAG 应用。
 
 **前提条件**
