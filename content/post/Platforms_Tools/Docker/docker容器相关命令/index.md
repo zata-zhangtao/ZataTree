@@ -9,8 +9,43 @@ tags:
     - Docker
 ---
 
-<!-- ![alt text](images/index/index-10.png) -->
-<!-- ![index](images/index/index-6.png) -->
+```bash 
+# 容器管理
+docker run -itd --name <container_name> -p <host_port>:<container_port> <image> # 运行容器（后台，指定名称，端口映射）
+docker run exec -it  <container_name>  /bin/bash
+docker ps # 查看运行中的容器
+docker ps -a # 查看所有容器（包括已停止）
+docker stop <container_id> # 停止容器
+docker start <container_id> # 启动容器
+docker restart <container_id> # 重启容器
+docker rm <container_id> # 删除容器
+docker logs <container_id> # 查看容器日志
+
+# 镜像管理
+docker pull <image> # 拉取镜像
+docker images # 查看本地镜像
+docker rmi <image_id> # 删除镜像
+docker build -t <image_name> . # 构建镜像（当前目录的Dockerfile）
+docker commit <container_id> <image_name>:<tag> # 将容器构建成为镜像，tag通常用 latest 或版本号（如 v1.0）
+
+# 容器操作
+docker exec -it <container_id> /bin/bash # 进入容器（交互式）
+docker cp <container_id>:<path> <local_path> # 从容器复制文件到本地
+docker cp <local_path> <container_id>:<path> # 从本地复制文件到容器
+
+# 网络和卷
+docker network ls # 查看网络
+docker network create <network_name> # 创建网络
+docker volume ls # 查看卷
+docker volume create <volume_name> # 创建卷
+
+# 系统管理
+docker info # 查看Docker信息
+docker system prune # 清理未使用的容器、网络、镜像等
+docker system df # 查看Docker磁盘使用情况
+```
+
+
 
 
 ### docker容器相关命令

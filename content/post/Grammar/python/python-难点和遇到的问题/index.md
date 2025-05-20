@@ -13,7 +13,7 @@ tags:
 
 <!-- ![alt text](images/index/index.png) -->
 
-## 一些功能的实现
+## 功能实现和知识点
 
 
 ### python程序后台运行
@@ -65,6 +65,302 @@ tmux kill-session -t my_session  # 终止会话
         2>&1：将标准错误输出也重定向到 output.log。
         &：将进程放入后台运行。
 
+
+
+
+
+### Python 函数定义教程
+
+
+什么是函数？
+函数是一段可重用的代码块，用于执行特定任务。它可以接受输入（参数），处理逻辑，并返回输出（返回值）。函数使代码更模块化、可读和可维护。
+
+函数的基本定义
+在 Python 中，函数使用 `def` 关键字定义，基本语法如下：
+```python
+def function_name(parameters):
+    """Docstring: 函数的说明文档"""
+    # 函数体
+    # 执行具体逻辑
+    return result  # 可选的返回值
+```
+
+- `def`: 定义函数的关键字。
+- `function_name`: 函数的名称，遵循变量命名规则（小写字母、单词用下划线分隔）。
+- `parameters`: 函数的输入参数（可选）。
+- `:`: 表示函数体开始。
+- 函数体: 缩进的代码块，包含函数的逻辑。
+- `return`: 返回结果（可选），如果没有 `return`，函数默认返回 `None`。
+- 文档字符串（Docstring）: 用三引号 `"""` 包裹，描述函数的作用、参数和返回值（推荐使用）。
+
+示例：
+```python
+def greet(name):
+    """返回对指定用户的问候语。
+    
+    参数:
+        name (str): 用户的姓名。
+    
+    返回:
+        str: 格式化的问候语。
+    """
+    message = f"你好，{name}！"
+    return message
+
+# 调用函数
+print(greet("Alice"))  # 输出: 你好，Alice！
+```
+
+参数的类型
+Python 函数支持多种参数类型，帮助灵活处理输入：
+
+位置参数
+按顺序传递参数，调用时必须按照定义的顺序提供。
+
+示例：
+```python
+def add(a, b):
+    """返回两个数的和。"""
+    return a + b
+
+print(add(3, 5))  # 输出: 8
+```
+
+关键字参数
+调用时指定参数名，顺序不重要，增强代码可读性。
+
+示例：
+```python
+def introduce(name, age):
+    """介绍一个人。"""
+    return f"{name} 是 {age} 岁。"
+
+print(introduce(age=25, name="Bob"))  # 输出: Bob 是 25 岁。
+```
+
+默认参数
+为参数设置默认值，如果调用时不提供该参数，则使用默认值。
+
+示例：
+```python
+def greet(name, greeting="你好"):
+    """返回问候语，带有默认问候词。"""
+    return f"{greeting}，{name}！"
+
+print(greet("Alice"))  # 输出: 你好，Alice！
+print(greet("Bob", "Hi"))  # 输出: Hi，Bob！
+```
+
+可变参数：`*args`
+`*args` 允许函数接受任意数量的位置参数，参数被收集为一个元组。
+
+示例：
+```python
+def sum_numbers(*args):
+    """返回所有输入数字的和。"""
+    return sum(args)
+
+print(sum_numbers(1, 2, 3))  # 输出: 6
+print(sum_numbers(1, 2, 3, 4, 5))  # 输出: 15
+```
+
+关键字可变参数：`**kwargs`
+`**kwargs` 允许函数接受任意数量的关键字参数，参数被收集为一个字典。
+
+示例：
+```python
+def print_info(**kwargs):
+    """打印所有关键字参数。"""
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+
+print_info(name="Alice", age=25, city="Shanghai")
+# 输出:
+# name: Alice
+# age: 25
+# city: Shanghai
+```
+
+编写出色的函数：最佳实践
+要编写高质量的函数，遵循以下原则：
+
+单一职责原则
+一个函数只做一件事，保持逻辑简单。例如，计算面积的函数不应同时打印结果。
+
+示例：
+```python
+def calculate_circle_area(radius):
+    """计算圆的面积。"""
+    return 3.14159 * radius ** 2
+
+def print_area(area):
+    """打印面积。"""
+    print(f"面积是: {area}")
+
+# 使用
+area = calculate_circle_area(5)
+print_area(area)  # 输出: 面积是: 78.53975
+```
+
+使用有意义的函数和参数名
+函数名应清晰描述其功能，参数名应直观。例如，`calculate_circle_area(radius)` 比 `calc(x)` 更清晰。
+
+始终添加文档字符串
+文档字符串（Docstring）描述函数的作用、参数和返回值，方便他人理解和使用。
+
+示例：
+```python
+def divide(a, b):
+    """将两个数相除并返回结果。
+    
+    参数:
+        a (float): 被除数。
+        b (float): 除数，不能为 0。
+    
+    返回:
+        float: 除法结果。
+    
+    抛出:
+        ZeroDivisionError: 当 b 为 0 时抛出。
+    """
+    return a / b
+```
+
+处理异常
+在函数中处理可能的错误，增强健壮性。
+
+示例：
+```python
+def divide_safe(a, b):
+    """安全地执行除法操作。
+    
+    参数:
+        a (float): 被除数。
+        b (float): 除数。
+    
+    返回:
+        float 或 None: 除法结果，如果除数为 0 则返回 None。
+    """
+    try:
+        return a / b
+    except ZeroDivisionError:
+        print("错误：除数不能为 0！")
+        return None
+
+print(divide_safe(10, 0))  # 输出: 错误：除数不能为 0！ None
+print(divide_safe(10, 2))  # 输出: 5.0
+```
+
+限制函数长度
+函数体应尽量简短（建议不超过 20-30 行）。如果逻辑复杂，拆分为多个小函数。
+
+使用类型提示（Type Hints）
+Python 3.5+ 支持类型提示，增强代码可读性和 IDE 支持。
+
+示例：
+```python
+def add_numbers(a: float, b: float) -> float:
+    """返回两个数的和。"""
+    return a + b
+```
+
+高级函数技巧
+使用 lambda 函数
+`lambda` 用于定义简短的匿名函数，常用于一次性或简单逻辑。
+
+示例：
+```python
+# 定义一个 lambda 函数
+square = lambda x: x ** 2
+print(square(5))  # 输出: 25
+
+# 在 sorted 中使用 lambda
+names = ["Alice", "Bob", "Charlie"]
+sorted_names = sorted(names, key=lambda x: len(x))
+print(sorted_names)  # 输出: ['Bob', 'Alice', 'Charlie']
+```
+
+函数作为参数
+函数可以作为参数传递给其他函数，常见于回调函数。
+
+示例：
+```python
+def apply_operation(numbers, operation):
+    """对数字列表应用指定操作。"""
+    return [operation(x) for x in numbers]
+
+def double(x):
+    return x * 2
+
+numbers = [1, 2, 3]
+result = apply_operation(numbers, double)
+print(result)  # 输出: [2, 4, 6]
+```
+
+装饰器
+装饰器是函数的高级用法，用于在不修改函数代码的情况下添加功能。
+
+示例：
+```python
+def log_function(func):
+    """记录函数调用信息。"""
+    def wrapper(*args, **kwargs):
+        print(f"调用函数: {func.__name__}，参数: {args}, {kwargs}")
+        return func(*args, **kwargs)
+    return wrapper
+
+@log_function
+def add(a, b):
+    """返回两个数的和。"""
+    return a + b
+
+print(add(3, 5))  
+# 输出:
+# 调用函数: add，参数: (3, 5), {}
+# 8
+```
+
+实践：编写一个出色的函数
+任务：编写一个函数，计算一个数的阶乘，支持输入验证和异常处理。
+
+示例：
+```python
+def factorial(n: int) -> int:
+    """计算 n 的阶乘。
+    
+    参数:
+        n (int): 非负整数。
+    
+    返回:
+        int: n 的阶乘。
+    
+    抛出:
+        ValueError: 如果 n 不是非负整数。
+    """
+    if not isinstance(n, int):
+        raise ValueError("输入必须是整数")
+    if n < 0:
+        raise ValueError("输入必须是非负整数")
+    if n == 0 or n == 1:
+        return 1
+    result = 1
+    for i in range(2, n + 1):
+        result *= i
+    return result
+
+# 测试
+try:
+    print(factorial(5))  # 输出: 120
+    print(factorial(-1))  # 抛出 ValueError
+except ValueError as e:
+    print(f"错误: {e}")
+```
+
+总结
+- 函数使用 `def` 定义，包含函数名、参数、函数体和返回值。
+- 使用 `*args` 和 `**kwargs` 处理可变参数。
+- 编写出色的函数需要：单一职责、有意义的命名、文档字符串、异常处理、类型提示等。
+- 高级技巧如 lambda 函数、函数作为参数和装饰器可以进一步提升代码灵活性。
 
 
 ### 从.py文件中获取函数对象和参数 的字典
@@ -1094,67 +1390,67 @@ main()
 ### Python项目生成requirements.txt文件
 
 
-#### 1.使用pipreqs生成requirement.txt
+1.使用pipreqs生成requirement.txt
 
-```python
-pip install pipreqs
-pipreqs .  # .表示当前路径
-```
-#### 遇到问题
-**1. 遇到编码错误问题**
+    ```python
+    pip install pipreqs
+    pipreqs .  # .表示当前路径
+    ```
+    遇到问题
+    **1. 遇到编码错误问题**
 
-> ![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/9b7c8a250113823a277df162dc9e1b20.png)
-> 解决方法 
-> ```python pipreqs --encoding=iso-8859-1 ```
+    > ![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/9b7c8a250113823a277df162dc9e1b20.png)
+    > 解决方法 
+    > ```python pipreqs --encoding=iso-8859-1 ```
 
-**2. 遇到'pipreqs' is not recognized as an internal or external command,operable program or batch file.** 
-> 使用以下命令：
-> `python -m pipreqs.pipreqs . --encoding=utf8 --force`
-
-
+    **2. 遇到'pipreqs' is not recognized as an internal or external command,operable program or batch file.** 
+    > 使用以下命令：
+    > `python -m pipreqs.pipreqs . --encoding=utf8 --force`
 
 
-#### pipreqs --help
 
-```bash
-pipreqs - Generate pip requirements.txt file based on imports
 
-Usage:
-    pipreqs [options] [<path>]
+2. pipreqs --help
 
-Arguments:
-    <path>                The path to the directory containing the application
-                          files for which a requirements file should be
-                          generated (defaults to the current working
-                          directory).
+    ```bash
+    pipreqs - Generate pip requirements.txt file based on imports
 
-Options:
-    --use-local           Use ONLY local package info instead of querying PyPI.
-    --pypi-server <url>   Use custom PyPi server.
-    --proxy <url>         Use Proxy, parameter will be passed to requests
-                          library. You can also just set the environments
-                          parameter in your terminal:
-                          $ export HTTP_PROXY="http://10.10.1.10:3128"
-                          $ export HTTPS_PROXY="https://10.10.1.10:1080"
-    --debug               Print debug information
-    --ignore <dirs>...    Ignore extra directories, each separated by a comma
-    --no-follow-links     Do not follow symbolic links in the project
-    --encoding <charset>  Use encoding parameter for file open
-    --savepath <file>     Save the list of requirements in the given file
-    --print               Output the list of requirements in the standard
-                          output
-    --force               Overwrite existing requirements.txt
-    --diff <file>         Compare modules in requirements.txt to project
-                          imports
-    --clean <file>        Clean up requirements.txt by removing modules
-                          that are not imported in project
-    --mode <scheme>       Enables dynamic versioning with <compat>,
-                          <gt> or <non-pin> schemes.
-                          <compat> | e.g. Flask~=1.1.2
-                          <gt>     | e.g. Flask>=1.1.2
-                          <no-pin> | e.g. Flask
-    --scan-notebooks      Look for imports in jupyter notebook files.
-```
+    Usage:
+        pipreqs [options] [<path>]
+
+    Arguments:
+        <path>                The path to the directory containing the application
+                            files for which a requirements file should be
+                            generated (defaults to the current working
+                            directory).
+
+    Options:
+        --use-local           Use ONLY local package info instead of querying PyPI.
+        --pypi-server <url>   Use custom PyPi server.
+        --proxy <url>         Use Proxy, parameter will be passed to requests
+                            library. You can also just set the environments
+                            parameter in your terminal:
+                            $ export HTTP_PROXY="http://10.10.1.10:3128"
+                            $ export HTTPS_PROXY="https://10.10.1.10:1080"
+        --debug               Print debug information
+        --ignore <dirs>...    Ignore extra directories, each separated by a comma
+        --no-follow-links     Do not follow symbolic links in the project
+        --encoding <charset>  Use encoding parameter for file open
+        --savepath <file>     Save the list of requirements in the given file
+        --print               Output the list of requirements in the standard
+                            output
+        --force               Overwrite existing requirements.txt
+        --diff <file>         Compare modules in requirements.txt to project
+                            imports
+        --clean <file>        Clean up requirements.txt by removing modules
+                            that are not imported in project
+        --mode <scheme>       Enables dynamic versioning with <compat>,
+                            <gt> or <non-pin> schemes.
+                            <compat> | e.g. Flask~=1.1.2
+                            <gt>     | e.g. Flask>=1.1.2
+                            <no-pin> | e.g. Flask
+        --scan-notebooks      Look for imports in jupyter notebook files.
+    ```
 
 
 
