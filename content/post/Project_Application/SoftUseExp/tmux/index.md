@@ -1,12 +1,13 @@
 ---
-title: tmux
+title: tmux简易使用
 description: ""
-date: 2025-05-19T11:32:28+08:00
+date: 2025-05-09T11:32:28+08:00
 image: images/index/index.png
 categories:
     - Project_Application
 tags:
     - SoftUseExp
+    - 简易使用
 ---
 
 ```bash
