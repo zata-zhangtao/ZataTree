@@ -12,6 +12,78 @@ tags:
 <!-- ![alt text](images/index/index.png) -->
 ---
 
+```bash 
+# 初始化一个新的 Sphinx 项目
+sphinx-quickstart
+
+# 生成 HTML 文档
+make html
+
+# 清空构建目录
+make clean
+
+# 生成 PDF 文档（需要安装 LaTeX）
+make latexpdf
+
+# 生成单页 HTML 文档
+make singlehtml
+
+# 检查 reStructuredText 格式
+make rst
+
+# 启动本地服务器预览文档（需安装 sphinx-autobuild）
+sphinx-autobuild source build/html
+
+# 生成 API 文档（需配置 sphinx-apidoc）
+sphinx-apidoc -o source/ <module_path>
+
+# 构建并检查链接有效性
+make linkcheck
+```
+
+下面是conf.py文件的参考配置，此外你还需要在index.rst文件的最后一行增加文字即modules
+
+```py
+# conf.py 
+
+import os
+import sys
+sys.path.insert(0, os.path.abspath('../../'))  # 添加项目根目录到路径
+sys.path.insert(0, os.path.abspath('../../src/'))  # 添加src目录到路径
+
+
+project = 'fainitgleam'
+copyright = '2025, zata'
+author = 'zata'
+release = '1.3.0'
+
+# -- General configuration ---------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
+
+
+extensions = [
+    'sphinx.ext.autodoc',      # 自动从docstrings生成文档
+    'sphinx.ext.viewcode',     # 添加查看源码的链接
+    'sphinx.ext.napoleon',     # 支持Google风格的文档字符串
+]
+
+# 配置autodoc扩展
+autodoc_member_order = 'bysource'  # 按源码顺序记录成员
+add_module_names = False  # 不在API文档中添加模块名
+
+templates_path = ['_templates']
+exclude_patterns = []
+
+language = 'zh'
+
+
+html_theme = 'sphinx_rtd_theme'  # 使用ReadTheDocs主题
+html_static_path = ['_static']
+
+```
+
+
+
 
 
 # Sphinx 使用教程
