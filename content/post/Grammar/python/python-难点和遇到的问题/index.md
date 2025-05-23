@@ -694,20 +694,168 @@ from utils import *
    print(file_size)
    ```
 
+### 如何避免类重复创建实例
+
+在 Python 中，为了避免一个类重复创建实例（例如，确保某个类在程序运行中只存在一个实例），可以使用 **单例模式（Singleton Pattern）**。单例模式是一种设计模式，保证一个类只有一个实例，并提供一个全局访问点。以下是实现单例模式的几种方法，以及如何避免类重复创建的说明：
+
+ 方法 1：使用类方法和类属性
+通过在类中维护一个静态变量（类属性）来保存唯一实例，并在实例化时检查是否已存在实例。
+
+```python
+class Singleton:
+    _instance = None  # 类属性，用于存储唯一实例
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)  # 创建新实例
+        return cls._instance
+
+# 测试
+s1 = Singleton()
+s2 = Singleton()
+print(s1 is s2)  # 输出: True，说明是同一个实例
+```
+
+**说明**：
+- `__new__` 方法在对象创建时被调用，用于控制实例的创建。
+- `_instance` 保存类的唯一实例，如果已存在则直接返回，不重复创建。
+- `is` 运算符验证 `s1` 和 `s2` 是同一个对象。
+
+---
+
+ 方法 2：使用装饰器
+通过装饰器实现单例模式，适用于多个类需要单例逻辑的情况。
+
+```python
+def singleton(cls):
+    instances = {}  # 存储类与实例的映射
+
+    def get_instance(*args, **kwargs):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+    
+    return get_instance
+
+@singleton
+class Singleton:
+    def __init__(self):
+        print("实例化 Singleton")
+
+# 测试
+s1 = Singleton()
+s2 = Singleton()
+print(s1 is s2)  # 输出: True
+```
+
+**说明**：
+- 装饰器 `singleton` 维护一个字典 `instances`，存储类的唯一实例。
+- 每次调用类时，检查是否已有实例，若无则创建，若有则返回现有实例。
+- `@singleton` 装饰器使类自动具备单例行为。
+
+---
+
+ 方法 3：使用元类（Metaclass）
+通过自定义元类来控制类的实例化过程，实现单例模式。
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class Singleton(metaclass=SingletonMeta):
+    def __init__(self):
+        print("实例化 Singleton")
+
+# 测试
+s1 = Singleton()
+s2 = Singleton()
+print(s1 is s2)  # 输出: True
+```
+
+**说明**：
+- `SingletonMeta` 是一个元类，控制类的创建过程。
+- `__call__` 方法在类被调用（实例化）时触发，检查是否已有实例。
+- 通过 `metaclass=SingletonMeta`，类自动实现单例模式。
+
+---
+
+ 方法 4：模块级单例
+Python 的模块本身就是单例的（模块只导入一次），因此可以在模块级别定义一个全局对象来模拟单例。
+
+```python
+# singleton.py
+class Singleton:
+    def __init__(self):
+        print("实例化 Singleton")
+
+singleton_instance = Singleton()
+
+# 使用时
+from singleton import singleton_instance
+```
+
+**说明**：
+- Python 模块在程序运行期间只加载一次，因此 `singleton_instance` 是唯一的。
+- 这种方式简单，但不够灵活，适合简单的全局对象需求。
+
+---
+
+ 注意事项
+1. **线程安全**：上述方法在多线程环境中可能不安全，可能导致多个实例被创建。如果需要线程安全，可以使用锁机制。例如：
+
+```python
+import threading
+
+class Singleton:
+    _instance = None
+    _lock = threading.Lock()
+
+    def __new__(cls):
+        with cls._lock:
+            if cls._instance is None:
+                cls._instance = super().__new__(cls)
+            return cls._instance
+```
+
+2. **单例的适用场景**：
+   - 需要全局唯一实例的场景，如配置管理器、日志记录器、数据库连接池等。
+   - 不适合所有类，滥用单例可能导致代码难以测试和维护。
+
+3. **替代方案**：
+   - 如果不需要严格的单例，可以使用全局变量或工厂模式。
+   - 在某些情况下，依赖注入（Dependency Injection）可能比单例更适合。
+
+4. **测试单例**：
+   - 使用 `is` 运算符检查两个实例是否相同。
+   - 确保单例的属性在所有实例中共享。
+
+---
+
+ 总结
+- **推荐方法**：方法 1（`__new__`）最简单直接，适合大多数场景。
+- **灵活性**：方法 2（装饰器）适合多个类复用单例逻辑。
+- **高级需求**：方法 3（元类）适合需要深度控制类行为的场景。
+- **模块级单例**：方法 4 适合简单的全局对象需求。
+- **线程安全**：在多线程环境中，添加锁机制以避免竞争条件。
 
 
 ### 装饰器函数 @....
 
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/f922fef4614740289e23f6b36941deac.png)
+![alt text](images/index/image.png)
 
 > 在sklearn中看到红框中的函数，于是好奇是什么东西，查到[python-函数前一行加@xxxx的含义](https://blog.csdn.net/qq_36810398/article/details/103667836)
 
 
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/7d8ddada8124402d844325d59f53ef89.png)
+![alt text](images/index/image-1.png)
 
 
 >于是找到函数定义：`def validate_params(parameter_constraints, *, prefer_skip_nested_validation): `
->![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/7065b9b0efca43e79f47ffe683326dc5.png)
+>![alt text](images/index/image-2.png)
 
 >但是，里面没有定义`func参数`
 >于是再看到下面，原来这个函数下面又定义了一个`def decorator(func):`
@@ -730,7 +878,7 @@ some_func()
 
 
 > 这也不行啊
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/44d950ba8d934914826c4cd2ece764d5.png)
+![alt text](images/index/image-3.png)
 
 
 > 进一步了解到，原来：它是通过 ` functools ` 重写了装饰器函数，
@@ -866,9 +1014,7 @@ print(mean_squared_error(y_true, y_pred))  # 输出均方误差
 
 ```
 结果
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/181da9b5f12e4d968c447fc000741230.png)
-
-
+![alt text](images/index/image-4.png)
 
 
 
@@ -1046,6 +1192,195 @@ def mean_absolute_error(
 
 
 ```
+### from abc import ABC, abstractmethod  关于抽象基类
+
+在 Python 中，`from abc import ABC, abstractmethod` 是用于实现抽象基类（Abstract Base Class, ABC）的导入语句。让我们逐步解析它的含义和作用：
+
+ 1. **模块 `abc`**
+`abc` 是 Python 的标准库模块，全称是 **Abstract Base Classes**，用于定义抽象基类。抽象基类是一种不能直接实例化的类，通常用于定义一组子类必须实现的接口或方法。
+
+ 2. **`ABC`**
+`ABC` 是 `abc` 模块中的一个类，任何继承自 `ABC` 的类都会被标记为抽象基类。抽象基类不能被直接实例化，必须通过子类继承并实现其抽象方法后才能使用。
+
+ 3. **`abstractmethod`**
+`abstractmethod` 是 `abc` 模块中的一个装饰器，用于将方法标记为抽象方法。抽象方法是子类必须实现的方法，否则子类也会被视为抽象类，无法实例化。
+
+ 4. **代码示例**
+以下是一个使用 `ABC` 和 `abstractmethod` 的简单例子：
+
+```python
+from abc import ABC, abstractmethod
+
+# 定义一个抽象基类
+class Animal(ABC):
+    @abstractmethod
+    def make_sound(self):
+        """子类必须实现这个方法"""
+        pass
+
+# 定义一个具体子类
+class Dog(Animal):
+    def make_sound(self):
+        return "Woof!"
+
+# 定义另一个具体子类
+class Cat(Animal):
+    def make_sound(self):
+        return "Meow!"
+
+# 测试代码
+dog = Dog()
+print(dog.make_sound())  # 输出: Woof!
+
+cat = Cat()
+print(cat.make_sound())  # 输出: Meow!
+
+# 试图实例化抽象基类会报错
+# animal = Animal()  # TypeError: Can't instantiate abstract class Animal with abstract methods make_sound
+```
+
+ 5. **代码解析**
+- **`Animal` 类**：通过继承 `ABC`，它成为一个抽象基类。
+- **`make_sound` 方法**：被 `@abstractmethod` 装饰，表示子类必须实现这个方法。
+- **子类 `Dog` 和 `Cat`**：它们继承了 `Animal`，并实现了 `make_sound` 方法，因此可以被实例化。
+- **不能实例化 `Animal`**：如果尝试直接创建 `Animal` 的实例，会抛出错误，因为它是一个抽象类，且包含未实现的抽象方法。
+
+ 6. **用途**
+- **接口定义**：确保子类实现特定的方法，强制执行某种契约。
+- **代码规范**：提高代码的可维护性和可读性，明确子类的行为要求。
+- **多态性**：支持多态设计，允许不同的子类以自己的方式实现抽象方法。
+
+ 7. **注意事项**
+- 如果子类没有实现抽象基类中的所有抽象方法，实例化该子类会抛出 `TypeError`。
+- 抽象基类可以包含普通方法（非抽象方法），这些方法可以有默认实现。
+- `@abstractmethod` 必须与 `ABC` 一起使用，否则不会强制要求子类实现。
+
+ 总结
+`from abc import ABC, abstractmethod` 是 Python 中用于定义抽象基类的工具。`ABC` 是一个基类，用于创建抽象类；`abstractmethod` 是一个装饰器，用于标记必须由子类实现的方法。这种机制在面向对象编程中非常有用，尤其是在需要定义统一接口或强制子类实现特定方法时。
+
+
+
+### 函数名前不同下划线'_'数量所代表的含义
+
+在 Python 中，函数名前加下划线（`_`）通常是为了表示特定的命名约定或用途，主要与代码的可读性、访问控制和命名空间管理有关。以下是函数名前加单下划线（`_`）和双下划线（`__`）以及不加下划线的区别和含义：
+
+ 1. **不加下划线的函数（普通函数）**
+- **含义**：这是最常见的函数命名方式，表示函数是公开的（public），可以被模块内外任意访问和调用。
+- **用途**：用于定义模块或类的公共接口，任何代码都可以直接调用这些函数。
+- **示例**：
+  ```python
+  def public_function():
+      print("这是一个公开函数")
+  ```
+  - 任何地方都可以调用 `public_function()`，没有任何访问限制。
+
+ 2. **单下划线开头的函数（`_function`）**
+- **含义**：以单下划线 `_` 开头的函数表示它是**受保护的（protected）**或**内部使用的**。这是 Python 的命名约定，提示开发者这个函数主要用于模块或类内部，不建议外部直接调用。
+- **实际效果**：并没有真正的访问限制，外部代码仍然可以访问和调用，只是约定上表示“这个函数是内部实现细节，最好不要直接使用”。
+- **用途**：
+  - 用于模块内部的辅助函数，提示用户不要直接调用。
+  - 在类中表示受保护的方法，建议子类或内部逻辑使用。
+- **示例**：
+  ```python
+  class MyClass:
+      def _protected_method(self):
+          print("这是一个受保护的方法")
+
+  obj = MyClass()
+  obj._protected_method()   可以调用，但不推荐
+  ```
+  - 虽然可以调用 `_protected_method`，但开发者看到单下划线会知道这是内部方法，不建议直接使用。
+
+ 3. **双下划线开头的函数（`__function`）**
+- **含义**：以双下划线 `__` 开头的函数表示**私有（private）**，用于实现 Python 的**名称改写（name mangling）**机制。这是 Python 中一种更强的封装方式，旨在防止外部代码直接访问这些方法。
+- **实际效果**：Python 会将 `__function` 的名称改写为 `_ClassName__function`，以避免子类或外部代码意外覆盖或调用。这种机制并不是完全禁止访问，而是增加了访问难度。
+- **用途**：
+  - 用于类的私有方法，确保方法不会被子类意外重写或被外部直接调用。
+  - 强调方法是类的内部实现细节。
+- **示例**：
+  ```python
+  class MyClass:
+      def __private_method(self):
+          print("这是一个私有方法")
+
+  obj = MyClass()
+   obj.__private_method()   会报错：AttributeError
+  obj._MyClass__private_method()   可以这样访问，但不推荐
+  ```
+  - 直接调用 `__private_method` 会失败，因为名称被改写为 `_MyClass__private_method`。
+  - 仍然可以通过改写后的名称访问，但这违背了封装的意图。
+
+ 4. **双下划线开头和结尾的函数（`__function__`）**
+- **含义**：以双下划线开头和结尾的函数是 Python 的**特殊方法（magic methods 或 dunder methods）**，用于定义类的特殊行为或内置功能。这些方法由 Python 解释器在特定场景下自动调用。
+- **用途**：
+  - 实现类的内置行为，例如 `__init__`（构造函数）、`__str__`（字符串表示）、`__len__`（长度）等。
+  - 这些方法是公开的，但通常由 Python 内部调用，而不是开发者直接调用。
+- **示例**：
+  ```python
+  class MyClass:
+      def __init__(self, name):
+          self.name = name
+      
+      def __str__(self):
+          return f"MyClass with name: {self.name}"
+
+  obj = MyClass("Test")
+  print(obj)   自动调用 __str__，输出: MyClass with name: Test
+  ```
+
+ 5. **单下划线作为函数名（`_`）**
+- **含义**：单独使用 `_` 作为函数名或变量名，通常用于表示**临时或占位符**，在代码中不打算实际使用。
+- **用途**：
+  - 在循环或解包中忽略不需要的值。
+  - 有时在模块中定义 `_` 作为临时函数名（不常见）。
+- **示例**：
+  ```python
+  for _ in range(5):   忽略循环变量
+      print("Hello")
+  ```
+
+ 6. **总结对比**
+| 前缀 | 含义 | 访问限制 | 典型用途 |
+|------|------|----------|---------|
+| `function` | 公开函数 | 无限制 | 模块或类的公共接口 |
+| `_function` | 受保护函数 | 约定限制（可访问） | 模块或类内部的辅助方法 |
+| `__function` | 私有函数 | 名称改写（难以直接访问） | 类内部的私有实现 |
+| `__function__` | 特殊方法 | 无限制（由 Python 自动调用） | 定义类的内置行为 |
+| `_` | 占位符 | 无限制 | 忽略变量或临时函数 |
+
+ 7. **注意事项**
+- **约定 vs. 强制**：Python 的下划线命名是**约定**而非强制。单下划线是提示，开发者应尊重但可以绕过；双下划线通过名称改写提供更强的封装，但仍可通过改写后的名称访问。
+- **代码风格**：遵循 Python 的 PEP 8 命名规范，使用下划线来提高代码可读性和维护性。
+- **文化习惯**：在 Python 社区中，尊重下划线约定是良好编程习惯的体现，避免直接访问 `_` 或 `__` 开头的方法。
+
+ 示例综合对比
+```python
+class Example:
+    def public_method(self):
+        print("公开方法")
+    
+    def _protected_method(self):
+        print("受保护方法")
+    
+    def __private_method(self):
+        print("私有方法")
+    
+    def __init__(self):
+        print("特殊方法：初始化")
+
+obj = Example()   调用 __init__
+obj.public_method()   正常调用
+obj._protected_method()   可以调用，但不推荐
+ obj.__private_method()   报错
+obj._Example__private_method()   可以访问，但不推荐
+```
+
+通过这些命名约定，Python 提供了灵活的封装机制，同时保持了语言的简洁性和开放性。
+
+
+
+
+
 
 
 ### 函数中的*号和**号
