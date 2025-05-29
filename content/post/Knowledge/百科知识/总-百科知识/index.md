@@ -34,6 +34,24 @@ tags:
 
 ## 百科知识/信息资讯
 
+
+
+### 常见的香料的区别和作用
+参考：
+[知乎](https://zhuanlan.zhihu.com/p/700841071)
+
+[中餐常用香料50种，你了解多少？ ](https://www.sohu.com/a/375837390_681212)
+
+![香料](images/index/image-15.png)
+
+![alt text](images/index/image-16.png)
+![alt text](images/index/image-17.png)
+![alt text](images/index/image-18.png)
+![alt text](images/index/image-19.png)
+![alt text](images/index/image-20.png)
+![alt text](images/index/image-21.png)
+![alt text](images/index/image-22.png)
+
 ### 基本公积金和补充公积金有什么区别
 1. 缴存比例不同：
 - 基本公积金：一般为工资的5%-12%
