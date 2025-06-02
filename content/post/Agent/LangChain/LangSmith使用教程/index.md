@@ -304,3 +304,62 @@ LangSmith 支持团队协作。你可以邀请团队成员加入你的组织，�
   * **探索 Cookbook:** LangSmith Cookbook 提供了许多实际用例和代码示例，可以帮助你学习如何将 LangSmith 应用于具体问题。
 
 
+
+### playGround
+
+LangSmith 是一个用于构建、调试、测试、评估和监控大型语言模型 (LLM) 应用程序的平台。其核心组件之一就是 **Playground**。
+
+简单来说，LangSmith Playground 提供了一个**交互式的环境**，让开发者和提示工程师能够**快速迭代和测试提示 (Prompts)**，并直观地查看模型的输出结果。这对于优化语言模型在特定任务上的表现至关重要。
+
+
+![playground](images/index/image-7.png)
+
+![compare](images/index/image-8.png)
+
+
+
+
+以下是 LangSmith Playground 的一些主要功能和特点：
+
+* **即时反馈和迭代：** 你可以在 Playground 中直接输入或修改提示，选择不同的语言模型 (LLMs)，调整模型参数 (如温度、最大 token 数等)，然后立即看到模型的响应。这种快速反馈循环极大地加速了提示工程的过程。
+* **多种消息类型支持：** Playground 通常支持不同类型的消息，例如：
+    * `System` (系统消息)：用于设定模型的整体行为或角色。
+    * `Human/User` (用户消息)：代表用户的输入。
+    * `AI/Assistant` (AI 消息)：代表模型的先前响应，用于多轮对话的模拟。
+    * `Tool/Function` (工具/函数调用)：可以模拟模型调用外部工具或函数的过程。
+* **模型选择：** 你可以方便地切换和测试不同的语言模型，比较它们在相同提示下的表现。这包括 OpenAI 的模型、Anthropic 的模型以及其他通过 LangChain 集成的模型。你甚至可以连接到自己部署的通过 LangServe 暴露的模型端点。
+* **参数调整：** Playground 允许你调整控制模型输出的各种参数，如 `temperature` (控制随机性)、`max_tokens` (控制输出长度) 等。
+* **版本控制和协作 (通常与 Prompt Hub 集成)：** Playground 中的提示可以保存、版本化，并方便地与团队成员共享。优秀的提示可以被推送到 Prompt Hub (提示中心) 进行管理和复用。
+* **追踪和调试：** 在 Playground 中的所有运行和实验都会被 LangSmith 自动追踪。这意味着你可以详细查看每次运行的输入、输出、中间步骤 (如果使用了链或代理)、调用的工具、消耗的 token 等信息。这对于理解模型行为、调试错误至关重要。
+* **与评估集成：** 你可以直接在 Playground 中针对测试数据集运行提示，并结合 LangSmith 的评估功能来衡量提示的性能。这使得从提示迭代到性能评估的流程更加顺畅。
+* **结构化输出测试：** 你可以测试模型是否能按照预期的格式 (例如 JSON) 输出信息。
+* **多模态支持 (部分情况下)：** 一些 Playground 环境也开始支持包含图像等多模态内容的提示。
+
+**LangSmith Playground 的核心价值在于：**
+
+* **加速提示工程：** 提供了一个便捷的环境来试验和优化提示。
+* **增强可理解性：** 通过详细的追踪信息，帮助用户理解 LLM 应用内部的复杂逻辑。
+* **促进协作：** 方便团队成员共享和迭代提示。
+* **提升应用质量：** 通过快速测试和与评估功能的结合，帮助构建更可靠、更高性能的 LLM 应用。
+
+总而言之，LangSmith Playground 是 LangSmith 平台中一个非常实用的工具，它充当了开发者与语言模型之间进行高效交互和实验的桥梁，是开发和优化 LLM 应用不可或缺的一环。如果你正在使用 LangChain 构建应用，并希望更好地调试和优化你的提示，LangSmith Playground 将会是一个非常有力的助手。
+
+
+
+
+### prompt hub
+
+[文档地址](https://docs.smith.langchain.com/prompt_engineering/how_to_guides#prompt-hub)
+
+
+效果是你可以创建一个prompt模版，然后使用如下方式调用
+![调用代码](images/index/image-9.png)
+
+
+如下，你在prompt中输入{xxx},右边就自然会出现inputs
+![创建方式](images/index/image-10.png)
+
+
+
+如果你修改的话可以看见commit记录
+![prompt commit](images/index/image-11.png)
