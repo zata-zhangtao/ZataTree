@@ -1,6 +1,7 @@
 ---
 title: PyStand-简易教程
 description: ""
+draft: true
 date: 2025-04-28T10:07:02+08:00
 image: images/index/index.png
 categories:
@@ -28,14 +29,6 @@ tags:
 
 PyStand.int 仅作为入口，复杂逻辑放入 script 目录的 main.py 或其他模块，方便调试和维护。
 路径配置：在 PyStand.int 中通过 sys.path.append 添加 script 或 script.egg 路径，确保模块可加载。
-
-
-
-
-
-
-
-
 
 
 

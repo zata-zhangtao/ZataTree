@@ -9,7 +9,17 @@ tags:
     - 面试八股
 ---
 
+
+
+参考
+
+[langchain八股](https://zhuanlan.zhihu.com/p/717095320)
+
 ## 基础概念
+
+
+
+
 
 ### 1. 请你简单介绍一下LangChain框架的核心功能和用途是什么？
 **答案:**  

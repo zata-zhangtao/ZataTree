@@ -5,10 +5,7 @@ date: 2025-02-28
 slug: git&github/index.md ### 必填，文件夹名/index.md
 image: image/index/index.png
 categories:
-    # - DeepLearning
-    # - Chart
-    # - Python
-    # - LLM
+
     - Project&Application
 
 tags: ["git&github","教程"]
@@ -113,14 +110,29 @@ git remote set-url origin <remote-url>
 ### branch 
 
 ```bash
+# 创建分支
+git branch <分支名>
+
+# 创建一个空白分支
+git checkout --orphan <分支名>
+
+
+
+
+
 # 重命名分支
 ​ git branch -m oldName newName
 
+#删除已经合并到其他分支的分支
+git branch -d <分支名>
+#删除未合并到其他分支的分支     注意  ： 一个d一个是D
+git branch -D <分支名>
 
 ---
 # 2、 远程分支重命名
 # 重命名远程分支对应的本地分支
 git branch -m oldName newName
+
 #删除远程分支
 git push --delete origin oldName
 #上传新命名的本地分支
@@ -148,7 +160,9 @@ git remote set-url origin xxxx_url
 git checkout <分支名或者commit>
 # 创建分支并切换
 git checkout -b <分支名>
-# 删除分支
+# 创建一个空白分支
+git checkout --orphan <分支名>
+
 ```
 
 
