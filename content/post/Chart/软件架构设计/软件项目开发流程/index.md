@@ -1,5 +1,5 @@
 ---
-title: 软件项目开发流程
+title: 软件项目开发流程使用教程
 description: ""
 date: 2025-04-23T17:50:29+08:00
 image: images/index/index.png
@@ -8,6 +8,30 @@ categories:
 tags:
     - 软件架构设计
 ---
+
+
+
+
+
+
+||
+|---|
+|- [常用](#常用)|
+
+
+
+## 常用
+```bash 
+# 项目需要创建的文件名
+demandAnalysis
+projectArchitecture
+prototyping   # 原型
+
+
+
+```
+
+
 
 
 

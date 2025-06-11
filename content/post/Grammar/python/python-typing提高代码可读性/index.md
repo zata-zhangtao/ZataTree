@@ -9,8 +9,12 @@ tags:
     - python
 ---
 
+||
+|---|
+|- []()|
 
-<!-- ![alt text](images/index/index.png) -->
+
+
 
 
 ## 首先掌握
@@ -366,4 +370,252 @@ print(result)  # 输出 6
 
 ---
 
-希望这个教程对你有帮助！如果有具体问题或需要更深入的示例，请告诉我。
+### Annotated
+
+`Annotated` 是 `typing` 模块中的一种高级类型注解工具，引入于 Python 3.9（`typing_extensions` 模块在早期版本支持）。它允许为类型注解附加元数据（metadata），这些元数据可以被工具、库或运行时处理。
+
+ 基本语法
+```python
+from typing import Annotated
+
+ 语法：Annotated[类型, 元数据]
+x: Annotated[int, "some metadata"] = 42
+```
+
+- `Annotated[Type, metadata]`：`Type` 是变量的实际类型，`metadata` 是附加的任意信息（如字符串、对象等）。
+- 元数据不会影响运行时行为，仅供静态分析工具或自定义逻辑使用。
+
+ 常见用途
+1. **提供额外上下文**：
+   `Annotated` 可以为类型添加描述信息，供工具解析。例如，指定变量的约束或用途。
+   ```python
+   from typing import Annotated
+
+    表示年龄必须是正整数
+   Age = Annotated[int, "Must be positive"]
+   def set_age(age: Age) -> None:
+       assert age > 0, "Age must be positive"
+       print(f"Age set to {age}")
+
+   set_age(25)   正常
+   set_age(-5)   抛出 AssertionError
+   ```
+
+2. **与静态类型检查工具结合**：
+   工具如 mypy 或 pyright 可以解析 `Annotated` 的元数据，执行特定检查。例如，某些库（如 `pydantic`）利用 `Annotated` 定义字段约束。
+   ```python
+   from typing import Annotated
+   from pydantic import BaseModel, PositiveInt
+
+   class Person(BaseModel):
+       age: Annotated[int, PositiveInt]
+
+   person = Person(age=30)   正常
+    person = Person(age=-1)   抛出 ValidationError
+   ```
+
+3. **运行时元数据处理**：
+   开发者可以编写代码解析 `Annotated` 的元数据。例如，检查字段的约束或生成文档。
+   ```python
+   from typing import Annotated, get_type_hints, get_args, get_origin
+
+   def process_metadata(cls):
+       for name, hint in get_type_hints(cls, include_extras=True).items():
+           if get_origin(hint) is Annotated:
+               type_, *metadata = get_args(hint)
+               print(f"Field {name}: Type={type_}, Metadata={metadata}")
+
+   class User:
+       name: Annotated[str, "User's full name"]
+       id: Annotated[int, "Unique identifier"]
+
+   process_metadata(User)
+    输出：
+    Field name: Type=<class 'str'>, Metadata=['User's full name']
+    Field id: Type=<class 'int'>, Metadata=['Unique identifier']
+   ```
+
+4. **与第三方库集成**：
+   许多库（如 `pydantic`, `typer`, `fastapi`）使用 `Annotated` 定义额外约束或行为。例如，FastAPI 用它来指定 API 参数的元数据。
+   ```python
+   from fastapi import FastAPI
+   from typing import Annotated
+   from pydantic import StringConstraints
+
+   app = FastAPI()
+
+   @app.get("/user/{name}")
+   async def get_user(name: Annotated[str, StringConstraints(min_length=3)]):
+       return {"name": name}
+   ```
+
+ 注意事项
+- **运行时行为**：`Annotated` 本身不影响运行时逻辑，元数据的处理依赖工具或自定义代码。
+- **兼容性**：Python 3.9+ 内置 `Annotated`，早期版本需使用 `typing_extensions`。
+- **元数据任意性**：元数据可以是任何对象（字符串、类、函数等），但需要工具或代码明确如何解析。
+- **与普通类型注解的区别**：普通类型注解只描述类型，`Annotated` 允许附加额外信息。
+
+ 示例：综合使用
+```python
+from typing import Annotated, get_type_hints, get_args, get_origin
+
+ 定义带有元数据的类型
+PositiveInt = Annotated[int, "Must be positive"]
+
+def validate_positive(value: PositiveInt) -> None:
+    for annotation in get_args(get_type_hints(validate_positive)['value']):
+        if annotation == "Must be positive":
+            assert value > 0, "Value must be positive"
+    print(f"Valid value: {value}")
+
+validate_positive(10)   输出: Valid value: 10
+ validate_positive(-1)   抛出 AssertionError
+```
+
+ 3. 总结
+- `typing` 库为 Python 提供类型注解支持，增强代码健壮性和可读性。
+- `Annotated` 是 `typing` 的高级工具，用于为类型附加元数据，广泛用于静态检查、运行时验证和第三方库集成。
+- 使用 `Annotated` 时，需结合工具（如 mypy、pydantic）或自定义逻辑解析元数据。
+
+
+
+### TypedDict
+
+1. `TypedDict` 简介
+
+`TypedDict` 是用于定义具有固定键和特定类型值的字典的类型注解工具。它最初在 `typing` 模块中引入（Python 3.8+），但 `typing_extensions.TypedDict` 提供了向后兼容支持，适用于 Python 3.7 及更早版本。`TypedDict` 允许开发者为字典的键值对指定明确的类型，增强静态类型检查和代码清晰度。
+
+如果你是3.8+的版本，建议直接从typing中导入
+
+与普通 `dict` 类型注解（如 `dict[str, Any]`）不同，`TypedDict` 确保字典有特定键，且每个键对应特定类型的值，适合描述结构化的字典数据（如 JSON 对象）。
+
+ 2. `TypedDict` 的基本用法
+
+`TypedDict` 定义一个类，继承自 `dict`，用于指定字典的结构。以下是基本语法和用法：
+
+ 基本定义
+```python
+from typing import TypedDict
+
+ 定义一个 TypedDict
+class Person(TypedDict):
+    name: str
+    age: int
+
+ 使用
+person: Person = {"name": "Alice", "age": 30}   正确
+ person = {"name": "Bob", "age": "25"}   mypy 报错：age 类型应为 int
+ person = {"name": "Charlie"}   mypy 报错：缺少 age 键
+```
+
+- 键名和类型在类定义中指定。
+- 静态类型检查工具（如 mypy）会验证字典是否符合 `TypedDict` 定义的结构。
+
+ 可选键
+使用 `NotRequired`（Python 3.11+ 或 `typing_extensions`）可以标记某些键为可选：
+```python
+from typing_extensions import TypedDict, NotRequired
+
+class Person(TypedDict):
+    name: str
+    age: NotRequired[int]   age 是可选的
+
+person: Person = {"name": "Alice"}   正确
+person2: Person = {"name": "Bob", "age": 25}   也正确
+```
+
+ 必需键
+默认情况下，所有键都是必需的。可以用 `Required`（Python 3.11+ 或 `typing_extensions`）显式声明：
+```python
+from typing_extensions import TypedDict, Required
+
+class Person(TypedDict):
+    name: Required[str]
+    age: NotRequired[int]
+```
+
+ 3. 与 `Annotated` 结合
+
+`TypedDict` 可以与 `Annotated` 结合，为键值对附加元数据，进一步描述约束或用途。例如：
+```python
+from typing import Annotated
+from typing_extensions import TypedDict
+
+class Person(TypedDict):
+    name: Annotated[str, "Full name of the person"]
+    age: Annotated[int, "Must be positive"]
+
+ 运行时验证元数据
+def validate_person(person: Person):
+    from typing import get_type_hints, get_args, get_origin
+    hints = get_type_hints(Person, include_extras=True)
+    for key, hint in hints.items():
+        if get_origin(hint) is Annotated:
+            _, *metadata = get_args(hint)
+            if key == "age" and "Must be positive" in metadata:
+                assert person[key] > 0, "Age must be positive"
+
+person: Person = {"name": "Alice", "age": 30}
+validate_person(person)   正确
+ validate_person({"name": "Bob", "age": -1})   抛出 AssertionError
+```
+
+ 4. 高级用法
+
+ 继承
+`TypedDict` 支持继承，允许扩展或重用现有定义：
+```python
+from typing_extensions import TypedDict
+
+class Person(TypedDict):
+    name: str
+    age: int
+
+class Employee(Person):
+    employee_id: str
+
+employee: Employee = {"name": "Alice", "age": 30, "employee_id": "E123"}   正确
+```
+
+ 总数控制（Total）
+`TypedDict` 支持 `total` 参数（默认为 `True`），控制是否所有键都必须存在：
+```python
+from typing_extensions import TypedDict
+
+class Person(TypedDict, total=False):
+    name: str
+    age: int
+
+person: Person = {"name": "Alice"}   正确，age 可选
+```
+
+ 与第三方库
+`TypedDict` 常用于与 `pydantic` 或 `FastAPI` 配合，定义结构化的输入/输出数据：
+```python
+from typing_extensions import TypedDict
+from pydantic import BaseModel
+
+class Person(TypedDict):
+    name: str
+    age: int
+
+class PersonModel(BaseModel):
+    data: Person
+
+person = PersonModel(data={"name": "Alice", "age": 30})   验证通过
+```
+
+ 5. 注意事项
+
+- **静态检查**：`TypedDict` 主要用于静态类型检查，运行时行为仍为普通字典。
+- **兼容性**：Python 3.7 及以下需使用 `typing_extensions.TypedDict`；3.8+ 可用 `typing.TypedDict`。
+- **限制**：`TypedDict` 不支持动态键（如任意字符串键），仅限固定键。
+- **与 `Annotated` 协同**：`Annotated` 可为 `TypedDict` 的字段添加元数据，增强描述能力。
+- **运行时验证**：需手动或借助库（如 `pydantic`）实现元数据或类型的运行时检查。
+
+ 6. 总结
+
+- `typing_extensions.TypedDict` 提供了一种类型安全的方式来定义结构化的字典，适合描述固定键值对的数据结构。
+- 结合 `Annotated`，可以为字段添加元数据，增强类型注解的表达力。
+- 主要用于静态类型检查（如 mypy），也可与运行时验证工具或框架（如 `pydantic`, `FastAPI`）集成。
+

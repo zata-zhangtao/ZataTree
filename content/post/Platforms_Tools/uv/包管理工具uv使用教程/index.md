@@ -10,10 +10,23 @@ tags:
 ---
 
 
+||
+|---|
+|- [UV常用命令](#uv常用命令)|
+|- [pyproject.toml使用](#pyprojecttoml使用)|
+|- [uv tool 使用](#uv-tool的使用方法)|
 
-uv常用命令
+
+
+
+
+
+---
+
+
+### uv常用命令
 ```bash
-# 初始化一个新的 Python 项目
+# 初始化一个新的 Python 项目 and 创建toml文件
 uv init <project-name>
 
 # 创建虚拟环境
@@ -56,7 +69,7 @@ uv add <package-name>
 uv remove <package-name>
 
 # 同步项目依赖（确保虚拟环境与 pyproject.toml 一致）
-uv sync
+uv sync     # 如果只有requirements.txt使用uv sync --requirements requirements.txt
 
 # 查看依赖树
 uv tree
@@ -327,6 +340,568 @@ uv pip freeze > requirements.txt
     ```
 
 ---
+
+### pyproject.toml使用
+
+```sh
+# Initialize a new project with pyproject.toml
+uv init <project-name>
+
+# Add a dependency to pyproject.toml
+uv add <package>
+
+# Remove a dependency from pyproject.toml
+uv remove <package>
+
+# Sync dependencies from pyproject.toml to virtual environment
+uv sync
+
+# Update dependencies and lockfile
+uv lock
+
+# Run a script or command in the project environment
+uv run <script-or-command>
+
+# Display dependency tree
+uv tree
+
+# Add a development dependency
+uv add --dev <package>
+
+# Create or update uv.lock file
+uv lock
+
+# Build a source distribution or wheel
+uv build
+
+# Publish the project to a package index
+uv publish
+
+# Export dependencies to requirements.txt
+uv export
+
+# Check or manage Python version
+uv python
+```
+
+在 Python 项目中使用 `uv` 包管理工具时，`pyproject.toml` 是其核心配置文件，用于定义项目元数据、依赖关系和构建配置。以下是关于如何使用 `uv` 的 `pyproject.toml` 文件的详细说明：
+
+ 1. **基本结构**
+`pyproject.toml` 文件基于 TOML 格式，`uv` 使用它来管理项目的依赖、元数据和构建配置。以下是一个典型的 `pyproject.toml` 文件结构：
+
+```toml
+[project]
+name = "my-project"
+version = "0.1.0"
+description = "A sample Python project"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "requests>=2.25.1",
+    "pandas>=1.5.0",
+]
+
+[tool.uv]
+ uv 特定的配置
+dev-dependencies = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+]
+```
+
+ 2. **关键字段说明**
+ `[project]` 部分
+这是 PEP 621 标准定义的项目元数据部分，`uv` 使用它来了解项目的基本信息和依赖。
+- `name`: 项目名称，必须唯一。
+- `version`: 项目版本号，建议遵循语义化版本规范（Semantic Versioning）。
+- `description`: 项目简短描述。
+- `readme`: 项目 README 文件路径（用于生成项目描述）。
+- `requires-python`: 指定支持的 Python 版本（例如 `>=3.8`）。
+- `dependencies`: 项目的生产依赖列表，格式为包名和版本约束。
+
+ `[tool.uv]` 部分
+这是 `uv` 专用的配置部分，用于定义 `uv` 特定的设置。
+- `dev-dependencies`: 开发环境依赖（如测试、格式化工具），与生产依赖分开管理。
+- 其他配置（可选）：
+  - `index-url`: 指定自定义的 PyPI 源，例如 `"https://pypi.company.com/simple"`.
+  - `extra-index-url`: 额外的 PyPI 源。
+  - `constraint`: 指定依赖约束文件路径。
+  - `override`: 指定依赖覆盖文件路径。
+
+ 3. **使用 `uv` 管理 `pyproject.toml`**
+以下是如何结合 `uv` 命令和 `pyproject.toml` 进行项目管理的常见操作：
+
+ 初始化项目
+运行以下命令，`uv` 会自动创建一个基础的 `pyproject.toml` 文件：
+```bash
+uv init my-project
+```
+这会生成一个包含 `[project]` 部分的 `pyproject.toml`，你可以根据需要编辑。
+
+ 添加依赖
+- 添加生产依赖：
+  ```bash
+  uv add requests
+  ```
+  这会在 `pyproject.toml` 的 `[project]` 部分添加 `requests` 依赖。
+- 添加开发依赖：
+  ```bash
+  uv add --dev pytest
+  ```
+  这会在 `[tool.uv]` 部分添加 `pytest` 作为开发依赖。
+
+ 移除依赖
+- 移除生产依赖：
+  ```bash
+  uv remove requests
+  ```
+- 移除开发依赖：
+  ```bash
+  uv remove --dev pytest
+  ```
+
+ 同步依赖
+运行以下命令，确保虚拟环境中的依赖与 `pyproject.toml` 一致：
+```bash
+uv sync
+```
+这会安装 `[project.dependencies]` 和 `[tool.uv.dev-dependencies]` 中的所有依赖。
+
+ 运行项目
+使用 `uv run` 执行脚本或命令，自动使用虚拟环境的依赖：
+```bash
+uv run python main.py
+```
+
+ 锁定依赖
+`uv` 会生成一个 `uv.lock` 文件，用于锁定依赖的确切版本，确保可重复构建：
+```bash
+uv lock
+```
+`uv.lock` 是自动生成的，不需要手动编辑。
+
+ 4. **示例：完整的 `pyproject.toml`**
+以下是一个更完整的示例，包含多种配置：
+```toml
+[project]
+name = "my-project"
+version = "0.2.0"
+description = "A Python project managed by uv"
+authors = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+license = "MIT"
+requires-python = ">=3.9"
+dependencies = [
+    "fastapi>=0.95.0",
+    "uvicorn>=0.20.0",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.3.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+index-url = "https://pypi.org/simple"
+extra-index-url = ["https://test.pypi.org/simple"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+```
+
+ 5. **注意事项**
+- **版本约束**：依赖版本使用 PEP 440 规范，例如 `>=1.0.0,<2.0.0`。
+- **虚拟环境**：`uv` 自动在项目目录下的 `.venv` 创建虚拟环境，运行 `uv sync` 即可激活。
+- **兼容性**：`uv` 的 `pyproject.toml` 遵循 PEP 621 标准，与其他工具（如 `poetry`、`pdm`）兼容，但 `[tool.uv]` 是 `uv` 专有。
+- **锁定文件**：`uv.lock` 确保依赖版本一致，建议将其加入版本控制。
+- **自定义源**：如果使用私有 PyPI 源，确保在 `[tool.uv]` 中正确配置 `index-url` 或 `extra-index-url`。
+
+ 6. **常见问题**
+- **如何迁移现有项目到 `uv`？**
+  1. 确保 `pyproject.toml` 包含 `[project]` 部分，列出依赖。
+  2. 运行 `uv lock` 生成 `uv.lock`。
+  3. 运行 `uv sync` 安装依赖。
+- **如何处理依赖冲突？**
+  使用 `uv lock --verbose` 查看冲突详情，必要时在 `[tool.uv]` 中添加 `constraint` 文件。
+- **如何运行特定命令？**
+  使用 `uv run` 执行命令，例如 `uv run pytest tests/`。
+
+ 7. **更多资源**
+- 官方文档：访问 [uv 文档](https://docs.astral.sh/uv/) 获取最新信息。
+- 示例项目：查看 `uv` 的 GitHub 仓库或官方示例。
+- 如果需要实时搜索最新信息，可使用 `uv` 的 X 社区或 PyPI 页面。
+
+如果你有具体的 `pyproject.toml` 配置问题或需要进一步示例，请提供更多细节，我可以为你定制解答！
+
+
+
+
+
+### uv tool的使用方法
+
+```bash
+# 安装命令行工具到持久化环境
+uv tool install <package>              # 安装指定包的工具（如 ruff）
+uv tool install <package>==<version>   # 安装特定版本的工具
+uv tool install <package> --with <dep> # 安装工具并附带额外依赖
+uv tool install <package> --python <version> # 使用指定 Python 版本安装
+
+# 在临时环境中运行工具（别名 uvx）
+uvx <command>                          # 运行工具（如 uvx pycowsay 'hello'）
+uvx <command>@<version>                # 运行特定版本的工具
+uvx --from <package> <command>         # 指定提供命令的包（如 uvx --from httpie http）
+uvx --python <version> <command>       # 使用指定 Python 版本运行
+
+# 升级已安装的工具
+uv tool upgrade <package>              # 升级工具到最新版本（尊重版本约束）
+
+# 列出已安装的工具
+uv tool list                           # 显示所有通过 uv tool install 安装的工具
+
+# 卸载工具
+uv tool uninstall <package>            # 移除指定工具及其环境
+
+# 更新 shell 配置以确保工具可执行文件在 PATH 中
+uv tool update-shell                   # 添加 ~/.local/bin 到 PATH
+```
+
+
+以下是关于 Python 包管理工具 **uv** 中 `tool` 功能的详细使用教程，基于官方文档和相关资料整理，涵盖安装、运行、管理工具等核心操作，并提供示例以便于理解。[](https://docs.astral.sh/uv/getting-started/installation/)[](https://github.com/astral-sh/uv)[](https://medium.com/%40nimritakoul01/uv-package-manager-for-python-f92c5a760a1c)
+
+---
+
+ 什么是 uv 的 `tool` 功能？
+
+`uv` 的 `tool` 功能允许用户安装和运行 Python 包提供的命令行工具（类似 `pipx`），并在隔离的环境中执行这些工具。它特别适合需要快速运行 CLI 工具（如 `ruff`、`pytest` 或 `huggingface-cli`）的场景。`uv tool` 提供了以下优势：
+- **隔离性**：工具运行在独立的虚拟环境中，避免与项目依赖冲突。
+- **高效性**：利用 `uv` 的高速缓存和 Rust 实现，安装和运行工具极快。
+- **兼容性**：支持 `pip` 生态系统，易于迁移和使用。
+
+`uv tool` 主要命令包括：
+- `uv tool install`：安装工具及其依赖。
+- `uv tool run`（别名 `uvx`）：在临时环境中运行工具。
+- `uv tool upgrade`：升级已安装的工具。
+- `uv tool list`：列出已安装的工具。
+- `uv tool uninstall`：卸载工具。
+
+---
+
+
+ 使用 uv tool 的教程
+
+以下是 `uv tool` 的核心功能和使用步骤，包含具体命令和示例。
+
+ 1. 安装命令行工具 (`uv tool install`)
+
+使用 `uv tool install` 将一个 Python 包提供的命令行工具安装到持久化环境中，工具的可执行文件会自动添加到 `PATH` 中。
+
+**语法**：
+```bash
+uv tool install <package> [options]
+```
+
+**常用选项**：
+- `--with <package>`：安装额外的依赖包。
+- `--python <version>`：指定 Python 版本。
+- `--force`：强制重新安装。
+- `--from <package>`：指定工具来源包（当包名和工具名不同时）。
+
+**示例 1：安装 ruff 工具**
+`ruff` 是一个快速的 Python 代码检查工具。
+```bash
+uv tool install ruff
+```
+- 安装后，运行以下命令验证：
+  ```bash
+  ruff --version
+  ```
+  输出示例：
+  ```
+  ruff 0.5.4
+  ```
+
+**示例 2：安装 huggingface-cli 工具**
+`huggingface_hub` 包提供了 `huggingface-cli` 工具，用于与 Hugging Face 仓库交互。
+```bash
+uv tool install huggingface_hub
+```
+- 运行工具：
+  ```bash
+  huggingface-cli --version
+  ```
+
+**示例 3：安装特定版本的工具**
+安装特定版本的 `ruff`：
+```bash
+uv tool install 'ruff==0.5.0'
+```
+
+**示例 4：安装带有额外依赖的工具**
+安装 `mkdocs` 并附带 `mkdocs-material` 主题：
+```bash
+uv tool install mkdocs --with mkdocs-material
+```
+
+**注意**：
+- 安装的工具可执行文件默认位于 `~/.local/bin/`（Linux/macOS）或 `%USERPROFILE%\.local\bin`（Windows）。确保该路径在 `PATH` 中。
+- 如果工具未自动添加到 `PATH`，运行以下命令更新 shell 配置：
+  ```bash
+  uv tool update-shell
+  ```
+
+ 2. 运行工具 (`uv tool run` / `uvx`)
+
+使用 `uv tool run`（或其别名 `uvx`）可以在临时虚拟环境中运行工具，无需持久化安装。适合一次性使用或测试。
+
+**语法**：
+```bash
+uvx <command> [args]
+ 或
+uv tool run <command> [args]
+```
+
+**常用选项**：
+- `--from <package>`：指定提供命令的包（当包名和命令名不同时）。
+- `--python <version>`：指定 Python 版本。
+- `@<version>`：运行特定版本的工具。
+
+**示例 1：运行 pycowsay**
+运行 `pycowsay` 工具生成 ASCII 艺术：
+```bash
+uvx pycowsay 'hello world!'
+```
+输出示例：
+```
+ ------------ 
+< hello world! >
+ ------------ 
+    ^__^
+    (oo)\_______
+    (__)\       )\/\
+        ||----w |
+        ||     ||
+```
+
+**示例 2：运行特定包的工具**
+`httpie` 包提供 `http` 命令：
+```bash
+uvx --from httpie http https://example.com
+```
+
+**示例 3：运行特定版本的工具**
+运行 `ruff` 的 0.3.0 版本：
+```bash
+uvx ruff@0.3.0 check
+```
+
+**示例 4：指定 Python 版本**
+使用 Python 3.12 运行 `ruff`：
+```bash
+uvx --python 3.12 ruff --version
+```
+
+**注意**：
+- `uvx` 运行的工具在命令执行后，临时环境会被销毁。
+- 如果工具需要频繁使用，建议用 `uv tool install` 安装到持久化环境。
+
+ 3. 升级工具 (`uv tool upgrade`)
+
+升级已安装的工具到最新版本，尊重安装时的版本约束。
+
+**语法**：
+```bash
+uv tool upgrade <package>
+```
+
+**示例：升级 ruff**
+```bash
+uv tool upgrade ruff
+```
+- 如果安装时指定了版本范围（如 `ruff>=0.3,<0.4`），升级将保持在该范围内。
+- 要更改版本约束，重新运行 `uv tool install`：
+  ```bash
+  uv tool install 'ruff>=0.4'
+  ```
+
+ 4. 列出已安装工具 (`uv tool list`)
+
+查看所有通过 `uv tool install` 安装的工具。
+
+**语法**：
+```bash
+uv tool list
+```
+
+**示例**：
+```bash
+uv tool list
+```
+输出示例：
+```
+ruff (0.5.4)
+huggingface-cli (0.23.0)
+```
+
+ 5. 卸载工具 (`uv tool uninstall`)
+
+移除已安装的工具及其环境。
+
+**语法**：
+```bash
+uv tool uninstall <package>
+```
+
+**示例：卸载 ruff**
+```bash
+uv tool uninstall ruff
+```
+
+ 6. 管理工具依赖
+
+`uv tool` 安装的工具不会将其模块暴露给当前 Python 环境，以避免冲突。例如，安装 `ruff` 后，以下命令会失败：
+```bash
+python -c "import ruff"
+```
+这是设计使然，确保工具的依赖与项目隔离。
+
+如果需要将工具的模块用于项目，改用 `uv add` 或 `uv pip install` 将包安装到项目环境中：
+```bash
+uv add ruff
+```
+
+ 7. 高级用法：结合 pyproject.toml
+
+对于项目管理，`uv` 支持在 `pyproject.toml` 中定义工具依赖组。例如，添加 `pytest` 到开发依赖组：
+
+**编辑 pyproject.toml**：
+```toml
+[project]
+name = "my-project"
+version = "0.1.0"
+dependencies = ["fastapi"]
+
+[dependency-groups]
+dev = ["pytest>=8.3.4"]
+lint = ["ruff>=0.5.4"]
+```
+
+**安装依赖**：
+```bash
+uv sync --group dev
+```
+- 运行 `pytest`：
+  ```bash
+  uv run pytest
+  ```
+
+**运行 lint 工具**：
+```bash
+uv run ruff check
+```
+
+ 8. 常见问题与解决方案
+
+- **问题**：工具命令未找到。
+  - **解决**：确保 `~/.local/bin` 在 `PATH` 中，运行 `uv tool update-shell` 或手动添加：
+    ```bash
+    export PATH="$HOME/.local/bin:$PATH"
+    ```
+
+- **问题**：工具运行时依赖冲突。
+  - **解决**：使用 `uvx` 在临时环境中运行，或检查 `pyproject.toml` 中的依赖版本。
+
+- **问题**：需要特定 Python 版本。
+  - **解决**：使用 `uv python install` 安装所需版本：
+    ```bash
+    uv python install 3.11
+    uvx --python 3.11 <command>
+    ```
+
+---
+
+ 最佳实践
+
+1. **优先使用 `uvx` 进行测试**：
+   - 对于不常使用的工具，使用 `uvx` 避免占用磁盘空间。
+   - 示例：`uvx black --version` 检查 `black` 版本。
+
+2. **持久化常用工具**：
+   - 使用 `uv tool install` 安装频繁使用的工具（如 `ruff`、`pytest`），并确保 `PATH` 配置正确。
+
+3. **结合 CI/CD**：
+   - 在 CI/CD 管道中，使用 `uv tool install` 安装工具，确保一致性。例如：
+     ```bash
+     uv tool install ruff
+     ruff check .
+     ```
+
+4. **保持版本一致**：
+   - 使用 `uv.lock` 和 `pyproject.toml` 锁定工具版本，确保团队成员和生产环境使用相同版本。
+
+5. **定期清理**：
+   - 使用 `uv tool list` 检查已安装工具，`uv tool uninstall` 移除不再需要的工具。
+
+---
+
+ 示例工作流：设置开发环境
+
+假设你要为一个 FastAPI 项目设置 `ruff`（代码检查）和 `pytest`（测试）工具：
+
+1. 初始化项目：
+   ```bash
+   uv init my-project
+   cd my-project
+   ```
+
+2. 添加项目依赖：
+   ```bash
+   uv add fastapi
+   ```
+
+3. 添加开发工具：
+   ```bash
+   uv add --group dev pytest
+   uv add --group lint ruff
+   ```
+
+4. 安装工具：
+   ```bash
+   uv tool install ruff
+   uv tool install pytest
+   ```
+
+5. 运行检查和测试：
+   ```bash
+   ruff check .
+   uv run pytest
+   ```
+
+6. 检查工具：
+   ```bash
+   uv tool list
+   ```
+
+---
+
+ 局限性
+
+- **不完全兼容 `pip`**：某些 `pip` 功能（如 `.egg` 依赖、特定 Git 安装）暂不支持。查看 [pip 兼容性指南](https://docs.astral.sh/uv/pip/compatibility/) 获取详情。[](https://codemaker2016.medium.com/introducing-uv-next-gen-python-package-manager-b78ad39c95d7)
+- **早期开发阶段**：部分功能可能不稳定，建议关注 [GitHub Issues](https://github.com/astral-sh/uv) 获取最新更新。[](https://ubuntushell.com/install-uv-python-package-manager/)
+- **工具隔离**：`uv tool install` 的模块不可导入到项目中，需单独安装依赖。
+
+---
+
+ 参考资料
+
+- 官方文档：https://docs.astral.sh/uv/guides/tools/[](https://docs.astral.sh/uv/)
+- GitHub 仓库：https://github.com/astral-sh/uv[](https://github.com/astral-sh/uv)
+- UV 工具介绍：https://www.saaspegasus.com/guides/uv-python-package-manager/[](https://www.saaspegasus.com/guides/uv-deep-dive/)
+- 示例教程：https://realpython.com/python-uv/[](https://realpython.com/python-uv/)
+
+
+
 
 ### 与 Jupyter Notebook / JupyterLab 集成
 
