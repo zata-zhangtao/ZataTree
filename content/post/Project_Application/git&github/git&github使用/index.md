@@ -12,9 +12,16 @@ tags: ["git&github","教程"]
 
 ---
 
+
+||
+|---|
+|- [port 22 无法pull push问题](#git-push-ssh-connect-to-host-githubcom-port-22-connection-timed-out-fatal-could-not)|
+
+
+
+
 ##  git基本使用
 ### 简单常用命令
-
 
 ```bash
 # 绑定本地分支和远程分支
@@ -527,14 +534,14 @@ ssh -T -p 443 git@ssh.github.com
 ```
 
 如果出现这样就是可用的，那么恭喜，十拿九稳了！
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/f77dbe16140f40efb6b5292409f9d5f4.png)
+![alt text](images/index/image-16.png)
 用如下ssh地址替代原来的
 
 ```cpp
 git clone ssh://git@ssh.github.com:443/YOUR-USERNAME/YOUR-REPOSITORY.git
 ```
 注意是替代，直接用原来的地址加端口是不行的。
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/65e69bbb1f014c14acd56857f1cc8191.png)
+![alt text](images/index/image-17.png)
 
 
 拿下！
