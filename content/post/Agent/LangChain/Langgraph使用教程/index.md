@@ -253,6 +253,174 @@ result = app.invoke({"messages": [HumanMessage(content="继续聊")]}, config)
 
 ## 实战案例
 
+
+
+### 实现超长文本分段摘要并合并
+
+当你需要用 LangGraph 处理超过模型单次处理长度（上下文窗口）的超长文本时，你的直觉是正确的：**核心思想确实类似于循环处理，但更专业、更强大的模式叫做“映射-规约”（Map-Reduce）**。
+
+这是一种非常经典处理大数据集的方法，完美适用于长文本摘要：
+
+1.  **切片 (Chunking)**：首先，将长文本切分成多个更小的、可以被模型一次性处理的文本块（Chunks）。
+2.  **映射 (Map)**：接着，像循环一样，对**每一个**文本块独立地进行摘要。这一步可以并行处理，速度很快。你会得到多个小摘要。
+3.  **规约 (Reduce)**：最后，将所有这些小摘要合并在一起，再让模型对这些摘要进行一次最终的总结，得出一个连贯、全面的最终摘要。
+
+使用 LangGraph 来实现这个流程非常优雅，因为它能帮你清晰地定义和管理这个多步骤的工作流状态。
+
+---
+
+
+下面是一个完整的代码示例，展示了如何构建一个 Map-Reduce 摘要图。
+
+这个代码将构建一个图，该图包含三个主要节点：`chunk_text`（切片）、`summarize_map`（映射摘要）和 `summarize_reduce`（规约摘要）。
+
+```python
+import os
+from typing import TypedDict, List
+
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langgraph.graph import StateGraph, END
+
+# --- 1. 设置环境 (可选, 如果你已经设置了环境变量则不需要) ---
+# os.environ["OPENAI_API_KEY"] = "sk-..."
+# os.environ["OPENAI_BASE_URL"] = "https://api.example.com/v1" # 如果需要代理
+
+
+# --- 2. 定义图的状态 (State) ---
+# 状态是图在运行时传递的数据结构。它包含了所有需要跟踪的信息。
+class GraphState(TypedDict):
+    text: str              # 原始长文本
+    chunks: List[str]      # 切分后的文本块列表
+    summaries: List[str]   # 每个文本块的摘要列表
+    final_summary: str     # 最终的摘要
+
+
+# --- 3. 初始化模型和文本切分器 ---
+# 我们需要一个LLM来进行摘要
+llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+
+# 文本切分器，用于将长文本切分成小块
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=200)
+
+
+# --- 4. 定义图的节点 (Nodes) ---
+# 节点是执行具体任务的函数。每个节点接收当前状态作为输入，并返回一个部分更新的状态。
+
+def chunk_text_node(state: GraphState) -> GraphState:
+    """
+    节点1：将长文本切分成块。
+    """
+    print("--- 正在切分文本 ---")
+    text = state['text']
+    chunks = text_splitter.split_text(text)
+    return {"chunks": chunks}
+
+def summarize_map_node(state: GraphState) -> GraphState:
+    """
+    节点2 (Map): 对每个文本块进行独立摘要。
+    """
+    print("--- 正在对每个块进行摘要 (Map) ---")
+    chunks = state['chunks']
+    
+    # 为每个块生成摘要的提示模板
+    map_prompt = ChatPromptTemplate.from_template(
+        "简要总结以下文本内容：\n\n{chunk}"
+    )
+    
+    # 构建摘要链
+    summarize_chain = map_prompt | llm
+    
+    # 并行处理所有块的摘要（这里用列表推导式模拟）
+    summaries = summarize_chain.batch(
+        [{"chunk": chunk} for chunk in chunks], 
+        config={"max_concurrency": 5} # 可以设置并发数
+    )
+    
+    # LangChain v0.2.0+ 的 .batch() 返回的是 AIMessage 列表，我们需要提取内容
+    cleaned_summaries = [s.content for s in summaries]
+    
+    return {"summaries": cleaned_summaries}
+
+def summarize_reduce_node(state: GraphState) -> GraphState:
+    """
+    节点3 (Reduce): 将所有小摘要合并成最终摘要。
+    """
+    print("--- 正在合并所有摘要 (Reduce) ---")
+    summaries = state['summaries']
+    
+    # 将所有摘要连接起来
+    summaries_joined = "\n\n".join(summaries)
+    
+    # 创建最终摘要的提示模板
+    reduce_prompt = ChatPromptTemplate.from_template(
+        "你收到了关于一个长文档的多个摘要。请将它们整合成一个连贯、流畅、全面的最终摘要。\n\n"
+        "以下是各个部分的摘要：\n{summaries_text}"
+    )
+    
+    # 构建最终摘要链
+    reduce_chain = reduce_prompt | llm
+    
+    final_summary = reduce_chain.invoke({"summaries_text": summaries_joined})
+    
+    return {"final_summary": final_summary.content}
+
+
+# --- 5. 构建并编译图 (Graph) ---
+# 现在，我们将上面定义的节点和状态连接成一个工作流。
+
+workflow = StateGraph(GraphState)
+
+# 添加节点
+workflow.add_node("chunker", chunk_text_node)
+workflow.add_node("mapper", summarize_map_node)
+workflow.add_node("reducer", summarize_reduce_node)
+
+# 定义边的连接关系
+workflow.set_entry_point("chunker")
+workflow.add_edge("chunker", "mapper")
+workflow.add_edge("mapper", "reducer")
+workflow.add_edge("reducer", END) # 最终节点
+
+# 编译图
+app = workflow.compile()
+
+
+# --- 6. 运行图 ---
+
+# 准备一个超长的示例文本（这里为了演示，只用一段重复的文本模拟）
+long_text = """
+人工智能（AI）正在以前所未有的速度改变世界。从自动驾驶汽车到医疗诊断，AI的应用无处不在。
+其核心技术包括机器学习、深度学习和自然语言处理。机器学习使计算机能够从数据中学习规律，而无需进行显式编程。
+深度学习是机器学习的一个分支，它利用深度神经网络模型，在图像识别、语音识别等领域取得了巨大成功。
+自然语言处理则致力于让计算机能够理解和生成人类语言，Siri和ChatGPT就是最好的例子。
+然而，AI的发展也带来了挑战，如数据隐私、算法偏见和就业冲击。解决这些问题需要技术、法律和伦理的共同努力。
+""" * 10 # 将文本重复10次来模拟长文本
+
+# 使用图来处理长文本
+# .invoke() 的输入是一个字典，键对应状态中的某个字段
+initial_state = {"text": long_text}
+final_state = app.invoke(initial_state)
+
+# 打印最终结果
+print("\n" + "="*50)
+print("✅ 最终摘要：")
+print(final_state['final_summary'])
+```
+
+
+- 代码解释
+
+1.  **`GraphState`**：这是一个 `TypedDict`，它像一个清单，规定了在整个流程中需要跟踪的所有数据（原始文本、文本块、各块摘要、最终摘要）。LangGraph 会确保每一步的数据都符合这个结构。
+2.  **`chunk_text_node`**：图的入口。它接收包含 `text` 的状态，使用 `RecursiveCharacterTextSplitter` 将其切分，然后将切分后的 `chunks` 列表放回状态中。
+3.  **`summarize_map_node`**：这是 "Map" 步骤。它接收包含 `chunks` 的状态，然后使用 `summarize_chain.batch()` 方法**并行地**为每个 `chunk` 生成摘要。这比写一个 `for` 循环要高效得多。结果 `summaries` 列表被更新到状态中。
+4.  **`summarize_reduce_node`**：这是 "Reduce" 步骤。它接收包含 `summaries` 的状态，将所有小摘要合并成一个字符串，然后调用 LLM 进行最后一次、也是最关键的一次整合，生成 `final_summary`。
+5.  **`workflow.add_edge(...)`**：这部分定义了工作流的顺序：`chunker` -> `mapper` -> `reducer`，最后到 `END` 结束。
+6.  **`app.invoke(...)`**：这是启动图的方式。你只需要提供初始状态（这里是包含长文本的字典），LangGraph 就会自动按照你定义的流程执行所有步骤，并返回包含所有计算结果的最终状态。
+
+通过这种方式，你不仅解决了模型上下文窗口的限制，还构建了一个清晰、可维护、可扩展的自动化流程。
+
 ### 使用 LangGraph 构建基础聊天机器人
 
 在本教程中，你将使用 LangGraph 构建一个基础的聊天机器人。这个聊天机器人将作为后续更高级教程的基础，我们将逐步添加更复杂的功能并介绍 LangGraph 的核心概念。
