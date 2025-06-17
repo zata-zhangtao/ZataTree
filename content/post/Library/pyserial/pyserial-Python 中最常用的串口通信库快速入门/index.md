@@ -1,5 +1,5 @@
 ---
-title: pyserial-Python 中最常用的串口通信库快速入门
+title: pyserial-使用教程
 description: ""
 date: 2025-04-03T10:15:25+08:00
 image: images/index/index.svg
@@ -8,6 +8,9 @@ categories:
 tags:
     - pyserial
 ---
+
+
+## 基础教程
 
 
 ### 1. 安装 pyserial
@@ -166,3 +169,43 @@ ser.close()
 - 官方文档: [pyserial 文档](https://pyserial.readthedocs.io/)
 - 示例项目: 搜索 “Python serial Arduino” 可找到更多与硬件交互的案例。
 
+
+
+
+## 代码实战
+
+### 发送命令，随后接收数据，校验，重发
+
+```py
+def set_current(port, current):
+    """设置镀膜电流"""
+    global_logger.info(f"开始设置镀膜电流 - 端口: {port}, 电流值: {current}")
+    ready = SerialReader(port=port, baudrate=baudrate_global)
+    command = f"CMD05,{current}\n"
+    global_logger.info(f"发送设置电流命令: {command.strip()}")
+
+    retry_count = 0
+    max_retries = 2
+    while retry_count <= max_retries:
+        response = ready.send_command(command)
+        start_time = time.time()
+        while time.time() - start_time < 3:
+            if response and response.strip() == "CMD05":
+                global_logger.info(f"设置镀膜电流成功 - 响应: {response.strip()}")
+                expected_response = f"CMD05,{current}"
+                if expected_response.strip() in response.strip():
+                    global_logger.info("命令响应一致，设置成功")
+                    return True
+                else:
+                    global_logger.warning(f"命令响应不一致 - 期望: {expected_response}, 实际: {response.strip()}")
+                    # 显示成功消息框
+                    messagebox.showinfo("命令响应不一致", f" 期望: {expected_response}, 实际: {response.strip()}")
+                    return False
+            time.sleep(0.1)
+            response = ready.read_data()
+        retry_count += 1
+
+        if retry_count > max_retries:
+            global_logger.warning("设置镀膜电流失败 - 无响应")
+            return False
+```
