@@ -242,6 +242,13 @@ git checkout <tagname>                    # 检出标签（进入分离头指针
 ## 一些问题解决
 
 
+
+### 使用windows远程服务器进行git pull总是卡死
+
+2025年0617，买了一个腾讯云到2h2G服务器，想用来写hugo博客， 但是在pull代码的时候总是卡死，试了很多次，我以为是服务器性能太烂了，最后发现，如果使用http地址pull的话就没有问题
+![alt text](images/index/image-18.png)
+
+
 ### 如果想要临时查看某次commit时项目的全部代码
 ```bash
 git log --oneline
