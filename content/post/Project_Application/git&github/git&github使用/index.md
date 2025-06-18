@@ -16,7 +16,7 @@ tags: ["git&github","教程"]
 ||
 |---|
 |- [port 22 无法pull push问题](#git-push-ssh-connect-to-host-githubcom-port-22-connection-timed-out-fatal-could-not)|
-
+|-[windows系统服务器做远程开发的问题](#使用windows系统服务器做远程开发碰到的问题)|
 
 
 
@@ -237,16 +237,83 @@ git checkout <tagname>                    # 检出标签（进入分离头指针
 ```
 
 
+### revert
+```bash
+# Git revert 使用指导
+
+# 1. 基本概念
+# git revert 用于撤销某次提交，创建一个新的提交来抵消指定提交的更改
+# 适用于已推送的公共仓库，避免直接修改历史记录
+
+# 2. 基本用法
+# 撤销本次提交
+git revert HEAD
+# 撤销单个提交
+git revert <commit-hash>
+# 示例：撤销指定的提交
+git revert abc123
+
+# 3. 常见选项
+# -n 或 --no-commit：执行撤销但不自动提交，需手动 git commit
+git revert -n <commit-hash>
+
+# -m 或 --mainline：用于撤销合并提交，指定保留的主线分支（通常 1 或 2）
+git revert -m 1 <merge-commit-hash>
+
+# --no-edit：使用默认提交信息，不打开编辑器
+git revert --no-edit <commit-hash>
+
+# 4. 撤销连续多个提交
+# 撤销一个范围的提交（从 old 到 new，不包括 old）
+git revert <old-commit-hash>..<new-commit-hash>
+# 示例：撤销 abc123 到 def456 的提交
+git revert abc123..def456
+
+# 5. 处理冲突
+# 如果 revert 过程中出现冲突：
+# 1) 解决冲突
+# 2) 添加解决后的文件：git add <file>
+# 3) 继续 revert：git revert --continue
+# 4) 或放弃 revert：git revert --abort
+
+# 6. 注意事项
+# - revert 不会修改历史记录，而是创建新提交
+# - 适合公共仓库，保持历史完整性
+# - 如果需要彻底删除提交，使用 git reset（谨慎，私有仓库适用）
+# - 撤销合并提交时，需明确主线分支 (-m 选项)
+
+# 7. 示例工作流
+# 查看提交历史
+git log --oneline
+# 找到要撤销的提交：abc123
+# 执行撤销
+git revert abc123
+# 编辑提交信息或直接提交
+git push origin <branch>
+
+# 8. 撤销已经 revert 的提交
+# 如果需要恢复被 revert 的更改，再次 revert 对应的 revert 提交
+git revert <revert-commit-hash>
+```
+
+
 
 
 ## 一些问题解决
 
 
 
-### 使用windows远程服务器进行git pull总是卡死
+### 使用windows系统服务器做远程开发碰到的问题 
 
-2025年0617，买了一个腾讯云到2h2G服务器，想用来写hugo博客， 但是在pull代码的时候总是卡死，试了很多次，我以为是服务器性能太烂了，最后发现，如果使用http地址pull的话就没有问题
-![alt text](images/index/image-18.png)
+
+- 使用哪个版本的git
+
+    感觉这个没有太大关系，不过后面发现便携版本的git也是可用的，感觉以后可以就使用便携版的，毕竟不需要界面
+
+- 使用windows远程服务器进行git pull总是卡死
+
+    2025年0617，买了一个腾讯云到2h2G服务器，想用来写hugo博客， 但是在pull代码的时候总是卡死，试了很多次，我以为是服务器性能太烂了，最后发现，如果使用http地址pull的话就没有问题。但是后面又发现使用github的http地址的话会存在无法push的情况，所以我最终给出的解决方案就是：使用github的http地址拉取项目，然后使用ssh地址同步
+    ![alt text](images/index/image-18.png)
 
 
 ### 如果想要临时查看某次commit时项目的全部代码
@@ -799,3 +866,104 @@ https://ping.chinaz.com/github.com
 ```
 
 hosts位置在    /etc/hosts
+
+
+
+## 实战 -- 使用
+
+### 在 Git 中，如果你想回退到上一个版本继续开发，同时保留已经提交到 `main` 分支的最新提交，可以通过创建新分支并回退的方式实现。
+
+以下是一个推荐的方案和详细教程，基于 Git 的最佳实践，确保操作安全且保留所有历史记录。
+
+---
+
+- 方案一(推荐)：
+1. 基于当前代码创建一个新分支，在新分支上介绍功能修改情况
+2. main分支回退到上一个版本
+3. 接着在main分支上进行开发
+```bash
+git branch <branchName>  # 创建一个新分支
+git log --oneline # 查看历史commit，方便下面的切换
+git reset --hard <HEAD^ 或者 commitId>
+```
+
+
+- 方案二：
+1. 直接在main分支上使用revert方法进行回退
+
+```bash
+git revert HEAD
+```
+这会创建一个新的提交，撤销本次更改，恢复上一步状态，但保留所有提交历史。然后可以继续在 `main` 分支上开发。
+![revert](images/index/image-19.png)
+
+
+
+
+
+
+
+
+
+## 知识点
+
+### git reset --hard HEAD^的含义
+
+`git reset --hard HEAD^` 是一条 Git 命令，用于重置当前分支到指定的状态。下面我将逐个参数解释这条命令的含义：
+
+ 命令分解
+1. **`git reset`**:
+   - `git reset` 是 Git 用来重置当前分支的 HEAD（当前分支指针）到指定状态的命令。
+   - 它可以影响 Git 的三个主要区域：
+     - **工作目录（Working Directory）**：你当前编辑的文件。
+     - **暂存区（Staging Area/Index）**：通过 `git add` 添加的文件。
+     - **提交历史（Commit History）**：Git 仓库中的提交记录。
+
+2. **`--hard`**:
+   - `--hard` 是 `git reset` 的一个选项，指定重置的模式。
+   - 它表示**完全重置**，不仅会移动 HEAD 指针，还会：
+     - 重置工作目录中的文件内容，使其与指定的提交状态一致。
+     - 清空暂存区的内容。
+     - 丢弃所有未提交的更改（包括工作目录和暂存区的修改）。
+   - 简单来说，`--hard` 会让你的工作目录、暂存区和提交历史完全恢复到指定的提交状态，**不可恢复已丢弃的更改**。
+
+3. **`HEAD^`**:
+   - `HEAD` 是 Git 中的一个指针，指向当前分支的最新提交。
+   - `^` 是一个相对引用，表示“当前 HEAD 的上一个提交”（即父提交）。
+   - 因此，`HEAD^` 表示当前分支最新提交的上一个提交。
+   - 如果当前分支的提交历史是 `A <- B <- C`（C 是 HEAD），那么 `HEAD^` 指向 `B`。
+
+ 整体含义
+`git reset --hard HEAD^` 的作用是：
+- 将当前分支的 HEAD 指针移动到上一个提交（`HEAD^`）。
+- 重置工作目录和暂存区，使其与 `HEAD^` 指向的提交状态完全一致。
+- **丢弃**当前 HEAD 提交（最新提交）以及工作目录和暂存区的所有未提交更改。
+
+ 示例场景
+假设你的提交历史如下：
+```
+A <- B <- C (HEAD)
+```
+- 当前 HEAD 指向提交 `C`。
+- 执行 `git reset --hard HEAD^` 后：
+  - HEAD 移动到 `B`（`HEAD^`）。
+  - 提交 `C` 从当前分支的提交历史中移除（但可能仍存在于 Git 的对象数据库中，直到被垃圾回收）。
+  - 工作目录和暂存区的内容恢复到提交 `B` 的状态。
+  - 任何未提交的更改（工作目录或暂存区）都会被永久删除。
+
+新的提交历史变为：
+```
+A <- B (HEAD)
+```
+
+ 注意事项
+- **数据丢失风险**：`--hard` 会永久删除未提交的更改和指定的提交（`HEAD` 到 `HEAD^` 之间的提交）。在执行前，建议使用 `git status` 检查是否有未提交的更改，或者用 `git log` 确认提交历史。
+- **备份建议**：如果不确定是否需要丢弃更改，可以先用 `git branch backup` 创建一个备份分支，以保留当前 HEAD 的状态。
+- **远程仓库影响**：如果当前分支已经推送到远程仓库（如 GitHub），执行 `git reset --hard HEAD^` 后需要用 `git push --force` 强制推送，这可能会影响其他协作者，需谨慎操作。
+
+ 总结
+- **`git reset`**: 重置 HEAD 到指定状态。
+- **`--hard`**: 完全重置，丢弃工作目录和暂存区的更改。
+- **`HEAD^`**: 指向当前 HEAD 的上一个提交。
+
+这条命令的总体效果是“撤销最近一次提交并恢复到上一个提交的状态，同时丢弃所有未提交的更改”。如果你只是想撤销提交但保留更改，可以考虑使用 `git reset --soft HEAD^` 或其他命令（如 `git revert`）。
