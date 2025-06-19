@@ -1,5 +1,5 @@
 ---
-title: PyInstaller-简易教程
+title: PyInstaller使用教程
 description: ""
 date: 2025-04-27T10:34:51+08:00
 image: images/index/index.png
@@ -8,6 +8,93 @@ categories:
 tags:
     - PyInstaller
 ---
+
+
+```bash
+# 将 Python 脚本打包为单个可执行文件
+pyinstaller -F script.py
+
+# 打包为目录（包含所有依赖文件）
+pyinstaller -D script.py
+
+# 指定输出目录
+pyinstaller -F -o output_dir script.py
+
+# 添加图标
+pyinstaller -F -i icon.ico script.py
+
+# 隐藏控制台窗口（适用于 GUI 程序）
+pyinstaller -F -w script.py
+
+# 添加数据文件
+pyinstaller -F --add-data "file.txt;." script.py
+
+# 添加整个目录
+pyinstaller -F --add-data "folder;folder" script.py
+
+# 清理缓存和临时文件
+pyinstaller --clean script.py
+
+# 指定程序名称
+pyinstaller -F -n app_name script.py
+
+# 调试模式（显示更多日志）
+pyinstaller -F --debug all script.py
+```
+
+
+参数说明
+```bash
+-F, --onefile
+# 打包为单个可执行文件
+# 说明：将 Python 脚本及其所有依赖打包成一个独立的可执行文件。生成的单一文件包含所有库和资源，运行时会解压到临时目录。适合分发简单的应用程序，但启动速度稍慢，且文件体积较大。
+
+-D, --onedir
+# 打包为目录，包含可执行文件和依赖
+# 说明：将脚本打包为一个目录，包含一个主可执行文件和所有依赖（如动态链接库、资源文件）。相比 --onefile，启动速度更快，文件管理更透明，但分发时需要整个目录。
+
+-o PATH, --out PATH
+# 指定输出目录
+# 说明：设置 PyInstaller 生成的构建文件和最终输出的目录（包括 dist 和 build 文件夹）。默认情况下，输出在当前工作目录下，PATH 为自定义路径（如 -o ./my_output）。
+
+-i ICON_FILE, --icon ICON_FILE
+# 为 Windows 可执行文件添加图标
+# 说明：为 Windows 平台的可执行文件指定自定义图标，ICON_FILE 通常为 .ico 文件路径（如 -i my_icon.ico）。仅适用于 Windows，其他平台忽略此选项。
+
+-w, --windowed, --noconsole
+# 隐藏控制台窗口，适合 GUI 应用
+# 说明：运行程序时不显示命令行窗口，适用于基于 GUI 的应用程序（如 Tkinter、PyQt）。在 Windows 上，生成的是“窗口化”程序；在 macOS 上，生成 .app 包。注意：使用此选项后，程序的控制台输出将不可见。
+
+--add-data "SOURCE;DEST"
+# 添加额外的数据文件或目录，格式为 源路径;目标路径
+# 说明：将非 Python 文件（如图片、配置文件、数据文件）包含到打包结果中。SOURCE 是文件或目录的路径，DEST 是相对打包目录的目标路径。例如，--add-data "data.txt;." 将 data.txt 放在打包根目录。Windows 用分号 ; 分隔路径，Linux/macOS 用冒号 :（如 --add-data "data.txt:."）。
+
+--clean
+# 清理 PyInstaller 的缓存
+# 说明：删除 PyInstaller 在构建过程中生成的临时文件和缓存（如 build 文件夹中的缓存）。在遇到打包问题或需要全新构建时使用，有助于避免旧文件干扰。
+
+-n NAME, --name NAME
+# 指定生成的可执行文件名
+# 说明：设置生成的可执行文件或目录的名称，覆盖默认的脚本文件名。例如，-n my_app 会生成名为 my_app.exe（Windows）或 my_app（Linux/macOS）的文件或目录。
+
+--debug [all|imports|bootloader|noarchive]
+# 启用调试模式，查看详细日志
+# 说明：启用调试模式以输出详细日志，帮助诊断打包问题。可选值包括：
+# - all：输出所有调试信息。
+# - imports：显示模块导入过程。
+# - bootloader：显示启动加载器的调试信息。
+# - noarchive：不将依赖打包为归档，保留解包状态便于检查。
+# 例如，--debug all 会输出最详细的日志。
+
+
+补充说明
+参数格式：短选项（如 -F）和长选项（如 --onefile）功能相同，短选项更简洁，长选项更具可读性。
+平台差异：某些选项（如 -i 和 -w）主要针对 Windows，Linux/macOS 可能有不同表现。例如，-w 在 macOS 上会生成 .app 包。
+路径分隔符：--add-data 的路径分隔符在 Windows 为 ;（如 file.txt;.），在 Linux/macOS 为 :（如 file.txt:.）。
+常见组合：例如，pyinstaller -F -w -i icon.ico -n my_app script.py 会生成一个无控制台、带自定义图标、名为 my_app 的单一可执行文件。
+```
+
+
 
 
 ##   一些问题的提醒

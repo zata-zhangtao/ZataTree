@@ -1,8 +1,6 @@
 import os
 from datetime import datetime
 import argparse
-import tkinter as tk
-from tkinter import ttk, messagebox, filedialog
 import subprocess  # 用于打开文件
 import sys  # 用于检测操作系统平台
 import shutil  # 用于文件复制
@@ -199,8 +197,53 @@ def get_existing_tags(category=None):
                 tags.update([d for d in os.listdir(cat_path) if os.path.isdir(os.path.join(cat_path, d))])
     return sorted(list(tags))
 
+def search_tags(keyword=None):
+    """搜索所有tag，可选择按关键词过滤"""
+    base_path = os.path.join("content", "post")
+    if not os.path.exists(base_path):
+        return []
+    
+    tag_info = []
+    for category in os.listdir(base_path):
+        category_path = os.path.join(base_path, category)
+        if os.path.isdir(category_path):
+            for tag in os.listdir(category_path):
+                tag_path = os.path.join(category_path, tag)
+                if os.path.isdir(tag_path):
+                    if keyword is None or keyword.lower() in tag.lower():
+                        tag_info.append({
+                            'tag': tag,
+                            'category': category,
+                            'path': tag_path
+                        })
+    
+    return sorted(tag_info, key=lambda x: x['tag'])
+
+def find_tag_category(tag_name):
+    """根据tag名称查找所属的category"""
+    base_path = os.path.join("content", "post")
+    if not os.path.exists(base_path):
+        return None
+    
+    found_categories = []
+    for category in os.listdir(base_path):
+        category_path = os.path.join(base_path, category)
+        if os.path.isdir(category_path):
+            tag_path = os.path.join(category_path, tag_name)
+            if os.path.exists(tag_path) and os.path.isdir(tag_path):
+                found_categories.append(category)
+    
+    return found_categories
+
 # GUI 界面
 def create_gui():
+    try:
+        import tkinter as tk
+        from tkinter import ttk, messagebox, filedialog
+    except ImportError:
+        print("错误：无法导入tkinter库，GUI功能不可用")
+        return
+    
     root = tk.Tk()
     root.title("Zata - 博客管理工具")
     root.geometry("500x550")  # 增加高度以容纳新功能
@@ -310,9 +353,24 @@ def create_gui():
     category_combobox = ttk.Combobox(post_frame, width=37, state="readonly")
     category_combobox.pack(pady=5)
     
-    ttk.Label(post_frame, text="选择Tag:").pack(pady=5)
+    # Tag搜索功能
+    ttk.Label(post_frame, text="搜索Tag:").pack(pady=(10, 2))
+    search_frame = ttk.Frame(post_frame)
+    search_frame.pack(pady=2)
+    tag_search_entry = ttk.Entry(search_frame, width=32)
+    tag_search_entry.pack(side=tk.LEFT, padx=(0, 5))
+    
+    def clear_search():
+        tag_search_entry.delete(0, tk.END)
+        tag_search_entry.insert(0, "输入关键词搜索tag...")
+        tag_search_entry.config(foreground='grey')
+        update_tag_combobox()
+    
+    ttk.Button(search_frame, text="清除", command=clear_search, width=6).pack(side=tk.LEFT)
+    
+    ttk.Label(post_frame, text="选择Tag:").pack(pady=(5, 2))
     tag_combobox = ttk.Combobox(post_frame, width=37, state="readonly")
-    tag_combobox.pack(pady=5)
+    tag_combobox.pack(pady=2)
     
     ttk.Label(post_frame, text="文章标题:").pack(pady=5)
     post_title_entry = ttk.Entry(post_frame, width=40)
@@ -326,17 +384,51 @@ def create_gui():
     
     def update_tag_combobox(event=None):
         selected_category = category_combobox.get()
+        search_keyword = tag_search_entry.get().strip()
+        
+        # 忽略占位符文本
+        if search_keyword == "输入关键词搜索tag...":
+            search_keyword = ""
+        
         if selected_category:
             tags = get_existing_tags(selected_category)
         else:
             tags = get_existing_tags()
+        
+        # 如果有搜索关键词，过滤tags
+        if search_keyword:
+            tags = [tag for tag in tags if search_keyword.lower() in tag.lower()]
+        
         tag_combobox["values"] = tags
         if tags:
             tag_combobox.set(tags[0])
         else:
             tag_combobox.set("")
 
+    def on_tag_search_change(event=None):
+        """当搜索框内容改变时触发"""
+        update_tag_combobox()
+
+    def on_tag_search_focus_in(event):
+        """搜索框获得焦点时清除占位符"""
+        if tag_search_entry.get() == "输入关键词搜索tag...":
+            tag_search_entry.delete(0, tk.END)
+            tag_search_entry.config(foreground='black')
+
+    def on_tag_search_focus_out(event):
+        """搜索框失去焦点时显示占位符"""
+        if not tag_search_entry.get():
+            tag_search_entry.insert(0, "输入关键词搜索tag...")
+            tag_search_entry.config(foreground='grey')
+
+    # 设置初始占位符
+    tag_search_entry.insert(0, "输入关键词搜索tag...")
+    tag_search_entry.config(foreground='grey')
+
     category_combobox.bind("<<ComboboxSelected>>", update_tag_combobox)
+    tag_search_entry.bind("<KeyRelease>", on_tag_search_change)
+    tag_search_entry.bind("<FocusIn>", on_tag_search_focus_in)
+    tag_search_entry.bind("<FocusOut>", on_tag_search_focus_out)
 
     def create_post_btn():
         category = category_combobox.get() or None
@@ -405,7 +497,7 @@ def main():
     subparsers = parser.add_subparsers(dest="command", help="可用命令")
 
     create_parser = subparsers.add_parser("create", help="创建文章文件夹和index.md")
-    create_parser.add_argument("-c", "--categories", help="博客分类（可选）")
+    create_parser.add_argument("-c", "--categories", help="博客分类（可选，如果不指定会自动根据tag查找）")
     create_parser.add_argument("-t", "--tags", required=True, help="博客标签")
     create_parser.add_argument("-b", "--title", required=True, help="博客标题")
 
@@ -418,11 +510,33 @@ def main():
     tag_parser.add_argument("-t", "--tag", required=True, help="要创建的tag名称")
     tag_parser.add_argument("-i", "--image", help="tag的图片路径")
 
+    search_parser = subparsers.add_parser("search-tags", help="搜索现有的tag")
+    search_parser.add_argument("-k", "--keyword", help="搜索关键词（可选）")
+
     gui_parser = subparsers.add_parser("gui", help="启动图形界面")
 
     args = parser.parse_args()
 
+    # 如果没有提供命令，显示帮助并退出
+    if args.command is None:
+        parser.print_help()
+        return
+
     if args.command == "create":
+        # 如果没有指定category，尝试自动查找
+        if not args.categories:
+            found_categories = find_tag_category(args.tags)
+            if len(found_categories) == 0:
+                print(f"错误：未找到tag '{args.tags}'！请先创建相应的tag目录")
+                return
+            elif len(found_categories) == 1:
+                args.categories = found_categories[0]
+                print(f"自动找到tag '{args.tags}' 属于category '{args.categories}'")
+            else:
+                print(f"错误：找到多个category包含tag '{args.tags}'：{', '.join(found_categories)}")
+                print("请使用 -c 参数指定具体的category")
+                return
+        
         success, msg = create_folder_and_md(args.categories, args.tags, args.title)
         print(msg)
     elif args.command == "create-category":
@@ -431,10 +545,23 @@ def main():
     elif args.command == "create-tag":
         success, msg = create_tag(args.category, args.tag, args.image)
         print(msg)
+    elif args.command == "search-tags":
+        tags = search_tags(args.keyword)
+        if not tags:
+            if args.keyword:
+                print(f"未找到包含关键词 '{args.keyword}' 的tag")
+            else:
+                print("未找到任何tag")
+        else:
+            print(f"找到 {len(tags)} 个tag:")
+            print("-" * 50)
+            for tag_info in tags:
+                print(f"Tag: {tag_info['tag']}")
+                print(f"Category: {tag_info['category']}")
+                print(f"路径: {tag_info['path']}")
+                print("-" * 50)
     elif args.command == "gui":
         create_gui()
-    else:
-        parser.print_help()
 
 if __name__ == "__main__":
     main()
