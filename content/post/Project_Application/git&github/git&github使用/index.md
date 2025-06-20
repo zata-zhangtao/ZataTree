@@ -123,10 +123,6 @@ git branch <分支名>
 # 创建一个空白分支
 git checkout --orphan <分支名>
 
-
-
-
-
 # 重命名分支
 ​ git branch -m oldName newName
 
@@ -139,7 +135,6 @@ git branch -D <分支名>
 # 2、 远程分支重命名
 # 重命名远程分支对应的本地分支
 git branch -m oldName newName
-
 #删除远程分支
 git push --delete origin oldName
 #上传新命名的本地分支
@@ -165,6 +160,9 @@ git remote set-url origin xxxx_url
 ```bash
 # 切换分支
 git checkout <分支名或者commit>
+# 从历史commit回到最新commit
+git checkout <分支名>
+git checkout -f <branch-name> # 如果做了更改但是不想保留
 # 创建分支并切换
 git checkout -b <分支名>
 # 创建一个空白分支
