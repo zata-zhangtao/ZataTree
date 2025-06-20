@@ -295,6 +295,29 @@ git revert <revert-commit-hash>
 ```
 
 
+### show
+
+```bash
+git show                          # 查看当前 HEAD 提交的详细信息
+git show <commit-id>              # 查看指定提交的详细信息
+git show <commit-id> -- <file-path>  # 查看指定提交中某个文件的变更
+git show <branch-name>            # 查看指定分支最新提交的详细信息
+git show <tag-name>               # 查看指定标签指向的提交详情
+```
+
+### stash   
+```bash
+git stash                         # 保存当前修改到 stash 栈
+git stash push -m "message"       # 保存修改并添加描述
+git stash push --include-untracked # 保存修改，包括未跟踪文件
+git stash list                    # 查看所有 stash 列表
+git stash apply                   # 恢复最新 stash（不删除）
+git stash apply stash@{n}         # 恢复指定 stash
+git stash pop                     # 恢复最新 stash 并删除
+git stash drop stash@{n}          # 删除指定 stash
+git stash clear                   # 清空所有 stash
+```
+
 
 
 ## 一些问题解决
@@ -868,6 +891,21 @@ hosts位置在    /etc/hosts
 
 
 ## 实战 -- 使用
+
+### 当前正在进行代码的开发，但是想要看历史commit的项目完整代码，而当前的工作区保证原样
+```bash
+# 临时保存当前工作目录中的未提交更改
+git stash
+
+# 切换到指定的 commit（替换 <commit id> 为实际的 commit 哈希值，例如 b2dfde96604dcce732aefccc4c7b4dc1fc8b161a）
+git checkout <commit id>
+
+# 返回到原始分支（替换 <branch name> 为实际的分支名，例如 main）
+git checkout <branch name>
+
+# 恢复之前保存的更改
+git stash pop
+```
 
 ### 在 Git 中，如果你想回退到上一个版本继续开发，同时保留已经提交到 `main` 分支的最新提交，可以通过创建新分支并回退的方式实现。
 
