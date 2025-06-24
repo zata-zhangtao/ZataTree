@@ -1,5 +1,5 @@
 ---
-title: fastapi-第一个简单示例
+title: fastapi使用教程
 description: ""
 date: 2025-04-01T14:43:52+08:00
 image: images/index/index.png
@@ -15,10 +15,6 @@ https://github.com/zata-zhangtao/Zata-code/tree/main/07-html%2Bfastapi/fastapi/t
 
 ---
 
-### **什么是 FastAPI？**
-FastAPI 是一个现代、高性能的 Python Web 框架，用于快速构建 API。它基于 Python 的类型提示（type hints）和异步编程，利用 Starlette 和 Pydantic，提供自动生成交互式文档（基于 OpenAPI 和 Swagger UI）以及高性能的特点。
-
----
 
 ### **教程大纲**
 1. **环境准备**

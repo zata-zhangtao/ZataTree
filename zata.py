@@ -1,3 +1,6 @@
+# TODO  This exe file seems to be unable to create a blog using parameters. 这个py文件打包的exe，无法使用参数创建博客。
+
+
 import os
 from datetime import datetime
 import argparse
