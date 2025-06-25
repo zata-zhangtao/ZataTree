@@ -17,6 +17,7 @@ tags: ["git&github","教程"]
 |---|
 |- [port 22 无法pull push问题](#git-push-ssh-connect-to-host-githubcom-port-22-connection-timed-out-fatal-could-not)|
 |-[windows系统服务器做远程开发的问题](#使用windows系统服务器做远程开发碰到的问题)|
+|-[暂存区有文件，想保存到新分支`feature-branch`](#假设你当前在main分支暂存区有文件file1txt和file2txt想保存到新分支feature-branch)|
 
 
 
@@ -935,7 +936,12 @@ git revert HEAD
 
 
 
-
+### 假设你当前在`main`分支，暂存区有文件`file1.txt`和`file2.txt`，想保存到新分支`feature-branch`
+```bash
+git checkout -b feature-branch
+git commit -m "Add file1 and file2 to feature branch"
+git push origin feature-branch
+```
 
 
 
