@@ -145,7 +145,7 @@ conda info --cache
 # linux
  wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh 
-cd ~   # 如果按照路径不是~/miniconda，需要执行   安装路径/miniconda/bin/conda init ,然后在cd ~
+cd ~   # 如果按照路径不是~/miniconda，需要执行   安装路径/miniconda/bin/conda init bash,然后在cd ~
 source .bashrc   
 ```
 
