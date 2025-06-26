@@ -322,7 +322,49 @@ git stash clear                   # 清空所有 stash
 
 
 ## 一些问题解决
+### 要将远程仓库的 `other` 分支设置为 `main` 分支，并删除原来的 `main` 分支，可以按照以下步骤操作：
 
+1. **确保本地仓库是最新的**
+   首先，确保你的本地仓库与远程仓库同步，并切换到 `other` 分支：
+   ```bash
+   git fetch origin
+   git checkout other
+   git pull origin other
+   ```
+
+2. **将 `other` 分支推送到远程的 `main` 分支**
+   使用 `git push` 的 `--force` 选项，将 `other` 分支的内容强制覆盖远程的 `main` 分支：
+   ```bash
+   git push origin other:main --force
+   ```
+   这会将 `other` 分支的内容直接推送到远程的 `main` 分支，覆盖原有的 `main` 分支。
+
+3. **更新本地仓库**
+   在本地仓库中，确保你的 `main` 分支与远程的 `main` 分支同步：
+   ```bash
+   git checkout main
+   git pull origin main
+   ```
+
+4. **删除本地的 `other` 分支（可选）**
+   如果你不再需要本地的 `other` 分支，可以删除它：
+   ```bash
+   git branch -d other
+   ```
+
+5. **验证操作**
+   确认远程仓库的分支状态：
+   ```bash
+   git fetch origin
+   git branch -r
+   ```
+   你应该看到 `origin/main` 包含了 `other` 分支的内容，且 `origin/other` 仍然存在（除非你也想删除它）。
+
+6. **（可选）删除远程的 `other` 分支**
+   如果 `other` 分支不再需要，可以删除远程的 `other` 分支：
+   ```bash
+   git push origin --delete other
+   ```
 
 
 ### 使用windows系统服务器做远程开发碰到的问题 
