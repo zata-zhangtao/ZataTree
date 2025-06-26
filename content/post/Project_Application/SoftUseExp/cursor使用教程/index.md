@@ -12,6 +12,7 @@ tags:
 
 参考：
 
+[cursor1.0版本来袭](https://finance.sina.com.cn/tech/csj/2025-06-05/doc-ineyyvph3632905.shtml)
 [cursor二次大项目开发](https://dev-life.online/blog/cursor)
 
 

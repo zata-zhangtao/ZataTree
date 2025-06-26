@@ -24,8 +24,14 @@ tags: ["git&github","教程"]
 ### 简单常用命令
 
 ```bash
-# 绑定本地分支和远程分支
-git branch --set-upstream-to=origin/<远程分支> <本地分支>
+
+git branch --set-upstream-to=origin/<远程分支> <本地分支> # 绑定本地分支和远程分支
+
+git remote prune <remote-name> # 删出本地存在但是远程不存在的分支，必须存在追踪关系
+git gc --prune=now  #清理不必要的文件并优化本地仓库
+
+
+
 
 %%设置用户签名%%
 git config --global user.name [username]      
@@ -71,7 +77,6 @@ git push [<远程主机名>] [<本地分支>:<远程分支>] #如果不加分支
 
 %%拉取远程库%%
 git pull [<远程主机名>] [<远程分支>:<本地分支>]   # 从远程仓库（名为 origin）的 main 分支拉取代码并自动与本地的 main 分支合并 ,如果方括号里面的不加就默认拉去上一次的
-
 
 
 %%查看引用日志版本信息%%
