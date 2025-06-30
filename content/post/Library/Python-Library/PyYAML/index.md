@@ -5,7 +5,8 @@ date: 2025-02-24
 slug: PyYAML/index.md
 # image: helena-hertz-wWZzXlDpMog-unsplash.jpg
 categories:
-    - python
+    - Library
+tags:
     - Python-Library
 ---
 

@@ -5,8 +5,9 @@ date: 2025-02-23
 slug: pickle/index.md
 # image: helena-hertz-wWZzXlDpMog-unsplash.jpg
 categories:
+    - Library
+tags:
     - Python-Library
-    - library
 ---
 
 

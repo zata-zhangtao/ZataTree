@@ -12,11 +12,48 @@ tags:
 
 
 
-- [2025年06月第一周](#2025年06月第一周)
-  - [新闻](#新闻)
-  - [项目](#项目)
-    - [google vertex 是什么？](#google-vertex-是什么)
 
+
+
+
+
+
+### 2025年07月第四周
+
+#### 新闻
+
+#### 项目
+
+|||
+|-----|-----|
+|可以把在线的对话封装成api|- [minimax-free-api](https://github.com/LLM-Red-Team/minimax-free-api)|
+
+#### 其他
+
+
+
+### 2025年06月第四周
+
+#### 新闻
+
+#### 项目
+
+|||
+|-----|-----|
+| monkeyocr - 非常好的pdf解析工具，感觉效果会比pdf2zh那个好非常多|- [github-monkeyocr](https://github.com/Yuliang-Liu/Monkey)|
+|现一款刚刚开源的Python打包工具：PyFuze|[wechat](https://mp.weixin.qq.com/s/BkIQdK3G803GWZep-ODKMA)|
+|Claudia发布！优雅界面赋能Claude Code，跨平台AI编程新体验|[aibase](https://www.aibase.com/zh/news/19207)|
+|面向初学者的机器学习教程|[github](https://github.com/microsoft/ML-For-Beginners)|
+
+
+#### 其他
+##### Gemini Cli已发布， 对标claude code
+[Gemini Cli已发布， 对标claude code](https://www.youtube.com/watch?v=v41xKxZmygU)
+评论说效果似乎不如claude code
+
+##### 1panel v2版本 社区版两点
+
+![1panel v2免费版升级](images/index/image.png)
 
 
 

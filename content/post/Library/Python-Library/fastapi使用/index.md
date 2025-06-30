@@ -13,7 +13,7 @@ categories:
     - Library
     # - PaperReading
 tags:
-    - Python_Library
+    - Python-Library
 ---
 #  ☆ FASTAPI
 ## 运行环境和安装

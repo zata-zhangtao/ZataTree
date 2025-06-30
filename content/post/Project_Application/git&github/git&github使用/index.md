@@ -79,6 +79,7 @@ git push [<远程主机名>] [<本地分支>:<远程分支>] #如果不加分支
 %%拉取远程库%%
 git pull [<远程主机名>] [<远程分支>:<本地分支>]   # 从远程仓库（名为 origin）的 main 分支拉取代码并自动与本地的 main 分支合并 ,如果方括号里面的不加就默认拉去上一次的
 
+git push -u origin <local-branch>:<remote-branch> # 第一次push同时链接远程分支
 
 %%查看引用日志版本信息%%
 git reflog 
@@ -97,6 +98,17 @@ test* 忽略以test开头的文件
 ### pull
 ```bash
 git pull origin master --allow-unrelated-histories    # 无视没有共同历史合并  
+```
+
+### push
+```bash
+%%推送远程库
+git push [<远程主机名>] [<本地分支>:<远程分支>] #如果不加分支对应信息就默认上次记录的全部分支
+
+%%拉取远程库%%
+git pull [<远程主机名>] [<远程分支>:<本地分支>]   # 从远程仓库（名为 origin）的 main 分支拉取代码并自动与本地的 main 分支合并 ,如果方括号里面的不加就默认拉去上一次的
+
+git push -u origin <local-branch>:<remote-branch> # 第一次push同时链接远程分支
 ```
 
 ### remote
