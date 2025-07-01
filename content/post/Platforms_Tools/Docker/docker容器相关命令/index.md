@@ -10,39 +10,94 @@ tags:
 ---
 
 ```bash 
-# 容器管理
-docker run -itd --name <container_name> -p <host_port>:<container_port> <image> # 运行容器（后台，指定名称，端口映射）
-docker run exec -it  <container_name>  /bin/bash
-docker ps # 查看运行中的容器
-docker ps -a # 查看所有容器（包括已停止）
-docker stop <container_id> # 停止容器
-docker start <container_id> # 启动容器
-docker restart <container_id> # 重启容器
-docker rm <container_id> # 删除容器
-docker logs <container_id> # 查看容器日志
+# Docker 常用命令汇总
 
-# 镜像管理
-docker pull <image> # 拉取镜像
-docker images # 查看本地镜像
-docker rmi <image_id> # 删除镜像
-docker build -t <image_name> . # 构建镜像（当前目录的Dockerfile）
-docker commit <container_id> <image_name>:<tag> # 将容器构建成为镜像，tag通常用 latest 或版本号（如 v1.0）
+## 镜像 (Image) 相关命令
 
-# 容器操作
-docker exec -it <container_id> /bin/bash # 进入容器（交互式）
-docker cp <container_id>:<path> <local_path> # 从容器复制文件到本地
-docker cp <local_path> <container_id>:<path> # 从本地复制文件到容器
+镜像是创建容器的基础，包含了应用程序及其依赖的环境。
 
-# 网络和卷
-docker network ls # 查看网络
-docker network create <network_name> # 创建网络
-docker volume ls # 查看卷
-docker volume create <volume_name> # 创建卷
+| 命令 | 描述 |
+| :--- | :--- |
+| `docker images` | 列出本地所有镜像。 |
+| `docker pull [镜像名]:[标签]` | 从 Docker Hub 或其他镜像仓库拉取镜像 (例如: `docker pull ubuntu:22.04`)。 |
+| `docker push [用户名]/[镜像名]:[标签]` | 将本地镜像推送到 Docker Hub 或其他镜像仓库。 |
+| `docker build -t [镜像名]:[标签] .` | 根据当前目录下的 Dockerfile 构建镜像 (例如: `docker build -t my-app:1.0 .`)。 |
+| `docker rmi [镜像ID或镜像名]` | 删除一个或多个镜像 (例如: `docker rmi ubuntu:22.04`)。 |
+| `docker tag [源镜像] [新镜像名]` | 为本地镜像添加一个新的标签 (例如: `docker tag my-app:1.0 my-app:latest`)。 |
+| `docker history [镜像名]` | 查看镜像的构建历史。 |
+| `docker save -o [文件名.tar] [镜像名]` | 将镜像保存为一个 tar 归档文件。 |
+| `docker load -i [文件名.tar]` | 从一个 tar 归档文件加载镜像。 |
+| `docker rmi $(docker images -qf "dangling=true")` | 删除所有悬空的（dangling）镜像。 |
 
-# 系统管理
-docker info # 查看Docker信息
-docker system prune # 清理未使用的容器、网络、镜像等
-docker system df # 查看Docker磁盘使用情况
+## 容器 (Container) 相关命令
+
+容器是镜像的运行实例，是真正运行应用程序的地方。
+
+| 命令 | 描述 |
+| :--- | :--- |
+| `docker run [选项] [镜像名] [命令]` | 创建并启动一个新的容器。 |
+| `docker ps` | 列出所有正在运行的容器。 |
+| `docker ps -a` | 列出所有容器（包括已停止的）。 |
+| `docker start [容器ID或容器名]` | 启动一个或多个已停止的容器。 |
+| `docker stop [容器ID或容器名]` | 停止一个或多个正在运行的容器。 |
+| `docker restart [容器ID或容器名]` | 重启一个容器。 |
+| `docker rm [容器ID或容器名]` | 删除一个或多个容器。 |
+| `docker rm -f $(docker ps -aq)` | 强制删除所有容器（无论运行中还是已停止）。 |
+| `docker logs [容器ID或容器名]` | 查看容器的日志输出 (`-f` 选项可以持续跟踪日志)。 |
+| `docker exec -it [容器ID] [命令]` | 在正在运行的容器中执行一个交互式命令 (例如: `docker exec -it my-nginx /bin/bash`)。 |
+| `docker cp [本地路径] [容器ID]:[容器内路径]` | 在宿主机和容器之间复制文件/文件夹。 |
+| `docker stats` | 实时显示容器的资源使用情况。 |
+| `docker top [容器ID]` | 查看容器内运行的进程。 |
+| `docker inspect [容器ID或镜像ID]`| 查看容器或镜像的详细信息（元数据）。|
+
+### `docker run` 常用选项
+
+* `-d`: 后台运行容器（detached mode）。
+* `-p [宿主机端口]:[容器端口]`: 端口映射。
+* `-v [宿主机路径]:[容器内路径]`: 数据卷挂载。
+* `--name [容器名]`: 为容器指定一个名称。
+* `-it`: 启动交互式会话 (`-i` 交互, `-t` 分配一个伪终端)。
+* `--rm`: 容器停止后自动删除。
+* `-e [环境变量名]=[值]`: 设置环境变量。
+* `--network [网络名]`: 将容器连接到指定网络。
+
+**示例:**
+`docker run -d -p 8080:80 --name my-web-server -v /webapp:/usr/share/nginx/html nginx`
+
+## Docker Compose 相关命令
+
+用于定义和运行多容器 Docker 应用程序的工具。
+
+| 命令 | 描述 |
+| :--- | :--- |
+| `docker-compose up` | 根据 `docker-compose.yml` 创建并启动所有服务。 |
+| `docker-compose up -d` | 在后台创建并启动所有服务。 |
+| `docker-compose down` | 停止并移除由 `up` 创建的容器、网络、卷。 |
+| `docker-compose ps` | 列出 `docker-compose.yml` 文件中定义的所有容器的状态。 |
+| `docker-compose logs` | 查看所有服务的日志。 |
+| `docker-compose logs -f [服务名]` | 实时跟踪特定服务的日志。 |
+| `docker-compose build` | 构建或重新构建服务。 |
+| `docker-compose pull` | 拉取服务依赖的镜像。 |
+| `docker-compose exec [服务名] [命令]` | 在指定的服务容器中执行命令。 |
+| `docker-compose stop` | 停止服务，但不删除容器。 |
+| `docker-compose start` | 启动已停止的服务。 |
+
+## 系统与资源管理命令
+
+| 命令 | 描述 |
+| :--- | :--- |
+| `docker system prune` | 清理系统中未使用的 Docker 资源（容器、镜像、网络、卷）。 |
+| `docker system prune -a --volumes` | 更彻底的清理，会删除所有未使用的镜像和数据卷。 **请谨慎使用！** |
+| `docker system df` | 查看 Docker 的磁盘使用情况。 |
+| `docker volume ls` | 列出所有的数据卷。 |
+| `docker volume rm [卷名]` | 删除一个或多个数据卷。 |
+| `docker network ls` | 列出所有的网络。 |
+| `docker network rm [网络名]` | 删除一个或多个网络。 |
+| `docker login` | 登录到 Docker Hub 或其他镜像仓库。 |
+| `docker logout` | 登出 Docker Hub 或其他镜像仓库。 |
+| `docker info` | 显示 Docker 系统范围的信息。 |
+| `docker version` | 显示 Docker 的版本信息。 |
+
 ```
 
 
@@ -199,3 +254,17 @@ vim /etc/ssh/sshd_config
 
 
 
+### 实战
+
+#### wsl中镜像网络与docker网络冲突，使用netsh winsock reset修改网络设置之后，docker连不上 -- 解决
+
+报错信息
+![alt text](images/index/index-11.png)
+
+解决方法，将wsl setting的网络调到默认的nat模式，然后重置网络
+![wsl setting](images/index/image.png)
+![重置网络](images/index/image-1.png)
+
+然后就ok了
+
+![网络ok](images/index/image-2.png)

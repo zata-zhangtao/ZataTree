@@ -25,12 +25,16 @@ tags:
 ### 问题解决
 
 
-#### wsl和docker冲突  表现为wsl无法联网
+#### wsl和docker冲突  表现为wsl无法联网  --- 把docker关了，或者使用docker里面的linux容器
 
 ![docker打开一会wsl断开连接](images/index/image.png)
 ![docker报错](images/index/image-1.png)
 
-使用下面命令之后重启可以恢复，但是当再次打开docker又会出现问题,主要就是关了docker就行
+
+<span style="color:red;">下面不要用了，会把网络设置搞乱</span>
+
+
+~使用下面命令之后重启可以恢复，但是当再次打开docker又会出现问题,主要就是关了docker就行~
 ```bash
 wsl --shutdown
 netsh winsock reset
