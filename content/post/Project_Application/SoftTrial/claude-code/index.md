@@ -10,13 +10,18 @@ tags:
 ---
 
 
+- [相关教程](#相关教程)
+
+
 
 ### 相关教程
-
+- [非常好用，在windows通过wsl使用claude，我就是看的这个](https://itecsonline.com/post/how-to-install-claude-code-on-windows)
 - [claude code 官方实战](https://docs.anthropic.com/en/docs/claude-code/overview)
 - [claude code 仓库](https://github.com/anthropics/claude-code)
 - [Claude Code 實戰教學：三大超好用功能公開！【2025年6月更新】【AI寫程式】](https://vocus.cc/article/6854309dfd89780001335549)
 - [Claude Code 最佳实践](https://gaccode.com/document/claude-code-best-practices-zh)
+
+
 
 
 ### 安装

@@ -66,3 +66,9 @@ echo "Asia/Shanghai" > /etc/timezone
 2. 1panel的docker连接之后要先执行一下su，不然的话命令是不好操作的，比如就没有补全功能
 3. 要去/ect/hosts去设置一下github的ip地址解析，不然会很慢
 4. 云服务器如果是国内厂商的，最好设置一下镜像源，不然的话会下载非常慢，比如pip install的时候
+
+
+
+#### 1panel的反向代理
+
+![使用OpenResty](images/index/image-3.png)
