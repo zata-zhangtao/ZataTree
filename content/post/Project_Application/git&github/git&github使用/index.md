@@ -13,18 +13,29 @@ tags: ["git&github","教程"]
 ---
 
 
-||
+## 目录
+|标题|
 |---|
-|- [port 22 无法pull push问题](#git-push-ssh-connect-to-host-githubcom-port-22-connection-timed-out-fatal-could-not)|
-|-[windows系统服务器做远程开发的问题](#使用windows系统服务器做远程开发碰到的问题)|
-|-[暂存区有文件，想保存到新分支`feature-branch`](#假设你当前在main分支暂存区有文件file1txt和file2txt想保存到新分支feature-branch)|
-
+|- [git基本使用](#git基本使用)|
+|- [如果想要临时查看某次commit时项目的全部代码](#如果想要临时查看某次commit时项目的全部代码)|
+|- [在本地开发环境检查远程是否更新](#在本地开发环境检查远程是否更新)|
+|- [git clone 远程项目,同步远程项目更新](#git-clone-远程项目同步远程项目更新)|
+|- [git 版本标签](#git-版本标签)|
+|- [git merge详解](#git-merge详解)|
+|- [git pull merge git 多人协作的时候怎么解决冲突？](#git-pullmerge-git-多人协作的时候怎么解决冲突)|
+|- [公式 github github不显示md文件中的公式](#公式-github-github不显示md文件中的公式)|
+|- [git 使用ssh密钥登录github](#git-使用ssh密钥登录github)|
+|- [git 使用token登录github 并拉取项目](#git-使用token登录github-并拉取项目如果电脑上已经登录过了需要把账户信息清除掉如果是用ssh密钥登录的也不行清除token账户信息请看下面清除电脑上已经登录的github账户信息)|
+|- [一些问题解决](#一些问题解决)|
+|- [使用windows系统服务器做远程开发碰到的问题](#使用windows系统服务器做远程开发碰到的问题)|
 
 
 ##  git基本使用
 ### 简单常用命令
 
 ```bash
+
+git log --oneline --graph --all # 显示所有分支的提交记录
 
 git branch --set-upstream-to=origin/<远程分支> <本地分支> # 绑定本地分支和远程分支
 
@@ -94,244 +105,753 @@ test* 忽略以test开头的文件
 
 ## 复杂命令
 
-### pull
+
+---
+
+### 1. 仓库初始化与基本配置
+
+#### 初始化仓库
 ```bash
-git pull origin master --allow-unrelated-histories    # 无视没有共同历史合并  
+# 初始化一个新的 Git 仓库
+git init
+# 初始化并指定仓库目录
+git init <directory>
+```
+- **作用**: 在当前目录或指定目录创建 `.git` 目录，初始化 Git 仓库。
+- **注意**: 运行 `git init` 后，需配置用户信息（如用户名、邮箱）。
+
+#### 配置用户信息
+```bash
+# 设置全局用户名
+git config --global user.name "Your Name"
+# 设置全局邮箱
+git config --global user.email "your.email@example.com"
+# 查看全局配置
+git config --global --list
+# 查看特定配置
+git config user.name
+```
+- **作用**: 配置提交时的用户信息，存储在 `~/.gitconfig` 或仓库内的 `.git/config` 中。
+- **注意**: 如果不配置，提交时可能报错。可以用 `--local` 针对单个仓库配置。
+
+#### 克隆仓库
+```bash
+# 克隆远程仓库到本地
+git clone <repository-url>
+# 克隆到指定目录
+git clone <repository-url> <directory>
+# 克隆特定分支
+git clone -b <branch-name> <repository-url>
+```
+- **作用**: 将远程仓库复制到本地，包括所有分支和提交历史。
+- **注意**: 默认克隆后会自动检出默认分支（通常是 `main` 或 `master`）。
+
+---
+
+### 2. 查看提交历史 (`git log`)
+
+#### 基本用法
+```bash
+# 查看提交历史（详细）
+git log
+# 单行显示提交历史
+git log --oneline
+# 显示分支和合并的图形化历史
+git log --oneline --graph
+# 显示所有分支的提交历史
+git log --oneline --graph --all
+```
+- **作用**: 显示提交历史，包括提交哈希、作者、日期和提交信息。
+- **示例输出**:
+  ```
+  *   a1b2c3d (HEAD -> main) Merge branch 'feature'
+  |\
+  | * 9e8f7g6 (feature) Add new feature
+  | * 4d5e6f7 Implement feature X
+  * | 2b3c4d5 Fix bug in main
+  * 0f9e8d7 Initial commit
+  ```
+
+#### 高级选项
+```bash
+# 显示最近 n 次提交
+git log -n <number>
+# 示例：显示最近 3 次提交
+git log -3
+
+# 按作者过滤
+git log --author="Author Name"
+
+# 按时间范围过滤
+git log --since="2025-01-01" --until="2025-07-01"
+
+# 显示特定文件的提交历史
+git log -- <file-path>
+# 示例：查看 README.md 的提交历史
+git log -- README.md
+
+# 显示提交的详细变更
+git log -p
+# 显示简化的变更统计
+git log --stat
+
+# 按提交信息搜索
+git log --grep="keyword"
+
+# 显示分支间的差异提交
+git log <branch1>..<branch2>
+# 示例：显示 feature 分支独有的提交
+git log main..feature
 ```
 
-### remote
-
+#### 格式化输出
 ```bash
+# 自定义输出格式
+git log --pretty=format:"%h %an %ar %s"
+# 格式说明：
+# %h: 短哈希
+# %an: 作者名
+# %ar: 相对时间
+# %s: 提交信息
+```
 
-# 仓库路径查询
+#### 注意事项
+- 使用 `--oneline --graph --all` 适合快速概览分支结构。
+- 对于复杂仓库，输出可能较长，可用 `less`（默认分页器）浏览，或结合 `-n` 限制输出。
+- 如果需要交互式查看历史，推荐使用工具如 `tig` 或图形化界面（如 GitKraken）。
+
+---
+
+### 3. 远程仓库操作 (`git remote`)
+
+#### 查看远程仓库
+```bash
+# 查看远程仓库信息
 git remote -v
+# 示例输出：
+# origin  https://github.com/user/repo.git (fetch)
+# origin  https://github.com/user/repo.git (push)
+```
 
-#添加远程仓库：
-git remote add <远程仓库名> <你的项目地址> 
+#### 添加远程仓库
+```bash
+git remote add <remote-name> <repository-url>
+# 示例：添加 origin 远程仓库
+git remote add origin https://github.com/user/repo.git
+```
 
-#删除指定的远程仓库
+#### 删除远程仓库
+```bash
+git remote rm <remote-name>
+# 示例：删除 origin
 git remote rm origin
-
-# 修改远程仓库地址
-git remote set-url origin <remote-url>
-
-
-
 ```
 
-
-### branch 
-
+#### 修改远程仓库地址
 ```bash
-# 创建分支
-git branch <分支名>
+git remote set-url <remote-name> <new-url>
+# 示例：修改 origin 的 URL
+git remote set-url origin https://github.com/user/new-repo.git
+```
 
-# 创建一个空白分支
-git checkout --orphan <分支名>
+#### 查看远程分支
+```bash
+git fetch origin
+git branch -r
+# 示例输出：
+# origin/main
+# origin/feature
+```
 
-# 重命名分支
-​ git branch -m oldName newName
-
-#删除已经合并到其他分支的分支
-git branch -d <分支名>
-#删除未合并到其他分支的分支     注意  ： 一个d一个是D
-git branch -D <分支名>
-
-# 查看分支
-git fetch origin #在查看之前，建议先更新本地对远程仓库的索引
-git branch -r  # 查看远程分支
-git branch -a # 查看所有分支
-
-
+#### 注意事项
+- `git fetch` 更新本地对远程仓库的索引，但不合并代码。
+- 确保远程 URL 有效，HTTPS 和 SSH 协议均可使用。
 
 ---
-# 2、 远程分支重命名
-# 重命名远程分支对应的本地分支
-git branch -m oldName newName
-#删除远程分支
-git push --delete origin oldName
-#上传新命名的本地分支
-git push origin newName
-#把修改的本地分支与远程分支关联
-git branch --set-upstream-to origin/newName
+
+### 4. 分支管理 (`git branch`)
+
+#### 创建分支
+```bash
+git branch <branch-name>
+# 示例：创建 feature 分支
+git branch feature
+```
+
+#### 创建并切换到新分支
+```bash
+git checkout -b <branch-name>
+# 示例：创建并切换到 feature 分支
+git checkout -b feature
+```
+
+#### 创建空白分支
+```bash
+git checkout --orphan <branch-name>
+# 示例：创建空分支 new-branch
+git checkout --orphan new-branch
+```
+- **作用**: 创建一个没有历史记录的分支，适合初始化全新内容。
+- **注意**: 创建后需手动提交初始内容。
+
+#### 重命名分支
+```bash
+# 重命名当前分支
+git branch -m <new-name>
+# 重命名指定分支
+git branch -m <old-name> <new-name>
+# 示例：将 feature 重命名为 new-feature
+git branch -m feature new-feature
+```
+
+#### 删除分支
+```bash
+# 删除已合并的分支
+git branch -d <branch-name>
+# 示例：删除 feature 分支
+git branch -d feature
+
+# 强制删除未合并的分支
+git branch -D <branch-name>
+# 示例：强制删除 feature 分支
+git branch - FISHBONE
+```
+
+#### 查看分支
+```bash
+# 查看本地分支
+git branch
+# 查看远程分支
+git branch -r
+# 查看所有分支（本地+远程）
+git branch -a
+# 查看分支详细信息（包括最后提交）
+git branch -vv
+```
+
+#### 远程分支重命名
+```bash
+# 重命名本地分支
+git branch -m <old-name> <new-name>
+# 删除远程分支
+git push --delete origin <old-name>
+# 推送新分支到远程
+git push origin <new-name>
+# 设置本地分支跟踪远程分支
+git branch --set-upstream-to=origin/<new-name>
+```
+
+#### 注意事项
+- 删除分支前确保分支已合并或不再需要，`-D` 会强制删除未合并分支，谨慎使用。
+- 远程分支操作需推送至远程仓库，需有相应权限。
+
 ---
 
+### 5. 切换与检出 (`git checkout`)
 
-#3、查看当前代码仓库源
-#查看当前源
-git remote -v
-
-#重设
-git remote set-url origin xxxx_url
-```
-
-
-
-
-### checkout
-
+#### 切换分支
 ```bash
-# 切换分支
-git checkout <分支名或者commit>
-# 从历史commit回到最新commit
-git checkout <分支名>
-git checkout -f <branch-name> # 如果做了更改但是不想保留
-# 创建分支并切换
-git checkout -b <分支名>
-# 创建一个空白分支
-git checkout --orphan <分支名>
-
+git checkout <branch-name>
+# 示例：切换到 feature 分支
+git checkout feature
 ```
 
-
-
-### bundle  用于备份
-https://blog.csdn.net/penriver/article/details/126579266
-
+#### 检出特定提交
 ```bash
-# 打包
-git bundle create <打包名>.bundle HEAD <分支名>
+git checkout <commit-hash>
+# 示例：检出某次提交
+git checkout a1b2c3d
+```
+- **注意**: 进入“分离头指针”状态，提交会丢失，除非创建新分支保存。
 
-# 验证文件合法
-git bundle verify <打包名>.bundle
-
-# 恢复
-git clone <打包名>.bundle
-
+#### 强制检出（丢弃更改）
+```bash
+git checkout -f <branch-name>
+# 示例：强制切换到 main，丢弃当前更改
+git checkout -f main
 ```
 
+#### 创建并切换分支
+```bash
+git checkout -b <branch-name>
+# 示例：创建并切换到 feature 分支
+git checkout -b feature
+```
 
+#### 恢复文件
+```bash
+# 恢复指定文件到最近提交状态
+git checkout -- <file-path>
+# 示例：恢复 README.md
+git checkout -- README.md
+```
 
+#### 注意事项
+- `git checkout` 在 Git 2.23 后部分功能被 `git switch` 和 `git restore` 替代，但仍广泛使用。
+- 分离头指针状态下提交需谨慎，建议立即创建分支。
 
+---
 
-### merge 
+### 6. 拉取代码 (`git pull`)
 
-```bash 
-# 合并feature分支到main分支
+#### 基本用法
+```bash
+# 拉取并合并远程分支
+git pull <remote-name> <branch-name>
+# 示例：拉取 origin 的 main 分支
+git pull origin main
+```
+
+#### 允许无关历史合并
+```bash
+git pull origin <branch-name> --allow-unrelated-histories
+# 示例：拉取 master 分支，允许无关历史
+git pull origin master --allow-unrelated-histories
+```
+- **作用**: 合并两个没有共同祖先的仓库历史。
+- **注意**: 可能导致冲突，需手动解决。
+
+#### 只拉取不合并
+```bash
+git pull --no-commit
+# 示例：拉取但不自动提交合并
+git pull origin main --no-commit
+```
+
+#### 注意事项
+- `git pull` 相当于 `git fetch` + `git merge`，可通过 `--rebase` 改为变基合并。
+- 确保工作区干净，否则可能报错。
+
+---
+
+### 7. 合并操作 (`git merge`)
+
+#### 基本用法
+```bash
+# 合并分支到当前分支
+git checkout <target-branch>
+git merge <source-branch>
+# 示例：将 feature 合并到 main
 git checkout main
 git merge feature
+```
 
-# 如果是远程分支合并
+#### 合并远程分支
+```bash
+git merge origin/<branch-name>
+# 示例：合并远程 feature 分支
 git merge origin/feature
-
 ```
 
-关于merge的详解可见参考[git merge](#git-merge详解)
+#### 处理合并冲突
+- 如果合并时出现冲突：
+  1. 查看冲突文件（标记为 `<<<<<<<`、`=======`、`>>>>>>>`）。
+  2. 手动编辑解决冲突。
+  3. 标记已解决：`git add <file>`。
+  4. 继续合并：`git merge --continue`。
+  5. 或放弃合并：`git merge --abort`。
 
-
-### tag
-
+#### 高级选项
 ```bash
-# 创建标签
-git tag <tagname>                          # 轻量标签
-git tag -a <tagname> -m "<message>"       # 带注释标签
-git tag <tagname> <commit-hash>           # 为特定提交打轻量标签
-git tag -a <tagname> <commit-hash> -m "<message>" # 为特定提交打注释标签
-git tag -s <tagname> -m "<message>"       # 创建带 GPG 签名的标签
-
-# 查看标签
-git tag                                   # 列出所有标签
-git tag -l                                # 同上
-git tag -l "<pattern>"                    # 按模式查找标签（如 v1.*）
-git show <tagname>                        # 显示标签详细信息
-git tag -v <tagname>                      # 验证签名标签
-
-# 推送标签
-git push origin <tagname>                 # 推送单个标签
-git push origin --tags                    # 推送所有标签
-
-# 删除标签
-git tag -d <tagname>                      # 删除本地标签
-git push origin --delete <tagname>        # 删除远程标签
-
-# 切换到标签
-git checkout <tagname>                    # 检出标签（进入分离头指针状态）
+# 不创建合并提交（fast-forward）
+git merge --ff-only <branch-name>
+# 强制创建合并提交
+git merge --no-ff <branch-name>
+# 放弃自动提交，需手动提交
+git merge --no-commit <branch-name>
 ```
 
+#### 注意事项
+- Fast-forward 合并会保持线性历史，但可能丢失分支信息。
+- 合并前确保当前分支干净，必要时使用 `git stash` 保存更改。
 
-### revert
+---
+
+### 8. 标签管理 (`git tag`)
+
+#### 创建标签
 ```bash
-# Git revert 使用指导
+# 创建轻量标签
+git tag <tag-name>
+# 创建带注释标签
+git tag -a <tag-name> -m "message"
+# 为特定提交打标签
+git tag <tag-name> <commit-hash>
+# 创建带 GPG 签名的标签
+git tag -s <tag-name> -m "message"
+```
 
-# 1. 基本概念
-# git revert 用于撤销某次提交，创建一个新的提交来抵消指定提交的更改
-# 适用于已推送的公共仓库，避免直接修改历史记录
+#### 查看标签
+```bash
+# 列出所有标签
+git tag
+# 按模式查找标签
+git tag -l "<pattern>"
+# 示例：查找 v1.* 标签
+git tag -l "v1.*"
+# 查看标签详情
+git show <tag-name>
+```
 
-# 2. 基本用法
-# 撤销本次提交
+#### 推送标签
+```bash
+# 推送单个标签
+git push origin <tag-name>
+# 推送所有标签
+git push origin --tags
+```
+
+#### 删除标签
+```bash
+# 删除本地标签
+git tag -d <tag-name>
+# 删除远程标签
+git push origin --delete <tag-name>
+```
+
+#### 检出标签
+```bash
+git checkout <tag-name>
+# 示例：检出 v1.0
+git checkout v1.0
+```
+- **注意**: 检出标签进入分离头指针状态，建议创建新分支。
+
+#### 注意事项
+- 标签通常用于标记版本发布（如 `v1.0`）。
+- 带注释标签（`-a`）包含更多元数据，适合正式发布。
+
+---
+
+### 9. 撤销操作 (`git revert`)
+
+#### 基本用法
+```bash
+# 撤销最近一次提交
 git revert HEAD
-# 撤销单个提交
+# 撤销指定提交
 git revert <commit-hash>
-# 示例：撤销指定的提交
+# 示例：撤销提交 abc123
 git revert abc123
+```
 
-# 3. 常见选项
-# -n 或 --no-commit：执行撤销但不自动提交，需手动 git commit
+#### 高级选项
+```bash
+# 不自动提交
 git revert -n <commit-hash>
-
-# -m 或 --mainline：用于撤销合并提交，指定保留的主线分支（通常 1 或 2）
+# 撤销合并提交（指定主线分支）
 git revert -m 1 <merge-commit-hash>
-
-# --no-edit：使用默认提交信息，不打开编辑器
+# 使用默认提交信息
 git revert --no-edit <commit-hash>
+```
 
-# 4. 撤销连续多个提交
-# 撤销一个范围的提交（从 old 到 new，不包括 old）
+#### 撤销连续提交
+```bash
+# 撤销从 old 到 new 的提交
 git revert <old-commit-hash>..<new-commit-hash>
-# 示例：撤销 abc123 到 def456 的提交
+# 示例：撤销 abc123 到 def456
 git revert abc123..def456
-
-# 5. 处理冲突
-# 如果 revert 过程中出现冲突：
-# 1) 解决冲突
-# 2) 添加解决后的文件：git add <file>
-# 3) 继续 revert：git revert --continue
-# 4) 或放弃 revert：git revert --abort
-
-# 6. 注意事项
-# - revert 不会修改历史记录，而是创建新提交
-# - 适合公共仓库，保持历史完整性
-# - 如果需要彻底删除提交，使用 git reset（谨慎，私有仓库适用）
-# - 撤销合并提交时，需明确主线分支 (-m 选项)
-
-# 7. 示例工作流
-# 查看提交历史
-git log --oneline
-# 找到要撤销的提交：abc123
-# 执行撤销
-git revert abc123
-# 编辑提交信息或直接提交
-git push origin <branch>
-
-# 8. 撤销已经 revert 的提交
-# 如果需要恢复被 revert 的更改，再次 revert 对应的 revert 提交
-git revert <revert-commit-hash>
 ```
 
+#### 处理冲突
+- 解决冲突后：
+  1. 编辑冲突文件。
+  2. 添加文件：`git add <file>`。
+  3. 继续：`git revert --continue`。
+  4. 或放弃：`git revert --abort`。
 
-### show
+#### 注意事项
+- `git revert` 创建新提交，不会修改历史，适合公共仓库。
+- 对比 `git reset`，后者会重写历史，仅限私有仓库。
 
+---
+
+### 10. 查看提交详情 (`git show`)
+
+#### 基本用法
 ```bash
-git show                          # 查看当前 HEAD 提交的详细信息
-git show <commit-id>              # 查看指定提交的详细信息
-git show <commit-id> -- <file-path>  # 查看指定提交中某个文件的变更
-git show <branch-name>            # 查看指定分支最新提交的详细信息
-git show <tag-name>               # 查看指定标签指向的提交详情
+# 查看 HEAD 提交详情
+git show
+# 查看指定提交详情
+git show <commit-hash>
+# 查看提交中某个文件的变更
+git show <commit-hash> -- <file-path>
+# 查看分支最新提交
+git show <branch-name>
+# 查看标签详情
+git show <tag-name>
 ```
 
-### stash   
+#### 注意事项
+- `git show` 显示提交的元数据（作者、日期等）和变更内容。
+- 适合快速检查特定提交的细节。
+
+---
+
+### 11. 临时保存更改 (`git stash`)
+
+#### 基本用法
 ```bash
-git stash                         # 保存当前修改到 stash 栈
-git stash push -m "message"       # 保存修改并添加描述
-git stash push --include-untracked # 保存修改，包括未跟踪文件
-git stash list                    # 查看所有 stash 列表
-git stash apply                   # 恢复最新 stash（不删除）
-git stash apply stash@{n}         # 恢复指定 stash
-git stash pop                     # 恢复最新 stash 并删除
-git stash drop stash@{n}          # 删除指定 stash
-git stash clear                   # 清空所有 stash
+# 保存当前更改到 stash 栈
+git stash
+# 保存并添加描述
+git stash push -m "message"
+# 保存包括未跟踪文件
+git stash push --include-untracked
 ```
 
+#### 查看 stash
+```bash
+# 列出所有 stash
+git stash list
+# 示例输出：
+# stash@{0}: On main: WIP on feature X
+# stash@{1}: On main: Initial changes
+```
+
+#### 恢复 stash
+```bash
+# 恢复最新 stash（保留 stash）
+git stash apply
+# 恢复指定 stash
+git stash apply stash@{n}
+# 恢复并删除最新 stash
+git stash pop
+```
+
+#### 删除 stash
+```bash
+# 删除指定 stash
+git stash drop stash@{n}
+# 清空所有 stash
+git stash clear
+```
+
+#### 注意事项
+- `git stash` 适合临时保存未提交的更改，切换分支时使用。
+- 未跟踪文件需用 `--include-untracked` 保存。
+
+---
+
+### 12. 备份与打包 (`git bundle`)
+
+#### 创建备份
+```bash
+# 打包指定分支
+git bundle create <bundle-name>.bundle HEAD <branch-name>
+# 示例：打包 main 分支
+git bundle create repo.bundle HEAD main
+```
+
+#### 验证备份
+```bash
+git bundle verify <bundle-name>.bundle
+```
+
+#### 恢复备份
+```bash
+# 从 bundle 文件克隆
+git clone <bundle-name>.bundle
+```
+
+#### 注意事项
+- `git bundle` 适合离线备份或迁移仓库。
+- 确保接收端有足够权限和兼容的 Git 版本。
+
+---
+
+### 13. 变基操作 (`git rebase`)
+
+#### 基本用法
+```bash
+# 将当前分支变基到目标分支
+git checkout <feature-branch>
+git rebase <target-branch>
+# 示例：将 feature 变基到 main
+git checkout feature
+git rebase main
+```
+
+#### 交互式变基
+```bash
+# 交互式变基最近 n 次提交
+git rebase -i HEAD~n
+# 示例：编辑最近 3 次提交
+git rebase -i HEAD~3
+```
+- **选项**:
+  - `pick`: 保留提交。
+  - `reword`: 修改提交信息。
+  - `edit`: 编辑提交内容。
+  - `squash`: 合并到前一个提交。
+  - `drop`: 删除提交。
+
+#### 处理冲突
+- 解决冲突后：
+  1. 编辑冲突文件。
+  2. 添加文件：`git add <file>`。
+  3. 继续变基：`git rebase --continue`。
+  4. 或放弃变基：`git rebase --abort`。
+
+#### 注意事项
+- 变基会重写历史，仅限私有分支，公共分支避免使用。
+- 相比 `git merge`，变基保持线性历史，但更复杂。
+
+---
+
+### 14. 重置操作 (`git reset`)
+
+#### 基本用法
+```bash
+# 撤销暂存区的更改（保留工作区）
+git reset <file>
+# 软重置（保留工作区和暂存区）
+git reset --soft <commit-hash>
+# 硬重置（丢弃工作区和暂存区）
+git reset --hard <commit-hash>
+# 示例：重置到指定提交
+git reset --hard abc123
+```
+
+#### 注意事项
+- `git reset --hard` 会丢失所有未提交更改，谨慎使用。
+- 仅限私有仓库，公共仓库使用 `git revert` 更安全。
+
+---
+
+### 15. 状态与差异 (`git status` & `git diff`)
+
+#### 查看状态
+```bash
+# 查看工作区和暂存区状态
+git status
+# 简短输出
+git status -s
+```
+
+#### 查看差异
+```bash
+# 查看工作区与暂存区的差异
+git diff
+# 查看暂存区与最近提交的差异
+git diff --staged
+# 查看两个提交间的差异
+git diff <commit1> <commit2>
+```
+
+#### 注意事项
+- `git status` 是检查工作区状态的常用命令。
+- `git diff` 适合审查代码变更。
+
+---
+
+### 16. 提交操作 (`git commit`)
+
+#### 基本用法
+```bash
+# 提交暂存区内容
+git commit -m "commit message"
+# 提交所有已跟踪的更改
+git commit -a -m "commit message"
+```
+
+#### 修改提交
+```bash
+# 修改最近一次提交（不更改提交信息）
+git commit --amend --no-edit
+# 修改最近一次提交信息
+git commit --amend -m "new message"
+```
+
+#### 注意事项
+- `--amend` 会重写提交历史，谨慎用于公共仓库。
+- 提交信息应清晰简洁，描述更改内容。
+
+---
+
+### 17. 其他实用命令
+
+#### 清理工作区
+```bash
+# 删除未跟踪的文件和目录
+git clean -fd
+# 清理未跟踪文件并显示预览
+git clean -n
+```
+
+#### 查看引用日志
+```bash
+# 查看所有操作记录（包括重置、变基等）
+git reflog
+# 示例：恢复被重置的提交
+git checkout <commit-hash-from-reflog>
+```
+
+#### 子模块管理
+```bash
+# 添加子模块
+git submodule add <repository-url>
+# 更新子模块
+git submodule update --init --recursive
+```
+
+#### 注意事项
+- `git reflog` 可帮助恢复丢失的提交。
+- 子模块适用于管理嵌套仓库。
+
+---
+
+### 18. 常见工作流示例
+
+#### 1. 新功能开发
+```bash
+git checkout -b feature
+# 开发代码...
+git add .
+git commit -m "Add new feature"
+git push origin feature
+# 提交 PR/MR 或合并到 main
+git checkout main
+git merge feature
+git push origin main
+```
+
+#### 2. 修复 bug
+```bash
+git checkout -b bugfix
+# 修复 bug...
+git add .
+git commit -m "Fix bug"
+git push origin bugfix
+```
+
+#### 3. 撤销错误提交
+```bash
+# 撤销最近提交（保留更改）
+git reset --soft HEAD^1
+# 撤销并丢弃更改
+git reset --hard HEAD^1
+# 或创建撤销提交
+git revert HEAD
+```
+
+#### 4. 同步远程更改
+```bash
+git fetch origin
+git checkout main
+git pull origin main
+```
+
+---
+
+
+### 19. 参考资源
+- **官方文档**: [git-scm.com](https://git-scm.com/doc)
+- **教程**: [Atlassian Git Tutorial](https://www.atlassian.com/git)
+- **可视化工具**: GitKraken, SourceTree, VS Code Git 插件
+- **社区**: Stack Overflow, GitHub Discussions
+
+---
 
 
 ## 一些问题解决
@@ -946,62 +1466,6 @@ hosts位置在    /etc/hosts
 
 
 
-## 实战 -- 使用
-
-### 当前正在进行代码的开发，但是想要看历史commit的项目完整代码，而当前的工作区保证原样
-```bash
-# 临时保存当前工作目录中的未提交更改
-git stash
-
-# 切换到指定的 commit（替换 <commit id> 为实际的 commit 哈希值，例如 b2dfde96604dcce732aefccc4c7b4dc1fc8b161a）
-git checkout <commit id>
-
-# 返回到原始分支（替换 <branch name> 为实际的分支名，例如 main）
-git checkout <branch name>
-
-# 恢复之前保存的更改
-git stash pop
-```
-
-### 在 Git 中，如果你想回退到上一个版本继续开发，同时保留已经提交到 `main` 分支的最新提交，可以通过创建新分支并回退的方式实现。
-
-以下是一个推荐的方案和详细教程，基于 Git 的最佳实践，确保操作安全且保留所有历史记录。
-
----
-
-- 方案一(推荐)：
-1. 基于当前代码创建一个新分支，在新分支上介绍功能修改情况
-2. main分支回退到上一个版本
-3. 接着在main分支上进行开发
-```bash
-git branch <branchName>  # 创建一个新分支
-git log --oneline # 查看历史commit，方便下面的切换
-git reset --hard <HEAD^ 或者 commitId>
-```
-
-
-- 方案二：
-1. 直接在main分支上使用revert方法进行回退
-
-```bash
-git revert HEAD
-```
-这会创建一个新的提交，撤销本次更改，恢复上一步状态，但保留所有提交历史。然后可以继续在 `main` 分支上开发。
-![revert](images/index/image-19.png)
-
-
-
-### 假设你当前在`main`分支，暂存区有文件`file1.txt`和`file2.txt`，想保存到新分支`feature-branch`
-```bash
-git checkout -b feature-branch
-git commit -m "Add file1 and file2 to feature branch"
-git push origin feature-branch
-```
-
-
-
-
-
 ## 知识点
 
 ### git reset --hard HEAD^的含义
@@ -1064,3 +1528,84 @@ A <- B (HEAD)
 - **`HEAD^`**: 指向当前 HEAD 的上一个提交。
 
 这条命令的总体效果是“撤销最近一次提交并恢复到上一个提交的状态，同时丢弃所有未提交的更改”。如果你只是想撤销提交但保留更改，可以考虑使用 `git reset --soft HEAD^` 或其他命令（如 `git revert`）。
+
+## 实战 -- 使用
+
+### 当前正在进行代码的开发，但是想要看历史commit的项目完整代码，而当前的工作区保证原样
+```bash
+# 临时保存当前工作目录中的未提交更改
+git stash
+
+# 切换到指定的 commit（替换 <commit id> 为实际的 commit 哈希值，例如 b2dfde96604dcce732aefccc4c7b4dc1fc8b161a）
+git checkout <commit id>
+
+# 返回到原始分支（替换 <branch name> 为实际的分支名，例如 main）
+git checkout <branch name>
+
+# 恢复之前保存的更改
+git stash pop
+```
+
+### 在 Git 中，如果你想回退到上一个版本继续开发，同时保留已经提交到 `main` 分支的最新提交，可以通过创建新分支并回退的方式实现。
+
+以下是一个推荐的方案和详细教程，基于 Git 的最佳实践，确保操作安全且保留所有历史记录。
+
+---
+
+- 方案一(推荐)：
+1. 基于当前代码创建一个新分支，在新分支上介绍功能修改情况
+2. main分支回退到上一个版本
+3. 接着在main分支上进行开发
+```bash
+git branch <branchName>  # 创建一个新分支
+git log --oneline # 查看历史commit，方便下面的切换
+git reset --hard <HEAD^ 或者 commitId>
+```
+
+
+- 方案二：
+1. 直接在main分支上使用revert方法进行回退
+
+```bash
+git revert HEAD
+```
+这会创建一个新的提交，撤销本次更改，恢复上一步状态，但保留所有提交历史。然后可以继续在 `main` 分支上开发。
+![revert](images/index/image-19.png)
+
+
+
+### 假设你当前在`main`分支，暂存区有文件`file1.txt`和`file2.txt`，想保存到新分支`feature-branch`
+```bash
+git checkout -b feature-branch
+git commit -m "Add file1 and file2 to feature branch"
+git push origin feature-branch
+```
+
+### 排查 Git push失败问题 
+
+
+当 `git push` 失败并提示 `Updates were rejected because the remote contains work that you do not have locally`，可以按照以下步骤查看远程仓库中的更改并解决问题：
+
+1. **获取远程更改**  
+   运行 `git fetch origin` 下载远程仓库的最新状态，不影响本地工作目录。
+
+2. **比较本地与远程分支**  
+   - 查看提交历史：`git log --oneline --graph --all`  
+     显示本地 `main` 和远程 `origin/main` 的提交差异。  
+   - 查看文件差异：`git diff --name-only origin/main main`  
+     列出远程和本地分支间更改的文件。
+
+3. **检查远程独有提交**  
+   使用 `git log main..origin/main --oneline` 查看远程 `origin/main` 中独有的提交。  
+   查看具体提交内容：`git show <commit-hash>`。
+
+4. **合并远程更改**  
+   运行 `git pull origin main` 合并远程更改到本地。如有冲突，手动解决后提交。  
+   然后推送：`git push origin main`。
+
+5. **谨慎使用强制推送**  
+   若确定覆盖远程更改，运行 `git push origin main --force`（注意：可能丢失他人工作，仅在确认安全时使用）。
+
+**建议**：优先检查远程更改（`git fetch` 和 `git log`），根据需要合并（`git pull`）或强制推送。
+
+

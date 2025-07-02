@@ -12,7 +12,13 @@ tags:
 ```bash 
 # Docker 常用命令汇总
 
-## 镜像 (Image) 相关命令
+# 将容器的当前状态保存为新的镜像
+docker commit <my-container> <my-new-image>:[tag]   
+
+
+
+```
+镜像 (Image) 相关命令
 
 镜像是创建容器的基础，包含了应用程序及其依赖的环境。
 
@@ -29,7 +35,7 @@ tags:
 | `docker load -i [文件名.tar]` | 从一个 tar 归档文件加载镜像。 |
 | `docker rmi $(docker images -qf "dangling=true")` | 删除所有悬空的（dangling）镜像。 |
 
-## 容器 (Container) 相关命令
+ 容器 (Container) 相关命令
 
 容器是镜像的运行实例，是真正运行应用程序的地方。
 
@@ -64,7 +70,7 @@ tags:
 **示例:**
 `docker run -d -p 8080:80 --name my-web-server -v /webapp:/usr/share/nginx/html nginx`
 
-## Docker Compose 相关命令
+ Docker Compose 相关命令
 
 用于定义和运行多容器 Docker 应用程序的工具。
 
@@ -82,7 +88,7 @@ tags:
 | `docker-compose stop` | 停止服务，但不删除容器。 |
 | `docker-compose start` | 启动已停止的服务。 |
 
-## 系统与资源管理命令
+ 系统与资源管理命令
 
 | 命令 | 描述 |
 | :--- | :--- |
@@ -97,8 +103,6 @@ tags:
 | `docker logout` | 登出 Docker Hub 或其他镜像仓库。 |
 | `docker info` | 显示 Docker 系统范围的信息。 |
 | `docker version` | 显示 Docker 的版本信息。 |
-
-```
 
 
 
