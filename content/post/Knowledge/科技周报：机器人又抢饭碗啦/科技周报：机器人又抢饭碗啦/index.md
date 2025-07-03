@@ -10,7 +10,7 @@ tags:
 ---
 
 
-
+ 
 
 - [2025年06月第一周](#2025年06月第一周)
   - [新闻](#新闻)
@@ -18,6 +18,22 @@ tags:
     - [google vertex 是什么？](#google-vertex-是什么)
 
 
+
+
+
+
+### 2025年07月第一周
+
+#### 新闻
+
+
+
+#### 项目
+
+|项目地址|描述|
+|---|---|
+|[github](https://github.com/Paper2Poster/Paper2Poster) | Paper2Poster: Multimodal Poster Automation from Scientific Papers从科学论文自动生成多模态海报的项目|
+|[github](https://github.com/Yuliang-Liu/MonkeyOCR)|很牛的解析模型|
 
 
 
