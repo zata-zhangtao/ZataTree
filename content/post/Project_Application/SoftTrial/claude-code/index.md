@@ -70,3 +70,47 @@ mkdir -p ~/.npm-global
 
 ```
 
+#### 修复 macOS 上 Claude Code 需要 sudo 运行的问题
+
+##### 问题
+Claude Code 安装在 `/usr/local/lib`，需要 `sudo claude` 运行，导致权限问题。卸载 `https://gaccode.com/claudecode/install` 失败，因为使用了错误包名。
+
+##### 解决步骤
+1. **卸载 Claude Code**
+   ```bash
+   sudo npm uninstall -g @anthropic-ai/claude-code
+   ```
+   验证卸载：
+   ```bash
+   npm list -g --depth=0
+   sudo rm -f /usr/local/bin/claude
+   ```
+
+2. **配置 npm 全局路径到用户目录**
+   ```bash
+   mkdir -p ~/.npm-global
+   npm config set prefix ~/.npm-global
+   echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.zshrc
+   source ~/.zshrc
+   ```
+
+3. **重新安装 Claude Code**
+   ```bash
+   npm install -g @anthropic-ai/claude-code
+   ```
+   可选使用镜像源：
+   ```bash
+   npm install -g @anthropic-ai/claude-code --registry=https://registry.npmmirror.com
+   ```
+
+4. **验证运行**
+   ```bash
+   which claude  # 应输出 ~/.npm-global/bin/claude
+   claude --help  # 应显示帮助信息
+   ```
+
+##### 注意事项
+- 如果仍有错误，检查：
+  - `npm config get prefix` 是否为 `~/.npm-global`。
+  - `echo $PATH` 是否包含 `~/.npm-global/bin`。
+- 避免使用 `sudo claude`，否则可能导致文件权限混乱或配置丢失。

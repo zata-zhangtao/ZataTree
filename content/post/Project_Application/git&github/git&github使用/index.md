@@ -14,20 +14,35 @@ tags: ["git&github","教程"]
 
 
 ## 目录
-|标题|
-|---|
-|- [git基本使用](#git基本使用)|
-|- [如果想要临时查看某次commit时项目的全部代码](#如果想要临时查看某次commit时项目的全部代码)|
-|- [在本地开发环境检查远程是否更新](#在本地开发环境检查远程是否更新)|
-|- [git clone 远程项目,同步远程项目更新](#git-clone-远程项目同步远程项目更新)|
-|- [git 版本标签](#git-版本标签)|
-|- [git merge详解](#git-merge详解)|
-|- [git pull merge git 多人协作的时候怎么解决冲突？](#git-pullmerge-git-多人协作的时候怎么解决冲突)|
-|- [公式 github github不显示md文件中的公式](#公式-github-github不显示md文件中的公式)|
-|- [git 使用ssh密钥登录github](#git-使用ssh密钥登录github)|
-|- [git 使用token登录github 并拉取项目](#git-使用token登录github-并拉取项目如果电脑上已经登录过了需要把账户信息清除掉如果是用ssh密钥登录的也不行清除token账户信息请看下面清除电脑上已经登录的github账户信息)|
-|- [一些问题解决](#一些问题解决)|
-|- [使用windows系统服务器做远程开发碰到的问题](#使用windows系统服务器做远程开发碰到的问题)|
+- **Git 基础操作**
+  - [git基本使用](#git基本使用)
+  - [如果想要临时查看某次commit时项目的全部代码](#如果想要临时查看某次commit时项目的全部代码)
+  - [在本地开发环境检查远程是否更新](#在本地开发环境检查远程是否更新)
+
+- **远程仓库操作**
+  - [git clone 远程项目,同步远程项目更新](#git-clone-远程项目同步远程项目更新)
+  - [git 版本标签](#git-版本标签)
+
+- **分支与合并**
+  - [git merge详解](#git-merge详解)
+  - [git pull merge git 多人协作的时候怎么解决冲突？](#git-pullmerge-git-多人协作的时候怎么解决冲突)
+
+- **版本回退与撤销**
+  - [git reset --hard HEAD^ 详解](#git-reset---hard-head-详解)
+  - [恢复被 Git 合并覆盖的提交并防止未来覆盖](#恢复被-git-合并覆盖的提交并防止未来覆盖)
+  - [当前正在进行代码的开发，但是想要看历史commit的项目完整代码，而当前的工作区保证原样](#当前正在进行代码的开发但是想要看历史commit的项目完整代码而当前的工作区保证原样)
+  - [回退到上一个版本继续开发的方案](#在-git-中如果你想回退到上一个版本继续开发同时保留已经提交到-main-分支的最新提交可以通过创建新分支并回退的方式实现)
+
+- **GitHub 相关**
+  - [公式 github github不显示md文件中的公式](#公式-github-github不显示md文件中的公式)
+
+- **身份验证**
+  - [git 使用ssh密钥登录github](#git-使用ssh密钥登录github)
+  - [git 使用token登录github 并拉取项目](#git-使用token登录github-并拉取项目如果电脑上已经登录过了需要把账户信息清除掉如果是用ssh密钥登录的也不行清除token账户信息请看下面清除电脑上已经登录的github账户信息)
+
+- **问题解决**
+  - [一些问题解决](#一些问题解决)
+  - [使用windows系统服务器做远程开发碰到的问题](#使用windows系统服务器做远程开发碰到的问题)
 
 
 ##  git基本使用
@@ -1530,6 +1545,87 @@ A <- B (HEAD)
 这条命令的总体效果是“撤销最近一次提交并恢复到上一个提交的状态，同时丢弃所有未提交的更改”。如果你只是想撤销提交但保留更改，可以考虑使用 `git reset --soft HEAD^` 或其他命令（如 `git revert`）。
 
 ## 实战 -- 使用
+
+### 恢复被 Git 合并覆盖的提交并防止未来覆盖
+
+#### 问题背景
+主分支（`main`）的修改在合并（如 `zata_ssh/hugo`）时被覆盖，可能是快速合并或 `ort` 策略自动选择远程分支内容导致。
+
+#### 恢复被覆盖的提交
+1. **查看历史**：
+   ```bash
+   git reflog main
+   ```
+   找到合并前的提交（如 `b510d7b`）。
+
+2. **恢复提交**：
+   ```bash
+   git checkout main
+   git reset --hard b510d7b
+   ```
+
+3. **备份分支**：
+   ```bash
+   git branch main-backup main
+   ```
+
+4. **推送更改（谨慎）**：
+   如果已推送到远程，需强制推送：
+   ```bash
+   git push --force
+   ```
+   **警告**：提前通知团队，强制推送会影响远程历史。
+
+#### 重新合并（避免覆盖）
+1. **拉取远程分支**：
+   ```bash
+   git fetch zata_ssh
+   ```
+
+2. **非快速合并**：
+   ```bash
+   git merge --no-ff zata_ssh/hugo
+   ```
+   若有冲突，手动解决：
+   ```bash
+   git add <file>
+   git commit
+   ```
+
+3. **或使用变基**：
+   ```bash
+   git checkout zata_ssh/hugo
+   git rebase main
+   git checkout main
+   git merge zata_ssh/hugo
+   ```
+
+#### 预防未来覆盖
+- **禁用快速合并**：
+  ```bash
+  git config --global merge.ff false
+  git config --global pull.ff only
+  ```
+- **预览差异**：
+  ```bash
+  git diff main zata_ssh/hugo
+  ```
+- **测试合并**：
+  ```bash
+  git checkout -b temp-merge
+  git merge zata_ssh/hugo
+  ```
+
+#### 注意事项
+- 检查合并提交（`61d17c8`, `14e36c9`）的文件变化：
+  ```bash
+  git show 61d17c8
+  ```
+- 确认 `main` 跟踪分支：
+  ```bash
+  git branch -vv
+  ```
+
 
 ### 当前正在进行代码的开发，但是想要看历史commit的项目完整代码，而当前的工作区保证原样
 ```bash
