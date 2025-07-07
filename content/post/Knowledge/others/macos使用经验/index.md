@@ -10,7 +10,7 @@ tags:
 ---
 
 
-### 常用快捷键
+## 常用快捷键
 
 * 全屏截图 control+shift+alt+3
 * 区域截图 control+shift+alt+4
@@ -25,6 +25,9 @@ tags:
 
 
 
+
+
+## GUI实战
 
 ### 一个软件打开了多个窗口，但你只看到一个窗口？
 
@@ -170,4 +173,49 @@ unset 变量名
   ```
 
 ---
+
+
+## 命令行实战
+
+### macOS 下更改文件夹及文件所有者为 zata 用户的教程
+
+`目标`
+
+将指定文件夹及其下所有文件的权限更改为 `zata` 用户。
+
+`步骤`
+
+1. **打开终端**：
+   - 使用 `Command + T` 或在应用程序中打开「终端」。
+
+2. **更改所有者**：
+   - 运行以下命令，将文件夹及其内容的所有者设为 `zata`：
+     ```bash
+     sudo chown -R zata /path/to/your/folder
+     ```
+     - 替换 `/path/to/your/folder` 为实际文件夹路径（如 `/Users/yourname/Documents`）。
+     - `sudo` 需要管理员密码。
+
+3. **（可选）设置权限**：
+   - 若需设置具体权限（例如只给 `zata` 读写权限），运行：
+     ```bash
+     sudo chmod -R u=rwX,go= /path/to/your/folder
+     ```
+
+4. **验证更改**：
+   - 检查文件所有者和权限：
+     ```bash
+     ls -l /path/to/your/folder
+     ```
+   - 包含隐藏文件：
+     ```bash
+     ls -ld /path/to/your/folder/* /path/to/your/folder/.*
+     ```
+
+` 注意事项`
+
+- 确保 `zata` 用户存在（用 `id zata` 检查）。
+- 确认路径正确，避免误操作。
+- 更改权限前备份重要数据。
+
 

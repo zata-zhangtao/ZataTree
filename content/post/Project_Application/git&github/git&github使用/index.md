@@ -792,6 +792,10 @@ git commit --amend -m "new message"
 git clean -fd
 # 清理未跟踪文件并显示预览
 git clean -n
+
+# 取消追踪某种类型文件
+find . -name "*.pyc"   # 必须检查一下，防止出问题
+git rm -r --cached "*.pyc" 
 ```
 
 #### 查看引用日志

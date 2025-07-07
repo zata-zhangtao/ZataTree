@@ -82,6 +82,9 @@ scp  -r local_dir username@servername:remote_dir
 
 
 ### 4. SSH 端口转发
+
+<span style="color :red"> 注意必须要提前配置公网服务器的ssh配置文件 可见ssh问题中的“通过 SSH 反向隧道将本地前后端暴露到公网” </span>
+
 ```bash
 # 本地端口转发
 ssh -L local_port:target_host:target_port username@hostname
@@ -359,6 +362,221 @@ sudo systemctl restart ssh
 
 
 ## SSH 问题
+
+
+
+### 使用公网Linux服务器为Windows电脑做内网穿透
+
+#### 方法一：使用FRP（推荐，稳定可靠）
+
+FRP (Fast Reverse Proxy) 是一款专为此类场景设计的工具，功能强大，支持断线重连，适合长期稳定使用。
+
+1. 服务端配置 (Linux公网服务器)
+
+下载并解压FRP:
+
+```Bash
+# 前往 https://github.com/fatedier/frp/releases 找最新版Linux amd64链接
+
+wget [最新版frp的linux_amd64.tar.gz链接]
+
+tar -zxvf frp_*.tar.gzcd frp_*/
+```
+
+配置 frps.ini:
+
+
+
+``` TOML
+# frps.ini[common]bind_port = 7000                 # 用于和客户端通信的端口token = your_secure_password     # 连接凭证，请务必修改dashboard_port = 7500            # [可选] 状态仪表盘端口dashboard_user = admin           # [可选] 仪表盘用户名dashboard_pwd = admin_password   # [可选] 仪表盘密码
+```
+
+开放服务器防火墙:
+
+确保开放 7000 端口以及你计划用于转发的端口（如下文的 7001）和仪表盘端口 7500。
+
+
+
+```Bash
+
+
+
+# firewalld示例
+
+sudo firewall-cmd --add-port=7000/tcp --permanent
+
+sudo firewall-cmd --add-port=7001/tcp --permanent
+
+sudo firewall-cmd --reload
+```
+
+运行服务端:
+
+```Bash
+
+
+
+./frps -c ./frps.ini
+```
+
+建议设置为 systemd 服务以实现开机自启和后台运行。
+
+2. 客户端配置 (Windows内网电脑)
+
+下载并解压FRP: 前往FRP的GitHub Releases页面，下载对应的 windows_amd64.zip 版本并解压。
+
+配置 frpc.ini (以穿透远程桌面为例):
+
+
+
+```TOML
+
+
+
+# frpc.ini[common]server_addr = 你的服务器公网IPserver_port = 7000token = your_secure_password # 必须和服务端一致[rdp]type = tcplocal_ip = 127.0.0.1local_port = 3389          # Windows远程桌面默认端口remote_port = 7001         # 从公网访问的端口
+```
+运行客户端: 打开CMD或PowerShell运行：
+
+
+
+```DOS
+
+# 进入frp目录
+
+.\frpc.exe -c .\frpc.ini
+```
+
+建议使用 nssm 等工具将其注册为Windows服务，实现开机自启。
+
+3. 如何连接
+
+在任何电脑上打开“远程桌面连接”(mstsc)，计算机名处输入：你的服务器公网IP:7001。
+
+
+#### 方法二：使用SSH反向隧道（轻便快捷）
+
+利用SSH内置功能，无需额外软件，适合临时、快速的连接。
+
+1. 服务端配置 (Linux公网服务器)
+
+编辑SSH配置文件，允许公网访问隧道端口：
+
+
+
+```Bash
+
+
+
+sudo vim /etc/ssh/sshd_config
+
+# 找到或添加 GatewayPorts 并设置为 yes：
+GatewayPorts yes
+```
+
+重启SSH服务：
+
+
+
+```Bash
+sudo systemctl restart sshd
+```
+
+2. 客户端操作 (Windows内网电脑)
+
+打开PowerShell或CMD，执行以下命令：
+
+
+
+```PowerShell
+# -fN 表示后台运行且不执行远程命令，只做隧道# 格式: ssh -fN -R [服务器端口]:[本地IP]:[本地端口] [用户名]@[服务器IP]
+
+ssh -fN -R 7001:127.0.0.1:3389 your_user@你的服务器公网IP
+```
+
+该命令会建立一个长连接隧道，关闭窗口则隧道断开。
+
+3. 如何连接
+
+与FRP方式相同，在“远程桌面连接”中输入 你的服务器公网IP:7001。
+
+常见问题：localhost 不行但 127.0.0.1 可以？
+
+这是一个由于IPv6/IPv4解析优先级导致的问题。
+
+
+
+原因: localhost 可能被系统优先解析为IPv6的 ::1 地址，但你的目标服务（如远程桌面）仅在IPv4的 127.0.0.1 上监听。
+
+最佳解决方案: 无需排查，在所有配置（无论是FRP还是SSH）中，请始终使用 127.0.0.1 而不是 localhost。127.0.0.1 明确指向IPv4本地环回地址，能保证连接的准确性，是最简单、最可靠的做法。
+
+
+
+### 通过 SSH 反向隧道将本地前后端暴露到公网
+
+1. **准备公网服务器**
+   - 获取公网服务器（如阿里云），记录 IP（如 `203.0.113.1`）。
+   - 确保安装 SSH 服务（OpenSSH）。
+
+2. **配置公网服务器**
+   - 编辑 `/etc/ssh/sshd_config`，启用：
+     ```bash
+     AllowTcpForwarding yes
+     GatewayPorts yes
+     ```
+   - 重启 SSH：
+     ```bash
+     sudo systemctl restart sshd
+     ```
+   - 开放端口（如 3000、8000）：
+     ```bash
+     sudo ufw allow 3000
+     sudo ufw allow 8000
+     ```
+
+3. **确保本地服务运行**
+   - 前端：运行在 `localhost:3000`（如 React）。
+   - 后端：运行在 `localhost:8000`（如 Flask）。
+   - 确认本地可通过浏览器访问。
+
+4. **配置 SSH 反向隧道**
+   - 在本地运行：
+     ```bash
+     ssh -R 3000:localhost:3000 -R 8000:localhost:8000 user@203.0.113.1
+     ```
+   - 使用 `autossh` 保持连接：
+     ```bash
+     autossh -M 0 -R 3000:localhost:3000 -R 8000:localhost:8000 user@203.0.113.1
+     ```
+
+5. **测试访问**
+   - 访问 `http://203.0.113.1:3000`（前端）和 `http://203.0.113.1:8000`（后端）。
+   - 确保前端 API 请求指向公网 IP（如 `http://203.0.113.1:8000`）。
+
+6. **可选：Nginx 优化**
+   - 安装 Nginx：
+     ```bash
+     sudo apt install nginx
+     ```
+   - 配置 `/etc/nginx/sites-available/default`：
+     ```nginx
+     server {
+         listen 80;
+         server_name 203.0.113.1;
+         location / { proxy_pass http://localhost:3000; }
+         location /api/ { proxy_pass http://localhost:8000/; }
+     }
+     ```
+   - 重启 Nginx：
+     ```bash
+     sudo systemctl restart nginx
+     ```
+
+7. **注意事项**
+   - 保持本地电脑开机和网络稳定。
+   - 配置 SSH 密钥认证提高安全性。
+   - 检查防火墙和 CORS 设置。
+
+
 ### 解决 ssh 连接远程主机超时未使用自动断开
 参考：https://blog.csdn.net/Gelomen/article/details/109121069
 
