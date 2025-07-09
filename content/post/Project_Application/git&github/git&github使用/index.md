@@ -874,6 +874,15 @@ git pull origin main
 
 
 ## 一些问题解决
+
+### 解决Mac、linux下使用git命令时中文乱码的办法
+
+![中文乱码](images/index/image-22.png)
+
+```bash
+git config --global core.quotepath false
+```
+
 ### 要将远程仓库的 `other` 分支设置为 `main` 分支，并删除原来的 `main` 分支，可以按照以下步骤操作：
 
 1. **确保本地仓库是最新的**
@@ -1549,6 +1558,214 @@ A <- B (HEAD)
 这条命令的总体效果是“撤销最近一次提交并恢复到上一个提交的状态，同时丢弃所有未提交的更改”。如果你只是想撤销提交但保留更改，可以考虑使用 `git reset --soft HEAD^` 或其他命令（如 `git revert`）。
 
 ## 实战 -- 使用
+
+### 如何彻底删除 Git 历史记录中的大文件
+
+本教程旨在解决一个常见问题：当你在 `git push` 时，即使已经删除了某个大文件，GitHub 依然提示 `GH001: Large files detected` 错误，导致推送失败。
+
+#### 问题场景
+
+你执行了 `git rm a_large_file.pkl` 并创建了一个新的 commit，但在推送时仍然看到类似下面的报错：
+
+```bash
+remote: error: File your_project/a_large_file.pkl is 107.01 MB; this exceeds GitHub's file size limit of 100.00 MB
+remote: error: GH001: Large files detected.
+! [remote rejected] main -> main (pre-receive hook declined)
+```
+![问题](images/index/image-20.png)
+
+**原因是：** Git 会保存每一次的提交记录。虽然你在最新的提交中删除了该文件，但它依然存在于仓库的过往历史中。推送时，GitHub 会检查所有历史记录，发现这个超大文件后便会拒绝接收。
+
+要解决此问题，必须从 Git 的历史记录中将该文件彻底清除。
+
+-----
+
+### 推荐方案：使用 `git-filter-repo` (更简单、更快速)
+
+`git-filter-repo` 是 Git 官方现在推荐用来清理历史记录的工具，它比 Git 的原生命令更高效且易于使用。
+
+#### 1\. 安装 `git-filter-repo`
+
+如果尚未安装，请先执行安装。
+
+  * **macOS (使用 Homebrew):**
+    ```bash
+    brew install git-filter-repo
+    ```
+  * 对于其他系统，请参考其[官方安装文档](https://www.google.com/search?q=https://github.com/newren/git-filter-repo/blob/main/INSTALL.md)。
+
+#### 2\. 从历史记录中删除文件
+
+在你的本地仓库根目录运行以下命令。**此操作会重写历史记录**。
+
+```bash
+# 将 "path/to/your/large_file.pkl" 替换为你的大文件实际路径
+git filter-repo --path "path/to/your/large_file.pkl" --invert-paths
+```
+
+这条命令会自动处理所有分支和标签，从中移除对指定文件的所有引用。
+
+#### 3\. 强制推送到远程仓库
+
+由于本地历史已被重写，你需要强制推送来覆盖远程仓库的历史。
+
+```bash
+git push --force
+```
+
+-----
+
+### 备选方案：使用纯 Git 命令 `git filter-branch`
+
+![git filter-branch](images/index/image-21.png)
+
+如果你不想安装任何新工具，可以使用 Git 内置的 `filter-branch` 命令。
+
+**警告：** 此命令非常复杂且速度慢，操作前强烈建议**备份你的整个项目文件夹**。
+
+#### 1\. 执行历史重写命令
+
+```bash
+# 将 "path/to/your/large_file.pkl" 替换为你的大文件实际路径
+git filter-branch --force --index-filter \
+'git rm --cached --ignore-unmatch "path/to/your/large_file.pkl"' \
+--prune-empty --tag-name-filter cat -- --all
+```
+
+  * `--ignore-unmatch`: 确保在不包含该文件的历史 commit 上命令不会报错。
+  * 此命令执行速度可能很慢，请耐心等待。
+
+#### 2\. 清理仓库并回收空间
+
+`filter-branch` 会留下备份。运行以下命令以彻底清除旧数据并压缩仓库。
+
+```bash
+git reflog expire --expire=now --all
+git gc --prune=now --aggressive
+```
+
+#### 3\. 强制推送
+
+同样，你需要强制推送来更新远程仓库。
+
+```bash
+git push --force
+```
+
+-----
+
+### 未来建议：使用 Git LFS 管理大文件
+
+为了从根源上避免此类问题，当项目中必须包含大文件时，应使用 **Git Large File Storage (LFS)**。
+
+Git LFS 会将大文件存储在专门的服务器上，而在你的仓库中只保留一个轻量级的指针文件，从而使仓库保持小巧和快速。
+
+#### LFS 快速上手
+
+1.  **安装 LFS 客户端**
+    ```bash
+    # macOS
+    brew install git-lfs
+    ```
+2.  **在仓库中启用 LFS** (每个项目只需执行一次)
+    ```bash
+    git lfs install
+    ```
+3.  **追踪指定类型的文件** (例如，所有 `.pkl` 和 `.onnx` 文件)
+    ```bash
+    git lfs track "*.pkl"
+    git lfs track "*.onnx"
+    ```
+4.  **提交 `.gitattributes` 文件**
+    `git lfs track` 命令会创建一个 `.gitattributes` 文件，确保将它添加到版本控制中。
+    ```bash
+    git add .gitattributes
+    git commit -m "Configure Git LFS to track large files"
+    ```
+5.  之后，你就可以像平常一样 `git add` 和 `git commit` 大文件了，LFS 会自动处理它们。
+
+### 如何优雅地处理不再使用的 GitHub 仓库
+
+当一个项目长期不用，但又不想彻底删除时，你有以下三种方法可以将其“隐藏”起来，同时保留代码。
+
+#### 方案一：归档仓库 (Archive) - ⭐最推荐
+
+这是 GitHub 官方设计的最佳方案，用于封存项目。
+
+**效果:**
+
+- 仓库从你的主页列表消失。
+- 项目变为只读，无法再推送新代码。
+- **完整保留**所有代码、提交历史、Issues、PRs、Wiki 和 Star。
+- 可以随时一键“取消归档”来恢复项目。
+
+**操作步骤:**
+
+1. 进入仓库页面，点击 `Settings` (设置)。
+2. 在 `General` (常规) 标签页，拉到最下方的 `Danger Zone` (危险区域)。
+3. 点击 `Archive this repository` (归档这个仓库) 并确认。
+
+#### 方案二：设为私有仓库 (Make Private)
+
+如果只是不想让公众看到，但自己还可能修改。
+
+**效果:**
+
+- 仓库从公开主页消失，只有你和协作者可见。
+- 所有功能（推送、提交）完全正常。
+- **注意：** 仓库在你自己的仓库列表中依然可见。
+
+**操作步骤:**
+
+1. 进入仓库 `Settings` -> `General` -> `Danger Zone`。
+2. 点击 `Change repository visibility` (更改仓库可见性)。
+3. 选择 `Make private` (设为私有) 并确认。
+
+#### 方案三：作为另一项目的分支 (不推荐)
+
+将旧仓库的历史合并到另一个项目中，然后删除旧仓库。这是一种复杂且有损的操作。
+
+**效果:**
+
+- 代码和提交历史被合并到新项目的一个分支上。
+- **警告：** 将**永久丢失**旧仓库所有的 Issues、PRs、Wiki 等宝贵记录。
+- 会使主项目的历史变得复杂。
+
+**操作步骤 (命令行):**
+
+```bash
+# 1. 进入你的主项目目录
+cd /path/to/main-project
+
+# 2. 添加旧仓库为临时远程源
+git remote add old_repo https://github.com/user/old-repo.git
+
+# 3. 拉取旧仓库数据
+git fetch old_repo
+
+# 4. 基于旧仓库历史创建新分支 (假设其主分支为 main)
+git switch -c archive/old-project old_repo/main
+
+# 5. 推送新分支到主项目
+git push -u origin archive/old-project
+
+# 6. 删除临时远程源
+git remote remove old_repo
+
+# 7. 去 GitHub 网站上手动删除 old-repo 仓库
+```
+
+#### 总结对比
+
+| 方法 | 优点 | 缺点 | 推荐度 |
+| :--- | :--- | :--- | :--- |
+| **归档 (Archive)** | 保留所有记录、操作简单、可逆 | 项目只读 | ⭐⭐⭐⭐⭐ |
+| **设为私有 (Private)** | 不公开、可继续编辑 | 仍在自己列表显示 | ⭐⭐⭐⭐ |
+| **作为分支合并** | 物理上整合代码 | **丢失Issues/PRs等记录**、操作复杂 | ⭐ |
+
+**结论：** 对于“长期不用但想完整保留”的场景，请始终选择**归档 (Archive)**。
+
+
 
 ### 恢复被 Git 合并覆盖的提交并防止未来覆盖
 
