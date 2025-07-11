@@ -1,5 +1,5 @@
 ---
-title: SSH常用命令
+title: SSH使用教程
 description: ""
 date: 2025-03-14T00:23:43+08:00
 # image: images/index/index.png
@@ -23,8 +23,8 @@ tags:
 ```bash
 sudo apt update # 更新仓库
 sudo apt install openssh-server # 安装openssh
-vi /etc/ssh/sshd_config # 进入配置文件，找到port=22那行，取消注释
-sudo service ssh restart # 重启服务，然后就可以连接了，有时候root用户连不上，可以用普通用户登录再切换到root
+vi /etc/ssh/sshd_config # 进入配置文件，找到port=22那行，取消注释 ，如果想要root登陆，可以取消PermitRootLogin注释并修改为yes
+sudo service ssh restart # 重启服务，然后就可以连接了，有时候为了安全，上一步的root登陆是不允许的，root用户连不上，可以用普通用户登录再切换到root 
 ```
 
 
@@ -46,11 +46,12 @@ ssh -i /path/to/private_key username@hostname
 ssh-keygen -t rsa -b 4096
 
 # 复制公钥到远程服务器
-ssh-copy-id username@hostname
+ssh-copy-id username@hostname   # 如果是windows可以看问题：在Windows客户机上实现类似ssh-copy-id功能即下次不需要输入密码
 
 # 查看已知主机
 cat ~/.ssh/known_hosts
 ```
+(在Windows客户机上实现类似ssh-copy-id功能即下次不需要输入密码)[#在Windows客户机上实现类似ssh-copy-id功能即下次不需要输入密码]
 
 
 ### 3.SSH传输文件
@@ -620,9 +621,9 @@ ssh -fN -R 7001:127.0.0.1:3389 your_user@你的服务器公网IP
 
 ```
 
-### SSH 连接到远程服务器 （linux和windows）
 
-### 服务器安装ssh服务
+
+### 服务器安装ssh服务 (linux & windows)
 1. linux
 ```bash
 sudo apt update # 更新仓库
@@ -649,12 +650,67 @@ Set-Service -Name sshd -StartupType 'Automatic'
 ```
 
 
+
+### 在Windows客户机上实现类似ssh-copy-id功能即下次不需要输入密码
+
+#### 问题背景
+Windows 的 CMD 或 PowerShell 默认不支持 `ssh-copy-id` 命令。本教程介绍如何在 Windows 上将 SSH 公钥复制到远程服务器（IP: 192.168.110.150，端口: 6001）以实现无密码登录。
+
+---
+
+#### 方法 1：手动复制 SSH 公钥
+1. **检查本地 SSH 密钥**：
+   - 查看公钥：`type %USERPROFILE%\.ssh\id_rsa.pub`
+   - 如无密钥，生成：`ssh-keygen -t rsa -b 4096`
+2. **登录远程服务器**：
+   - 运行：`ssh -p 6001 root@192.168.110.150`
+   - 确保 `~/.ssh` 目录存在：`mkdir -p ~/.ssh && chmod 700 ~/.ssh`
+3. **复制公钥**：
+   - 在 Windows 复制公钥内容：`type %USERPROFILE%\.ssh\id_rsa.pub`
+   - 在远程服务器编辑：`vi ~/.ssh/authorized_keys`，粘贴公钥，保存。
+   - 设置权限：`chmod 600 ~/.ssh/authorized_keys`
+4. **测试无密码登录**：
+   - 运行：`ssh -p 6001 root@192.168.110.150`
+
+---
+
+#### 方法 2：使用 PowerShell 模拟 ssh-copy-id
+1. **确保 OpenSSH 客户端已安装**：
+   - 检查：`ssh -V`
+   - 未安装则在“设置 > 应用 > 可选功能”中添加 OpenSSH 客户端。
+2. **复制公钥**：
+   - 运行：`Get-Content $env:USERPROFILE\.ssh\id_rsa.pub | ssh -p 6001 root@192.168.110.150 "cat >> ~/.ssh/authorized_keys"`
+3. **验证权限**：
+   - 登录服务器：`ssh -p 6001 root@192.168.110.150`
+   - 运行：`chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys`
+4. **测试无密码登录**：
+   - 运行：`ssh -p 6001 root@192.168.110.150`
+
+---
+
+#### 方法 3：安装 Git Bash 或 WSL
+1. **使用 Git Bash**：
+   - 安装 Git for Windows，打开 Git Bash。
+   - 运行：`ssh-copy-id -p 6001 root@192.168.110.150`
+2. **使用 WSL**：
+   - 安装 WSL：`wsl --install`
+   - 在 Ubuntu 中安装 openssh-client：`sudo apt update && sudo apt install openssh-client`
+   - 运行：`ssh-copy-id -p 6001 root@192.168.110.150`
+
+---
+
+#### 注意事项
+- 确保远程服务器允许密码登录或已配置 root 密码。
+- 公钥复制后，检查 `~/.ssh/authorized_keys` 文件内容和权限。
+- 测试无密码登录是否成功，如失败，检查 SSH 配置文件 `/etc/ssh/sshd_config` 和服务器防火墙设置。
+
 ### 本地机器生成密钥并复制到远程服务器（下次ssh连接就不需要输入密码）
 
 
 注意：
 ssh-copy-id 是专门为linux系统适配的，windows系统不好用，需要手动复制公钥到.ssh文件夹下面的authorized_keys文件中
 
+#### linux
 
 ```bash
 # 生成 SSH 密钥对
@@ -673,6 +729,7 @@ cat ~/.ssh/known_hosts
 ``` bash 
 echo "你的公钥内容" >> 你的用户目录/.ssh/authorized_keys
 ```
+
 
 
 
