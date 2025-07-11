@@ -784,7 +784,33 @@ git commit --amend -m "new message"
 
 ---
 
-### 17. 其他实用命令
+### 17.  工作树 （git wroktree）
+
+``` bash
+# 创建新的工作树
+git worktree add <路径> <分支>
+
+# 列出所有工作树
+git worktree list
+
+# 删除工作树
+git worktree remove <路径>
+
+# 清理无用的工作树元数据
+git worktree prune
+
+# 移动工作树
+git worktree move <旧路径> <新路径>
+
+# 锁定工作树
+git worktree lock <路径>
+
+# 解锁工作树
+git worktree unlock <路径>
+```
+
+
+### 18. 其他实用命令
 
 #### 清理工作区
 ```bash
@@ -820,7 +846,7 @@ git submodule update --init --recursive
 
 ---
 
-### 18. 常见工作流示例
+### 19. 常见工作流示例
 
 #### 1. 新功能开发
 ```bash
@@ -864,7 +890,7 @@ git pull origin main
 ---
 
 
-### 19. 参考资源
+### 20. 参考资源
 - **官方文档**: [git-scm.com](https://git-scm.com/doc)
 - **教程**: [Atlassian Git Tutorial](https://www.atlassian.com/git)
 - **可视化工具**: GitKraken, SourceTree, VS Code Git 插件
@@ -1495,6 +1521,104 @@ hosts位置在    /etc/hosts
 
 
 ## 知识点
+
+
+### 将Python包发布到GitHub并通过pip安装的教程
+
+1. **创建Python包结构**  
+   构建以下目录结构：  
+   ```
+   your_package/
+   ├── your_package/
+   │   ├── __init__.py
+   │   └── your_module.py
+   ├── setup.py
+   ├── README.md
+   ├── LICENSE
+   └── requirements.txt
+   ```
+
+2. **编写关键文件**  
+   - **setup.py** 示例：  
+     ```python
+     from setuptools import setup, find_packages
+
+     setup(
+         name='your_package_name',
+         version='0.1.0',
+         packages=find_packages(),
+         install_requires=[
+             'requests>=2.25.1',
+         ],
+         author='Your Name',
+         author_email='your.email@example.com',
+         description='A short description of your package',
+         long_description=open('README.md').read(),
+         long_description_content_type='text/markdown',
+         url='https://github.com/yourusername/your_package',
+         classifiers=[
+             'Programming Language :: Python :: 3',
+             'License :: OSI Approved :: MIT License',
+         ],
+     )
+     ```  
+   - **your_package/__init__.py**：  
+     ```python
+     __version__ = '0.1.0'
+     ```
+
+3. **初始化Git并上传到GitHub**  
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git remote add origin https://github.com/yourusername/your_package.git
+   git branch -M main
+   git push -u origin main
+   ```
+
+4. **创建GitHub Release（可选，但推荐）**  
+   - 访问GitHub仓库页面，点击“Releases” -> “Create a new release”  
+   - 输入版本号（如v0.1.0），发布
+
+5. **通过pip安装**  
+   - 直接从GitHub安装：  
+     ```bash
+     pip install git+https://github.com/yourusername/your_package.git
+     ```  
+   - 指定分支：  
+     ```bash
+     pip install git+https://github.com/yourusername/your_package.git@branch_name
+     ```  
+   - 指定版本（需要有release）：  
+     ```bash
+     pip install git+https://github.com/yourusername/your_package.git@v0.1.0
+     ```
+
+6. **发布到PyPI（可选，允许标准pip安装）**  
+   - 安装工具：  
+     ```bash
+     pip install twine build
+     ```  
+   - 构建包：  
+     ```bash
+     python -m build
+     ```  
+   - 上传到PyPI：  
+     ```bash
+     twine upload dist/*
+     ```  
+   - 之后可使用：  
+     ```bash
+     pip install your_package_name
+     ```
+
+**注意事项**：  
+- 确保`setup.py`信息准确  
+- 设置清晰的GitHub仓库描述和topics  
+- 使用MIT或其他合适的许可证  
+- 编写详细的README.md，包含安装和使用说明  
+- 发布到PyPI需注册账号并配置API token
 
 ### git reset --hard HEAD^的含义
 
