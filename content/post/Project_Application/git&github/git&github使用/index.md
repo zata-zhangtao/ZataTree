@@ -101,6 +101,7 @@ git reset --soft HEAD
 
 %%推送远程库
 git push [<远程主机名>] [<本地分支>:<远程分支>] #如果不加分支对应信息就默认上次记录的全部分支
+git push origin $(git branch --show-current)  # 将当前分支推送到远程仓库（通常是 `origin`），并保持相同的分支名
 
 %%拉取远程库%%
 git pull [<远程主机名>] [<远程分支>:<本地分支>]   # 从远程仓库（名为 origin）的 main 分支拉取代码并自动与本地的 main 分支合并 ,如果方括号里面的不加就默认拉去上一次的
@@ -377,7 +378,7 @@ git checkout <commit-hash>
 # 示例：检出某次提交
 git checkout a1b2c3d
 ```
-- **注意**: 进入“分离头指针”状态，提交会丢失，除非创建新分支保存。
+- **注意**: 进入"分离头指针"状态，提交会丢失，除非创建新分支保存。
 
 #### 强制检出（丢弃更改）
 ```bash
@@ -1066,7 +1067,7 @@ git push origin --delete v1
 
 1. 无冲突的合并（Fast-forward）
 
-如果 main 分支没有额外改动，而 feature 分支只是基于 main 增加了提交，Git 会执行“快进合并”（fast-forward）。这时候历史记录会变成一条直线，看起来像是直接在 main 上开发了一样。
+如果 main 分支没有额外改动，而 feature 分支只是基于 main 增加了提交，Git 会执行"快进合并"（fast-forward）。这时候历史记录会变成一条直线，看起来像是直接在 main 上开发了一样。
 
 2. 有额外提交的合并（Merge Commit）
 
@@ -1176,7 +1177,7 @@ cat id_rsa // 查看本地的私钥
 
 ![github ssh](images/index/image-3.png)
 
-### `git 使用token登录github 并拉取项目` （如果电脑上已经登录过了，需要把账户信息清除掉。**如果是用ssh密钥登录的也不行**，清除token账户信息请看下面“清除电脑上已经登录的github账户信息”）
+### `git 使用token登录github 并拉取项目` （如果电脑上已经登录过了，需要把账户信息清除掉。**如果是用ssh密钥登录的也不行**，清除token账户信息请看下面"清除电脑上已经登录的github账户信息"）
 
 
 <table>
@@ -1578,7 +1579,7 @@ hosts位置在    /etc/hosts
    ```
 
 4. **创建GitHub Release（可选，但推荐）**  
-   - 访问GitHub仓库页面，点击“Releases” -> “Create a new release”  
+   - 访问GitHub仓库页面，点击"Releases" -> "Create a new release"  
    - 输入版本号（如v0.1.0），发布
 
 5. **通过pip安装**  
@@ -1642,7 +1643,7 @@ hosts位置在    /etc/hosts
 
 3. **`HEAD^`**:
    - `HEAD` 是 Git 中的一个指针，指向当前分支的最新提交。
-   - `^` 是一个相对引用，表示“当前 HEAD 的上一个提交”（即父提交）。
+   - `^` 是一个相对引用，表示"当前 HEAD 的上一个提交"（即父提交）。
    - 因此，`HEAD^` 表示当前分支最新提交的上一个提交。
    - 如果当前分支的提交历史是 `A <- B <- C`（C 是 HEAD），那么 `HEAD^` 指向 `B`。
 
@@ -1679,7 +1680,7 @@ A <- B (HEAD)
 - **`--hard`**: 完全重置，丢弃工作目录和暂存区的更改。
 - **`HEAD^`**: 指向当前 HEAD 的上一个提交。
 
-这条命令的总体效果是“撤销最近一次提交并恢复到上一个提交的状态，同时丢弃所有未提交的更改”。如果你只是想撤销提交但保留更改，可以考虑使用 `git reset --soft HEAD^` 或其他命令（如 `git revert`）。
+这条命令的总体效果是"撤销最近一次提交并恢复到上一个提交的状态，同时丢弃所有未提交的更改"。如果你只是想撤销提交但保留更改，可以考虑使用 `git reset --soft HEAD^` 或其他命令（如 `git revert`）。
 
 ## 实战 -- 使用
 
@@ -1810,7 +1811,7 @@ Git LFS 会将大文件存储在专门的服务器上，而在你的仓库中只
 
 ### 如何优雅地处理不再使用的 GitHub 仓库
 
-当一个项目长期不用，但又不想彻底删除时，你有以下三种方法可以将其“隐藏”起来，同时保留代码。
+当一个项目长期不用，但又不想彻底删除时，你有以下三种方法可以将其"隐藏"起来，同时保留代码。
 
 #### 方案一：归档仓库 (Archive) - ⭐最推荐
 
@@ -1821,7 +1822,7 @@ Git LFS 会将大文件存储在专门的服务器上，而在你的仓库中只
 - 仓库从你的主页列表消失。
 - 项目变为只读，无法再推送新代码。
 - **完整保留**所有代码、提交历史、Issues、PRs、Wiki 和 Star。
-- 可以随时一键“取消归档”来恢复项目。
+- 可以随时一键"取消归档"来恢复项目。
 
 **操作步骤:**
 
@@ -1887,7 +1888,7 @@ git remote remove old_repo
 | **设为私有 (Private)** | 不公开、可继续编辑 | 仍在自己列表显示 | ⭐⭐⭐⭐ |
 | **作为分支合并** | 物理上整合代码 | **丢失Issues/PRs等记录**、操作复杂 | ⭐ |
 
-**结论：** 对于“长期不用但想完整保留”的场景，请始终选择**归档 (Archive)**。
+**结论：** 对于"长期不用但想完整保留"的场景，请始终选择**归档 (Archive)**。
 
 
 
@@ -2048,5 +2049,70 @@ git push origin feature-branch
    若确定覆盖远程更改，运行 `git push origin main --force`（注意：可能丢失他人工作，仅在确认安全时使用）。
 
 **建议**：优先检查远程更改（`git fetch` 和 `git log`），根据需要合并（`git pull`）或强制推送。
+
+
+
+### 推送当前分支到远程仓库并保持分支名
+
+要将当前分支推送到远程仓库并保持当前分支的名字，可以按照以下步骤操作：
+
+#### 步骤
+1. **确认当前分支**：
+   确保你位于正确的分支。运行以下命令查看当前分支：
+   ```bash
+   git branch
+   ```
+   当前分支会有一个 `*` 标记，例如 `* 0710display-prototype3`。
+
+2. **推送当前分支到远程仓库**：
+   使用以下命令将当前分支推送到远程仓库（通常是 `origin`），并保持相同的分支名：
+   ```bash
+   git push origin $(git branch --show-current)
+   ```
+   - `git branch --show-current` 会返回当前分支的名称（例如 `0710display-prototype3`）。
+   - `git push origin <branch-name>` 将当前分支推送到远程仓库的同名分支。
+
+3. **设置上游分支（如果需要）**：
+   如果这是第一次推送当前分支到远程仓库，Git 可能会提示当前分支没有上游分支（`no upstream branch`）。你可以通过以下命令推送并同时设置上游分支：
+   ```bash
+   git push --set-upstream origin $(git branch --show-current)
+   ```
+   或者简写为：
+   ```bash
+   git push -u origin $(git branch --show-current)
+   ```
+   这会将当前分支推送到远程仓库，并将远程分支设置为当前分支的上游分支，方便后续直接使用 `git push` 或 `git pull`。
+
+#### 示例
+假设你的当前分支是 `0710display-prototype3`，你可以运行：
+```bash
+git push origin 0710display-prototype3
+```
+或者更通用地：
+```bash
+git push origin $(git branch --show-current)
+```
+如果需要设置上游分支：
+```bash
+git push --set-upstream origin 0710display-prototype3
+```
+
+#### 注意事项
+- **检查远程仓库**：
+  确保远程仓库（如 `origin`）已配置正确。运行 `git remote -v` 查看远程仓库的 URL。
+- **工作区状态**：
+  确保你已提交所有更改（`git commit`），否则运行 `git status` 检查是否有未提交的更改。
+- **分支名冲突**：
+  如果远程仓库已存在同名分支，推送可能会失败（例如，提示需要拉取或强制推送）。可以先运行 `git fetch origin` 检查远程分支状态，或者使用 `git push --force`（谨慎使用，仅当你确定要覆盖远程分支）。
+
+#### 验证推送
+推送完成后，运行以下命令确认远程分支已创建：
+```bash
+git fetch origin
+git branch -r
+```
+你应该能看到 `origin/0710display-prototype3` 在远程分支列表中。
+
+如果遇到任何错误（例如权限问题或冲突），请分享错误信息，我可以帮你进一步排查！
 
 

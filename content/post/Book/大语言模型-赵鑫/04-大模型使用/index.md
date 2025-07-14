@@ -1,5 +1,5 @@
 ---
-title: 04-大模型使用
+title: 大语言模型-赵鑫-04-大模型使用
 description: ""
 date: 2025-03-14T17:05:12+08:00
 # image: images/index/index.png

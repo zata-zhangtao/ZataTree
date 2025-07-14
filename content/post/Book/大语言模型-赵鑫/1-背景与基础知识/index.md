@@ -1,5 +1,5 @@
 ---
-title: 1-背景与基础知识
+title: 大语言模型-赵鑫-1-背景与基础知识
 description: ""
 date: 2025-03-12T09:50:27+08:00
 # image: images/index/index.png

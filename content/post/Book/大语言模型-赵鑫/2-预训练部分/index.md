@@ -1,5 +1,5 @@
 ---
-title: 2-预训练部分
+title: 大语言模型-赵鑫-2-预训练部分
 description: ""
 date: 2025-03-12T10:36:28+08:00
 # image: images/index/index.png
