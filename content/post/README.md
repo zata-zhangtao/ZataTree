@@ -212,7 +212,6 @@ pyinstaller --onefile --console --name=zata --clean zata.py
 - [langchain使用教程教程_langchainv0.3](../langchain使用教程教程_langchainv0.3/)
 - [langchain_v0.3_API](../langchain_v0.3_API/)
 - [langchain_core](../langchain_core/)
-- [gemini教程_langchain_v0.3](../gemini教程_langchain_v0.3/)
 - [Langgraph使用教程](../Langgraph使用教程/)
 - [Langchain的简易教程](../Langchain的简易教程/)
 - [Langchain-Graph实战教程](../Langchain-Graph实战教程/)

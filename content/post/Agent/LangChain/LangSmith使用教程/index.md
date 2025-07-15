@@ -59,7 +59,7 @@ LangSmith 是一个用于构建、监控和评估大型语言模型（LLM）应�
 
 4.  **设置环境变量:**
 
-      * 为了让你的应用程序能够与 LangSmith 通信，你需要设置以下环境变量：
+      * 为了让你的应用程序能够与 LangSmith 通信，你需要设置以下环境变量： (可以选存入环境变量中，也可以放入.env当中，然后使用dotenv加载)
         ```bash
         export LANGCHAIN_TRACING_V2="true"
         export LANGCHAIN_ENDPOINT="https://api.smith.langchain.com"
@@ -85,17 +85,14 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 import os
 
-# 确保已设置 OpenAI API Key
-# os.environ["OPENAI_API_KEY"] = "YOUR_OPENAI_API_KEY"
-
 # 确保已设置 LangSmith 环境变量 (如上一节所述)
 # os.environ["LANGCHAIN_TRACING_V2"] = "true"
 # os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
 # os.environ["LANGCHAIN_API_KEY"] = "YOUR_LANGSMITH_API_KEY"
 # os.environ["LANGCHAIN_PROJECT"] = "My First Project" # 替换为你的项目名
 
-# 定义模型
-llm = ChatOpenAI(model="gpt-3.5-turbo")
+# 定义模型  这里我就使用了阿里的模型
+llm = Tongyi(model="qwen-plus-2025-04-28", api_key=os.getenv("DASHSCOPE_API_KEY"))
 
 # 定义提示模板
 prompt = ChatPromptTemplate.from_messages([
@@ -125,6 +122,10 @@ except Exception as e:
 
 运行上述代码后，登录到你的 LangSmith 账户，你应该能在指定的项目下看到这次运行的追踪记录。你会看到链的每个步骤、输入、输出以及可能发生的任何错误。
 ![trace](images/index/image-3.png)![记录](images/index/image-4.png)
+
+
+
+
 
 **2. 使用 `@traceable` 装饰器追踪自定义函数 (Python 示例)**
 
