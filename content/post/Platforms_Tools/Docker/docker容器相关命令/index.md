@@ -12,6 +12,12 @@ tags:
 
 
 - [docker容器常用命令](#docker容器常用命令)
+
+- docker 使用技巧
+  - [docker的卷挂载功能](#docker的卷挂载功能)
+  - [在 Windows 上实现 Docker in Docker (DinD) 终极教程](#在-windows-上实现-docker-in-docker-dind-终极教程)
+
+
 - [docker实战](#docker实战)
     - [Docker 服务部署教程 pip安装库](#docker-服务部署教程)
     - [Docker 服务部署教程 uv替代pip](#docker服务部署教程2-使用uv替代pip)
@@ -207,6 +213,29 @@ apt-get install sudo
 
 ### Docker使用技巧
 
+
+#### docker的卷挂载功能
+```bash
+docker run -v <host_path>:<container_path> <image_name>
+
+# 需要为每一个路径都添加-v
+docker run -v <host_path1>:<container_path1> -v <host_path2>:<container_path2> ... <image_name>  
+```
+
+windows环境下面的特殊情况（路径反斜杠）
+示例： 假设你想将 Windows 上的 C:\data 映射到容器内的 /app/data
+```bash
+docker run -v /c/data:/app/data -it <image_name> /bin/bash
+
+
+# 如果路径存在空格，需要用""包起来 如
+docker run -v "/c/Program Files/my folder:/app" -it <image_name>
+```
+
+
+
+
+
 #### 将镜像推送到远程仓库
 
 推送到公开
@@ -223,6 +252,168 @@ docker login registry.example.com  # 如果是docker hub 只需要 login in
 docker tag my-app:1.0 registry.example.com/myusername/my-app:1.0  # 重命名tag
 docker push registry.example.com/myusername/my-app:1.0
 ```
+
+#### 在 Windows 上实现 Docker in Docker (DinD) 终极教程
+
+在 Windows 环境下开发时，我们有时会遇到需要在 Docker 容器内部再次调用 Docker 命令的场景，例如在 Jenkins CI/CD 流水线中构建 Docker 镜像。这个技术通常被称为 "Docker in Docker" (DinD)。
+
+本文将详细介绍在 Windows (通过 Docker Desktop + WSL 2) 中实现 DinD 的两种主流方法，分析其优劣，并提供手把手的操作步骤。
+
+##### 核心概念：两种实现方式
+
+1.  **挂载 Docker Socket (DooD - Docker-out-of-Docker)**: **(官方推荐)** 让容器内的 Docker CLI 直接与宿主机的 Docker 守护进程 (Daemon) 通信。这好比在办公室里装一部电话分机，直接使用公司总机的功能。
+2.  **真正的 Docker-in-Docker (DinD)**: 在容器内运行一个全新的、完全隔离的 Docker 守护进程。这好比在办公室里私建一个小基站，内外通信完全独立。
+
+##### 结论先行：哪种方法最适合你？
+
+对于绝大多数场景，**方法一 (挂载 Docker Socket)** 是最佳选择。
+
+| 特性 | 方法一 (挂载 Socket) | 方法二 (真·DinD) |
+| :--- | :--- | :--- |
+| **推荐度** | ⭐⭐⭐⭐⭐ **(强烈推荐)** | ⭐⭐ (仅特定场景) |
+| **隔离性** | 弱 | 强 |
+| **安全性** | 较高 (无需特权模式) | 低 (必须使用 `--privileged`) |
+| **性能/资源** | 开销极小 | 开销大 (双倍守护进程) |
+| **配置复杂度** | 简单 | 复杂 |
+| **镜像缓存** | 与宿主机共享 | 独立缓存，占用额外空间 |
+| **典型用例** | CI/CD, 开发环境 | 隔离的 Docker 功能测试 |
+
+##### 方法一：挂载 Docker Socket (DooD) - 官方推荐
+
+![示例效果](images/index/image-3.png)
+
+这是最简单、高效且安全的方式。
+
+###### ✨ 原理
+
+通过 `-v` 参数将宿主机的 Docker Socket 文件 (`/var/run/docker.sock`) 挂载到容器内部。容器内的任何 `docker` 命令都会通过这个 Socket 文件被发送到宿主机，由宿主机的 Docker Daemon 执行。
+
+###### ✅ 优点
+
+  * **配置简单**：一行命令参数即可搞定。
+  * **资源高效**：无需启动额外的 Docker 服务，内存和 CPU 占用极低。
+  * **镜像共享**：容器内拉取的镜像，宿主机可以直接使用，避免重复下载，节约时间和磁盘空间。
+
+###### 🚀 操作步骤
+
+**1. 前提条件**
+
+  * Windows 10/11 已安装 **Docker Desktop**。
+  * Docker Desktop 使用 **WSL 2 后端** (当前默认设置)。
+      * **检查方法**: 打开 Docker Desktop > `Settings` > `General`，确保 `Use the WSL 2 based engine` 已勾选。
+
+**2. 运行容器并挂载 Socket**
+
+打开 PowerShell 或 CMD，执行以下命令来启动一个带有 Docker CLI 的容器：
+
+```bash
+docker run -it --rm \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  docker:latest \
+  sh
+```
+
+**命令解析**:
+
+  * `docker run -it --rm`: 以交互模式启动一个临时容器，退出后自动删除。
+  * `-v /var/run/docker.sock:/var/run/docker.sock`: **核心命令**。将宿主机的 Docker Socket 文件挂载到容器内的相同路径。
+    > **提示**: 即使在 Windows 系统，也请直接使用 `/var/run/docker.sock` 这个 Linux 路径。Docker Desktop 会自动处理好与 WSL 2 之间的路径转换。
+  * `docker:latest`: 使用官方 `docker` 镜像，它内置了 Docker 命令行工具 (CLI)。
+  * `sh`: 启动容器内的 shell 环境。
+
+**3. 在容器内验证**
+
+命令执行后，你的终端提示符会变为 `/#`，表示已进入容器内部。
+
+  * **查看宿主机容器**:
+
+    ```shell
+    # 在容器内部执行
+    docker ps
+    ```
+
+    输出结果会列出你**宿主机**上所有正在运行的容器，包括你刚刚启动的这一个。这证明容器已成功连接到宿主机的 Docker 服务。
+
+  * **运行一个新容器**:
+
+    ```shell
+    # 在容器内部执行
+    docker run --rm hello-world
+    ```
+
+    你会看到 `hello-world` 镜像被成功拉取并运行。此时，你在**宿主机**上执行 `docker images`，也能看到 `hello-world` 这个镜像，证明了缓存是共享的。
+
+##### 方法二：真正的 Docker-in-Docker (DinD) - 特定场景使用
+
+> **⚠️ 安全警告**
+> 此方法必须开启 `--privileged` (特权)模式，这会打破容器的隔离性，给予容器访问宿主机内核的权限，存在**严重的安全风险**。请仅在完全信任镜像内容，并确实需要强隔离环境时使用。
+
+###### ✨ 原理
+
+使用官方提供的 `docker:dind` 镜像，在容器内启动一个完整的、独立的 Docker 守护进程。
+
+###### ❌ 缺点
+
+  * **安全风险高**：`--privileged` 模式是危险的。
+  * **性能开销大**：双重 Docker Daemon 运行，消耗更多系统资源。
+  * **双重存储**：内外镜像是隔离的，同一镜像需要下载两次，占用双倍磁盘空间。
+
+###### 🚀 操作步骤
+
+**1. 启动 DinD 守护进程容器**
+
+这个容器专门用来在后台运行独立的 Docker 服务。
+
+```bash
+docker run --privileged --name my-dind-daemon -d \
+  -e DOCKER_TLS_CERTDIR=/certs \
+  docker:24.0-dind
+```
+
+**命令解析**:
+
+  * `--privileged`: **(高危)** 授予容器特权。
+  * `--name my-dind-daemon`: 为该容器命名，方便后续连接。
+  * `-d`: 后台运行。
+  * `docker:24.0-dind`: 使用官方的 `dind` 专用镜像。
+
+**2. 启动客户端容器并连接到 DinD**
+
+现在启动另一个容器作为客户端，并将其网络连接到刚才的 `dind` 容器。
+
+```bash
+docker run -it --rm \
+  --link my-dind-daemon:docker \
+  docker:24.0 \
+  sh
+```
+
+**命令解析**:
+
+  * `--link my-dind-daemon:docker`: **核心命令**。将 `my-dind-daemon` 容器连接到当前容器，并设置网络别名为 `docker`。这样，客户端内的 Docker CLI 就会自动找到名为 `docker` 的主机作为其守护进程。
+  * `docker:24.0`: 使用普通的 `docker` 镜像作为客户端。
+
+**3. 在客户端容器内验证**
+
+进入客户端容器后，进行验证。
+
+  * **查看容器**:
+
+    ```shell
+    # 在客户端容器内执行
+    docker ps
+    ```
+
+    输出结果应为空。因为它连接的是 `my-dind-daemon` 提供的全新、隔离的环境。
+
+  * **运行一个新容器**:
+
+    ```shell
+    # 在客户端容器内执行
+    docker run --rm hello-world
+    ```
+
+    `hello-world` 镜像会被下载并运行。这个容器完全存在于 `my-dind-daemon` 的环境中，你的宿主机对此毫不知情。在宿主机上执行 `docker ps` 或 `docker images` 都看不到这个 `hello-world`。
 
 
 #### 使用已有容器创建镜像
