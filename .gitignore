@@ -3,3 +3,4 @@ resources/
 test.*
 build
 *.pyc
+assets/jsconfig.json
