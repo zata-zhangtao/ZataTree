@@ -11,7 +11,7 @@ tags:
 
 
 
-- [docker容器相关命令](#docker容器相关命令)
+- [docker容器常用命令](#docker容器常用命令)
 - [docker实战](#docker实战)
     - [Docker 服务部署教程 pip安装库](#docker-服务部署教程)
     - [Docker 服务部署教程 uv替代pip](#docker服务部署教程2-使用uv替代pip)
@@ -22,15 +22,21 @@ tags:
 
 
 
+### docker容器常用命令
+
 ```bash 
 # Docker 常用命令汇总
 
 # 将容器的当前状态保存为新的镜像
-docker commit <my-container> <my-new-image>:[tag]   
-
+docker commit <my-container> <my-new-image> [:tag]    # 如果tag不填就默认是latest
 
 
 ```
+
+
+
+
+
 镜像 (Image) 相关命令
 
 镜像是创建容器的基础，包含了应用程序及其依赖的环境。
@@ -120,7 +126,7 @@ docker commit <my-container> <my-new-image>:[tag]
 
 
 
-### docker容器相关命令
+### 简单开始一个docker镜像的使用
 #### 1. 拉取镜像
 
 ```bash
@@ -200,6 +206,24 @@ apt-get install sudo
 -------------
 
 ### Docker使用技巧
+
+#### 将镜像推送到远程仓库
+
+推送到公开
+```bash
+docker login
+docker tag my-app:1.0 myusername/my-app:1.0 
+docker push myusername/my-app:1.0
+```
+
+
+到私有
+```bash
+docker login registry.example.com  # 如果是docker hub 只需要 login in
+docker tag my-app:1.0 registry.example.com/myusername/my-app:1.0  # 重命名tag
+docker push registry.example.com/myusername/my-app:1.0
+```
+
 
 #### 使用已有容器创建镜像
 
