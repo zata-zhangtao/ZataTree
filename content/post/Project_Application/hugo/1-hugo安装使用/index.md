@@ -62,7 +62,7 @@ md文件+图片的组合，文件夹的名称是随意命名的，但文件夹�
 ## hugo在ubuntu系统下安装使用
 
 <span style="color:red" >  2025年5月5日，本来想要在服务器上部署到，试了没成功，感觉挺难的，最后把服务器改成了windows系统  </span>
-
+<span style="color:red" >  2025年7月14日，我在mac到容器中执行apt install hugo 很容易就安装上了啊  </span>
 
 https://gohugo.io/getting-started/quick-start/
 
