@@ -12,17 +12,49 @@ tags:
 
 
 - [docker容器常用命令](#docker容器常用命令)
+  - [镜像 (Image) 相关命令](#镜像-image-相关命令)
+  - [容器 (Container) 相关命令](#容器-container-相关命令)
+  - [`docker run` 常用选项](#docker-run-常用选项)
+  - [Docker Compose 相关命令](#docker-compose-相关命令)
+  - [系统与资源管理命令](#系统与资源管理命令)
+  - [简单开始一个docker镜像的使用](#简单开始一个docker镜像的使用)
 
-- docker 使用技巧
+- [Docker使用技巧](#docker使用技巧)
   - [docker的卷挂载功能](#docker的卷挂载功能)
+  - [将镜像推送到远程仓库](#将镜像推送到远程仓库)
   - [在 Windows 上实现 Docker in Docker (DinD) 终极教程](#在-windows-上实现-docker-in-docker-dind-终极教程)
-
+  - [使用已有容器创建镜像](#使用已有容器创建镜像)
+  - [开启/重启ssh服务](#开启重启ssh服务)
+  - [docker 文件传输](#docker-文件传输)
+  - [修改服务器配置允许通过此服务器进行ssh转发](#修改服务器配置允许通过此服务器进行ssh转发)
+  - [docker容器添加对外映射端口](#docker容器添加对外映射端口)
+  - [docker设置可用CPU核心数量](#docker设置可用cpu核心数量)
 
 - [docker实战](#docker实战)
-    - [Docker 服务部署教程 pip安装库](#docker-服务部署教程)
-    - [Docker 服务部署教程 uv替代pip](#docker服务部署教程2-使用uv替代pip)
-    - [Docker 服务部署教程 出错的处理方式](#from-werkzeugurls-import-url_quote-问题根源)
-    - [运行容器了，但是并没有生效 通过查看日志解决问题](#运行容器了但是并没有生效-通过查看日志解决问题)
+  - [Docker使用实战-MySQL和Ubuntu容器](#docker使用实战-mysql和ubuntu容器)
+    - [1. 安装docker mysql容器](#1-安装docker-mysql容器)
+    - [2. 安装Ubuntu容器并配置](#2-安装ubuntu容器并配置)
+  - [Docker使用实战-容器保存和迁移](#docker使用实战-容器保存和迁移)
+    - [方法一：将容器保存为镜像](#方法一将容器保存为镜像)
+    - [方法二：直接导出容器](#方法二直接导出容器)
+  - [Docker 服务部署教程](#docker-服务部署教程)
+    - [环境准备](#环境准备)
+    - [实战演练：部署一个 Python Web 应用](#实战演练部署一个-python-web-应用)
+    - [进阶：使用 Docker Compose 编排服务](#进阶使用-docker-compose-编排服务)
+  - [Docker服务部署教程2-使用uv替代pip](#docker服务部署教程2-使用uv替代pip)
+    - [使用 UV 的核心改动](#使用-uv-的核心改动)
+    - [更新后的 `Dockerfile` (使用 uv)](#更新后的-dockerfile-使用-uv)
+  - [docker容器的部署教程3-将容器部署到服务器上](#docker容器的部署教程3-将容器部署到服务器上)
+    - [核心流程](#核心流程)
+    - [第四步：选择部署方案 (Deploy)](#第四步选择部署方案-deploy)
+    - [如何选择？](#如何选择)
+  - [运行容器了但是并没有生效-通过查看日志解决问题](#运行容器了但是并没有生效-通过查看日志解决问题)
+    - [第一步：检查容器是否正在运行](#第一步检查容器是否正在运行)
+    - [第二步：查看容器日志](#第二步查看容器日志)
+    - [第三步：常见问题和解决方案汇总](#第三步常见问题和解决方案汇总)
+    - [from werkzeug.urls import url_quote 问题根源](#from-werkzeugurls-import-url_quote-问题根源)
+    - [解决方案](#解决方案)
+  - [wsl中镜像网络与docker网络冲突，使用netsh winsock reset修改网络设置之后，docker连不上 -- 解决](#wsl中镜像网络与docker网络冲突使用netsh-winsock-reset修改网络设置之后docker连不上----解决)
 
 
 
@@ -133,6 +165,7 @@ docker commit <my-container> <my-new-image> [:tag]    # 如果tag不填就默认
 
 
 ### 简单开始一个docker镜像的使用
+
 #### 1. 拉取镜像
 
 ```bash
@@ -197,6 +230,108 @@ source /etc/bash.bashrc
 ```
 
 #### 10. 安装sudo
+
+```bash
+apt-get install sudo
+```
+
+### Docker使用实战-MySQL和Ubuntu容器
+
+#### 1. 安装docker mysql容器
+
+##### 首先拉取mysql镜像 ，默认拉取最新版
+
+```bash
+docker pull mysql
+```
+
+![拉取mysql镜像](images/index/mysql-index.png)
+
+##### 然后创建容器
+
+```bash
+docker run --name mysql_zata -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql  #第一个端口是主机的端口
+或
+docker run --name mysql_zata -p 53306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql
+```
+
+| 参数 |解释  |
+|--|--|
+|docker run: |创建Docker容器的命令。|
+|--name  mysql_zata | 这个选项用于指定容器的名称，这里将容器命名为"mysql_zata"。 |
+|-p 3306:3306: [第一个3306是主机的端口可以改成其他的，第二个3306是容器的端口，也就是要固定的]可以改成如： <br> -p 53306：3306
+| 这个选项用于将容器内部的端口映射到宿主机上。具体来说，-p 3306:3306 将容器内部的MySQL数据库服务的端口3306映射到宿主机的端口3306。这样，您可以通过宿主机上的3306端口访问容器内的MySQL服务。|
+|-e MYSQL_ROOT_PASSWORD=123456: |这个选项用于设置MySQL数据库的root用户的密码。在这里，密码被设置为"123456"。这是一个环境变量设置，MySQL容器会使用这个密码来授权root用户访问数据库。|
+|mysql:| 这是要运行的Docker镜像的名称。在这里，它是MySQL镜像，意味着会启动一个MySQL数据库容器。|
+
+![创建容器](images/index/mysql-index-1.png)
+
+现在是前台模式创建的（我也不是很清楚，反正关闭这个窗口服务就会停掉），关闭窗口也没事，可以重新再windows的docker界面重开
+
+![docker图形界面运行mysql容器](images/index/mysql-index-2.png)
+
+#### 2. 安装Ubuntu容器并配置
+
+##### 1. 拉取镜像
+
+```bash
+docker pull ubuntu
+```
+
+##### 2.查看镜像是否拉取成功
+
+```bash
+docker images
+```
+
+##### 3. 运行容器
+
+```bash
+docker run -itd --name <容器名称>  -p <主机端口>:<容器端口>   ubuntu 
+```
+
+##### 4. 通过 exec 命令进入 ubuntu 容器
+
+```bash
+docker exec -it <容器名>  /bin/bash
+```
+##### 5. 安装ssh并启动
+```bash
+apt-get updata
+
+apt-get install openssh-client
+apt-get install openssh-server
+
+# 启动
+sudo service ssh start
+```
+##### 6. 安装vim
+
+```bash
+apt-get install vim
+```
+
+##### 7. 安装conda 
+https://zhuanlan.zhihu.com/p/307923089
+
+注意，可能要手动配置环境变量（如果能直接用也就不用配置）
+
+![配置环境变量](images/index/mysql-index-3.png)
+
+##### 8. 安装zip、unzip
+
+```bash
+apt-get install zip 
+apt-get install unzip 
+```
+##### 9. 解决中文乱码问题
+
+```python
+export LC_ALL="C.UTF-8"
+source /etc/bash.bashrc
+```
+
+##### 10. 安装sudo
 
 ```bash
 apt-get install sudo
@@ -490,7 +625,69 @@ vim /etc/ssh/sshd_config
 
 ## docker实战
 
- 
+### Docker使用实战-容器保存和迁移
+
+在 Docker 中，如果你想保存一个容器，可以将其保存为镜像（image），然后在需要时基于这个镜像重新创建容器。以下是具体步骤：
+
+#### 方法一：将容器保存为镜像
+1. **查看正在运行的容器**
+   使用以下命令列出当前运行的容器，找到你要保存的容器 ID 或名称：
+   ```bash
+   docker ps -a
+   ```
+
+2. **提交容器为镜像**
+   使用 `docker commit` 命令将容器保存为一个新的镜像。假设你的容器 ID 是 `abc123`，你想保存为镜像名称 `myimage:latest`：
+   ```bash
+   docker commit abc123 myimage:latest
+   ```
+   - `abc123` 是容器 ID 或容器名称。
+   - `myimage:latest` 是你想保存的新镜像名称和标签。
+
+3. **验证镜像**
+   保存后，可以用以下命令查看新创建的镜像：
+   ```bash
+   docker images
+   ```
+
+4. **（可选）保存镜像到文件**
+   如果你想将镜像导出为一个 `.tar` 文件以便备份或转移到其他机器：
+   ```bash
+   docker save -o myimage.tar myimage:latest
+   ```
+   这样会生成一个 `myimage.tar` 文件。
+
+5. **（可选）加载镜像**
+   在其他地方使用时，可以通过以下命令加载 `.tar` 文件：
+   ```bash
+   docker load -i myimage.tar
+   ```
+
+#### 方法二：直接导出容器
+如果你不需要将其转化为镜像，而是想直接保存容器的完整状态（包括文件系统和配置），可以用 `docker export`：
+```bash
+docker export abc123 > container.tar
+```
+- 这会将容器导出为一个 `.tar` 文件。
+- 之后可以用 `docker import` 导入这个文件为镜像：
+  ```bash
+  docker import container.tar myimage:latest
+  ```
+
+#### 注意事项
+- **`docker commit` vs `docker export`**：
+  - `docker commit` 保存的是容器的运行时状态为一个新镜像，适合需要保留容器修改的情况。
+  - `docker export` 导出的只是文件系统快照，不包括容器的元数据（如 CMD、ENTRYPOINT 等）。
+- **推荐方式**：通常建议使用 `docker commit` 并结合 Dockerfile 来管理镜像，这样更符合 Docker 的最佳实践。
+
+#### 使用保存的镜像
+保存为镜像后，随时可以用以下命令基于镜像启动新容器：
+```bash
+docker run -d myimage:latest
+```
+
+如果你有其他具体需求（比如保存到某个地方或自动化脚本），可以告诉我，我再帮你调整方案！
+
 ### Docker 服务部署教程
 
 在开始之前，我们先快速理解三个最重要的概念：
