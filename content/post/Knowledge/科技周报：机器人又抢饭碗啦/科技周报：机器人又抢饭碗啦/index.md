@@ -1,24 +1,29 @@
 ---
 title: 科技周报：机器人又抢饭碗啦
-description: ""
+description: "记录每周最新的科技动态、开源项目和技术趋势，关注AI、机器学习、开发工具等前沿技术发展"
 date: 2025-05-14T11:30:35+08:00
 image: images/index/index.png
 categories:
     - Knowledge
 tags:
-    - 科技周报：机器人又抢饭碗啦
+    - 科技周报
 ---
 
 
  
 
 - [2025年06月第一周](#2025年06月第一周)
-  - [新闻](#新闻)
-  - [项目](#项目)
-    - [google vertex 是什么？](#google-vertex-是什么)
 
 
 
+
+
+### 202507月第三周
+
+- augment code 的remote agent
+
+    好像就是说让你把代码push到github上，然后他通过云服务器拉你的电脑，然后在云端执行agent，你自己就可以把电脑关了设置，主要是一个并行工作的概念，
+    授权之后，它会看到你的私有仓库
 
 
 
