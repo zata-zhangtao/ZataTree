@@ -14,12 +14,19 @@ tags:
 
 
 
+
+
+
+
 ### 相关教程
 - [非常好用，在windows通过wsl使用claude，我就是看的这个](https://itecsonline.com/post/how-to-install-claude-code-on-windows)
 - [claude code 官方实战](https://docs.anthropic.com/en/docs/claude-code/overview)
 - [claude code 仓库](https://github.com/anthropics/claude-code)
 - [Claude Code 實戰教學：三大超好用功能公開！【2025年6月更新】【AI寫程式】](https://vocus.cc/article/6854309dfd89780001335549)
 - [Claude Code 最佳实践](https://gaccode.com/document/claude-code-best-practices-zh)
+- [让claude更加好用](https://itecsonline.com/post/claude-code-tips-tricks)
+
+
 
 
 
@@ -73,6 +80,9 @@ mkdir -p ~/.npm-global
 
 
 ### 实战
+
+
+
 
 #### 修复 macOS 上 Claude Code 需要 sudo 运行的问题 （没有修复）
 
@@ -217,6 +227,20 @@ git branch -d feature-ui
 
 #### The Permission System Hack That Changes Everything
 
+ Tips: `--dangerously-skip-permissions`  这个参数只能执行在非root用户下执行，因此如果只有root用户需要创建一个账户
+
+```bash
+sudo useradd -m -s /bin/bash username  # 创建新用户
+
+curl --resolve raw.githubusercontent.com:443:185.199.108.133 -fsSL https://raw.githubusercontent.com/mklement0/n-install/stable/bin/n-install | bash -s 22   # 安装 node 其中--resolve表示自动去找可用的地址， 也可以安装nvm
+
+npm install -g https://gaccode.com/claudecode/install --registry=https://registry.npmmirror.com  # 安装gac站的claude code
+
+claude --dangerously-skip-permissions
+```
+
+
+
 Here's the single most impactful tip for Claude Code: the `--dangerously-skip-permissions` flag. By default, Claude interrupts your flow constantly, asking permission for every file edit and command. This quickly becomes maddening when you're in the zone.
 
 Picture this: You ask Claude to refactor a component. You switch to check email, grab coffee, and return to find Claude sitting idle, waiting to ask if it can edit the exact file you told it to modify. This happens dozens of times daily with default settings.
@@ -225,6 +249,12 @@ The solution: Run `claude --dangerously-skip-permissions` when starting your ses
 
 ##### Power User Tip
 Create an alias in your shell configuration: `alias cc='claude --dangerously-skip-permissions'`. Now you can just type 'cc' to start Claude in productivity mode.
+
+
+
+
+
+
 
 
 #### VS Code Extension: Multiple Instances for Maximum Productivity
@@ -470,7 +500,7 @@ Set up keyboard shortcuts: Cmd+1 through Cmd+4 for different Claude instances, C
 
 **Regex in File References**: Use patterns like `@**/*test*.ts` to reference all test files at once.
 
-**Conversation Forking**: Use `/fork` to create a branch of your current conversation. Perfect for exploring different solutions without losing context.
+**Conversation Forking**: Use `/fork` to create a branch of your current conversation. Perfect for exploring different solutions without losing context.  （这个是没有 fork 命令的 ，可以使用git 的worktree）
 
 **Silent Mode**: Add `--quiet` to any command to suppress Claude's explanations and get just the code.
 
