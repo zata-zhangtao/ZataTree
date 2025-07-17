@@ -20,6 +20,18 @@ tags:
 
 ### 202507月第三周
 
+
+- SuperClaude 是一个扩展 Claude Code 的 Python 框架，提供专门的命令、角色和 MCP 服务器集成。它通过智能路由、任务自动化和多阶段编排来增强开发工作流程。
+
+    - **核心框架**: 9个综合文档文件，指导 Claude Code 行为
+    - **命令系统**: 16个专门的斜杠命令，用于常见开发任务
+    - **角色系统**: 11个基于上下文自动激活的领域专家AI
+    - **MCP集成**: 外部工具连接（Context7、Sequential、Magic、Playwright）
+    - **安装系统**: 统一的CLI安装器，支持模块化组件选择。
+
+    github：GitHub - NomenAK/SuperClaude: A configuration framework that enhances Claude Code with specialized c
+
+
 - augment code 的remote agent
 
     好像就是说让你把代码push到github上，然后他通过云服务器拉你的电脑，然后在云端执行agent，你自己就可以把电脑关了设置，主要是一个并行工作的概念，

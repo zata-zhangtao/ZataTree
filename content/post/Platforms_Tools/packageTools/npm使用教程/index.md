@@ -44,6 +44,55 @@ tags:
 
 -----
 
+### 常用命令
+
+以下是最常用的 npm 命令：
+
+| 命令 | 别名 | 说明 | 示例 |
+|------|------|------|------|
+| `npm install` | `npm i` | 安装项目依赖 | `npm install` |
+| `npm install <package>` | `npm i <package>` | 安装特定包 | `npm install lodash` |
+| `npm install <package> --save-dev` | `npm i <package> -D` | 安装开发依赖 | `npm install jest -D` |
+| `npm uninstall <package>` | `npm un <package>` | 卸载包 | `npm uninstall lodash` |
+| `npm update` | - | 更新包 | `npm update` |
+| `npm init` | - | 初始化项目 | `npm init` |
+| `npm init -y` | - | 快速初始化 | `npm init -y` |
+| `npm start` | - | 启动应用 | `npm start` |
+| `npm test` | - | 运行测试 | `npm test` |
+| `npm run <script>` | - | 运行脚本 | `npm run dev` |
+| `npm list` | `npm ls` | 查看已安装的包 | `npm list --depth=0` |
+| `npm outdated` | - | 检查过时的包 | `npm outdated` |
+| `npm audit` | - | 安全漏洞检查 | `npm audit` |
+| `npm audit fix` | - | 修复安全漏洞 | `npm audit fix` |
+| `npx <package>` | - | 执行包而不安装 | `npx create-react-app my-app` |
+
+#### 快速参考
+
+```bash
+# 初始化项目
+npm init -y
+
+# 安装依赖
+npm install [--legacy-peer-deps]   
+
+# 安装/卸载包
+npm install <包名>
+npm install <包名> --save-dev
+npm uninstall <包名>
+
+# 运行脚本
+npm start
+npm run dev
+npm test
+
+# 查看/更新/安全
+npm list --depth=0
+npm outdated
+npm update
+npm audit
+npm audit fix
+```
+
 ### 1\. 什么是 npm？
 
 npm (Node Package Manager) 是 Node.js 的默认包管理器。它主要有两个功能：
@@ -151,6 +200,20 @@ npm init -y
     ```
 
     > **注意**: 尽量避免过多全局安装，优先使用 `npx` (后面会讲)。
+
+    以下是与依赖管理和冲突解决相关的常用参数：
+
+| 参数                     | 说明                                                                 | 对你的错误的适用场景                                   |
+|--------------------------|----------------------------------------------------------------------|-----------------------------------------------------|
+| `--legacy-peer-deps`     | 忽略 peer dependency 冲突，使用旧版 npm 的解析逻辑。                   | 绕过 `typescript` 与 `react-scripts` 的版本冲突。      |
+| `--force`                | 强制安装，覆盖依赖冲突，可能忽略合法约束。                             | 作为最后手段解决无法解析的冲突。                     |
+| `--save`                 | 将包保存到 `package.json` 的 `dependencies` 中（npm < 7 默认行为）。    | 添加新包时使用，非直接相关。                         |
+| `--save-dev`             | 将包保存到 `package.json` 的 `devDependencies` 中。                    | 安装 `typescript` 作为开发依赖时使用。               |
+| `--no-audit`             | 跳过依赖的安全审计。                                                 | 加速安装，减少审计相关的延迟。                       |
+| `--no-fund`              | 抑制 npm 的资助提示信息。                                             | 提高输出日志的可读性。                               |
+| `--verbose`              | 提供详细的安装日志输出。                                             | 调试安装问题时查看更多日志信息。                     |
+| `--production`           | 仅安装 `dependencies`（跳过 `devDependencies`）。                      | 生产环境部署时使用，与此问题无关。                   |
+| `--cache=<path>`         | 指定自定义缓存目录。                                                 | 缓存问题持续存在时使用，较少需要。                   |
 
 #### `npm uninstall`
 

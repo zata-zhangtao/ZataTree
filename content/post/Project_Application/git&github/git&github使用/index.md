@@ -114,6 +114,7 @@ git push origin $(git branch --show-current)  # 将当前分支推送到远程�
 
 %%拉取远程库%%
 git pull [<远程主机名>] [<远程分支>:<本地分支>]   # 从远程仓库（名为 origin）的 main 分支拉取代码并自动与本地的 main 分支合并 ,如果方括号里面的不加就默认拉去上一次的
+git pull  [<远程主机名>] --depth <分支深度>  [<远程分支>:<本地分支>] # 例如git pull zata --depth 1 hugo:hugo ，用于历史内容过多，只拉取少量历史记录
 
 
 %%查看引用日志版本信息%%
