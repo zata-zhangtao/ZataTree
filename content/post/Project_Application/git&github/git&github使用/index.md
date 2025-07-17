@@ -52,6 +52,7 @@ tags: ["git&github","教程"]
   - [用git hooks解决github大文件报错](#用git-hooks解决github大文件报错100m限制或50m限制大文件50mgit-hooksgit)
   - [云服务器无法访问Github导致git失败方案](#云服务器无法访问github导致git失败方案)
   - [git pull 时出现 "cannot lock ref" 错误的解决方案](#git-pull-时出现-cannot-lock-ref-错误的解决方案)
+  - [解决 Git 未检测文件名大小写变化的问题](#解决-git-未检测文件名大小写变化的问题)
 
 
 ##  git基本使用
@@ -2193,3 +2194,79 @@ cd ZataTree
 3. **检查网络**：确保网络连接稳定，避免 `git pull` 中断导致引用不一致。
 
 
+
+### 解决 Git 未检测文件名大小写变化的问题
+
+在 Linux 上将文件从 `sendEmailToMe.py` 重命名为 `sendEmailTome.py` 后，Git 可能未检测到变化。以下是精简的解决步骤：
+
+#### 问题原因
+
+- Git 配置为大小写不敏感（`core.ignorecase=true`）。
+- 文件系统（如 FAT32/NTFS）大小写不敏感。
+- Git 索引未更新，仅大小写的变化未被识别。
+
+#### 解决步骤
+
+**1. 检查 Git 大小写敏感性**
+```bash
+git config core.ignorecase
+```
+
+如果返回 `true`，设置为大小写敏感：
+```bash
+git config core.ignorecase false
+```
+
+**2. 强制 Git 识别重命名**
+```bash
+git rm --cached sendEmailToMe.py
+git add sendEmailTome.py
+git commit -m "Rename sendEmailToMe.py to sendEmailTome.py"
+```
+
+**3. 使用临时文件名（若直接重命名无效）**
+```bash
+mv sendEmailToMe.py temp.py
+git rm --cached sendEmailToMe.py
+git add temp.py
+git commit -m "Rename sendEmailToMe.py to temp.py"
+mv temp.py sendEmailTome.py
+git add sendEmailTome.py
+git commit -m "Rename temp.py to sendEmailTome.py"
+```
+
+**4. 检查文件系统**
+确认当前目录文件系统是否大小写敏感：
+```bash
+df -T .
+```
+
+如果是 FAT32/NTFS，移动文件到 ext4 文件系统：
+```bash
+mv sendEmailTome.py /tmp/sendEmailTome.py
+git rm --cached sendEmailToMe.py
+git add /tmp/sendEmailTome.py
+mv /tmp/sendEmailTome.py .
+git commit -m "Rename sendEmailToMe.py to sendEmailTome.py"
+```
+
+**5. 验证更改**
+```bash
+git status
+```
+
+应显示：
+```
+renamed:    sendEmailToMe.py -> sendEmailTome.py
+```
+
+**6. 推送到远程仓库**
+```bash
+git push origin main
+```
+
+#### 预防措施
+
+- 统一文件名风格（如全小写：`send_email_to_me.py`）。
+- 在 `.gitattributes` 中添加 `* -text` 强制大小写敏感。
+- 在 Linux 环境下测试，避免跨平台大小写问题。
