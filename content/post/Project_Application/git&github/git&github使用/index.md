@@ -64,7 +64,7 @@ git log --oneline --graph --all # 显示所有分支的提交记录
 
 git branch --set-upstream-to=origin/<远程分支> <本地分支> # 绑定本地分支和远程分支
 
-git remote prune <remote-name> # 删出本地存在但是远程不存在的分支，必须存在追踪关系
+git remote prune <remote-name> # 清理本地仓库中对远程仓库 zata 已删除分支的过时跟踪引用。 并不是删除分支
 git gc --prune=now  #清理不必要的文件并优化本地仓库
 
 
@@ -796,7 +796,7 @@ git commit --amend -m "new message"
 
 ---
 
-### 17.  工作树 （git wroktree）
+### 17.  工作树 （git worktree）
 
 ``` bash
 # 创建新的工作树
@@ -820,6 +820,73 @@ git worktree lock <路径>
 # 解锁工作树
 git worktree unlock <路径>
 ```
+
+#### 工作树删除详解 (`git worktree remove`)
+
+当你使用 `git worktree remove` 删除一个工作树时，Git 会删除对应的工作目录（文件夹），但不会删除关联的分支。这是 Git 工作树的预期行为，因为工作树只是分支的一个工作副本，分支本身是存储在 Git 仓库中的引用。
+
+##### 1. 为什么分支还存在？
+- `git worktree remove <path>` 只会删除指定路径的工作树（即文件夹及其内容），并清理工作树相关的元数据（存储在 `.git/worktrees/` 目录中）。
+- 分支本身是独立的，存储在 `.git/refs/heads/` 或其他引用中，因此删除工作树不会影响分支的存在。
+- 如果工作树中有未提交的更改，Git 在默认情况下会阻止删除，除非你使用 `--force` 选项强制删除。
+
+##### 2. 如何确认分支仍然存在？
+你可以通过以下命令确认分支是否仍然存在：
+```bash
+git branch
+```
+这会列出所有本地分支。如果分支仍然存在，你会看到它在列表中。
+
+##### 3. 如果你想删除分支
+如果你希望同时删除分支，可以手动删除它：
+```bash
+git branch -d <branch-name>
+```
+- `-d`：删除分支，前提是分支已完全合并到其他分支（比如 `main` 或 `master`）。
+- 如果分支未合并，可以使用 `-D` 强制删除：
+  ```bash
+  git branch -D <branch-name>
+  ```
+
+##### 4. 如果你误删了工作树但想恢复
+如果你删除了工作树，但分支仍然存在，你可以轻松重新创建一个新的工作树：
+```bash
+git worktree add <new-path> <branch-name>
+```
+- `<new-path>`：新的工作目录路径。
+- `<branch-name>`：你想恢复的工作树关联的分支。
+
+例如：
+```bash
+git worktree add ../new-worktree my-branch
+```
+这会在 `../new-worktree` 目录中重新创建一个基于 `my-branch` 的工作树。
+
+##### 5. 检查工作树状态
+你可以用以下命令查看当前的工作树列表，确认是否还有其他工作树：
+```bash
+git worktree list
+```
+这会显示所有工作树及其关联的分支和路径。
+
+##### 6. 如果工作树中有未提交的更改被删除
+如果你在删除工作树时使用了 `git worktree remove --force`，并且工作树中有未提交的更改，这些更改可能已经丢失，因为工作目录被物理删除。Git 不会自动备份这些更改。
+
+在这种情况下：
+- 检查是否还有其他工作树或备份。
+- 如果你有提交历史，可以尝试从分支的最新提交恢复：
+  ```bash
+  git checkout <branch-name>
+  git log
+  ```
+  然后基于某个提交重新创建工作树。
+
+##### 7. 预防措施
+- 在使用 `git worktree remove` 时，始终确保工作树中的更改已提交或存储（比如通过 `git stash`）。
+- 如果你不确定是否需要保留分支，可以在删除工作树后检查分支状态。
+
+##### 总结
+`git worktree remove` 删除的是工作目录，不会影响分支本身。如果你想删除分支，使用 `git branch -d` 或 `git branch -D`。如果需要恢复工作树，可以用 `git worktree add` 重新创建。如果你有其他具体问题（比如误删了未提交的更改），请提供更多细节，我可以进一步帮助你！
 
 
 ### 18. 其他实用命令

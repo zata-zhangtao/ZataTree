@@ -15,6 +15,13 @@ tags:
 
 
 
+### 使用技巧
+
+- 我感觉上，最好把一个任务拆分成非常细的list，然后每一步人工检查一下claude做的对不对，如果让它一次性做很多，最后可能会不太可用，而且需要返工很久
+
+
+
+
 
 
 
@@ -76,6 +83,9 @@ mkdir -p ~/.npm-global
 
 
 ```
+
+
+
 
 
 
@@ -231,6 +241,8 @@ git branch -d feature-ui
 
 ```bash
 sudo useradd -m -s /bin/bash username  # 创建新用户
+
+su - username # 切换用户
 
 curl --resolve raw.githubusercontent.com:443:185.199.108.133 -fsSL https://raw.githubusercontent.com/mklement0/n-install/stable/bin/n-install | bash -s 22   # 安装 node 其中--resolve表示自动去找可用的地址， 也可以安装nvm
 
