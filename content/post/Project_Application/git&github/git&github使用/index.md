@@ -41,6 +41,7 @@ tags: ["git&github","教程"]
   - [git 使用token登录github 并拉取项目](#git-使用token登录github-并拉取项目如果电脑上已经登录过了需要把账户信息清除掉如果是用ssh密钥登录的也不行清除token账户信息请看下面清除电脑上已经登录的github账户信息)
   - [github 要求2FA认证](#github-要求2fa认证)
   - [github 清除电脑上已经登录的github账户信息](#github-清除电脑上已经登录的github账户信息)
+  - [git config --global --add safe.directory 设置安全目录](#git-config---global---add-safe-directory-设置安全目录)
 
 - **问题解决**
   - [解决Mac、linux下使用git命令时中文乱码的办法](#解决mac、linux下使用git命令时中文乱码的办法)
@@ -1311,6 +1312,86 @@ step3：删除github相关的凭证
 
 
 ![删除github凭证](images/index/image-11.png)
+
+### git config --global --add safe.directory 设置安全目录
+
+#### 命令用途
+`git config --global --add safe.directory` 命令用于将指定的目录添加到 Git 的安全目录列表中，解决 Git 安全机制导致的仓库访问问题。
+
+#### 问题背景
+从 Git 2.35.2 开始，Git 引入了更严格的安全机制，默认情况下会拒绝访问由其他用户拥有的目录中的 Git 仓库。这通常发生在以下情况：
+- 在 WSL (Windows Subsystem for Linux) 环境中
+- 在共享目录或挂载的目录中
+- 在 Docker 容器中访问宿主机目录
+- 在多用户系统中
+
+#### 命令语法
+```bash
+git config --global --add safe.directory <directory-path>
+```
+
+#### 使用示例
+```bash
+# 添加单个目录到安全目录列表
+git config --global --add safe.directory /code/GRT
+
+# 添加当前目录到安全目录列表
+git config --global --add safe.directory "$(pwd)"
+
+# 添加多个目录
+git config --global --add safe.directory /path/to/repo1
+git config --global --add safe.directory /path/to/repo2
+```
+
+#### 查看当前安全目录列表
+```bash
+# 查看所有安全目录
+git config --global --get-all safe.directory
+
+# 查看所有全局配置
+git config --global --list | grep safe.directory
+```
+
+#### 删除安全目录
+```bash
+# 删除特定的安全目录
+git config --global --unset-all safe.directory /code/GRT
+
+# 删除所有安全目录配置
+git config --global --unset-all safe.directory
+```
+
+#### 常见错误信息
+当遇到安全目录问题时，Git 会显示类似以下的错误：
+```
+fatal: detected dubious ownership in repository at '/code/GRT'
+To add an exception for this directory, call:
+    git config --global --add safe.directory /code/GRT
+```
+
+#### 安全注意事项
+1. **谨慎添加目录**：只添加你信任的目录，避免添加系统关键目录
+2. **使用绝对路径**：建议使用绝对路径而不是相对路径
+3. **定期检查**：定期检查安全目录列表，删除不再需要的目录
+4. **环境隔离**：在不同环境中使用不同的安全目录配置
+
+#### 替代方案
+如果不想使用全局配置，也可以：
+1. **使用本地配置**：在特定仓库中使用 `--local` 而不是 `--global`
+2. **修改目录权限**：确保目录的所有权正确
+3. **使用 Git 环境变量**：设置 `GIT_SAFE_DIRECTORIES` 环境变量
+
+#### 验证配置
+配置完成后，可以验证是否生效：
+```bash
+# 进入目标目录
+cd /code/GRT
+
+# 尝试执行 Git 命令
+git status
+
+# 如果没有错误信息，说明配置成功
+```
 
 ### `git clone 出现以下问题：fatal: unable to access XXX: gnutls_handshake() failed: The TLS connection was non-properly terminated.`
 
