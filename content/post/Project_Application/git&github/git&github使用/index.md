@@ -342,7 +342,7 @@ git branch -d feature
 # 强制删除未合并的分支
 git branch -D <branch-name>
 # 示例：强制删除 feature 分支
-git branch - FISHBONE
+git branch -D feature
 ```
 
 #### 查看分支
@@ -925,6 +925,164 @@ git submodule update --init --recursive
 - 子模块适用于管理嵌套仓库。
 
 ---
+
+### Git 项目依赖管理：Submodule 与 Subtree 实战教程
+
+在开发中，我们经常需要在一个项目里引入另一个项目（如公用库、SDK 等）。Git 提供了两种主流的解决方案：`git submodule` (子模块) 和 `git subtree` (子树)。本教程将帮助你理解它们的核心区别，并为你提供清晰的选择指引和操作步骤。
+
+#### 核心区别：链接 vs. 复制
+
+  * **`git submodule` (子模块)**：像一个**指针或链接**。你的主项目只保存一个指向外部项目特定版本（commit ID）的引用。两个项目的历史完全独立。
+  * **`git subtree` (子树)**：像一次**代码复制**。它将外部项目的代码文件和 Git 历史完全合并到你的主项目中，使其成为主项目的一个普通子目录。
+
+-----
+
+### 方法一：`git submodule` - 精准的版本链接
+
+这是 Git 官方推荐的、功能更强大的方式，适用于需要严格版本控制和历史分离的场景。
+
+**适用场景：**
+
+  * 引入你不常修改的**第三方库**。
+  * 需要将项目依赖**精确锁定**在某个特定版本。
+  * 团队成员都熟悉 Git，不介意多一个操作步骤。
+
+**关键操作：**
+
+1.  **添加子模块**
+
+    ```bash
+    # 语法: git submodule add <仓库URL> <本地路径>
+    git submodule add https://github.com/some-user/my-library.git libs/my-library
+    ```
+
+    这里我一开始是遇到了错误，因为我先手动创建了nirapi文件夹，但是不能这样做，需要让submodule创建，另一个点就是，他会默认拉去github仓库的默认分支，而不是mian分支
+    ![git submodule](images/index/image-24.png)
+
+    现在去source control界面就可以看见submodule了
+    ![source control](images/index/image-25.png)
+
+2.  **提交改动**
+
+    ```bash
+    git add .gitmodules libs/my-library
+    git commit -m "feat: Add my-library as a submodule"
+    git push #  这个的前提是已经绑定了本地和远程分支的关系，不然这样会报错的
+    ```
+    ![git add  commit ](images/index/image-26.png)
+    ![responsitories](images/index/image-27.png)
+
+3.  **克隆项目 (协作者必看)**
+    必须使用特定参数才能同时拉取子模块的代码。
+
+    ```bash
+    # 推荐：克隆时一次性初始化
+    git clone --recurse-submodules <你的主项目URL>
+
+    # 如果已克隆，则用此命令补救
+    git submodule update --init
+    ```
+
+4.  **更新子模块**
+    拉取子模块的最新代码，并更新主项目的引用。
+
+    ```bash
+    # 进入子模块目录，拉取最新代码
+    cd libs/my-library
+    git pull origin main
+
+    # 返回主项目，提交引用更新
+    cd ../..
+    git add libs/my-library
+    git commit -m "chore: Update my-library to latest"
+    git push
+    ```
+
+-----
+
+### 方法二：`git subtree` - 简单的代码集成
+
+这是一种更简单直观的方式，它将外部代码"吸收"成项目的一部分，对协作者非常友好。
+
+**适用场景：**
+
+  * 引入**团队内部**的共享组件，你可能需要经常修改它。
+  * 希望**简化团队协作**，避免成员学习额外的 `submodule` 命令。
+  * 不介意主项目的 Git 历史变得更复杂。
+
+**关键操作：**
+
+1.  **添加子树**
+
+    ```bash
+    # 语法: git subtree add --prefix=<本地路径> <仓库URL> <分支> --squash
+    git subtree add --prefix=libs/my-library https://github.com/some-user/my-library.git main --squash
+    ```
+
+      * `--squash`：强烈推荐！它将子项目的所有历史压缩成一个 commit，保持主项目历史的整洁。
+
+2.  **更新子树**
+    从远程拉取子树的最新更新。
+
+    ```bash
+    git subtree pull --prefix=libs/my-library https://github.com/some-user/my-library.git main --squash
+    ```
+
+-----
+
+### 如何选择：Submodule vs. Subtree 对比
+
+| 特性 | Git Submodule (子模块) | Git Subtree (子树) |
+| :--- | :--- | :--- |
+| **协作者克隆** | 复杂 (`clone --recurse-submodules`) | **简单** (只需 `git clone`) |
+| **历史记录** | **清晰分离** (两个独立历史) | 混合在一起 (可能变复杂) |
+| **仓库体积** | **小** (只保存链接) | 大 (包含所有文件) |
+| **管理方式** | 严格，但步骤稍多 | **直观** (像普通文件夹) |
+| **推荐场景** | 依赖**外部**、不常改动的库 | 依赖**内部**、可能修改的库 |
+
+-----
+
+### 终极实战：在主项目中开发个人库
+
+这是一个非常具体的需求：**库是你自己写的，你会在主项目中直接修改它，并希望这些修改能推送回库自己的仓库**。
+
+**最佳方案：`git submodule`**
+
+**原因**：`submodule` 的工作模式完美契合这个需求。它让你在子目录中拥有一个**完整的、标准**的 Git 仓库。你可以使用最熟悉的 `git push/pull` 命令来管理库，同时保持主项目和库项目的历史完全独立，这对于长期维护至关重要。
+
+**您的日常开发流程：**
+
+1.  **修改代码**：
+    在主项目中，直接修改 `libs/my-library` 文件夹（即子模块目录）下的代码。
+
+2.  **推送"库"的更新**：
+    这是关键一步，你需要进入子模块目录，完成一次对库的独立推送。
+
+    ```bash
+    # 1. 进入子模块（你的库）目录
+    cd libs/my-library
+
+    # 2. 提交并推送到【库的远程仓库】
+    git add .
+    git commit -m "feat: Add new awesome feature"
+    git push origin main
+    ```
+
+3.  **更新"主项目"的引用**：
+    返回主项目，告诉它库已经更新到了最新版本。
+
+    ```bash
+    # 1. 回到主项目根目录
+    cd ../..
+
+    # 2. 提交这个指向新版本的"指针"
+    git add libs/my-library
+    git commit -m "chore: Sync library to latest version"
+    git push
+    ```
+
+这个"两步提交"的流程虽然比单项目多了一步，但它逻辑清晰，完美地将两个独立项目的变更管理得井井有条，是该场景下的最佳实践。
+
 
 ### 19. 常见工作流示例
 
