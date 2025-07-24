@@ -158,7 +158,7 @@ fainitgleam documentation
 在你的终端中运行以下命令：
 
 ```bash
-pip install mkdocs mkdocs-material mkdocstrings-python
+uv install mkdocs mkdocs-material mkdocstrings-python
 ```
 
 **2. 创建新项目** （如果还没有软件项目）

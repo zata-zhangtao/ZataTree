@@ -56,6 +56,9 @@ tags: ["git&github","教程"]
   - [解决 Git 未检测文件名大小写变化的问题](#解决-git-未检测文件名大小写变化的问题)
 
 
+- **实战**
+  - [如何将 clone 下来的项目推送到自己的新仓库并同步原始仓库更新](#如何将clone下来的项目推送到自己的新仓库并同步原始仓库更新)
+
 ##  git基本使用
 ### 简单常用命令
 
@@ -2576,3 +2579,114 @@ git push origin main
 - 统一文件名风格（如全小写：`send_email_to_me.py`）。
 - 在 `.gitattributes` 中添加 `* -text` 强制大小写敏感。
 - 在 Linux 环境下测试，避免跨平台大小写问题。
+
+### 如何将clone下来的项目推送到自己的新仓库并同步原始仓库更新
+
+当你 `clone` 一个项目，你的本地仓库默认会有一个名为 `origin` 的远程连接，指向你克隆的那个仓库地址。现在你既想保留自己的修改，又想同步原始仓库的更新，并最终将所有代码推送到你自己的一个全新仓库。
+
+下面是详细的步骤，分为两种情况：
+
+- **方案一：简单直接，将推送目标"切换"到你的新仓库。**
+- **方案二：最佳实践，同时管理"原始仓库"和"你的仓库"两个远程地址。** (推荐)
+
+
+前提：创建你自己的远程仓库
+
+---
+
+无论使用哪种方案，你都需要先在代码托管平台（如 GitHub、Gitee、GitLab）上创建一个**空的**新仓库。
+
+**非常重要：** 创建仓库时，**不要**勾选"使用README文件初始化仓库"、"添加 .gitignore" 或 "选择许可证"，以避免产生不兼容的提交历史。
+
+创建好之后，复制新仓库的 URL 地址（HTTPS 或 SSH 格式），比如 `https://github.com/your-username/your-new-repo.git`。
+
+---
+
+#### 方案一：切换远程仓库地址 (简单直接)
+
+这个方案直接把本地仓库的 `origin` 指向从原始仓库地址修改为你的新仓库地址。
+
+##### 第一步：提交你的本地更改
+
+```bash
+git status
+git add .
+git commit -m "这里写下你的提交信息，比如：添加了xx功能"
+```
+
+##### 第二步：同步原始仓库的更新
+
+```bash
+git pull --rebase origin main  # 如果你的分支不是 main，请替换为实际分支名
+```
+
+- `git pull --rebase` 会先拉取原始仓库的新提交，再把你本地的提交"重新播放"在最前面，保持提交历史线性。
+- 如果遇到冲突，解决后用 `git add <文件名>` 标记解决，然后 `git rebase --continue`。
+
+##### 第三步：更改远程仓库 `origin` 的 URL
+
+```bash
+git remote -v  # 查看当前远程仓库地址
+git remote set-url origin <你自己的新仓库URL>
+git remote -v  # 再次确认
+```
+
+##### 第四步：推送到你自己的仓库
+
+```bash
+git push -u origin main  # -u 建立本地分支与远程分支的追踪关系
+```
+
+---
+
+#### 方案二：添加新的远程仓库 (最佳实践)
+
+这个方案保留了原始仓库的连接（通常命名为 `upstream`），同时添加你自己的仓库作为新的远程连接（通常还叫 `origin`）。这样做的好处是，未来你还可以随时方便地从原始仓库拉取更新。
+
+##### 第一步和第二步：同方案一
+
+```bash
+git add .
+git commit -m "你的提交信息"
+git pull --rebase origin main
+```
+
+##### 第三步：重命名原始仓库并添加你自己的仓库
+
+```bash
+git remote rename origin upstream  # 原始仓库重命名为 upstream
+git remote add origin <你自己的新仓库URL>  # 添加你自己的仓库为 origin
+git remote -v  # 检查远程仓库配置
+```
+
+此时你应该能看到：
+- `origin` 指向你的新仓库地址（可读写）。
+- `upstream` 指向你最初克隆的那个原始仓库地址（通常是只读的）。
+
+##### 第四步：推送到你自己的仓库
+
+```bash
+git push -u origin main
+```
+
+##### 未来的工作流
+- 推送自己的修改：`git push origin main`
+- 同步原始项目的更新：
+  ```bash
+  git fetch upstream
+  git rebase upstream/main
+  ```
+
+---
+
+#### 常见问题与注意事项
+
+- **分支名不是 main？**
+  - 如果你的分支名是 `master` 或其他，请将命令中的 `main` 替换为实际分支名。
+- **遇到冲突怎么办？**
+  - Git 会提示你解决冲突。解决后 `git add <文件>`，然后 `git rebase --continue`。
+- **推送时遇到权限问题？**
+  - 检查你是否有新仓库的写权限，或 SSH/Token 配置是否正确。
+- **未来如何同步原始仓库的更新？**
+  - 只需 `git fetch upstream`，然后 `git rebase upstream/main`。
+
