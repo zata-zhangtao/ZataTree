@@ -30,6 +30,8 @@ tags:
   - [docker容器添加对外映射端口](#docker容器添加对外映射端口)
   - [docker设置可用CPU核心数量](#docker设置可用cpu核心数量)
   - [容器端口转发问题排查和解决方案](#容器端口转发问题排查和解决方案)
+  - [局域网访问Docker容器完整指南](#局域网访问docker容器完整指南)
+  - [docker设置可用CPU核心数量](#docker设置可用cpu核心数量)
 
 - [docker实战](#docker实战)
   - [Docker使用实战-MySQL和Ubuntu容器](#docker使用实战-mysql和ubuntu容器)
@@ -608,6 +610,202 @@ vim /etc/ssh/sshd_config
 最简单省事方法：将现有的容器打包成镜像，然后在使用新的镜像运行容器时重新指定要映射的端口
 
 ![打包镜像重新运行容器](images/index/index-7.png)
+
+#### 局域网访问Docker容器完整指南
+
+这个问题非常常见，是团队协作或使用多台设备进行开发时必备的技能。
+
+另一台局域网上的电脑（我们称之为"开发机"）要进入运行 Docker 的电脑（我们称之为"主机"）的容器，核心思想是**通过网络暴露容器的服务或端口**。容器本身是隔离的，你需要"开一个门"让局域网上的其他设备可以访问。
+
+这里有几种主流的方法，从简单到复杂，适用于不同的开发场景。
+
+##### **准备工作：必须知道主机IP**
+
+首先，你需要在运行 Docker 的主机上获取其局域网 IP 地址。
+
+  * **在 Windows 上:** 打开命令提示符（CMD）或 PowerShell，输入 `ipconfig`，查找 "IPv4 地址"。通常是 `192.168.x.x` 或 `10.x.x.x` 的形式。
+  * **在 macOS 或 Linux 上:** 打开终端，输入 `ifconfig` 或 `ip a`，查找 `inet` 后面的地址。
+
+下文中，我们假设主机的 IP 地址是 `192.168.1.100`。请在你的实际操作中替换成你自己的主机 IP。
+
+##### **方法一：端口映射 (Port Mapping) - 最常用**
+
+这是最直接、最常见的方法，适用于访问容器内运行的 Web 应用、API 服务、数据库等。
+
+**原理：**
+将主机的一个端口映射到容器内的一个端口。这样，访问主机的这个端口就等于访问了容器内的对应端口。
+
+**操作步骤：**
+
+1.  **启动容器时添加 `-p` 参数：**
+    在主机上，当你使用 `docker run` 启动容器时，必须使用 `-p` 或 `--publish` 参数来暴露端口。
+
+    格式为：`-p <主机端口>:<容器端口>`
+
+    **关键点：** 为了让局域网上的其他电脑能访问，主机端口部分必须绑定到 `0.0.0.0`，或者干脆省略 IP 地址（默认就是 `0.0.0.0`）。
+
+      * **示例1：运行一个 Nginx Web 服务器**
+
+        ```bash
+        # 将主机的 8080 端口映射到容器的 80 端口
+        # 这样局域网内的任何机器都可以通过主机的 8080 端口访问
+        docker run -d --name my-web -p 8080:80 nginx
+        ```
+
+      * **示例2：运行一个 Python Flask 应用**
+        假设你的 Flask 应用在容器的 5000 端口运行。
+
+        ```bash
+        # 将主机的 5000 端口映射到容器的 5000 端口
+        docker run -d --name my-app -p 5000:5000 your-python-app-image
+        ```
+
+2.  **在开发机上访问：**
+    现在，在局域网的另一台开发机上，打开浏览器或使用工具（如 cURL, Postman）访问 `http://<主机IP>:<主机端口>`。
+
+      * 对于上面的 Nginx 示例，访问地址是：`http://192.168.1.100:8080`
+      * 对于 Flask 应用示例，访问地址是：`http://192.168.1.100:5000`
+
+**如果容器已经启动了怎么办？**
+你不能动态地给一个正在运行的容器添加端口映射。你需要停止并删除旧的容器，然后使用新的 `-p` 参数重新启动它。
+
+```bash
+docker stop <容器名或ID>
+docker rm <容器名或ID>
+# 然后使用上面的 docker run -p ... 命令重新创建
+```
+
+##### **方法二：通过 SSH 进入容器 - 获取完整的 Shell 环境**
+
+如果你需要在容器内部执行命令、调试脚本，就像登录一台远程服务器一样，那么在容器里运行一个 SSH 服务是最佳选择。
+
+**原理：**
+在你的 Docker 镜像中安装并运行一个 SSH 服务器，然后像方法一那样，将容器的 SSH 端口（默认为 22）映射到主机的一个端口。
+
+**操作步骤：**
+
+1.  **准备一个带 SSH 服务的 Dockerfile：**
+    你不能直接在官方的基础镜像（如 `ubuntu`）里直接用 SSH，需要先安装。
+
+    下面是一个基于 Ubuntu 的 `Dockerfile` 示例：
+
+    ```dockerfile
+    # 使用一个基础镜像
+    FROM ubuntu:20.04
+
+    # 安装 SSH 服务端和一些常用工具
+    RUN apt-get update && apt-get install -y openssh-server sudo vim curl \
+        && rm -rf /var/lib/apt/lists/*
+
+    # 创建一个用于 SSH 登录的用户，并设置密码
+    # 注意：在生产环境中，不要用硬编码的密码！
+    RUN useradd -m -s /bin/bash developer && echo "developer:yourpassword" | chpasswd && adduser developer sudo
+
+    # 允许 root 登录（仅用于开发，不推荐在生产中使用）
+    RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+    # 创建 SSH 服务运行所需的目录
+    RUN mkdir /var/run/sshd
+
+    # 暴露容器的 22 端口
+    EXPOSE 22
+
+    # 容器启动时运行 SSH 服务
+    CMD ["/usr/sbin/sshd", "-D"]
+    ```
+
+2.  **构建并运行镜像：**
+
+      * 在主机上，将上述 `Dockerfile` 保存，然后在该目录下执行构建命令：
+        ```bash
+        docker build -t my-ssh-container .
+        ```
+      * 运行容器，并将主机的 2222 端口映射到容器的 22 端口（使用 2222 是为了避免与主机本身的 SSH 服务冲突）：
+        ```bash
+        docker run -d --name dev-env -p 2222:22 my-ssh-container
+        ```
+
+3.  **在开发机上通过 SSH 连接：**
+    在你的开发机上，打开终端，使用 `ssh` 命令连接。
+
+    ```bash
+    # 使用你创建的 developer 用户登录
+    ssh developer@192.168.1.100 -p 2222
+    ```
+
+    然后输入你设置的密码 (`yourpassword`)，就可以进入容器的命令行界面了。
+
+##### **方法三：使用 VS Code Remote Development - 最现代化的开发体验**
+
+这是目前最受推崇的开发方式，它结合了本地 IDE 的流畅体验和容器化环境的隔离与一致性。
+
+**原理：**
+你在本地的 VS Code 上编写代码，但所有的文件操作、终端命令、调试器都运行在远程主机上的容器内部。VS Code 会在容器里安装一个轻量的服务来实现这种无缝连接。
+
+**操作步骤：**
+
+1.  **在主机上：暴露 Docker Daemon**
+    这是最关键的一步。你需要让 Docker 守护进程监听一个 TCP 端口，以便远程的 VS Code 可以连接。
+
+      * **对于 Docker Desktop (Windows/macOS):**
+        进入 Settings -> General，勾选 "Expose daemon on tcp://localhost:2375 without TLS"。
+      * **对于 Linux:**
+        编辑 Docker 的配置文件 `/etc/docker/daemon.json` (如果不存在则创建)，添加以下内容：
+        ```json
+        {
+          "hosts": ["tcp://0.0.0.0:2375", "unix:///var/run/docker.sock"]
+        }
+        ```
+        然后重启 Docker 服务：
+        ```bash
+        sudo systemctl restart docker
+        ```
+
+    **安全警告：** 将 Docker Daemon 暴露在网络上存在安全风险，请确保你的局域网是受信任的，并且主机防火墙已正确配置。
+
+2.  **在主机上：确保你的开发容器正在运行。**
+
+    ```bash
+    # 只需要一个普通的开发容器即可，无需特殊配置
+    docker run -d --name my-project-container -it your-dev-image bash
+    ```
+
+    `-it` 和 `bash` 让容器保持运行状态。
+
+3.  **在开发机上：配置 VS Code**
+
+      * 安装 VS Code。
+      * 在 VS Code 的扩展市场中，搜索并安装 **Remote Development** 扩展包（由 Microsoft 发布）。
+      * 打开 VS Code 的设置 (Settings JSON)，添加以下配置，告诉它 Docker 主机在哪里：
+        ```json
+        {
+            "docker.host": "tcp://192.168.1.100:2375"
+        }
+        ```
+      * 重启 VS Code。
+
+4.  **在开发机上：连接到容器**
+
+      * 点击 VS Code 左下角的绿色 `><` 图标，或者按 `F1` 输入 `Remote-Containers: Attach to Running Container...`。
+      * VS Code 会列出主机 `192.168.1.100` 上所有正在运行的容器。
+      * 选择你的目标容器（例如 `my-project-container`）。
+      * VS Code 会自动在容器内安装所需的服务，并重新加载窗口。完成后，你的 VS Code 就已经"进入"了容器。你可以直接打开容器内的文件夹、使用 VS Code 的集成终端（这个终端就是容器的 shell）、安装语言扩展、进行调试等，一切都像在本地一样。
+
+##### **总结与选择**
+
+| 方法 | 适用场景 | 优点 | 缺点 |
+| :--- | :--- | :--- | :--- |
+| **端口映射** | 访问 Web 服务、API、数据库等需要端口的应用。 | 简单、直接、最常用。 | 只能访问暴露的服务，无法直接操作容器内部文件系统或执行任意命令。 |
+| **SSH 进入容器** | 需要完整的命令行权限，进行系统管理、脚本调试。 | 功能强大，像操作一台真实的 Linux 服务器。 | 配置相对复杂，需要在镜像中预置 SSH 服务和用户。 |
+| **VS Code Remote** | 现代化的编码、调试、测试一体化开发。 | 体验最佳，无缝集成，兼具本地 IDE 的流畅和容器环境的隔离。 | 需要配置 Docker Daemon，有一定安全风险，依赖 VS Code。 |
+
+**强烈建议：**
+
+  * 对于**查看和测试 Web 应用**，使用**方法一**。
+  * 对于**需要深入容器内部进行复杂操作**的场景，使用**方法二**。
+  * 对于**日常编码和开发**，强烈推荐学习并使用**方法三**，这是目前最先进、最高效的流程。
+
+最后，请务必检查**主机的防火墙**，确保你映射的端口（如 `8080`, `2222`, `2375`）是开放的，允许来自局域网的访问。
 
 
 #### docker设置可用CPU核心数量
