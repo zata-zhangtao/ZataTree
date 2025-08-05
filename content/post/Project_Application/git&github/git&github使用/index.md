@@ -28,7 +28,7 @@ tags: ["git&github","教程"]
   - [git pull merge git 多人协作的时候怎么解决冲突？](#git-pullmerge-git-多人协作的时候怎么解决冲突)
 
 - **版本回退与撤销**
-  - [git reset --hard HEAD^ 详解](#git-reset---hard-head-详解)
+  - [git reset --hard HEAD^ 详解](#git-reset---hard-head-详解andgit-reset---soft-head-详解)
   - [恢复被 Git 合并覆盖的提交并防止未来覆盖](#恢复被-git-合并覆盖的提交并防止未来覆盖)
   - [当前正在进行代码的开发，但是想要看历史commit的项目完整代码，而当前的工作区保证原样](#当前正在进行代码的开发但是想要看历史commit的项目完整代码而当前的工作区保证原样)
   - [回退到上一个版本继续开发的方案](#在-git-中如果你想回退到上一个版本继续开发同时保留已经提交到-main-分支的最新提交可以通过创建新分支并回退的方式实现)
@@ -1941,9 +1941,29 @@ hosts位置在    /etc/hosts
 - 编写详细的README.md，包含安装和使用说明  
 - 发布到PyPI需注册账号并配置API token
 
-### git reset --hard HEAD^的含义
+### git-reset---hard-head-详解andgit-reset---soft-head-详解
 
-`git reset --hard HEAD^` 是一条 Git 命令，用于重置当前分支到指定的状态。下面我将逐个参数解释这条命令的含义：
+```bash
+git reset --hard HEAD
+```
+效果：
+
+撤销所有未提交的更改（包括工作目录和暂存区）。
+HEAD 指向的提交成为当前状态，之前的修改全部丢失（不可恢复，除非有其他备份）。
+
+```bash
+git reset --soft HEAD
+```
+
+功能：将当前分支的指针重置到 HEAD 指向的提交，但保留工作目录和暂存区的所有更改。
+效果：
+
+撤销最近的提交（将 HEAD 指针移到当前提交），但修改的内容仍保留在工作目录或暂存区。
+可以重新调整或重新提交这些更改。
+
+
+
+下面我将逐个参数解释这条命令的含义：
 
  命令分解
 1. **`git reset`**:
