@@ -54,6 +54,8 @@ tags: ["git&github","教程"]
   - [云服务器无法访问Github导致git失败方案](#云服务器无法访问github导致git失败方案)
   - [git pull 时出现 "cannot lock ref" 错误的解决方案](#git-pull-时出现-cannot-lock-ref-错误的解决方案)
   - [解决 Git 未检测文件名大小写变化的问题](#解决-git-未检测文件名大小写变化的问题)
+  - [githook脚本版本控制管理](#githook脚本版本控制管理)
+  - [用git hooks解决github大文件报错，100M限制或50M限制|大文件|50M|git hooks|git](#用githooks解决github大文件报错100M限制或50M限制-大文件-50M-githooks-git)
 
 
 - **实战**
@@ -1629,7 +1631,7 @@ git clone ssh://git@ssh.github.com:443/YOUR-USERNAME/YOUR-REPOSITORY.git
 
 
 
-### 用git hooks解决github大文件报错，100M限制或50M限制|大文件|50M|git hooks|git
+### 用githooks解决github大文件报错100M限制或50M限制-大文件-50M-githooks-git
 
 见：[zata csdn](https://blog.csdn.net/qq_41685627/article/details/135477107)
 
@@ -1679,7 +1681,9 @@ git push XXX main:main --force
 
 
 ```py
-#!/bin/python
+
+#!/usr/bin/env python3
+# 我在2025年之前用的是 #!/bin/python,但是报错了，改成了上面的内容
 import subprocess
 import os
 
@@ -1998,6 +2002,128 @@ git reset --soft HEAD
 ```
 A <- B <- C (HEAD)
 ```
+
+### githook脚本版本控制管理
+
+在 Git 项目中，`.githooks` 目录中的钩子（hook）脚本默认是不会被 Git 版本控制系统自动纳入版本管理的，因为 `.githooks` 目录通常被视为本地配置的一部分。为了将 Git 钩子脚本保留到项目中并与团队共享，你需要采取一些额外的步骤。以下是具体的方法：
+
+#### 方法一：将钩子脚本纳入版本控制
+1. **将 `.githooks` 目录重命名或移动到项目中**：
+   - 默认情况下，Git 钩子存储在 `.git/hooks` 目录中，这些文件不会被 Git 跟踪。你可以将钩子脚本移动到项目的一个自定义目录（例如 `githooks` 或 `hooks`），并纳入版本控制。
+   - 示例：
+     ```bash
+     mkdir githooks
+     mv .git/hooks/pre-commit githooks/pre-commit
+     ```
+
+2. **配置 Git 使用自定义钩子目录**：
+   - 使用以下命令告诉 Git 使用项目中的自定义钩子目录：
+     ```bash
+     git config core.hooksPath githooks
+     ```
+   - 这会让 Git 使用 `githooks` 目录中的钩子脚本，而不是默认的 `.git/hooks`。
+
+3. **将钩子脚本提交到版本控制**：
+   - 将 `githooks` 目录添加到 Git 版本控制：
+     ```bash
+     git add githooks
+     git commit -m "Add git hooks to project"
+     git push
+     ```
+
+4. **团队成员同步配置**：
+   - 其他团队成员在克隆或拉取项目后，需要手动运行 `git config core.hooksPath githooks` 来启用自定义钩子路径。或者，你可以通过脚本自动设置。
+
+#### 方法二：使用脚本自动安装钩子
+为了让团队成员无需手动配置 `core.hooksPath`，你可以在项目中添加一个安装脚本，自动将钩子脚本复制到 `.git/hooks` 目录。
+
+1. **创建安装脚本**：
+   - 在项目根目录创建一个脚本（例如 `install-hooks.sh`）：
+     ```bash
+     #!/bin/bash
+     cp githooks/* .git/hooks/
+     chmod +x .git/hooks/*
+     echo "Git hooks installed successfully."
+     ```
+   - 这个脚本会将 `githooks` 目录中的钩子复制到 `.git/hooks` 目录，并确保它们具有可执行权限。
+
+2. **添加到版本控制**：
+   - 将 `install-hooks.sh` 和 `githooks` 目录提交到 Git：
+     ```bash
+     git add githooks install-hooks.sh
+     git commit -m "Add git hooks and install script"
+     git push
+     ```
+
+3. **运行安装脚本**：
+   - 团队成员在克隆项目后，运行以下命令来安装钩子：
+     ```bash
+     ./install-hooks.sh
+     ```
+
+#### 方法三：使用 Git 模板目录
+如果你希望钩子脚本在所有新项目中自动生效，可以配置 Git 的全局模板目录：
+
+1. **创建全局钩子模板**：
+   - 复制默认的 Git 钩子模板到自定义目录：(如果你还没有自定义模板目录，可以通过下面的代码创建一个)
+     ```bash
+     git init --template=/path/to/custom-template
+     ```
+   - 在 `/path/to/custom-template/hooks` 中添加你的钩子脚本。
+
+2. **也可以配置全局模板路径**就不用第一步了：
+   - 设置 Git 的全局模板路径：
+     ```bash
+     git config --global init.templateDir /path/to/custom-template
+     ```
+   - 之后，任何新初始化的 Git 仓库都会使用这个模板。
+   - 具体的使用和介绍可见shou 配置钩子脚本，请查看[用git hooks解决github大文件报错，100M限制或50M限制|大文件|50M|git hooks|git](#用githooks解决github大文件报错100M限制或50M限制-大文件-50M-githooks-git)。
+
+3. **注意事项**：
+   - 这种方法适合个人开发环境，但不适合团队项目，因为模板目录是本地的，无法直接共享。
+
+#### 方法四：使用工具管理钩子
+可以使用一些工具来简化 Git 钩子的管理和共享，例如：
+
+- **Husky**（适用于 Node.js 项目）：
+  - 如果你的项目是 Node.js 项目，可以使用 Husky 来管理 Git 钩子。安装 Husky 后，它会自动管理 `.git/hooks` 目录，并在 `package.json` 中定义钩子脚本。
+  - 安装：
+    ```bash
+    npm install husky --save-dev
+    ```
+  - 配置（在 `package.json` 中）：
+    ```json
+    "husky": {
+      "hooks": {
+        "pre-commit": "echo 'Running pre-commit hook'"
+      }
+    }
+    ```
+
+- **pre-commit**（适用于 Python 项目）：
+  - 如果是 Python 项目，可以使用 `pre-commit` 框架来管理钩子。创建一个 `.pre-commit-config.yaml` 文件，定义钩子脚本，并提交到版本控制。
+  - 安装：
+    ```bash
+    pip install pre-commit
+    pre-commit install
+    ```
+
+#### 注意事项
+1. **权限问题**：
+   - 确保钩子脚本具有可执行权限（`chmod +x githooks/*`）。
+   - 在 Windows 系统上，可能需要额外处理文件权限问题。
+
+2. **跨平台兼容性**：
+   - 如果团队成员使用不同操作系统（例如 Windows 和 Linux），确保钩子脚本是跨平台的（例如，使用 Bash 脚本或 Python 脚本）。
+
+3. **文档说明**：
+   - 在项目的 `README.md` 中添加说明，告诉团队成员如何启用钩子（例如运行 `install-hooks.sh` 或设置 `core.hooksPath`）。
+
+4. **避免覆盖本地钩子**：
+   - 如果直接覆盖 `.git/hooks`，可能会覆盖团队成员的本地钩子配置。使用 `core.hooksPath` 或脚本复制的方式更安全。
+
+#### 总结
+最推荐的方式是将钩子脚本放入项目中的 `githooks` 目录，提交到版本控制，并通过脚本或 `git config core.hooksPath` 自动配置。结合工具如 Husky 或 pre-commit 可以进一步简化管理。根据项目类型和团队习惯选择合适的方法。
 - 当前 HEAD 指向提交 `C`。
 - 执行 `git reset --hard HEAD^` 后：
   - HEAD 移动到 `B`（`HEAD^`）。
