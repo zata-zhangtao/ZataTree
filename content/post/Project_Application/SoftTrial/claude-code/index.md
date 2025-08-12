@@ -64,6 +64,9 @@ cd ~  # Switch to Linux Home Directory
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash   #  Install Node.js via NVM (Recommended)
 
+#或者如果网络不行，使用下面的国内镜像去拉取
+# curl -o- https://cdn.jsdelivr.net/gh/nvm-sh/nvm@v0.40.3/install.sh | bash
+
 . "$HOME/.nvm/nvm.sh"  # Activate NVM without restarting:
 
 nvm install 20  # Install Node.js version 20 (LTS):
