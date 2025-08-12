@@ -165,9 +165,9 @@ config/
 
 ---
 
-## 一个完整的项目结构示例
+## 完整的项目结构示例
 
-这是一个结合了上述思想的通用 Web 应用项目结构示例：
+### 通用 Web 应用项目结构示例：
 
 ```
 my-awesome-project/
@@ -204,6 +204,53 @@ my-awesome-project/
 └── README.md
 ```
 
+### 通用python应用项目结构示例
+
+
+```text
+my_project/
+│
+├── my_project/                  # 源代码包（Python 包）
+│   ├── __init__.py             # 使目录成为 Python 包
+│   ├── main.py                 # 应用入口（可选）
+│   ├── cli.py                  # 命令行接口（可选）
+│   ├── config.py               # 配置文件
+│   ├── models/                 # 数据模型（如数据库模型）
+│   │   └── __init__.py
+│   ├── services/               # 业务逻辑
+│   │   └── __init__.py
+│   ├── utils/                  # 工具函数
+│   │   └── __init__.py
+│   └── tests/                  # 单元测试（可选放外面，见下）
+│       ├── __init__.py
+│       ├── test_models.py
+│       └── test_services.py
+│
+├── tests/                       # 推荐：测试放在项目根目录下
+│   ├── __init__.py
+│   ├── test_main.py
+│   └── test_cli.py
+│
+├── docs/                        # 文档
+│   └── index.rst
+│
+├── scripts/                     # 部署或辅助脚本
+│   └── deploy.sh
+│
+├── examples/                    # 使用示例
+│   └── example_usage.py
+│
+├── .gitignore                   # Git 忽略文件
+├── .python-version              # pyenv 使用（可选）
+├── pyproject.toml               # 推荐：现代 Python 项目配置（替代 setup.py）
+├── setup.cfg                    # 或 setup.py（传统方式）
+├── requirements.txt             # 依赖列表（开发/生产）
+├── requirements-dev.txt         # 开发依赖
+├── README.md                    # 项目说明
+├── LICENSE                      # 开源许可证
+└── CHANGELOG.md                 # 版本变更日志（可选）
+```
+![关于项目代码文件夹如何放置](images/index/index-1.png)
 ## 结论
 
 一个清晰、一致的项目结构是成功软件项目的基石。它不仅能让当前项目受益，还能为未来的项目提供一个良好的模板。虽然本文提供了一个通用的指南，但最重要的是根据你的项目类型、团队规模和技术栈来调整和优化，并确保整个团队都遵循这个约定。
