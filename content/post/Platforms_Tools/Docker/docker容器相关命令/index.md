@@ -194,16 +194,16 @@ docker exec -it <容器名>  /bin/bash
 ```
 #### 5. 安装ssh
 ```bash
-apt-get updata
+apt-get update
 
-apt-get install openssh-client
-apt-get install openssh-server
+apt-get install openssh-client -y
+apt-get install openssh-server -y
 
 ```
 #### 6. 安装vim
 
 ```bash
-apt-get install vim
+apt-get install vim -y
 ```
 
 #### 7. 安装conda 
