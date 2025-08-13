@@ -12,6 +12,13 @@ tags:
 
 
 
+### IDE插件
+
+#### Material Icon Theme  好看的图标主题
+
+![Material Icon Theme](images/index/image-3.png)
+
+
 
 ### 浏览器插件
 
@@ -20,6 +27,9 @@ tags:
 ![下载为md](images/index/image-1.png)
 
 注意：只能下载飞书文档，飞书表格不行
+
+
+
 
 ### macOS 工具
 

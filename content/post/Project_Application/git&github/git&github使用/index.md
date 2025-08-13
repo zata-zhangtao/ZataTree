@@ -57,6 +57,9 @@ tags: ["git&github","教程"]
   - [githook脚本版本控制管理](#githook脚本版本控制管理)
   - [用git hooks解决github大文件报错，100M限制或50M限制|大文件|50M|git hooks|git](#用githooks解决github大文件报错100M限制或50M限制-大文件-50M-githooks-git)
 
+- **实战**
+  - [Git 项目依赖管理：Submodule 与 Subtree 实战教程](#Git项目依赖管理-Submodule与Subtree实战教程)
+
 
 - **实战**
   - [如何将 clone 下来的项目推送到自己的新仓库并同步原始仓库更新](#如何将clone下来的项目推送到自己的新仓库并同步原始仓库更新)
@@ -931,7 +934,7 @@ git submodule update --init --recursive
 
 ---
 
-### Git 项目依赖管理：Submodule 与 Subtree 实战教程
+### Git项目依赖管理-Submodule与Subtree实战教程
 
 在开发中，我们经常需要在一个项目里引入另一个项目（如公用库、SDK 等）。Git 提供了两种主流的解决方案：`git submodule` (子模块) 和 `git subtree` (子树)。本教程将帮助你理解它们的核心区别，并为你提供清晰的选择指引和操作步骤。
 
@@ -943,6 +946,28 @@ git submodule update --init --recursive
 -----
 
 ### 方法一：`git submodule` - 精准的版本链接
+
+如果你已经拉取了主仓库（如果拉取卡住可能是ssh网络不好，可以移除子文件夹然后通过链接克隆）
+执行以下命令，它会一次性完成初始化和更新（包括嵌套的子模块）：
+```bash
+git submodule update --init --recursive
+
+# 如果上面ssh卡住，使用http
+rm -rf <子模块文件夹> && git clone <仓库地址> <子模块文件夹>
+```
+
+![子模块克隆卡住问题](images/index/image-29.png)
+如果你事先知道一个仓库包含子模块，可以在 git clone 的时候就一次性把所有事情做完。
+使用 --recurse-submodules 或 --recursive 标志：
+
+```Bash
+git clone --recurse-submodules <主仓库地址>
+```
+
+
+
+
+----
 
 这是 Git 官方推荐的、功能更强大的方式，适用于需要严格版本控制和历史分离的场景。
 
