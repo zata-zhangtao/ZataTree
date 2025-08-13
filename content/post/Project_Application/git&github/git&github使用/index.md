@@ -1371,6 +1371,112 @@ git merge --abort
 git merge --no-ff feature
 
 
+### 如何解决 "fatal: Need to specify how to reconcile divergent branches" 错误
+
+#### 问题根源：什么是“分支分叉”？
+
+这个错误的核心原因是：**您的本地分支和它所跟踪的远程分支，各自都有了新的、对方不知道的提交。**
+
+让我们用一个形象的例子来说明：
+
+1.  您和您的同事都在 `main` 分支上工作。你们最后一次同步时的代码状态是 `Commit O`。
+
+2.  之后，您在本地写了新功能，并创建了两个提交 `A` 和 `B`。
+
+3.  在您提交的这段时间里，您的同事完成了另一个任务，并将他的提交 `C` 和 `D` 推送（push）到了远程仓库。
+
+这时，Git 的历史记录就变成了两条独立的路径，即“分叉”了：
+
+  A---B   <-- 您的本地 `main` 分支
+
+ /
+
+---O---C---D   <-- 远程 origin/main 分支
+
+当您执行 `git pull` 时，Git 发现它无法简单地“快进”（Fast-forward）来更新您的代码，因为它不知道应该如何处理这两条分叉的路径。为了避免自动操作可能带来的混乱，新版 Git 强制要求您必须明确告诉它您的合并策略。
+
+#### 二、 核心概念：两种合并策略 Merge vs. Rebase
+
+要解决分叉问题，您有两种主要的方法：`Merge` (合并) 和 `Rebase` (变基)。
+
+##### 方案 A：临时解决本次问题
+
+
+
+您可以只在本次 `pull` 命令中指定策略。
+
+
+
+* **使用 Rebase (推荐)：**
+
+    ```bash
+
+    git pull --rebase
+
+    ```
+
+    这会用变基的方式拉取并应用远程更新。
+
+
+
+* **使用 Merge：**
+
+    ```bash
+
+    git pull --no-rebase  # 或者 git pull --merge
+
+    ```
+
+    这会用传统合并的方式，并生成一个合并提交。
+
+
+
+##### 方案 B：永久配置默认行为 (一劳永逸)
+
+
+
+为了避免每次都输入额外参数，您可以为 Git 设置一个全局的默认 `pull` 行为。
+
+
+
+* **将 Rebase 设置为默认 (推荐)：**
+
+    如果您喜欢干净的线性历史，这是大多数现代开发者的首选。
+
+    ```bash
+
+    git config --global pull.rebase true
+
+    ```
+
+
+
+* **将 Merge 设置为默认：**
+
+    如果您偏爱保留所有合并痕迹的传统方式。
+
+    ```bash
+
+    git config --global pull.rebase false
+
+    ```
+
+
+
+* **更严格的 `ff-only` 策略：**
+
+    还有一个选项是 `fast-forward only`。
+
+    ```bash
+
+    git config --global pull.ff only
+
+    ```
+
+    这个设置意味着，只有当您的本地分支没有任何新提交时（即可以“快进”时），`git pull` 才能成功。如果分支出现分叉，`pull` 会直接失败，强制您手动执行 `git rebase` 或 `git merge`，让您对每一次合并操作都更加谨慎。
+
+
+
 
 ### |git pull|merge| git 多人协作的时候怎么解决冲突？
 
