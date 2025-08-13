@@ -9,6 +9,15 @@ tags:
     - 软件架构设计
 ---
 
+## 目录
+
+- [完整的项目结构示例(web python)](#完整的项目结构示例)
+- 代码结构和编写规范
+    - [📚《如何写出易读、易维护的函数：避免深层嵌套与隐式副作用》](#best-practices-functions)
+
+
+
+
 ## 核心结构概览
 
 在深入探讨每个部分之前，这里是一个标准项目结构的高度概括，分为“基础必备”和“推荐包含”两部分。
@@ -251,6 +260,245 @@ my_project/
 └── CHANGELOG.md                 # 版本变更日志（可选）
 ```
 ![关于项目代码文件夹如何放置](images/index/index-1.png)
-## 结论
 
-一个清晰、一致的项目结构是成功软件项目的基石。它不仅能让当前项目受益，还能为未来的项目提供一个良好的模板。虽然本文提供了一个通用的指南，但最重要的是根据你的项目类型、团队规模和技术栈来调整和优化，并确保整个团队都遵循这个约定。
+
+## 代码结构和编写规范
+
+
+### 📚如何写出易读、易维护的函数：避免深层嵌套与隐式副作用 {#best-practices-functions}
+
+> 适合：Python、JavaScript 等支持函数式和过程式编程语言的开发者  
+> 目标：提升代码可读性、降低维护成本、减少 bug
+
+---
+
+#### 一、问题：为什么有些函数“看起来就很累”？
+
+你有没有遇到过这样的代码？
+
+```python
+def process_data(data):
+    if data:
+        for item in data:
+            if item.is_valid():
+                result = []
+                update_result(result, item)  # 修改 result 列表
+                if len(result) > 0:
+                    send_notification(result)
+            else:
+                log_error("Invalid item")
+    else:
+        return None
+```
+
+这种代码常见问题：
+- ❌ 缩进太多（3层以上）
+- ❌ 没有返回值，却修改了外部变量（副作用）
+- ❌ 逻辑分散，难测试、难复用
+
+我们来一步步优化它。
+
+---
+
+#### 二、原则一：控制嵌套层级（建议 ≤3 层）
+
+##### ✅ 原则
+> **超过3层的条件或循环嵌套，应通过“提前返回”或“提取函数”来简化。**
+
+##### ❌ 反例（嵌套过深）
+```python
+def check_user(user):
+    if user:
+        if user.is_active:
+            if user.has_permission:
+                return True
+            else:
+                return False
+        else:
+            return False
+    else:
+        return False
+```
+
+##### ✅ 改进：使用“守卫语句”（Guard Clauses）
+```python
+def check_user(user):
+    if not user:
+        return False
+    if not user.is_active:
+        return False
+    if not user.has_permission:
+        return False
+    return True
+```
+
+✅ 优点：
+- 缩进浅，逻辑线性
+- 每个条件独立清晰
+- 易于添加日志或错误处理
+
+---
+
+#### 三、原则二：避免“隐式修改引用”，优先使用“输入 → 输出”模式
+
+##### ❌ 问题：通过引用修改对象（副作用）
+```python
+def add_item(items, item):
+    items.append(item)  # ❌ 修改了传入的列表
+
+my_list = ['a']
+add_item(my_list, 'b')
+print(my_list)  # ['a', 'b'] —— 被“偷偷”改了
+```
+
+⚠️ 风险：调用者不知道列表会被修改，容易出 bug。
+
+##### ✅ 改进：返回新值，不修改原对象
+```python
+def add_item(items, item):
+    return items + [item]  # ✅ 返回新列表
+
+my_list = ['a']
+new_list = add_item(my_list, 'b')
+print(my_list)   # ['a']      —— 原列表不变
+print(new_list)  # ['a', 'b'] —— 新列表返回
+```
+
+✅ 优点：
+- 函数是“纯”的（输入相同，输出相同）
+- 易测试、可组合、可缓存
+- 不会意外影响其他代码
+
+> 💡 提示：对于大对象，可以用 `copy` 或不可变数据结构（如 Python 的 `tuple`、`frozenset`，或使用 `dataclasses` + `frozen=True`）
+
+---
+
+#### 四、原则三：拆分长调用链，保持职责单一
+
+##### ❌ 问题：调用链太深，像“俄罗斯套娃”
+```python
+def handle_request():
+    data = fetch_data()
+    processed = process_data(data)
+    result = validate_and_save(processed)
+    return result
+
+def process_data(data):
+    cleaned = clean_data(data)
+    enriched = enrich_data(cleaned)
+    formatted = format_data(enriched)
+    return formatted
+```
+
+虽然结构清晰，但如果每层都复杂，阅读时要“跳来跳去”。
+
+##### ✅ 改进策略：
+
+ 1. **提取函数，命名清晰**
+```python
+def process_data(data):
+    data = clean_data(data)
+    data = enrich_data(data)
+    data = format_data(data)
+    return data
+```
+
+ 2. **使用注释或文档说明流程**
+```python
+def process_data(data):
+    """
+    处理流程：
+    1. 清洗数据
+    2. 补充信息
+    3. 格式化输出
+    """
+    data = clean_data(data)
+    data = enrich_data(data)
+    data = format_data(data)
+    return data
+```
+
+ 3. **考虑使用流水线（Pipeline）模式**
+```python
+pipeline = [clean_data, enrich_data, format_data]
+
+def process_data(data):
+    result = data
+    for step in pipeline:
+        result = step(result)
+    return result
+```
+
+---
+
+#### 五、综合案例：从“难读”到“清晰”
+
+##### ❌ 原始代码（嵌套深 + 引用修改）
+```python
+def process_users(users, result):
+    if users:
+        for user in users:
+            if user.active:
+                result.append(user.name.upper())
+            else:
+                result.append("INACTIVE")
+    else:
+        result.append("NO_USERS")
+```
+
+##### ✅ 重构后：清晰、无副作用、易测试
+```python
+def process_user(user):
+    if not user.active:
+        return "INACTIVE"
+    return user.name.upper()
+
+def process_users(users):
+    if not users:
+        return ["NO_USERS"]
+    return [process_user(user) for user in users]
+```
+
+✅ 优点：
+- 没有嵌套地狱
+- 不修改外部变量
+- 每个函数职责单一
+- 可单独测试 `process_user`
+
+---
+
+#### 六、实用检查清单 ✅
+
+每次写函数时，问自己：
+
+| 问题 | 是/否 |
+|------|------|
+| 函数嵌套超过3层了吗？ | ☐ |
+| 函数修改了传入的 list/dict 吗？ | ☐ |
+| 函数没有返回值，但有“副作用”吗？ | ☐ |
+| 调用链超过5层了吗？ | ☐ |
+| 能不能给这个函数起个更清晰的名字？ | ☐ |
+
+如果任何一个“是”，就考虑重构。
+
+---
+
+#### 七、额外建议
+
+- 使用工具自动检测：
+  - Python: `pylint`, `flake8`（配置 `max-nested-blocks=3`）
+  - JavaScript: `ESLint`（`max-depth`, `max-nested-callbacks`）
+- 学习函数式编程思想：**纯函数、不可变数据、组合优于嵌套**
+- 多写单元测试：你会发现“有副作用的函数”最难测！
+
+---
+
+#### 总结：好函数的三大特征
+
+🟢 **浅嵌套**：用“提前返回”代替层层 if  
+🟢 **无隐式副作用**：优先返回新值，不修改输入  
+🟢 **职责单一**：一个函数只做一件事
+
+> 💬 记住：  
+> **代码是写给人看的，顺便让机器执行。**
+
