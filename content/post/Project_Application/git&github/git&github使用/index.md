@@ -56,6 +56,7 @@ tags: ["git&github","教程"]
   - [解决 Git 未检测文件名大小写变化的问题](#解决-git-未检测文件名大小写变化的问题)
   - [githook脚本版本控制管理](#githook脚本版本控制管理)
   - [用git hooks解决github大文件报错，100M限制或50M限制|大文件|50M|git hooks|git](#用githooks解决github大文件报错100M限制或50M限制-大文件-50M-githooks-git)
+  - [error: cannot lock ref 'refs/remotes/XXX/main': is at XXX...XXX but expected YYY...YYY 解决](#cannot_lock_ref_error)  
 
 - **实战**
   - [Git 项目依赖管理：Submodule 与 Subtree 实战教程](#Git项目依赖管理-Submodule与Subtree实战教程)
@@ -1954,6 +1955,30 @@ git config --global init.templatedir "$env:USERPROFILE\.git-template"  # 如果�
 ![创建的新本地git仓库](images/index/index-4.png)
 
 ![测试大文件](images/index/index-5.png)
+
+
+### cannot_lock_ref_error
+
+![cannot_lock_ref_error](images/index/index-6.png)
+
+```bash 
+root@ce4322c051c6:/codes/dataAnalysisModels# git pull 
+remote: Enumerating objects: 193, done.
+remote: Counting objects: 100% (193/193), done.
+remote: Compressing objects: 100% (178/178), done.
+remote: Total 191 (delta 10), reused 188 (delta 10), pack-reused 0 (from 0)
+Receiving objects: 100% (191/191), 115.48 MiB | 149.00 KiB/s, done.
+Resolving deltas: 100% (10/10), completed with 2 local objects.
+error: cannot lock ref 'refs/remotes/zata/main': is at 801efa1db3242f2be077de0d34e4eb29af0a5751 but expected aab6c46b69629454c3ad76e5a030157169eabb6e
+From github.com:zata-zhangtao/dataAnalysisAndModeling_In-GY
+ ! aab6c46..801efa1  main       -> zata/main  (unable to update local ref)
+```
+
+我的解决方法是
+```bash
+git fetch --prune
+git pull
+```
 
 
 ### 云服务器无法访问Github导致git失败方案

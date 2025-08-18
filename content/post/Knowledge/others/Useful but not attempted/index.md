@@ -17,6 +17,101 @@ tags:
 - [我有一个项目，使用到了一个网站上我登陆后到cookie和authorization 我现在是手动更新到每次，我感觉太麻烦了，有什么简单点的方法吗](#我有一个项目，使用到了一个网站上我登陆后到cookie和authorization我现在是手动更新到每次，我感觉太麻烦了，有什么简单点的方法吗)
 
 
+
+
+
+
+
+## 希望在本地电脑上能像操作本地文件一样，直接访问和修改远程容器里的文件目录
+
+这是一个非常常见的开发需求，有几种成熟且高效的解决方案可以实现，我将为你详细介绍。
+
+方案一：使用 SSHFS (最直接的“映射”方案)
+SSHFS (SSH Filesystem) 是一个基于 FUSE (Filesystem in Userspace) 的文件系统客户端，它允许你通过 SSH 连接将远程目录挂载（Mount）到本地，让远程目录看起来就如同本地的一个文件夹一样。你对这个本地文件夹的所有读写操作，都会被实时地通过 SSH 协议传输到远程主机上。
+
+这是最符合你“目录映射”需求的方案。
+
+优点:
+
+无缝集成：挂载后，你可以用任何本地工具（IDE、命令行、文件管理器）直接操作远程文件，完全感觉不到差异。
+
+实时同步：所有修改都是实时的。
+
+缺点:
+
+性能依赖网络：由于所有文件操作都经过网络，如果网络延迟高或不稳定，读写速度会受影响。
+
+需要额外安装：本地系统需要安装 SSHFS 客户端。
+
+操作步骤：
+1. 在本地机器上安装 SSHFS
+
+macOS (使用 Homebrew):
+
+Bash
+
+brew install sshfs
+注意：macOS 可能需要额外配置或允许系统扩展，请根据安装提示操作。
+
+Linux (Debian/Ubuntu):
+
+Bash
+
+sudo apt-get update
+sudo apt-get install sshfs
+Windows:
+
+安装 Winfsp (Windows File System Proxy)，这是一个 FUSE 的 Windows 实现。
+
+安装 SSHFS-Win，它提供了 SSHFS 的 Windows 版本。
+
+安装后，你可以在文件资源管理器的右键菜单中找到“Map Network Drive”，然后输入 SSH 连接信息。
+
+2. 创建一个本地空目录作为挂载点
+
+Bash
+
+# 例如，在你的用户主目录下创建一个叫 remote-dev 的文件夹
+mkdir ~/remote-dev
+3. 执行挂载命令
+
+基本命令格式为：sshfs [user@]hostname:[remote_directory] [local_mount_point]
+
+假设：
+
+远程SSH用户名：devuser
+
+远程主机（或容器的宿主机）IP/域名：192.168.1.100
+
+远程容器内的目录：/app
+
+本地挂载点：~/remote-dev
+
+执行以下命令：
+
+Bash
+
+sshfs devuser@192.168.1.100:/app ~/remote-dev
+如果你的SSH服务运行在非标准端口（如 2222），可以这样指定：
+
+Bash
+
+sshfs -p 2222 devuser@192.168.1.100:/app ~/remote-dev
+现在，你访问本地的 ~/remote-dev 目录，看到的就是远程服务器上 /app 目录的内容了。你可以直接用本地的 IDE 打开这个文件夹进行开发。
+
+4. 卸载映射
+
+当你不需要这个映射时，可以卸载它：
+
+macOS / Linux:
+
+Bash
+
+umount ~/remote-dev
+Windows: 在文件资源管理器中断开网络驱动器即可。
+
+
+
 ## WSL2中，Docker服务怎么让我局域网中其他机器访问？
 
 ![WSL2中，Docker服务怎么让我局域网中其他机器访问？](images/index/index-1.png)
