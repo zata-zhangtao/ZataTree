@@ -19,7 +19,7 @@ tags:
 
 **错误解决**
 
--[uv sync报错：hint: This usually indicates a problem with the package or the build environment.]()
+-[uv sync报错：hint: This usually indicates a problem with the package or the build environment.](#problem_with_the_package_or_the_build_environment)
 
 
 
