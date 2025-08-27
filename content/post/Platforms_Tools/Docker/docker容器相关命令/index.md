@@ -22,6 +22,7 @@ tags:
 - [Docker使用技巧](#docker使用技巧)
   - [docker的卷挂载功能](#docker的卷挂载功能)
   - [将镜像推送到远程仓库](#将镜像推送到远程仓库)
+  - [Docker Context 教程](#docker-context-教程)
   - [在 Windows 上实现 Docker in Docker (DinD) 终极教程](#在-windows-上实现-docker-in-docker-dind-终极教程)
   - [使用已有容器创建镜像](#使用已有容器创建镜像)
   - [开启/重启ssh服务](#开启重启ssh服务)
@@ -391,6 +392,250 @@ docker login registry.example.com  # 如果是docker hub 只需要 login in
 docker tag my-app:1.0 registry.example.com/myusername/my-app:1.0  # 重命名tag
 docker push registry.example.com/myusername/my-app:1.0
 ```
+
+#### Docker Context 教程
+
+### 什么是 Docker Context？
+
+在深入了解之前，我们首先需要理解 Docker Context 的概念。简单来说，**Docker Context** 是 Docker CLI（命令行工具）用来连接和管理不同 Docker 守护进程（Docker daemon）或 Kubernetes 集群的配置集合。
+
+在 Docker CLI 的早期版本中，我们通常使用 `DOCKER_HOST` 环境变量来指定要连接的远程 Docker daemon。这种方式虽然有效，但对于需要频繁切换不同环境（例如：本地开发、远程测试服务器、生产环境等）的开发者来说，管理起来非常不便，因为它要求每次切换时都手动更改环境变量。
+
+Docker Context 解决了这个问题。它允许你将连接信息（如主机地址、证书等）保存为一个命名的配置，并可以通过简单的命令 (`docker context use`) 在这些配置之间快速切换，而无需手动管理环境变量。
+
+一个 Docker Context 可以包含：
+
+  * **Docker Endpoint**：Docker 守护进程的地址（例如：`tcp://<host>:<port>` 或 `ssh://<user>@<host>`）。
+  * **Kubernetes Endpoint**：Kubernetes API 服务器的地址。
+  * **安全认证信息**：用于连接的证书和密钥。
+
+默认情况下，当你安装 Docker 后，会自动创建一个名为 `default` 的上下文，它指向你本地的 Docker 守护进程。
+
+### 为什么使用 Docker Context？
+
+  * **简化工作流**：无需频繁设置和取消 `DOCKER_HOST` 环境变量。
+  * **集中管理**：将所有不同环境的连接配置集中管理。
+  * **支持多种环境**：不仅支持远程 Docker daemon，还支持连接到 Kubernetes 集群。
+  * **安全**：可以方便地管理和切换不同环境的安全认证信息。
+
+-----
+
+### Docker Context 常用命令
+
+在使用 Docker Context 之前，您需要确保您的 Docker 版本在 19.03 或更高。
+
+#### 1\. 查看现有上下文
+
+`docker context ls` 命令用于列出所有已定义的上下文。
+
+```bash
+docker context ls
+```
+
+您将看到类似以下的输出：
+
+```
+NAME                DESCRIPTION                         DOCKER ENDPOINT                                        KUBERNETES ENDPOINT                          ORCHESTRATOR
+default * Current DOCKER_HOST based configuration unix:///var/run/docker.sock                                                                swarm
+```
+
+  * `NAME`：上下文的名称。
+  * `*`：星号表示当前正在使用的上下文。
+  * `DESCRIPTION`：对上下文的描述。
+  * `DOCKER ENDPOINT`：Docker 守护进程的连接地址。
+  * `KUBERNETES ENDPOINT`：如果上下文用于 Kubernetes，则显示其连接地址。
+
+#### 2\. 创建新上下文
+
+`docker context create` 命令用于创建一个新的上下文。
+
+**创建连接到远程 Docker daemon 的上下文**
+
+有几种方式可以连接远程 Docker daemon，最常见的是通过 SSH 或 TCP。
+
+**a) 通过 SSH 连接**
+
+这是最推荐和最安全的连接方式。您需要确保：
+
+  * 本地机器已配置好无密码 SSH 登录远程主机。
+  * 远程主机上已安装 Docker，且当前用户有权限执行 `docker` 命令（通常通过将用户添加到 `docker` 用户组来实现）。
+
+<!-- end list -->
+
+```bash
+docker context create <context_name> --description "<description>" --docker "host=ssh://<username>@<remote_host>"
+```
+
+**示例：**
+
+假设您的远程主机 IP 为 `192.168.1.100`，用户名为 `ubuntu`。
+
+```bash
+docker context create remote-server --description "Remote Docker daemon on dev server" --docker "host=ssh://ubuntu@192.168.1.100"
+```
+
+**b) 通过 TCP 连接**
+
+这种方式需要远程 Docker daemon 暴露在 TCP 端口上，并且通常需要TLS加密来保证安全。
+
+  * **警告**：不建议在没有TLS加密的情况下通过公共网络连接。
+
+<!-- end list -->
+
+```bash
+# 假设远程 Docker daemon 暴露在 2375 端口
+docker context create remote-tcp --description "Insecure remote connection" --docker "host=tcp://192.168.1.100:2375"
+
+# 如果使用 TLS 加密
+docker context create remote-tls --description "Secure remote connection" --docker "host=tcp://192.168.1.100:2376" --tls-ca-path <path_to_ca> --tls-cert-path <path_to_cert> --tls-key-path <path_to_key>
+```
+
+**c) 创建连接到 Kubernetes 集群的上下文**
+
+如果您已经使用 `kubectl` 配置了集群连接，Docker Context 可以自动从您的 `.kube/config` 文件中加载这些配置。
+
+```bash
+docker context create <context_name> --description "<description>" --kubernetes "config-file=<path_to_kubeconfig>" --kubernetes "context=<kube_context_name>"
+```
+
+**示例：**
+
+```bash
+docker context create k8s-cluster --description "My Kubernetes cluster" --kubernetes "context=my-cluster-context"
+```
+
+#### 3\. 切换上下文
+
+`docker context use` 命令用于切换当前活动的上下文。
+
+```bash
+docker context use <context_name>
+```
+
+**示例：**
+
+```bash
+# 切换到之前创建的远程服务器上下文
+docker context use remote-server
+
+# 验证当前上下文
+docker context ls
+```
+
+此时，`docker context ls` 的输出会显示 `remote-server` 旁边有星号 `*`。从现在开始，您所有的 `docker` 命令（例如 `docker ps`、`docker images` 等）都将在远程主机上执行。
+
+#### 4\. 在单次命令中使用特定上下文
+
+如果您只想在某一次命令中使用某个上下文，而不想永久切换，可以使用 `--context` 全局选项。
+
+```bash
+docker --context <context_name> <docker_command>
+```
+
+**示例：**
+
+```bash
+# 在不切换当前上下文的情况下，查看远程服务器上的容器列表
+docker --context remote-server ps -a
+```
+
+#### 5\. 检查上下文详情
+
+`docker context inspect` 命令可以查看某个上下文的详细配置信息。
+
+```bash
+docker context inspect <context_name>
+```
+
+**示例：**
+
+```bash
+docker context inspect remote-server
+```
+
+#### 6\. 更新上下文
+
+`docker context update` 命令可以修改现有上下文的配置。
+
+```bash
+docker context update <context_name> --description "New description" --docker "host=..."
+```
+
+#### 7\. 移除上下文
+
+`docker context rm` 命令可以删除一个上下文。
+
+```bash
+docker context rm <context_name>
+```
+
+-----
+
+### 综合示例：从本地切换到远程，再切换回来
+
+这是一个完整的流程，展示了如何利用 Docker Context 简化日常工作。
+
+**步骤 1：检查本地默认上下文**
+
+```bash
+# 检查默认上下文，确保指向本地
+docker context ls
+```
+
+输出应显示 `default *`。
+
+**步骤 2：创建远程上下文**
+
+假设您要连接到 IP 为 `192.168.1.100` 的远程服务器。
+
+```bash
+docker context create my-remote-host --description "My development server" --docker "host=ssh://user@192.168.1.100"
+```
+
+**步骤 3：切换到远程上下文**
+
+```bash
+docker context use my-remote-host
+```
+
+此时，您已成功切换到远程环境。
+
+**步骤 4：在远程主机上执行命令**
+
+现在，您可以像操作本地 Docker 一样操作远程 Docker。
+
+```bash
+# 查看远程主机上正在运行的容器
+docker ps
+
+# 在远程主机上拉取一个镜像
+docker pull nginx
+
+# 在远程主机上运行一个新容器
+docker run -d --name my-nginx -p 80:80 nginx
+```
+
+这些命令的执行都将在 `192.168.1.100` 上完成。
+
+**步骤 5：切换回本地上下文**
+
+当您完成远程操作后，可以轻松切换回本地环境。
+
+```bash
+docker context use default
+```
+
+**步骤 6：验证切换**
+
+```bash
+docker context ls
+```
+
+输出应再次显示 `default *`。
+
+现在，您的 `docker` 命令又将作用于本地机器。
+
+通过这个简单的教程，您可以看到 Docker Context 如何极大地简化了多 Docker 环境的管理，使其成为一个高效且安全的工具。
 
 #### 在 Windows 上实现 Docker in Docker (DinD) 终极教程
 
