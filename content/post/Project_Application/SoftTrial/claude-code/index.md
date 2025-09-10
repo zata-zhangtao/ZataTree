@@ -10,7 +10,16 @@ tags:
 ---
 
 
+###目录
 - [相关教程](#相关教程)
+
+**安装**
+  - [windows安装通过wsl](#windows安装通过wsl)
+
+**配置其他模型api** 
+
+  - [配置kimi-k2-api](#配置kimi-k2-api)
+
 
 
 
@@ -89,10 +98,30 @@ mkdir -p ~/.npm-global
 
 
 
+### 配置其他模型api
 
+#### 配置kimi-k2-api
+
+https://zhuanlan.zhihu.com/p/1928071611342393465
+
+
+
+![alt text](images/index/image.png)
+
+export ANTHROPIC_AUTH_TOKEN=sk-xxxxxxx..xxxxx
+export ANTHROPIC_BASE_URL="https://api.moonshot.cn/anthropic/"
+
+#### 配置GLM4.5
+https://zhuanlan.zhihu.com/p/1935092461279117856
+
+# ZHIPU-GLM4.5
+export ANTHROPIC_AUTH_TOKEN=xxxxxxx..xxxxx
+export ANTHROPIC_BASE_URL="https://open.bigmodel.cn/api/anthropic"
 
 
 ### 实战
+
+
 
 
 
