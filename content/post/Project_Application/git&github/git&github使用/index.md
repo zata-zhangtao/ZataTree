@@ -35,6 +35,7 @@ tags: ["git&github","教程"]
 
 - **GitHub 相关**
   - [公式 github github不显示md文件中的公式](#公式-github-github不显示md文件中的公式)
+  - [Git 进阶教程(git lfs)：从“版本控制”到“内容追踪”](https://mp.weixin.qq.com/s/TEjkisB-s2p-KD_OHS-fnQ)
 
 - **身份验证**
   - [git 使用ssh密钥登录github](#git-使用ssh密钥登录github)
@@ -60,9 +61,6 @@ tags: ["git&github","教程"]
 
 - **实战**
   - [Git 项目依赖管理：Submodule 与 Subtree 实战教程](#Git项目依赖管理-Submodule与Subtree实战教程)
-
-
-- **实战**
   - [如何将 clone 下来的项目推送到自己的新仓库并同步原始仓库更新](#如何将clone下来的项目推送到自己的新仓库并同步原始仓库更新)
 
 ##  git基本使用
@@ -132,6 +130,9 @@ git pull  [<远程主机名>] --depth <分支深度>  [<远程分支>:<本地分
 git reflog 
 %%查看详细日志%%
 git log
+%%以图形化方式查看本地和远程分支的结构%%
+git fetch origin
+git log --graph --oneline --all --remotes
 
 %%版本穿梭%%  一般用soft多一点
 git reset --hard  【版本号】
