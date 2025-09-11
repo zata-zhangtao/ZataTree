@@ -75,9 +75,6 @@ git branch --set-upstream-to=origin/<远程分支> <本地分支> # 绑定本地
 git remote prune <remote-name> # 清理本地仓库中对远程仓库 zata 已删除分支的过时跟踪引用。 并不是删除分支
 git gc --prune=now  #清理不必要的文件并优化本地仓库
 
-
-
-
 %%设置用户签名%%
 git config --global user.name [username]      
 git config --global user.email [useremail]
