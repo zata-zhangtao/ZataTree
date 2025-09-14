@@ -6,7 +6,7 @@ date: 2025-03-11T09:43:28+08:00
 categories:
     - Library
 tags:
-    - SQLAlchemy
+    - SQL
 ---
 
 ## 基础使用

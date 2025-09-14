@@ -32,7 +32,7 @@ https://github.com/zata-zhangtao/Zata-code/tree/main/07-html%2Bfastapi/fastapi/t
 #### 安装必要的工具  (我在教程中安装的python=3.11)
 确保您已安装 Python 3.7 或更高版本，然后使用以下命令安装 FastAPI 和 Uvicorn（一个 ASGI 服务器，用于运行 FastAPI）：
 ```bash
-pip install fastapi==0.115.12  uvicorn==0.34.0
+uv add fastapi  "uvicorn[standard]"
 ```
 
 #### 可选：安装其他依赖
