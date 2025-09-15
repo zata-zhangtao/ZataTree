@@ -41,9 +41,11 @@ Alembic 的出现就是为了解决这个问题。它允许你：
 
 #### 第一步：安装
 
-首先，确保你已经安装了 SQLAlchemy 和 Alembic。如果还没有，可以通过 pip 安装：
+首先，确保你已经安装了 SQLAlchemy 和 Alembic。如果还没有，可以通过 uv或者 pip 安装：
 
 ```bash
+uv add sqlalchemy almbic
+---
 pip install sqlalchemy alembic
 ```
 
@@ -52,6 +54,7 @@ pip install sqlalchemy alembic
 ```bash
 pip install psycopg2-binary
 ```
+如果是Sqlite的话，就不需要安装驱动
 
 #### 第二步：初始化 Alembic 环境
 
@@ -74,16 +77,35 @@ your_project/
 
 #### 第三步：配置数据库连接
 
-打开 `alembic.ini` 文件，找到 `sqlalchemy.url` 这一行，并修改它以指向你的数据库。例如，使用 PostgreSQL：
+打开 `alembic.ini` 文件，找到 `sqlalchemy.url` 这一行，并修改它以指向你的数据库。例如，使用 Sqlite：
 
 ```ini
 # atexample.ini
 ...
-# a URL to connect to.  The format is:
-# driver://user:pass@host/dbname
-sqlalchemy.url = postgresql+psycopg2://user:password@localhost/mydatabase
+sqlalchemy.url = sqlite:///./resources/app.db
 ...
 ```
+页可以在env.py文件中进行配置'config.set_main_option("sqlalchemy.url", settings.database_url) '
+```python
+from alembic import context
+
+# Add the project root to the path to import our app modules
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+
+# Import our database configuration and models
+from app.core.database import Base
+from app.core.config import settings
+from app.models import User  # Import models for autogenerate
+
+# this is the Alembic Config object, which provides
+# access to the values within the .ini file in use.
+config = context.config
+
+# Set the database URL from our configuration
+config.set_main_option("sqlalchemy.url", settings.database_url) 
+```
+
+
 
 #### 第四步：关联 SQLAlchemy 模型
 
@@ -140,6 +162,8 @@ alembic revision --autogenerate -m "Create users table"
   * `-m "..."`: 为这次迁移添加一段简短的描述信息。
 
 执行成功后，你会在 `alembic/versions/` 目录下看到一个新的 Python 文件，文件名类似 `xxxxxxxxxxxx_create_users_table.py`。打开它，内容大致如下：
+
+**需要非常注意的一点是，upgrade和downgrade函数需要再次检查一下，因为会生成错误，例如，想要设置默认的数值，需要在生成之后添加server_default='0'参数**
 
 ```python
 """Create users table
