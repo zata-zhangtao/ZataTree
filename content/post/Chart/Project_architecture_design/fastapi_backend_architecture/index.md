@@ -8,10 +8,13 @@ categories:
 tags:
     - project_architecture_design
 ---
-FastAPI 项目结构化教程
+# FastAPI 项目结构化教程
+
 这是一个经过精心设计的、适用于中大型项目的 FastAPI 后端目录结构。它具有良好的模块化、可扩展性和可维护性。
 
-目录结构总览
+## 目录结构总览
+
+```
 
 .
 ├── app/                      \# 主要的应用代码目录
@@ -72,94 +75,78 @@ FastAPI 项目结构化教程
 ├── Dockerfile                \# Docker 配置文件
 ├── requirements.txt          \# Python 依赖包列表
 └── README.md                 \# 项目说明文档
-详细说明
-根目录文件
-.env: 存储敏感信息和环境变量，例如数据库连接字符串、JWT 密钥等。
 
-.gitignore: 定义了哪些文件或目录不应被 Git 跟踪。
+````
 
-Dockerfile: 用于构建应用的 Docker 镜像，方便容器化部署。
+---
 
-requirements.txt: 列出项目的所有 Python 依赖库，使用 pip install -r requirements.txt 进行安装。
+## 详细说明
 
-README.md: 项目的说明文件，介绍如何设置、运行和使用该项目。
+### 根目录文件
 
-app/ 目录：核心应用
+* **`.env`**: 存储敏感信息和环境变量，例如数据库连接字符串、JWT 密钥等。
+* **`.gitignore`**: 定义了哪些文件或目录不应被 Git 跟踪。
+* **`Dockerfile`**: 用于构建应用的 Docker 镜像，方便容器化部署。
+* **`requirements.txt`**: 列出项目的所有 Python 依赖库，使用 `pip install -r requirements.txt` 进行安装。
+* **`README.md`**: 项目的说明文件，介绍如何设置、运行和使用该项目。
+
+### `app/` 目录：核心应用
+
 这是你所有业务逻辑代码的家。
 
-main.py:
+* **`main.py`**:
+    * **作用**: FastAPI 应用的入口点。
+    * **内容**: 创建 FastAPI 实例，挂载中间件 (Middleware)，包含来自 `app/api/` 的主路由，并可以定义全局的异常处理程序。
 
-作用: FastAPI 应用的入口点。
+* **`api/` 目录**: API 层
+    * **作用**: 负责处理 HTTP 请求，定义 API 的路径、参数和响应。这一层应该保持精简，只做请求的接收和响应的返回，具体的业务逻辑和数据库操作应该调用其他模块来完成。
+    * **`v1/`**: 按版本组织 API 是一个非常好的实践，方便未来升级。
+    * **`v1/endpoints/`**: 每个 `*.py` 文件代表一组相关的 API 路由（例如 `users.py` 处理所有 `/users` 相关的请求）。
+    * **`v1/api.py`**: 这个文件导入 `endpoints` 中的所有路由，并将它们组合成一个单一的 `APIRouter`，然后这个 `APIRouter` 会被 `main.py` 包含进去。这让 API 版本的管理变得非常清晰。
 
-内容: 创建 FastAPI 实例，挂载中间件 (Middleware)，包含来自 app/api/ 的主路由，并可以定义全局的异常处理程序。
+* **`core/` 目录**: 核心配置
+    * **作用**: 存放应用的全局配置和核心功能。
+    * **`config.py`**: 使用 Pydantic 的 `BaseSettings` 读取 `.env` 文件和环境变量，为整个应用提供一个统一的配置对象。
+    * **`security.py`**: 处理所有与安全相关的功能，如密码的哈希和验证、JWT 令牌的创建和解码。
 
-api/ 目录: API 层
+* **`db/` 目录**: 数据库连接与会话
+    * **作用**: 管理数据库的连接和会话。
+    * **`session.py`**: 定义 SQLAlchemy 的 `engine` 和 `SessionLocal`（会话工厂）。
+    * **`base.py`**: 包含 `declarative_base()` 的实例，我们所有的 ORM 模型都将继承自这个基类。这使得 Alembic（数据库迁移工具）能够发现我们的模型。
 
-作用: 负责处理 HTTP 请求，定义 API 的路径、参数和响应。这一层应该保持精简，只做请求的接收和响应的返回，具体的业务逻辑和数据库操作应该调用其他模块来完成。
+* **`models/` 目录**: 数据库模型层
+    * **作用**: 定义了与数据库表对应的 SQLAlchemy ORM 模型。每个文件对应一个模型（或一组紧密相关的模型）。这些模型描述了数据的结构。
 
-v1/: 按版本组织 API 是一个非常好的实践，方便未来升级。
+* **`schemas/` 目录**: 数据校验层
+    * **作用**: 定义 Pydantic 模型，FastAPI 用它来做数据验证、序列化和文档生成。
+    * **职责**:
+        1.  **请求体验证**: 验证传入的请求体（例如，创建一个新用户时，确保 `email` 字段是合法的）。
+        2.  **响应体塑形**: 决定从 API 返回哪些字段（例如，从数据库查询出的用户对象可能包含哈希后的密码，但我们绝不应该在 API 响应中返回它）。
+    * 通常会为每个模型定义多个 Schema，例如 `UserCreate`, `UserUpdate`, `UserInDB`, `User`。
 
-v1/endpoints/: 每个 *.py 文件代表一组相关的 API 路由（例如 users.py 处理所有 /users 相关的请求）。
+* **`crud/` 目录**: 数据操作层
+    * **作用**: "Create, Read, Update, Delete" 的缩写。这一层封装了所有与数据库的直接交互。
+    * **职责**: 将数据库操作（如 `db.add(obj)`) 从 API 路由中分离出来。API 路由不应该直接编写 SQLAlchemy 查询语句，而应该调用这里的函数，例如 `crud.user.create_user(...)`。这使得代码更易于测试和重用。
+    * **`base.py`**: 可以定义一个通用的 `CRUDBase` 类，包含 `get`, `get_multi`, `create`, `update`, `delete` 等通用方法，然后具体的 `crud_user.py` 只需继承它并添加特定逻辑即可。
 
-v1/api.py: 这个文件导入 endpoints 中的所有路由，并将它们组合成一个单一的 APIRouter，然后这个 APIRouter 会被 main.py 包含进去。这让 API 版本的管理变得非常清晰。
+* **`dependencies/` 目录**: 依赖注入
+    * **作用**: 存放 FastAPI 的依赖项。依赖注入是 FastAPI 的一个核心特性。
+    * **职责**: 创建可重用的依赖项，例如 `get_db` 用于为每个请求提供一个数据库会话，并在请求结束后关闭它；`get_current_user` 用于验证 JWT 令牌并返回当前登录的用户。这些依赖项可以在 API 路径操作函数中直接使用。
 
-core/ 目录: 核心配置
+### `tests/` 目录：测试
 
-作用: 存放应用的全局配置和核心功能。
+* **作用**: 存放所有的测试代码。保持测试代码与应用代码分离。
+* **`conftest.py`**: Pytest 的配置文件，用于定义测试范围内的 fixtures（例如，创建一个临时的测试数据库、一个用于发送请求的 `TestClient`）。
+* **目录结构**: 测试目录的结构最好能镜像 `app/` 目录的结构，这样可以很容易地找到对应模块的测试。
 
-config.py: 使用 Pydantic 的 BaseSettings 读取 .env 文件和环境变量，为整个应用提供一个统一的配置对象。
+---
 
-security.py: 处理所有与安全相关的功能，如密码的哈希和验证、JWT 令牌的创建和解码。
+## 示例代码
 
-db/ 目录: 数据库连接与会话
-
-作用: 管理数据库的连接和会话。
-
-session.py: 定义 SQLAlchemy 的 engine 和 SessionLocal（会话工厂）。
-
-base.py: 包含 declarative_base() 的实例，我们所有的 ORM 模型都将继承自这个基类。这使得 Alembic（数据库迁移工具）能够发现我们的模型。
-
-models/ 目录: 数据库模型层
-
-作用: 定义了与数据库表对应的 SQLAlchemy ORM 模型。每个文件对应一个模型（或一组紧密相关的模型）。这些模型描述了数据的结构。
-
-schemas/ 目录: 数据校验层
-
-作用: 定义 Pydantic 模型，FastAPI 用它来做数据验证、序列化和文档生成。
-
-职责:
-
-请求体验证: 验证传入的请求体（例如，创建一个新用户时，确保 email 字段是合法的）。
-
-响应体塑形: 决定从 API 返回哪些字段（例如，从数据库查询出的用户对象可能包含哈希后的密码，但我们绝不应该在 API 响应中返回它）。
-
-通常会为每个模型定义多个 Schema，例如 UserCreate, UserUpdate, UserInDB, User。
-
-crud/ 目录: 数据操作层
-
-作用: "Create, Read, Update, Delete" 的缩写。这一层封装了所有与数据库的直接交互。
-
-职责: 将数据库操作（如 db.add(obj)) 从 API 路由中分离出来。API 路由不应该直接编写 SQLAlchemy 查询语句，而应该调用这里的函数，例如 crud.user.create_user(...)。这使得代码更易于测试和重用。
-
-base.py: 可以定义一个通用的 CRUDBase 类，包含 get, get_multi, create, update, delete 等通用方法，然后具体的 crud_user.py 只需继承它并添加特定逻辑即可。
-
-dependencies/ 目录: 依赖注入
-
-作用: 存放 FastAPI 的依赖项。依赖注入是 FastAPI 的一个核心特性。
-
-职责: 创建可重用的依赖项，例如 get_db 用于为每个请求提供一个数据库会话，并在请求结束后关闭它；get_current_user 用于验证 JWT 令牌并返回当前登录的用户。这些依赖项可以在 API 路径操作函数中直接使用。
-
-tests/ 目录：测试
-作用: 存放所有的测试代码。保持测试代码与应用代码分离。
-
-conftest.py: Pytest 的配置文件，用于定义测试范围内的 fixtures（例如，创建一个临时的测试数据库、一个用于发送请求的 TestClient）。
-
-目录结构: 测试目录的结构最好能镜像 app/ 目录的结构，这样可以很容易地找到对应模块的测试。
-
-示例代码
 下面是一些关键文件的示例代码，以帮助你更好地理解它们的具体实现。
 
-app/main.py
+#### `app/main.py`
+```python
 from fastapi import FastAPI
 from app.api.v1 import api
 from app.core.config import settings
@@ -175,7 +162,12 @@ app.include_router(api.api_router, prefix=settings.API_V1_STR)
 @app.get("/")
 def read_root():
     return {"message": "Welcome to this fantastic app!"}
-app/api/v1/api.py
+
+````
+
+#### `app/api/v1/api.py`
+
+```python
 from fastapi import APIRouter
 from app.api.v1.endpoints import users, items
 
@@ -184,7 +176,11 @@ api_router = APIRouter()
 # 包含 users 和 items 的路由
 api_router.include_router(users.router, prefix="/users", tags=["users"])
 api_router.include_router(items.router, prefix="/items", tags=["items"])
-app/api/v1/endpoints/users.py
+```
+
+#### `app/api/v1/endpoints/users.py`
+
+```python
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
@@ -212,7 +208,11 @@ def read_users(
 ):
     users = crud.user.get_users(db, skip=skip, limit=limit)
     return users
-app/core/config.py
+```
+
+#### `app/core/config.py`
+
+```python
 from pydantic_settings import BaseSettings
 import os
 
@@ -233,7 +233,11 @@ class Settings(BaseSettings):
         env_file = ".env"
 
 settings = Settings()
-app/schemas/user.py
+```
+
+#### `app/schemas/user.py`
+
+```python
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 
@@ -266,7 +270,11 @@ class User(UserBase):
 
     class Config:
         from_attributes = True
-app/crud/crud_user.py
+```
+
+#### `app/crud/crud_user.py`
+
+```python
 from sqlalchemy.orm import Session
 from app.core.security import get_password_hash
 from app import models, schemas
@@ -291,7 +299,11 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
-app/dependencies/common.py
+```
+
+#### `app/dependencies/common.py`
+
+```python
 from sqlalchemy.orm import Session
 from app.db.session import SessionLocal
 
@@ -302,4 +314,6 @@ def get_db():
         yield db
     finally:
         db.close()
+```
+
 这个结构为你提供了一个坚实的起点。你可以根据项目的具体需求，在这个基础上进行调整和扩展。
