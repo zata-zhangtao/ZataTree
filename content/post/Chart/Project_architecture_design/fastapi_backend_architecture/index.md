@@ -34,7 +34,8 @@ tags:
 │   ├── core/                 \# 核心逻辑与配置
 │   │   ├── **init**.py
 │   │   ├── config.py         \# 应用配置（环境变量等）
-│   │   └── security.py       \# 安全相关（密码哈希、JWT令牌等）
+│   │   ├── security.py       \# 安全相关（密码哈希、JWT令牌等）
+│   │   └── logger.py         \# 日志配置与工具
 │   │
 │   ├── crud/                 \# CRUD 数据库操作层
 │   │   ├── **init**.py
@@ -69,6 +70,11 @@ tags:
 │   └── api/
 │       └── v1/
 │           ├── test\_users.py
+│
+├── logs/                     \# 日志文件目录 (运行时自动创建)
+│   ├── app.log               \# 应用主日志文件
+│   ├── app.log.1             \# 轮转的历史日志文件
+│   └── app.log.2             \# 轮转的历史日志文件
 │
 ├── .env                      \# 环境变量文件 (不应提交到 git)
 ├── .gitignore                \# Git 忽略文件配置
@@ -108,6 +114,7 @@ tags:
     * **作用**: 存放应用的全局配置和核心功能。
     * **`config.py`**: 使用 Pydantic 的 `BaseSettings` 读取 `.env` 文件和环境变量，为整个应用提供一个统一的配置对象。
     * **`security.py`**: 处理所有与安全相关的功能，如密码的哈希和验证、JWT 令牌的创建和解码。
+    * **`logger.py`**: 日志系统的配置和工具函数，提供统一的日志记录接口，支持不同级别的日志输出、文件轮转和格式化配置。
 
 * **`db/` 目录**: 数据库连接与会话
     * **作用**: 管理数据库的连接和会话。
@@ -138,6 +145,13 @@ tags:
 * **作用**: 存放所有的测试代码。保持测试代码与应用代码分离。
 * **`conftest.py`**: Pytest 的配置文件，用于定义测试范围内的 fixtures（例如，创建一个临时的测试数据库、一个用于发送请求的 `TestClient`）。
 * **目录结构**: 测试目录的结构最好能镜像 `app/` 目录的结构，这样可以很容易地找到对应模块的测试。
+
+### `logs/` 目录：日志文件
+
+* **作用**: 存储应用运行时产生的日志文件。
+* **自动创建**: 该目录由 `app/core/logger.py` 在首次运行时自动创建，无需手动创建。
+* **文件轮转**: 采用日志轮转机制，当主日志文件达到设定大小（如10MB）时，会自动轮转为历史文件，保持最近的5个日志文件。
+* **建议**: 在 `.gitignore` 中添加 `logs/` 目录，避免将日志文件提交到版本控制系统。
 
 ---
 
@@ -314,6 +328,79 @@ def get_db():
         yield db
     finally:
         db.close()
+```
+
+#### `app/core/logger.py`
+
+```python
+import logging
+import logging.handlers
+import os
+from pathlib import Path
+from app.core.config import settings
+
+def setup_logger(name: str = __name__) -> logging.Logger:
+    """
+    设置应用日志记录器
+    
+    Args:
+        name: 日志记录器名称，默认为调用模块的名称
+    
+    Returns:
+        配置好的日志记录器实例
+    """
+    logger = logging.getLogger(name)
+    
+    # 避免重复配置
+    if logger.handlers:
+        return logger
+    
+    # 设置日志级别
+    log_level = getattr(settings, 'LOG_LEVEL', 'INFO')
+    logger.setLevel(getattr(logging, log_level.upper()))
+    
+    # 创建日志格式
+    formatter = logging.Formatter(
+        fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S'
+    )
+    
+    # 控制台处理器
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(formatter)
+    logger.addHandler(console_handler)
+    
+    # 文件处理器（带轮转）
+    log_dir = Path("logs")
+    log_dir.mkdir(exist_ok=True)
+    
+    file_handler = logging.handlers.RotatingFileHandler(
+        filename=log_dir / "app.log",
+        maxBytes=10 * 1024 * 1024,  # 10MB
+        backupCount=5,
+        encoding='utf-8'
+    )
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+    
+    return logger
+
+# 创建默认的应用日志记录器
+app_logger = setup_logger("fastapi_app")
+
+def get_logger(name: str = None) -> logging.Logger:
+    """
+    获取日志记录器实例
+    
+    Args:
+        name: 日志记录器名称，如果为None则使用默认应用日志记录器
+    
+    Returns:
+        日志记录器实例
+    """
+    if name is None:
+        return app_logger
+    return setup_logger(name)
 ```
 
 这个结构为你提供了一个坚实的起点。你可以根据项目的具体需求，在这个基础上进行调整和扩展。
