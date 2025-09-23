@@ -18,7 +18,8 @@ tags:
 
 **配置其他模型api** 
 
-  - [配置kimi-k2-api](#配置kimi-k2-api)
+  - [配置其他模型api以使用claude_code](#配置其他模型api以使用claude_code)
+  - [Claude Code PR Documentation Action](https://github.com/marketplace/actions/claude-code-automatic-pr-documentation-generator)
 
 
 
@@ -98,7 +99,7 @@ mkdir -p ~/.npm-global
 
 
 
-### 配置其他模型api
+### 配置其他模型api以使用claude_code
 
 #### 配置kimi-k2-api
 
