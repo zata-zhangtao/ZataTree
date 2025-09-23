@@ -20,6 +20,8 @@ tags:
   - [简单开始一个docker镜像的使用](#简单开始一个docker镜像的使用)
 
 - [Docker使用技巧](#docker使用技巧)
+
+  
   - [docker的卷挂载功能](#docker的卷挂载功能)
   - [将镜像推送到远程仓库](#将镜像推送到远程仓库)
   - [Docker Context 教程](#docker-context-教程)
@@ -1265,6 +1267,11 @@ Docker 容器默认运行在桥接网络（bridge network）中，主机和容�
    如果你想将镜像导出为一个 `.tar` 文件以便备份或转移到其他机器：
    ```bash
    docker save -o myimage.tar myimage:latest
+
+    # 或者
+   # 将镜像传递到远程服务器 将 your-user@your-server 替换为你的 SSH 登录信息
+   docker save my-x86-app:1.0 | ssh your-user@your-server 'docker load'
+
    ```
    这样会生成一个 `myimage.tar` 文件。
 

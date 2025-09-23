@@ -21,6 +21,7 @@ tags:
   - [配置其他模型api以使用claude_code](#配置其他模型api以使用claude_code)
   - [Claude Code PR Documentation Action](https://github.com/marketplace/actions/claude-code-automatic-pr-documentation-generator)
 
+  - [使用/output-style切换输出模式（learning模式）](https://zhuanlan.zhihu.com/p/1939676396168409586)
 
 
 
