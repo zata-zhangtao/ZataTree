@@ -1,5 +1,5 @@
 ---
-title: 1-git使用教程&github使用教程
+title: 1-git&github_tutorial
 description: git&github使用指南
 date: 2025-02-28
 slug: git&github/index.md ### 必填，文件夹名/index.md
@@ -143,49 +143,8 @@ test* 忽略以test开头的文件
 
 ---
 
-### 1. 仓库初始化与基本配置
+### 查看提交历史 (`git log`)
 
-#### 初始化仓库
-```bash
-# 初始化一个新的 Git 仓库
-git init
-# 初始化并指定仓库目录
-git init <directory>
-```
-- **作用**: 在当前目录或指定目录创建 `.git` 目录，初始化 Git 仓库。
-- **注意**: 运行 `git init` 后，需配置用户信息（如用户名、邮箱）。
-
-#### 配置用户信息
-```bash
-# 设置全局用户名
-git config --global user.name "Your Name"
-# 设置全局邮箱
-git config --global user.email "your.email@example.com"
-# 查看全局配置
-git config --global --list
-# 查看特定配置
-git config user.name
-```
-- **作用**: 配置提交时的用户信息，存储在 `~/.gitconfig` 或仓库内的 `.git/config` 中。
-- **注意**: 如果不配置，提交时可能报错。可以用 `--local` 针对单个仓库配置。
-
-#### 克隆仓库
-```bash
-# 克隆远程仓库到本地
-git clone <repository-url>
-# 克隆到指定目录
-git clone <repository-url> <directory>
-# 克隆特定分支
-git clone -b <branch-name> <repository-url>
-```
-- **作用**: 将远程仓库复制到本地，包括所有分支和提交历史。
-- **注意**: 默认克隆后会自动检出默认分支（通常是 `main` 或 `master`）。
-
----
-
-### 2. 查看提交历史 (`git log`)
-
-#### 基本用法
 ```bash
 # 查看提交历史（详细）
 git log
@@ -207,7 +166,7 @@ git log --oneline --graph --all
   * 0f9e8d7 Initial commit
   ```
 
-#### 高级选项
+-  高级选项
 ```bash
 # 显示最近 n 次提交
 git log -n <number>
@@ -239,7 +198,7 @@ git log <branch1>..<branch2>
 git log main..feature
 ```
 
-#### 格式化输出
+- 格式化输出
 ```bash
 # 自定义输出格式
 git log --pretty=format:"%h %an %ar %s"
@@ -250,7 +209,7 @@ git log --pretty=format:"%h %an %ar %s"
 # %s: 提交信息
 ```
 
-#### 注意事项
+- 注意事项
 - 使用 `--oneline --graph --all` 适合快速概览分支结构。
 - 对于复杂仓库，输出可能较长，可用 `less`（默认分页器）浏览，或结合 `-n` 限制输出。
 - 如果需要交互式查看历史，推荐使用工具如 `tig` 或图形化界面（如 GitKraken）。

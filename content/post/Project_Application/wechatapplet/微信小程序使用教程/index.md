@@ -1,5 +1,5 @@
 ---
-title: 微信小程序使用教程
+title: 微信小程序使用教程——WechatMiniProgram
 description: ""
 date: 2025-06-08T23:37:17+08:00
 image: images/index/index.png
@@ -64,6 +64,7 @@ tags:
     *   **项目目录**：选择一个空文件夹存放项目文件。
     *   **AppID**：输入你在公众平台注册时获得的 AppID（测试可用“测试号”）。
     *   **项目名称**：例如 “HelloWorld”。
+    ![模版可以使用js基础模版](images/index/image.png)
 *   选择“小程序·原生开发”，点击“确定”。
 
 #### 2. 理解项目结构
