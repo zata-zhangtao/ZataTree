@@ -26,6 +26,7 @@ tags: ["git&github","教程"]
 - **分支与合并**
   - [git merge详解](#git-merge详解)
   - [git pull merge git 多人协作的时候怎么解决冲突？](#git-pullmerge-git-多人协作的时候怎么解决冲突)
+  - [使用rebase调换最后两个Commit的顺序](#使用rebase调换最后两个Commit的顺序)
 
 - **版本回退与撤销**
   - [git reset --hard HEAD^ 详解](#git-reset---hard-head-详解andgit-reset---soft-head-详解)
@@ -1448,6 +1449,172 @@ git merge --no-ff feature
 
 
 
+
+### 使用rebase调换最后两个Commit的顺序
+
+```Markdown
+
+# Git 教程：使用 rebase 调换最后两个 Commit 的顺序
+
+
+
+本教程将指导你如何使用 `git rebase -i`（交互式 rebase）来调换你本地最后两个 commit 的顺序。## 场景
+
+
+
+你通过 `rebase` 将你的本地修改放在了远程分支的最新 commit 之上，但你现在希望反过来，让你自己的修改在前面，让远程的 commit 成为最后一个。**你当前的状态 (HEAD 指向你的修改):**
+
+... -> 远程的最后一个commit -> 你的本地修改 (HEAD)
+
+
+
+**你希望达到的状态 (HEAD 指向远程的 commit):**
+
+... -> 你的本地修改 -> 远程的最后一个commit (HEAD)
+
+
+
+---
+
+
+
+## ⚠️ 重要警告
+
+
+
+此操作会**重写 Git 历史**。
+
+
+
+**请只在尚未将这些 commit 推送（push）到远程仓库时执行此操作。**
+
+如果你已经推送了 `你的本地修改`，强行修改历史（`git push --force`）会给你的协作者带来严重问题。
+
+
+
+---
+
+
+
+## 操作步骤
+
+
+
+### 步骤 1: 启动交互式 Rebase
+
+
+
+你需要编辑最后两个 commit。运行以下命令来启动交互式 rebase，`HEAD~2` 表示“从 HEAD 开始往前数 2 个 commit”。
+
+
+
+```bash
+
+git rebase -i HEAD~2
+
+步骤 2: 在编辑器中编辑 Rebase 列表
+
+运行上述命令后，Git 会打开你的默认文本编辑器，显示一个列表。这个列表的顺序是从旧到新（从上到下）。
+
+它看起来会是这样：
+
+pick <hash_A> 远程的最后一个commit 的消息
+
+pick <hash_B> 你的本地修改 的消息
+
+
+
+# Rebase ...
+
+# Commands:
+
+# p, pick <commit> = use commit
+
+# ...
+
+pick <hash_A> 是那个较旧的 commit（远程的 commit）。
+
+pick <hash_B> 是那个较新的 commit（你的本地修改）。
+
+步骤 3: 调换 Commit 顺序
+
+你只需要在编辑器中交换这两行的文本顺序，把你的本地修改放到上面（即让它更早发生）：
+
+修改为：
+
+pick <hash_B> 你的本地修改 的消息
+
+pick <hash_A> 远程的最后一个commit 的消息
+
+步骤 4: 保存并退出编辑器
+
+保存文件并关闭编辑器。Git 会立即按照你指定的新顺序重新应用这两个 commit。
+
+步骤 5: 验证结果
+
+操作完成后，你可以使用 git log 来检查历史记录，确认顺序已经被正确调换。
+
+Bash
+
+
+
+# 查看最后两个 commit
+
+git log --oneline -2
+
+你现在应该会看到 远程的最后一个commit 的消息 在最上面（最新）的位置。
+
+附录：如何在编辑器中快速调换行顺序
+
+在步骤 3 中，你不需要手动剪切和粘贴。几乎所有编辑器都支持“移动当前行”的快捷键（将光标放在该行任意位置即可）。
+
+常用 GUI 编辑器
+
+Visual Studio Code (VS Code):
+
+Windows / Linux: Alt + ↑ (上移) / Alt + ↓ (下移)
+
+macOS: Option + ↑ (上移) / Option + ↓ (下移)
+
+Sublime Text:
+
+Windows / Linux: Ctrl + Shift + ↑ (上移) / Ctrl + Shift + ↓ (下移)
+
+macOS: Cmd + Ctrl + ↑ (上移) / Cmd + Ctrl + ↓ (下移)
+
+Notepad++:
+
+Ctrl + Shift + ↑ (上移) / Ctrl + Shift + ↓ (下移)
+
+常用终端编辑器 (Git 默认)
+
+Vim / Vi (最常见的默认编辑器):
+
+按 Esc 键确保你处于普通模式 (Normal Mode)。
+
+将光标移动到你想移动的行。
+
+输入 ddp：dd (剪切当前行) + p (粘贴到下一行)，效果是与下一行交换。
+
+输入 ddkP：dd (剪切) + k (上移) + P (粘贴到上一行)，效果是与上一行交换。
+
+(在你的场景中，光标在第二行 pick <hash_B> ... 上时，按 ddkP 即可)
+
+Nano (较简单的编辑器):
+
+Nano 没有直接的“移动行”快捷键，你必须使用剪切和粘贴：
+
+将光标放在要移动的行上。
+
+按 Ctrl + K (剪切该行)。
+
+将光标移动到目标位置（例如，移动到第一行）。
+
+按 Ctrl + U (粘贴该行)。
+```
+
+
+
 ### |公式 | github | github不显示md文件中的公式
 `第一种方法：使用github推荐的公式写法（推荐）`
 在写md的时候，使用
@@ -1722,12 +1889,18 @@ git clone ssh://git@ssh.github.com:443/YOUR-USERNAME/YOUR-REPOSITORY.git
 
 ### 用githooks解决github大文件报错100M限制或50M限制-大文件-50M-githooks-git
 
-见：[zata csdn](https://blog.csdn.net/qq_41685627/article/details/135477107)
 
 
+如果你已经commit了大文件，并且报错了，可以使用下面方法，基本上都起作用
 
-如果你已经commit了大文件，并且报错了，可以
+```bash 
+apt-get install git-filter-repo
 
+# 删除指定的大文件（路径必须完全匹配）
+git filter-repo --path "路径地址" --invert-paths
+```
+
+如果还没有提交
 
 ```bash
 # 1. 把大文件取消追踪
@@ -1739,8 +1912,7 @@ git add .gitignore
 git commit -m "Update .gitignore to exclude large files"
 git push XXX main:main --force
 ```
-
-如果上面不起作用，可以使用以下方法
+如果已经在过去的几次commit提交了，并且知道在哪个commit开始出现，可以使用以下方法
 ```bash
 # 1. 撤销最近的提交，但保留更改
 git reset --soft HEAD~1
@@ -2058,6 +2230,10 @@ hosts位置在    /etc/hosts
 - 编写详细的README.md，包含安装和使用说明  
 - 发布到PyPI需注册账号并配置API token
 
+
+
+
+
 ### git-reset---hard-head-详解andgit-reset---soft-head-详解
 
 ```bash
@@ -2133,6 +2309,10 @@ A <- B <- C (HEAD)
    - 使用以下命令告诉 Git 使用项目中的自定义钩子目录：
      ```bash
      git config core.hooksPath githooks
+
+      cd githooks
+     # 查找所有文件 (f) 并赋予执行权限 
+     find . -type f -exec chmod +x {} \;
      ```
    - 这会让 Git 使用 `githooks` 目录中的钩子脚本，而不是默认的 `.git/hooks`。
 

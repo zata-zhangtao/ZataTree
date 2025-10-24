@@ -10,8 +10,20 @@ tags:
 ---
 
 
+### 目录
 
- ```
+
+
+- 一些问题处理
+
+[Redis未授权访问漏洞处理](#Redis未授权访问漏洞处理)
+[本地mac上_运行一个redis容器_然后想要在另一个容器中使用这个redis怎么做](#本地mac上_运行一个redis容器_然后想要在另一个容器中使用这个redis怎么做)
+
+
+
+
+
+
 ### 什么是 Redis？
 
 Redis (Remote Dictionary Server) 是一个开源的、使用 C 语言编写的、支持网络、可基于内存亦可持久化的日志型、Key-Value 数据库，并提供多种语言的 API。
@@ -34,13 +46,9 @@ Redis (Remote Dictionary Server) 是一个开源的、使用 C 语言编写的�
   * **排行榜：** 使用有序集合（Sorted Set）可以轻松实现实时更新的排行榜。
   * **消息队列：** 使用列表（List）的 `LPUSH` 和 `RPOP` 命令可以实现简单的消息队列。
 
-
-
-
-```
 -----
 
-### 第一步：安装 Redis
+ 第一步：安装 Redis
 
 你可以通过以下几种方式安装 Redis：
 
@@ -78,7 +86,7 @@ docker run --name my-redis -p 6379:6379 -d redis
 
 -----
 
-### 第二步：连接到 Redis
+ 第二步：连接到 Redis
 
 安装并启动 Redis 后，你可以使用 `redis-cli` (Redis Command Line Interface) 连接到它。
 
@@ -130,7 +138,7 @@ PONG
 
 -----
 
-### 第三步：学习基本命令和数据结构
+ 第三步：学习基本命令和数据结构
 
 Redis 是一个 Key-Value 数据库。每个 Key 都有一个与之关联的 Value。下面是 Redis 最核心的五种数据结构及其常用命令。
 
@@ -285,7 +293,7 @@ Set 是 String 类型的无序集合。集合成员是唯一的，这就意味�
 
 -----
 
-### 第四步：一些通用的重要命令
+ 第四步：一些通用的重要命令
 
   * **`KEYS pattern`**: 查找所有符合给定模式的 key。**注意：** 在生产环境中要慎用，因为它会遍历所有的键，可能会阻塞服务器。
     ```
@@ -312,7 +320,7 @@ Set 是 String 类型的无序集合。集合成员是唯一的，这就意味�
 
 -----
 
-### 第五步：在你的代码中使用 Redis
+ 第五步：在你的代码中使用 Redis
 
 `redis-cli` 是一个很好的学习和调试工具，但在实际应用中，你需要在你的编程语言中通过 Redis 客户端库来连接和操作 Redis。
 
@@ -354,7 +362,7 @@ Set 是 String 类型的无序集合。集合成员是唯一的，这就意味�
     print(r.hgetall('user-session:123'))
     ```
 
-### 总结和后续学习
+ 总结和后续学习
 
 恭喜你！你已经完成了 Redis 的入门。你现在应该知道如何安装、连接 Redis，并使用其核心数据结构进行基本操作。
 
@@ -370,10 +378,96 @@ Set 是 String 类型的无序集合。集合成员是唯一的，这就意味�
 
 ### 一些操作
 
+#### Redis未授权访问漏洞处理
+
+```md
+漏洞描述：Redis 未授权访问漏洞
+Redis 未授权访问漏洞是一个非常严重的安全问题，它通常是因为 Redis 服务器直接暴露在公网或内网中，并且**没有配置密码认证**导致的。攻击者可以利用这个漏洞读取、修改甚至删除数据，更严重的情况下，可以利用 Redis 的一些特性（如写入 `authorized_keys` 或计划任务文件）来获取服务器的控制权。
+
+以下是处理和防御 Redis 未授权访问漏洞的主要步骤和措施：
+
+### 1\. 启用密码认证（最重要）
+
+在 Redis 配置文件中设置一个**强密码**，启用认证功能。
+
+  * **修改配置文件：** 找到 `redis.conf` 文件（通常在 `/etc/redis/` 或 `/etc/redis/redis.conf`）。
+  * **设置密码：** 找到或添加 `requirepass` 这一行，并设置一个复杂的密码。
+    ```conf
+    requirepass yourStrongPasswordHere
+    ```
+    *记得替换 `yourStrongPasswordHere` 为你设置的实际密码。*
+  * **重启 Redis：** 更改配置后，需要重启 Redis 服务使其生效。
+    ```bash
+    # 例如：
+    sudo systemctl restart redis
+    # 或者
+    sudo service redis-server restart
+    ```
+  * **验证：** 使用 `redis-cli` 连接后，尝试执行命令，会提示需要认证。
+    ```bash
+    redis-cli
+    > PING
+    (error) NOAUTH Authentication required.
+    > AUTH yourStrongPasswordHere
+    OK
+    > PING
+    PONG
+    ```
+
+### 2\. 限制网络访问（网络隔离）
+
+Redis 本身的设计是运行在受信任的环境中，因此不应该直接暴露给公网。
+
+  * **绑定本地或私有 IP：** 仅允许 Redis 监听应用的服务器 IP 或本地回环地址（`127.0.0.1`）。在 `redis.conf` 中修改 `bind` 选项：
+      * **仅允许本地访问：**
+        ```conf
+        bind 127.0.0.1
+        ```
+      * **允许特定内网 IP 访问：** 绑定内网 IP 地址。
+        ```conf
+        bind 127.0.0.1 192.168.1.100  # 替换为你的应用服务器IP
+        ```
+  * **配置防火墙：** 使用防火墙（如 `iptables`, `ufw`, 安全组等）限制对 Redis 端口（默认是 6379）的访问，**只允许**信任的应用服务器 IP 地址连接。
+  * **网络分段：** 将 Redis 服务器放在一个独立的、只有应用服务器能访问的私有网络段中。
+
+### 3\. 启用保护模式（Protected Mode）
+
+Redis 3.2.0 及更高版本引入了保护模式（Protected Mode）。
+
+  * **检查配置：** 在 `redis.conf` 中确保 `protected-mode` 设置为 `yes`。
+    ```conf
+    protected-mode yes
+    ```
+    *在默认配置下，如果 Redis 没有设置密码且绑定了非本地回环地址，保护模式会自动开启，阻止外部连接，仅响应本地回环地址（`127.0.0.1`）的请求。*
+
+### 4\. 禁用或重命名危险命令
+
+为了防止攻击者利用 Redis 的配置命令进行恶意操作（如写入 `authorized_keys`），可以考虑禁用或重命名一些高风险命令。
+
+  * **禁用或重命名 `CONFIG` 命令：** 在 `redis.conf` 中添加：
+    ```conf
+    # 禁用 CONFIG 命令
+    rename-command CONFIG ""
+    # 或者重命名（推荐，防止应用端需要用到）
+    rename-command CONFIG aRandomStringForConfig
+    ```
+  * 其他高危命令如 `FLUSHALL`、`FLUSHDB`、`SAVE`、`BGSAVE` 也可以根据需要进行限制。
+
+### 5\. 使用低权限用户运行 Redis
+
+不要使用 `root` 用户运行 Redis 服务。创建一个专门的低权限用户来运行 Redis 进程，即使被攻击者攻破，也能限制其在系统上的权限。
+
+### 总结加固：
+
+1.  **设置强密码（`requirepass`）。**
+2.  **限制网络访问（`bind` 和防火墙）。**
+3.  **确保 `protected-mode yes`。**
+4.  **禁用或重命名高危命令（`CONFIG`）。**
+5.  **使用低权限用户运行。**
+```
+
 #### 本地mac上_运行一个redis容器_然后想要在另一个容器中使用这个redis怎么做
 
-
-  
 
 在 Mac 本地上，要让一个容器（应用容器）连接到另一个容器（Redis 容器），最推荐和最现代的方法是使用**自定义的 Docker 网络**。
 
