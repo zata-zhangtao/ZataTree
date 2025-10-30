@@ -86,8 +86,6 @@ git config--global core.quotepath false
 %%设置init分支名%%
 git config --global init.defaultBranch main
 
-%%初始化本地库%%
-git init
 
 %% 设置远端库别名
 git remote add <别名> <网址>
@@ -95,6 +93,8 @@ git remote add <别名> <网址>
 %% 查看远端库
 git remote -v
 
+%%获取远程仓库的所有更新，并删除本地已经不存在的远程分支的跟踪引用，以保持本地仓库与远程仓库的同步
+git fetch --prune
 
 %%查看本地库状态%%
 git status

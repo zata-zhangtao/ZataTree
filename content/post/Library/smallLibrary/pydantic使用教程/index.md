@@ -732,6 +732,8 @@ if __name__ == "__main__":
 
 ### 教程：使用 Pydantic 的 BaseSettings 精通应用配置管理 -- 调整变量优先顺序
 
+![pydantic_settings 中的 BaseSettings配置优先级](images/index/image.png)
+
 管理应用的配置（如 API 密钥、数据库 URL 和调试开关）是一项基础而重要的任务。将这些值硬编码在代码中是一种非常糟糕的做法。Pydantic 的 `BaseSettings` 提供了一个强大而优雅的解决方案，它能够从环境变量或 `.env` 文件中加载你的配置，并结合了强大的类型验证功能。
 
 本教程将引导你有效使用 `BaseSettings`，从基础设置到高级的优先级管理。

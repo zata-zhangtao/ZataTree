@@ -75,9 +75,19 @@ https://blog.csdn.net/weixin_46474921/article/details/132841711
 **/*.md      images/${documentBaseName}/image.${fileExtName}   # 以image.png重命名放到images/文件名    文件夹下
 ```
 
-### vscode折叠代码
+### vscode折叠代码 ctrl+k ctrl+0
 
 ![alt text](image/index/index-8.png)
+
+### Diff Editor settings
+
+1. 取消相同的代码被折叠
+
+![相同代码被折叠](images/index/image.png)![不打勾不折叠](images/index/image-1.png)![alt text](images/index/image-2.png)
+
+2. diff 双栏变一栏
+
+![单次设置](images/index/image-3.png)![默认设置](images/index/image-4.png)
 
 ---
 
