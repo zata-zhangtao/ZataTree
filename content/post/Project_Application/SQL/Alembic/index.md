@@ -10,6 +10,55 @@ tags:
 ---
 
 
+
+常用命令
+```bash
+# === Alembic 核心命令速查 ===
+
+# 1. 初始化
+# 作用：在项目中创建 Alembic 环境 (alembic.ini, env.py 等)
+alembic init <alembic目录名>
+
+# 2. 生成迁移脚本
+# 作用：对比模型与数据库差异，自动生成迁移文件
+alembic revision -m "简短的描述" --autogenerate
+
+# 3. 执行升级 (应用迁移)
+# 作用：将数据库更新到最新版本
+alembic upgrade head
+# 作用：升级到指定版本
+alembic upgrade <版本号>
+# 作用：向前升级 1 个版本
+alembic upgrade +1
+
+# 4. 执行降级 (回滚迁移)
+# 作用：将数据库回滚 1 个版本
+alembic downgrade -1
+# 作用：回滚到指定版本
+alembic downgrade <版本号>
+# 作用：回滚到最初始 (空) 状态
+alembic downgrade base
+
+# 5. 查看状态
+# 作用：查看当前数据库所在的版本
+alembic current
+# 作用：查看所有迁移历史
+alembic history
+
+# 6. 标记版本 (不执行SQL)
+# 作用：将数据库“欺骗”为已处于某个版本 (常用于修复错误状态)
+alembic stamp head
+alembic stamp <版本号>
+
+# 7. 查看迁移内容
+# 作用：显示某个迁移版本将执行的 SQL (预览)
+alembic show <版本号或head>
+
+```
+
+
+
+
 ### 什么是 Alembic？
 
 Alembic 是一个为 [SQLAlchemy](https://www.sqlalchemy.org/) 设计的轻量级数据库迁移工具。在软件开发中，特别是项目迭代过程中，数据库的结构（Schema）几乎不可避免地会发生变化，例如添加新表、增加字段、修改数据类型等。直接在生产数据库上手动修改 SQL 是一件风险很高且难以追踪和协作的事情。
