@@ -37,6 +37,15 @@ tags:
 │   │   ├── security.py       \# 安全相关（密码哈希、JWT令牌等）
 │   │   └── logger.py         \# 日志配置与工具
 │   │
+│   │── services/              # 新增: 业务逻辑层 (工作流)
+│   │   ├── __init__.py
+│   │   └── chat_agent/        # 例如 （LangGraph Agent）
+│   │       ├── __init__.py
+│   │       ├── graph.py       # 编译后的 Agent (Workflow)
+│   │       ├── state.py       # AgentState
+│   │       ├── nodes.py       # 节点函数
+│   │       └── tools.py       # 工具 (e.g., RAG, DB lookup)
+│   │
 │   ├── crud/                 \# CRUD 数据库操作层
 │   │   ├── **init**.py
 │   │   ├── base.py           \# 可复用的 CRUD 基类
