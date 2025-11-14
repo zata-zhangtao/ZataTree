@@ -10,6 +10,65 @@ tags:
 ---
 
 
+
+```bash
+#--------------------------------------
+# 1. 通用/推荐的关闭方式 (任何系统)
+#--------------------------------------
+
+# 向 Redis 服务器发送关闭信号 (会安全保存数据)
+# 这是最推荐的关闭方式
+redis-cli shutdown
+
+#--------------------------------------
+# 直接运行 / Docker 容器内 (你当前的环境)
+#--------------------------------------
+
+# 启动 (前台运行，日志会占满终端)
+redis-server
+
+# 启动 (使用配置文件，推荐)
+redis-server /path/to/redis.conf
+
+# 启动 (后台运行，就像你之前用的)
+redis-server &
+
+# 关闭 (在 Docker 或直接运行时，用 cli 关闭)
+redis-cli shutdown
+
+# 强行关闭 (如果上面的命令无效)
+# 1. 找到进程 PID
+ps aux | grep redis-server
+# 2. 杀死进程 (用 PID 替换 12345)
+kill 12345
+
+
+
+#--------------------------------------
+# Linux (使用 systemd, 如 Ubuntu, CentOS)
+#--------------------------------------
+
+# 启动服务
+sudo systemctl start redis-server
+# (服务名也可能是 redis)
+# sudo systemctl start redis
+
+# 停止服务
+sudo systemctl stop redis-server
+
+# 重启服务
+sudo systemctl restart redis-server
+
+# 查看服务状态
+sudo systemctl status redis-server
+
+# 设置开机自启
+sudo systemctl enable redis-server
+
+
+```
+
+
 下面是一个详细的 Docker Compose 教程，涵盖了从基础概念到实际操作的全面内容。教程将逐步讲解 Docker Compose 的用途、安装、配置文件编写以及常见使用场景，帮助你快速上手。
 
 ---
