@@ -12,14 +12,67 @@ tags:
 
 ### 目录
 
-
-
 - 一些问题处理
 
 [Redis未授权访问漏洞处理](#Redis未授权访问漏洞处理)
 [本地mac上_运行一个redis容器_然后想要在另一个容器中使用这个redis怎么做](#本地mac上_运行一个redis容器_然后想要在另一个容器中使用这个redis怎么做)
 
 
+
+
+```bash 
+# Redis 常用命令总结（适用于 apt install redis/redis-server 安装的场景，包括容器内）
+
+```bash
+# 1. 最简单直接启动（前台运行，用于测试）
+redis-server
+
+# 2. 使用配置文件后台启动（推荐方式）
+redis-server /etc/redis/redis.conf
+
+# 3. 带常用参数直接启动（不依赖配置文件）
+redis-server --port 6379 --daemonize yes --protected-mode no
+
+# 4. 检查 Redis 是否正常运行
+redis-cli ping                  # 返回 PONG 表示成功
+redis-cli -p 6379 ping
+
+# 5. 优雅停止 Redis（强烈推荐，会自动保存数据）
+redis-cli shutdown              # 默认执行 SAVE
+redis-cli -p 6379 shutdown
+
+# 6. 不保存数据直接停止
+redis-cli shutdown nosave
+
+# 7. 强制杀死进程（不推荐，可能丢数据）
+kill -9 $(pidof redis-server)
+pkill -9 redis-server
+
+# 8. 重启 Redis
+redis-cli shutdown && redis-server /etc/redis/redis.conf
+
+# 9. 使用 service 管理（你在容器里通过 apt 安装后直接可用！）
+service redis-server start      # 启动
+service redis-server stop       # 停止
+service redis-server restart    # 重启
+service redis-server status     # 查看状态
+
+# 10. 等价的更短写法（很多系统都支持）
+service redis start
+service redis stop
+service redis restart
+service redis status
+
+# 11. 直接调用 init 脚本（永远有效）
+/etc/init.d/redis-server start
+/etc/init.d/redis-server stop
+/etc/init.d/redis-server restart
+/etc/init.d/redis-server status
+
+# 12. 查看进程
+ps aux | grep redis
+pgrep -fl redis
+```
 
 
 
