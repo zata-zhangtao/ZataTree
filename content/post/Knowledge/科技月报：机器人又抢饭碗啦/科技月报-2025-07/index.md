@@ -1,12 +1,12 @@
 ---
-title: 科技周报：机器人又抢饭碗啦
+title: 科技月报-2025-07
 description: "记录每周最新的科技动态、开源项目和技术趋势，关注AI、机器学习、开发工具等前沿技术发展"
 date: 2025-05-14T11:30:35+08:00
 image: images/index/index.png
 categories:
     - Knowledge
 tags:
-    - 科技周报
+    - 科技月报
 ---
 
 

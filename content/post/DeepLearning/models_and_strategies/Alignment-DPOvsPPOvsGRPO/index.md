@@ -1,5 +1,5 @@
 ---
-title: DPOvsPPO
+title: Alignment-DPOvsPPOvsGRPO
 description: ""
 date: 2025-11-25T20:51:18+08:00
 image: images/index/index.png
@@ -7,6 +7,88 @@ categories:
     - DeepLearning
 tags:
     - models_and_strategies
+---
+
+
+### GRPO
+
+
+**GRPO (Group Relative Policy Optimization)** 是一种高效的强化学习（RL）算法，专门用于大型语言模型（LLM）的后训练阶段（Post-training）。
+
+它由 **DeepSeek** 团队在发布 DeepSeekMath 和 DeepSeek-R1（推理模型）时作为核心技术推出。GRPO 的最大创新在于**摒弃了传统 PPO（近端策略优化）中昂贵的“评论家”（Critic / Value Function）模型**，从而极大地降低了训练时的显存占用和计算成本。
+
+以下是关于 GRPO 的详细技术介绍：
+
+-----
+
+### 1\. 核心概念：什么是 GRPO？
+
+  * **全称**：Group Relative Policy Optimization
+  * **中文直译**：组相对策略优化
+  * **核心思想**：
+    在传统的强化学习（如 PPO）中，我们需要一个“评论家”模型来预测当前状态的价值，以计算“优势函数”（Advantage）。
+    GRPO 发现，我们可以通过对同一个问题（Prompt）采样**一组（Group）不同的回答，利用这一组回答的平均奖励**作为基准（Baseline），来计算每个回答的相对好坏。这样就不再需要一个额外的神经网络来做“评论家”了。
+
+### 2\. GRPO 的工作原理（算法流程）
+
+GRPO 的训练过程可以简单概括为“**小组赛马，优胜劣汰**”：
+
+1.  **生成（Group Sampling）**：
+    对于每一个输入的问题 $q$，模型（Actor）会生成一组 $G$ 个不同的输出 $\{o_1, o_2, ..., o_G\}$。
+
+      * *例如：给模型一道数学题，让它生成 64 种不同的解题过程。*
+
+2.  **打分（Reward Calculation）**：
+    使用奖励模型（Reward Model）或规则（如数学题答案是否正确）给这 $G$ 个输出分别打分，得到奖励值 $\{r_1, r_2, ..., r_G\}$。
+
+3.  **计算优势（Advantage Estimation）**：
+    这是 GRPO 的精髓。它不依赖外部模型来判断“好坏”，而是计算每个输出在**当前这组输出中**的相对表现。
+    公式逻辑简化为：
+    $$A_i = \frac{r_i - \text{mean}(R)}{\text{std}(R)}$$
+
+      * $A_i$：第 $i$ 个回答的优势值。
+      * $\text{mean}(R)$：这组回答的平均分。
+      * 如果一个回答的分数高于平均分，它的优势就是正的（被鼓励）；反之则是负的（被抑制）。
+
+4.  **策略更新（Policy Optimization）**：
+    利用计算出的优势值 $A_i$，通过梯度下降更新模型的参数，使其下一次更有可能生成高分回答。同时，GRPO 会在损失函数中加入 **KL 散度（KL Divergence）** 项，防止模型更新步子太大，偏离原始模型（Reference Model）太远，导致训练崩塌。
+
+-----
+
+### 3\. GRPO vs. PPO：关键区别
+
+这是理解 GRPO 价值的最重要部分。PPO 是 ChatGPT 等模型使用的传统方法，而 GRPO 做出了重大简化。
+
+| 特性 | PPO (Proximal Policy Optimization) | GRPO (Group Relative Policy Optimization) |
+| :--- | :--- | :--- |
+| **模型组件** | 需要 4 个模型：<br>1. Actor (当前策略)<br>2. **Critic (价值网络)**<br>3. Ref (参考模型)<br>4. Reward (奖励模型) | 只需要 3 个模型：<br>1. Actor (当前策略)<br>2. Ref (参考模型)<br>3. Reward (奖励模型)<br>**❌ 移除了 Critic** |
+| **显存占用** | **极高**。Critic 模型通常和 Actor 一样大，训练时需要加载两个巨型模型。 | **较低**。节省了 Critic 模型的显存，通常能节省 30%-50% 的资源。 |
+| **计算优势的方式** | 依赖 Critic 模型预测的“价值”来计算 GAE (Generalized Advantage Estimation)。 | 依赖**组内平均分**（Group Mean）作为基准。 |
+| **计算复杂度** | 高，需要前向和反向传播 Critic 网络。 | 低，仅涉及简单的统计计算。 |
+
+### 4\. GRPO 的核心优势
+
+1.  **大幅降低训练成本**：
+    由于不需要训练和推理那个和 LLM 一样大的 Critic 模型，显存需求大幅下降。这意味着在同样的硬件上，你可以训练参数量更大的模型，或者使用更大的 Batch Size。
+
+2.  **更适合“推理”任务**：
+    DeepSeek-R1 的成功证明了 GRPO 非常适合数学、代码等逻辑推理任务。在这些任务中，通过多次采样（生成多种解法）来寻找正确路径是一种非常自然的学习方式。
+
+3.  **训练稳定性**：
+    虽然移除了 Critic，但 GRPO 通过组内归一化（Group Normalization）和 KL 惩罚项，依然保持了非常稳定的训练过程，不仅没有损失效果，在数学推理榜单（如 GSM8K, MATH）上甚至超越了传统 PPO。
+
+### 5\. 总结
+
+**GRPO 是强化学习在 LLM 时代的一次“减法”革命。**
+
+它证明了在拥有强大基础模型（Base Model）的前提下，我们不需要复杂的价值网络来指导模型，只需要让模型“自己和自己比”（在一组生成结果中比较），就能高效地进化出强大的推理能力。这也是 DeepSeek 系列模型能够以较低成本取得高性能的关键技术之一。
+
+
+---
+
+分割线
+2025-11-26
+
 ---
 
 
