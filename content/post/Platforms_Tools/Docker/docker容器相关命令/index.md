@@ -11,6 +11,8 @@ tags:
 
 
 
+
+
 - [docker容器常用命令](#docker容器常用命令)
   - [镜像 (Image) 相关命令](#镜像-image-相关命令)
   - [容器 (Container) 相关命令](#容器-container-相关命令)
@@ -63,6 +65,20 @@ tags:
   - [wsl中镜像网络与docker网络冲突，使用netsh winsock reset修改网络设置之后，docker连不上 -- 解决](#wsl中镜像网络与docker网络冲突使用netsh-winsock-reset修改网络设置之后docker连不上----解决)
   - [具有SSL证书的后端在docker环境中出现问题](#具有SSL证书的后端在docker环境中出现问题)
 
+
+
+### docker 安装
+
+#### windows 安装docker desktop
+
+
+![wsl 设置](images/index/image-9.png)
+
+![vpn设置](images/index/image-10.png)
+
+如果需要查询vpm有没有在容器里面生效
+
+![curl -L ipinfo.io](images/index/image-11.png)
 
 
 
