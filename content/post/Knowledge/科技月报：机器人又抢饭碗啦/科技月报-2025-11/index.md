@@ -11,8 +11,13 @@ tags:
 
 
 
+# deepseek推出数学模型
 
-# Google Gemini API File Search / Long Context 
+[text](https://mp.weixin.qq.com/s/9bE7IfkthJBdSgfTEKw2Ng)
+
+
+
+# Google Gemini API File Search / Long Context
 
 [ RAG被判死刑：Google用一行API架空工程师！](https://mp.weixin.qq.com/s/6A4Dk14MejdvXdPSnBVfbA)
 
