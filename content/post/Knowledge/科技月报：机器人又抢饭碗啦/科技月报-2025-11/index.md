@@ -1,5 +1,5 @@
 ---
-title: 科技月报-2025-11
+title: 科技月报-2025
 description: ""
 date: 2025-11-26T15:22:18+08:00
 image: images/index/index.png
@@ -13,15 +13,29 @@ tags:
 
 # deepseek推出数学模型
 
+<<<<<<< Updated upstream
 [text](https://mp.weixin.qq.com/s/9bE7IfkthJBdSgfTEKw2Ng)
 
 
 
 # Google Gemini API File Search / Long Context
+=======
+# 2025-12
+
+## claude skills
+
+[text](https://zhuanlan.zhihu.com/p/1966598753134842902)
+
+[text](https://zhuanlan.zhihu.com/p/1964987120679645931)
+
+# 2025-11
+
+## Google Gemini API File Search / Long Context 
+>>>>>>> Stashed changes
 
 [ RAG被判死刑：Google用一行API架空工程师！](https://mp.weixin.qq.com/s/6A4Dk14MejdvXdPSnBVfbA)
 
-## 1. 核心架构思维转变
+### 1. 核心架构思维转变
 
 Google 的方案并不是传统的 RAG（检索），而是基于 **Long Context (长上下文)** 的全量处理。
 
@@ -33,7 +47,7 @@ Google 的方案并不是传统的 RAG（检索），而是基于 **Long Context
 
 ---
 
-## 2. 环境准备
+### 2. 环境准备
 
 需要安装 Google 官方 Python SDK：
 
@@ -45,7 +59,7 @@ pip install -U google-generativeai
 
 -----
 
-## 3\. Python 实战代码 (MVP)
+### 3. Python 实战代码 (MVP)
 
 这是一个最小可行性脚本，包含了**文件上传**、**状态轮询**和**生成回答**的全流程。
 
@@ -144,7 +158,7 @@ if __name__ == "__main__":
 
 -----
 
-## 4\. 关键测试点 (PoC 验证清单)
+### 4\. 关键测试点 (PoC 验证清单)
 
 在验证此方案是否能替代现有 RAG 时，请着重测试以下三点：
 
@@ -167,7 +181,7 @@ if __name__ == "__main__":
 
 -----
 
-## 5\. 进阶：Context Caching (降本增效)
+### 5\. 进阶：Context Caching (降本增效)
 
 如果你的场景是“**一个大文档，被反复提问**”（例如：员工手册 bot、API 文档助手），直接每次上传或传入 Token 会非常贵。
 
