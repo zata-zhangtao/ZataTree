@@ -11,27 +11,23 @@ tags:
 
 
 
-# deepseek推出数学模型
 
-<<<<<<< Updated upstream
-[text](https://mp.weixin.qq.com/s/9bE7IfkthJBdSgfTEKw2Ng)
-
-
-
-# Google Gemini API File Search / Long Context
-=======
 # 2025-12
 
 ## claude skills
 
 [text](https://zhuanlan.zhihu.com/p/1966598753134842902)
 
-[text](https://zhuanlan.zhihu.com/p/1964987120679645931)
+[深刻理解Claude Skills-构建AI时代的组织和个体进化之路-加速从AI Agent到Agentic AI演进-zhihu](https://zhuanlan.zhihu.com/p/1964987120679645931)
+
+## deepseek推出数学模型
+
+[text](https://mp.weixin.qq.com/s/9bE7IfkthJBdSgfTEKw2Ng)
+
 
 # 2025-11
 
 ## Google Gemini API File Search / Long Context 
->>>>>>> Stashed changes
 
 [ RAG被判死刑：Google用一行API架空工程师！](https://mp.weixin.qq.com/s/6A4Dk14MejdvXdPSnBVfbA)
 

@@ -31,6 +31,8 @@ tags:
 - 我感觉上，最好把一个任务拆分成非常细的list，然后每一步人工检查一下claude做的对不对，如果让它一次性做很多，最后可能会不太可用，而且需要返工很久
 
 
+- IS_SANDBOX=1 claude --dangerously-skip-permissions  如果在容器中开发，可以使用如上指令让它自动执行
+
 
 
 
