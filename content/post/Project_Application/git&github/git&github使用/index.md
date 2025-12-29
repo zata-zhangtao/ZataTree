@@ -59,6 +59,7 @@ tags: ["git&github","教程"]
   - [githook脚本版本控制管理](#githook脚本版本控制管理)
   - [用git hooks解决github大文件报错，100M限制或50M限制|大文件|50M|git hooks|git](#用githooks解决github大文件报错100M限制或50M限制-大文件-50M-githooks-git)
   - [error: cannot lock ref 'refs/remotes/XXX/main': is at XXX...XXX but expected YYY...YYY 解决](#cannot_lock_ref_error)  
+  - [一个电脑想要同时使用两个github账号ssh登录](#一个电脑想要同时使用两个github账号ssh登录)
 
 - **实战**
   - [Git 项目依赖管理：Submodule 与 Subtree 实战教程](#Git项目依赖管理-Submodule与Subtree实战教程)
@@ -2648,6 +2649,30 @@ git remote remove old_repo
 | **作为分支合并** | 物理上整合代码 | **丢失Issues/PRs等记录**、操作复杂 | ⭐ |
 
 **结论：** 对于"长期不用但想完整保留"的场景，请始终选择**归档 (Archive)**。
+
+### 一个电脑想要同时使用两个github账号ssh登录
+
+1. 第一步，生成另一个账号专用的ssh密钥和公钥，然后把公钥复制到那个账号的github里面
+
+2. 配置客户端以使用正确账号
+
+vim  ~/.ssh/config
+
+```bash
+# zata-zhangtao 账号专用
+Host github.com-zata
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_ed25519_zata
+  IdentitiesOnly yes
+```
+
+3. 然后更新 remote URL ，使用自定义的Host 
+
+```bash
+# 例如原本是： git@github.com:zata-zhangtao/ZataTree.git ，改成
+git remote set-url zata git@github.com-zata:zata-zhangtao/ZataTree.git  
+```
 
 
 
