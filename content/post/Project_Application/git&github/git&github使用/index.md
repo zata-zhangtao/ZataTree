@@ -66,6 +66,16 @@ tags: ["git&github","教程"]
   - [如何将 clone 下来的项目推送到自己的新仓库并同步原始仓库更新](#如何将clone下来的项目推送到自己的新仓库并同步原始仓库更新)
 
 ##  git基本使用
+
+
+### 安装
+
+1. windows 安装
+
+![推荐使用便携版](images/index/image-30.png)
+![bin目录添加到环境变量](images/index/image-31.png)
+
+
 ### 简单常用命令
 
 ```bash
@@ -139,992 +149,6 @@ git reset --hard  【版本号】
 --.gitignore--------------------
 test* 忽略以test开头的文件
 ```
-
-## 复杂命令
-
-
----
-
-### 查看提交历史 (`git log`)
-
-```bash
-# 查看提交历史（详细）
-git log
-# 单行显示提交历史
-git log --oneline
-# 显示分支和合并的图形化历史
-git log --oneline --graph
-# 显示所有分支的提交历史
-git log --oneline --graph --all
-```
-- **作用**: 显示提交历史，包括提交哈希、作者、日期和提交信息。
-- **示例输出**:
-  ```
-  *   a1b2c3d (HEAD -> main) Merge branch 'feature'
-  |\
-  | * 9e8f7g6 (feature) Add new feature
-  | * 4d5e6f7 Implement feature X
-  * | 2b3c4d5 Fix bug in main
-  * 0f9e8d7 Initial commit
-  ```
-
--  高级选项
-```bash
-# 显示最近 n 次提交
-git log -n <number>
-# 示例：显示最近 3 次提交
-git log -3
-
-# 按作者过滤
-git log --author="Author Name"
-
-# 按时间范围过滤
-git log --since="2025-01-01" --until="2025-07-01"
-
-# 显示特定文件的提交历史
-git log -- <file-path>
-# 示例：查看 README.md 的提交历史
-git log -- README.md
-
-# 显示提交的详细变更
-git log -p
-# 显示简化的变更统计
-git log --stat
-
-# 按提交信息搜索
-git log --grep="keyword"
-
-# 显示分支间的差异提交
-git log <branch1>..<branch2>
-# 示例：显示 feature 分支独有的提交
-git log main..feature
-```
-
-- 格式化输出
-```bash
-# 自定义输出格式
-git log --pretty=format:"%h %an %ar %s"
-# 格式说明：
-# %h: 短哈希
-# %an: 作者名
-# %ar: 相对时间
-# %s: 提交信息
-```
-
-- 注意事项
-- 使用 `--oneline --graph --all` 适合快速概览分支结构。
-- 对于复杂仓库，输出可能较长，可用 `less`（默认分页器）浏览，或结合 `-n` 限制输出。
-- 如果需要交互式查看历史，推荐使用工具如 `tig` 或图形化界面（如 GitKraken）。
-
----
-
-### 3. 远程仓库操作 (`git remote`)
-
-#### 查看远程仓库
-```bash
-# 查看远程仓库信息
-git remote -v
-# 示例输出：
-# origin  https://github.com/user/repo.git (fetch)
-# origin  https://github.com/user/repo.git (push)
-```
-
-#### 添加远程仓库
-```bash
-git remote add <remote-name> <repository-url>
-# 示例：添加 origin 远程仓库
-git remote add origin https://github.com/user/repo.git
-```
-
-#### 删除远程仓库
-```bash
-git remote rm <remote-name>
-# 示例：删除 origin
-git remote rm origin
-```
-
-#### 修改远程仓库地址
-```bash
-git remote set-url <remote-name> <new-url>
-# 示例：修改 origin 的 URL
-git remote set-url origin https://github.com/user/new-repo.git
-```
-
-#### 查看远程分支
-```bash
-git fetch origin
-git branch -r
-# 示例输出：
-# origin/main
-# origin/feature
-```
-
-#### 注意事项
-- `git fetch` 更新本地对远程仓库的索引，但不合并代码。
-- 确保远程 URL 有效，HTTPS 和 SSH 协议均可使用。
-
----
-
-### 4. 分支管理 (`git branch`)
-
-#### 创建分支
-```bash
-git branch <branch-name>
-# 示例：创建 feature 分支
-git branch feature
-```
-
-#### 创建并切换到新分支
-```bash
-git checkout -b <branch-name>
-# 示例：创建并切换到 feature 分支
-git checkout -b feature
-```
-
-#### 创建空白分支
-```bash
-git checkout --orphan <branch-name>
-# 示例：创建空分支 new-branch
-git checkout --orphan new-branch
-```
-- **作用**: 创建一个没有历史记录的分支，适合初始化全新内容。
-- **注意**: 创建后需手动提交初始内容。
-
-#### 重命名分支
-```bash
-# 重命名当前分支
-git branch -m <new-name>
-# 重命名指定分支
-git branch -m <old-name> <new-name>
-# 示例：将 feature 重命名为 new-feature
-git branch -m feature new-feature
-```
-
-#### 删除分支
-```bash
-# 删除已合并的分支
-git branch -d <branch-name>
-# 示例：删除 feature 分支
-git branch -d feature
-
-# 强制删除未合并的分支
-git branch -D <branch-name>
-# 示例：强制删除 feature 分支
-git branch -D feature
-```
-
-#### 查看分支
-```bash
-# 查看本地分支
-git branch
-# 查看远程分支
-git branch -r
-# 查看所有分支（本地+远程）
-git branch -a
-# 查看分支详细信息（包括最后提交）
-git branch -vv
-```
-
-#### 远程分支重命名
-```bash
-# 重命名本地分支
-git branch -m <old-name> <new-name>
-# 删除远程分支
-git push --delete origin <old-name>
-# 推送新分支到远程
-git push origin <new-name>
-# 设置本地分支跟踪远程分支
-git branch --set-upstream-to=origin/<new-name>
-```
-
-#### 注意事项
-- 删除分支前确保分支已合并或不再需要，`-D` 会强制删除未合并分支，谨慎使用。
-- 远程分支操作需推送至远程仓库，需有相应权限。
-
----
-
-### 5. 切换与检出 (`git checkout`)
-
-#### 切换分支
-```bash
-git checkout <branch-name>
-# 示例：切换到 feature 分支
-git checkout feature
-```
-
-#### 检出特定提交
-```bash
-git checkout <commit-hash>
-# 示例：检出某次提交
-git checkout a1b2c3d
-```
-- **注意**: 进入"分离头指针"状态，提交会丢失，除非创建新分支保存。
-
-#### 强制检出（丢弃更改）
-```bash
-git checkout -f <branch-name>
-# 示例：强制切换到 main，丢弃当前更改
-git checkout -f main
-```
-
-#### 创建并切换分支
-```bash
-git checkout -b <branch-name>
-# 示例：创建并切换到 feature 分支
-git checkout -b feature
-```
-
-#### 恢复文件
-```bash
-# 恢复指定文件到最近提交状态
-git checkout -- <file-path>
-# 示例：恢复 README.md
-git checkout -- README.md
-```
-
-#### 注意事项
-- `git checkout` 在 Git 2.23 后部分功能被 `git switch` 和 `git restore` 替代，但仍广泛使用。
-- 分离头指针状态下提交需谨慎，建议立即创建分支。
-
----
-
-### 6. 拉取代码 (`git pull`)
-
-#### 基本用法
-```bash
-# 拉取并合并远程分支
-git pull <remote-name> <branch-name>
-# 示例：拉取 origin 的 main 分支
-git pull origin main
-```
-
-#### 允许无关历史合并
-```bash
-git pull origin <branch-name> --allow-unrelated-histories
-# 示例：拉取 master 分支，允许无关历史
-git pull origin master --allow-unrelated-histories
-```
-- **作用**: 合并两个没有共同祖先的仓库历史。
-- **注意**: 可能导致冲突，需手动解决。
-
-#### 只拉取不合并
-```bash
-git pull --no-commit
-# 示例：拉取但不自动提交合并
-git pull origin main --no-commit
-```
-
-#### 注意事项
-- `git pull` 相当于 `git fetch` + `git merge`，可通过 `--rebase` 改为变基合并。
-- 确保工作区干净，否则可能报错。
-
----
-
-### 7. 合并操作 (`git merge`)
-
-#### 基本用法
-```bash
-# 合并分支到当前分支
-git checkout <target-branch>
-git merge <source-branch>
-# 示例：将 feature 合并到 main
-git checkout main
-git merge feature
-```
-
-#### 合并远程分支
-```bash
-git merge origin/<branch-name>
-# 示例：合并远程 feature 分支
-git merge origin/feature
-```
-
-#### 处理合并冲突
-- 如果合并时出现冲突：
-  1. 查看冲突文件（标记为 `<<<<<<<`、`=======`、`>>>>>>>`）。
-  2. 手动编辑解决冲突。
-  3. 标记已解决：`git add <file>`。
-  4. 继续合并：`git merge --continue`。
-  5. 或放弃合并：`git merge --abort`。
-
-#### 高级选项
-```bash
-# 不创建合并提交（fast-forward）
-git merge --ff-only <branch-name>
-# 强制创建合并提交
-git merge --no-ff <branch-name>
-# 放弃自动提交，需手动提交
-git merge --no-commit <branch-name>
-```
-
-#### 注意事项
-- Fast-forward 合并会保持线性历史，但可能丢失分支信息。
-- 合并前确保当前分支干净，必要时使用 `git stash` 保存更改。
-
----
-
-### 8. 标签管理 (`git tag`)
-
-#### 创建标签
-```bash
-# 创建轻量标签
-git tag <tag-name>
-# 创建带注释标签
-git tag -a <tag-name> -m "message"
-# 为特定提交打标签
-git tag <tag-name> <commit-hash>
-# 创建带 GPG 签名的标签
-git tag -s <tag-name> -m "message"
-```
-
-#### 查看标签
-```bash
-# 列出所有标签
-git tag
-# 按模式查找标签
-git tag -l "<pattern>"
-# 示例：查找 v1.* 标签
-git tag -l "v1.*"
-# 查看标签详情
-git show <tag-name>
-```
-
-#### 推送标签
-```bash
-# 推送单个标签
-git push origin <tag-name>
-# 推送所有标签
-git push origin --tags
-```
-
-#### 删除标签
-```bash
-# 删除本地标签
-git tag -d <tag-name>
-# 删除远程标签
-git push origin --delete <tag-name>
-```
-
-#### 检出标签
-```bash
-git checkout <tag-name>
-# 示例：检出 v1.0
-git checkout v1.0
-```
-- **注意**: 检出标签进入分离头指针状态，建议创建新分支。
-
-#### 注意事项
-- 标签通常用于标记版本发布（如 `v1.0`）。
-- 带注释标签（`-a`）包含更多元数据，适合正式发布。
-
----
-
-### 9. 撤销操作 (`git revert`)
-
-#### 基本用法
-```bash
-# 撤销最近一次提交
-git revert HEAD
-# 撤销指定提交
-git revert <commit-hash>
-# 示例：撤销提交 abc123
-git revert abc123
-```
-
-#### 高级选项
-```bash
-# 不自动提交
-git revert -n <commit-hash>
-# 撤销合并提交（指定主线分支）
-git revert -m 1 <merge-commit-hash>
-# 使用默认提交信息
-git revert --no-edit <commit-hash>
-```
-
-#### 撤销连续提交
-```bash
-# 撤销从 old 到 new 的提交
-git revert <old-commit-hash>..<new-commit-hash>
-# 示例：撤销 abc123 到 def456
-git revert abc123..def456
-```
-
-#### 处理冲突
-- 解决冲突后：
-  1. 编辑冲突文件。
-  2. 添加文件：`git add <file>`。
-  3. 继续：`git revert --continue`。
-  4. 或放弃：`git revert --abort`。
-
-#### 注意事项
-- `git revert` 创建新提交，不会修改历史，适合公共仓库。
-- 对比 `git reset`，后者会重写历史，仅限私有仓库。
-
----
-
-### 10. 查看提交详情 (`git show`)
-
-#### 基本用法
-```bash
-# 查看 HEAD 提交详情
-git show
-# 查看指定提交详情
-git show <commit-hash>
-# 查看提交中某个文件的变更
-git show <commit-hash> -- <file-path>
-# 查看分支最新提交
-git show <branch-name>
-# 查看标签详情
-git show <tag-name>
-```
-
-#### 注意事项
-- `git show` 显示提交的元数据（作者、日期等）和变更内容。
-- 适合快速检查特定提交的细节。
-
----
-
-### 11. 临时保存更改 (`git stash`)
-
-#### 基本用法
-```bash
-# 保存当前更改到 stash 栈
-git stash
-# 保存并添加描述
-git stash push -m "message"
-# 保存包括未跟踪文件
-git stash push --include-untracked
-```
-
-#### 查看 stash
-```bash
-# 列出所有 stash
-git stash list
-# 示例输出：
-# stash@{0}: On main: WIP on feature X
-# stash@{1}: On main: Initial changes
-```
-
-#### 恢复 stash
-```bash
-# 恢复最新 stash（保留 stash）
-git stash apply
-# 恢复指定 stash
-git stash apply stash@{n}
-# 恢复并删除最新 stash
-git stash pop
-```
-
-#### 删除 stash
-```bash
-# 删除指定 stash
-git stash drop stash@{n}
-# 清空所有 stash
-git stash clear
-```
-
-#### 注意事项
-- `git stash` 适合临时保存未提交的更改，切换分支时使用。
-- 未跟踪文件需用 `--include-untracked` 保存。
-
----
-
-### 12. 备份与打包 (`git bundle`)
-
-#### 创建备份
-```bash
-# 打包指定分支
-git bundle create <bundle-name>.bundle HEAD <branch-name>
-# 示例：打包 main 分支
-git bundle create repo.bundle HEAD main
-```
-
-#### 验证备份
-```bash
-git bundle verify <bundle-name>.bundle
-```
-
-#### 恢复备份
-```bash
-# 从 bundle 文件克隆
-git clone <bundle-name>.bundle
-```
-
-#### 注意事项
-- `git bundle` 适合离线备份或迁移仓库。
-- 确保接收端有足够权限和兼容的 Git 版本。
-
----
-
-### 13. 变基操作 (`git rebase`)
-
-#### 基本用法
-```bash
-# 将当前分支变基到目标分支
-git checkout <feature-branch>
-git rebase <target-branch>
-# 示例：将 feature 变基到 main
-git checkout feature
-git rebase main
-```
-
-#### 交互式变基
-```bash
-# 交互式变基最近 n 次提交
-git rebase -i HEAD~n
-# 示例：编辑最近 3 次提交
-git rebase -i HEAD~3
-```
-- **选项**:
-  - `pick`: 保留提交。
-  - `reword`: 修改提交信息。
-  - `edit`: 编辑提交内容。
-  - `squash`: 合并到前一个提交。
-  - `drop`: 删除提交。
-
-#### 处理冲突
-- 解决冲突后：
-  1. 编辑冲突文件。
-  2. 添加文件：`git add <file>`。
-  3. 继续变基：`git rebase --continue`。
-  4. 或放弃变基：`git rebase --abort`。
-
-#### 注意事项
-- 变基会重写历史，仅限私有分支，公共分支避免使用。
-- 相比 `git merge`，变基保持线性历史，但更复杂。
-
----
-
-### 14. 重置操作 (`git reset`)
-
-#### 基本用法
-```bash
-# 撤销暂存区的更改（保留工作区）
-git reset <file>
-# 软重置（保留工作区和暂存区）
-git reset --soft <commit-hash>
-# 硬重置（丢弃工作区和暂存区）
-git reset --hard <commit-hash>
-# 示例：重置到指定提交
-git reset --hard abc123
-```
-
-#### 注意事项
-- `git reset --hard` 会丢失所有未提交更改，谨慎使用。
-- 仅限私有仓库，公共仓库使用 `git revert` 更安全。
-
----
-
-### 15. 状态与差异 (`git status` & `git diff`)
-
-#### 查看状态
-```bash
-# 查看工作区和暂存区状态
-git status
-# 简短输出
-git status -s
-```
-
-#### 查看差异
-```bash
-# 查看工作区与暂存区的差异
-git diff
-# 查看暂存区与最近提交的差异
-git diff --staged
-# 查看两个提交间的差异
-git diff <commit1> <commit2>
-```
-
-#### 注意事项
-- `git status` 是检查工作区状态的常用命令。
-- `git diff` 适合审查代码变更。
-
----
-
-### 16. 提交操作 (`git commit`)
-
-#### 基本用法
-```bash
-# 提交暂存区内容
-git commit -m "commit message"
-# 提交所有已跟踪的更改
-git commit -a -m "commit message"
-```
-
-#### 修改提交
-```bash
-# 修改最近一次提交（不更改提交信息）
-git commit --amend --no-edit
-# 修改最近一次提交信息
-git commit --amend -m "new message"
-```
-
-#### 注意事项
-- `--amend` 会重写提交历史，谨慎用于公共仓库。
-- 提交信息应清晰简洁，描述更改内容。
-
----
-
-### 17.  工作树 （git worktree）
-
-``` bash
-# 创建新的工作树
-git worktree add <路径> <分支>
-
-# 列出所有工作树
-git worktree list
-
-# 删除工作树
-git worktree remove <路径>
-
-# 清理无用的工作树元数据
-git worktree prune
-
-# 移动工作树
-git worktree move <旧路径> <新路径>
-
-# 锁定工作树
-git worktree lock <路径>
-
-# 解锁工作树
-git worktree unlock <路径>
-```
-
-#### 工作树删除详解 (`git worktree remove`)
-
-当你使用 `git worktree remove` 删除一个工作树时，Git 会删除对应的工作目录（文件夹），但不会删除关联的分支。这是 Git 工作树的预期行为，因为工作树只是分支的一个工作副本，分支本身是存储在 Git 仓库中的引用。
-
-##### 1. 为什么分支还存在？
-- `git worktree remove <path>` 只会删除指定路径的工作树（即文件夹及其内容），并清理工作树相关的元数据（存储在 `.git/worktrees/` 目录中）。
-- 分支本身是独立的，存储在 `.git/refs/heads/` 或其他引用中，因此删除工作树不会影响分支的存在。
-- 如果工作树中有未提交的更改，Git 在默认情况下会阻止删除，除非你使用 `--force` 选项强制删除。
-
-##### 2. 如何确认分支仍然存在？
-你可以通过以下命令确认分支是否仍然存在：
-```bash
-git branch
-```
-这会列出所有本地分支。如果分支仍然存在，你会看到它在列表中。
-
-##### 3. 如果你想删除分支
-如果你希望同时删除分支，可以手动删除它：
-```bash
-git branch -d <branch-name>
-```
-- `-d`：删除分支，前提是分支已完全合并到其他分支（比如 `main` 或 `master`）。
-- 如果分支未合并，可以使用 `-D` 强制删除：
-  ```bash
-  git branch -D <branch-name>
-  ```
-
-##### 4. 如果你误删了工作树但想恢复
-如果你删除了工作树，但分支仍然存在，你可以轻松重新创建一个新的工作树：
-```bash
-git worktree add <new-path> <branch-name>
-```
-- `<new-path>`：新的工作目录路径。
-- `<branch-name>`：你想恢复的工作树关联的分支。
-
-例如：
-```bash
-git worktree add ../new-worktree my-branch
-```
-这会在 `../new-worktree` 目录中重新创建一个基于 `my-branch` 的工作树。
-
-##### 5. 检查工作树状态
-你可以用以下命令查看当前的工作树列表，确认是否还有其他工作树：
-```bash
-git worktree list
-```
-这会显示所有工作树及其关联的分支和路径。
-
-##### 6. 如果工作树中有未提交的更改被删除
-如果你在删除工作树时使用了 `git worktree remove --force`，并且工作树中有未提交的更改，这些更改可能已经丢失，因为工作目录被物理删除。Git 不会自动备份这些更改。
-
-在这种情况下：
-- 检查是否还有其他工作树或备份。
-- 如果你有提交历史，可以尝试从分支的最新提交恢复：
-  ```bash
-  git checkout <branch-name>
-  git log
-  ```
-  然后基于某个提交重新创建工作树。
-
-##### 7. 预防措施
-- 在使用 `git worktree remove` 时，始终确保工作树中的更改已提交或存储（比如通过 `git stash`）。
-- 如果你不确定是否需要保留分支，可以在删除工作树后检查分支状态。
-
-##### 总结
-`git worktree remove` 删除的是工作目录，不会影响分支本身。如果你想删除分支，使用 `git branch -d` 或 `git branch -D`。如果需要恢复工作树，可以用 `git worktree add` 重新创建。如果你有其他具体问题（比如误删了未提交的更改），请提供更多细节，我可以进一步帮助你！
-
-
-### 18. 其他实用命令
-
-#### 清理工作区
-```bash
-# 删除未跟踪的文件和目录
-git clean -fd
-# 清理未跟踪文件并显示预览
-git clean -n
-
-# 取消追踪某种类型文件
-find . -name "*.pyc"   # 必须检查一下，防止出问题
-git rm -r --cached "*.pyc" 
-```
-
-#### 查看引用日志
-```bash
-# 查看所有操作记录（包括重置、变基等）
-git reflog
-# 示例：恢复被重置的提交
-git checkout <commit-hash-from-reflog>
-```
-
-#### 子模块管理
-```bash
-# 添加子模块
-git submodule add <repository-url>
-# 更新子模块
-git submodule update --init --recursive
-```
-
-#### 注意事项
-- `git reflog` 可帮助恢复丢失的提交。
-- 子模块适用于管理嵌套仓库。
-
----
-
-### Git项目依赖管理-Submodule与Subtree实战教程
-
-在开发中，我们经常需要在一个项目里引入另一个项目（如公用库、SDK 等）。Git 提供了两种主流的解决方案：`git submodule` (子模块) 和 `git subtree` (子树)。本教程将帮助你理解它们的核心区别，并为你提供清晰的选择指引和操作步骤。
-
-#### 核心区别：链接 vs. 复制
-
-  * **`git submodule` (子模块)**：像一个**指针或链接**。你的主项目只保存一个指向外部项目特定版本（commit ID）的引用。两个项目的历史完全独立。
-  * **`git subtree` (子树)**：像一次**代码复制**。它将外部项目的代码文件和 Git 历史完全合并到你的主项目中，使其成为主项目的一个普通子目录。
-
------
-
-### 方法一：`git submodule` - 精准的版本链接
-
-如果你已经拉取了主仓库（如果拉取卡住可能是ssh网络不好，可以移除子文件夹然后通过链接克隆）
-执行以下命令，它会一次性完成初始化和更新（包括嵌套的子模块）：
-```bash
-git submodule update --init --recursive
-
-# 如果上面ssh卡住，使用http
-rm -rf <子模块文件夹> && git clone <仓库地址> <子模块文件夹>
-```
-
-![子模块克隆卡住问题](images/index/image-29.png)
-如果你事先知道一个仓库包含子模块，可以在 git clone 的时候就一次性把所有事情做完。
-使用 --recurse-submodules 或 --recursive 标志：
-
-```Bash
-git clone --recurse-submodules <主仓库地址>
-```
-
-
-
-
-----
-
-这是 Git 官方推荐的、功能更强大的方式，适用于需要严格版本控制和历史分离的场景。
-
-**适用场景：**
-
-  * 引入你不常修改的**第三方库**。
-  * 需要将项目依赖**精确锁定**在某个特定版本。
-  * 团队成员都熟悉 Git，不介意多一个操作步骤。
-
-**关键操作：**
-
-1.  **添加子模块**
-
-    ```bash
-    # 语法: git submodule add <仓库URL> <本地路径>
-    git submodule add https://github.com/some-user/my-library.git libs/my-library
-    ```
-
-    这里我一开始是遇到了错误，因为我先手动创建了nirapi文件夹，但是不能这样做，需要让submodule创建，另一个点就是，他会默认拉去github仓库的默认分支，而不是mian分支
-    ![git submodule](images/index/image-24.png)
-
-    现在去source control界面就可以看见submodule了
-    ![source control](images/index/image-25.png)
-
-2.  **提交改动**
-
-    ```bash
-    git add .gitmodules libs/my-library
-    git commit -m "feat: Add my-library as a submodule"
-    git push #  这个的前提是已经绑定了本地和远程分支的关系，不然这样会报错的
-    ```
-    ![git add  commit ](images/index/image-26.png)
-    ![responsitories](images/index/image-27.png)
-
-3.  **克隆项目 (协作者必看)**
-    必须使用特定参数才能同时拉取子模块的代码。
-
-    ```bash
-    # 推荐：克隆时一次性初始化
-    git clone --recurse-submodules <你的主项目URL>
-
-    # 如果已克隆，则用此命令补救
-    git submodule update --init
-    ```
-
-4.  **更新子模块**
-    拉取子模块的最新代码，并更新主项目的引用。
-
-    ```bash
-    # 进入子模块目录，拉取最新代码
-    cd libs/my-library
-    git pull origin main
-
-    # 返回主项目，提交引用更新
-    cd ../..
-    git add libs/my-library
-    git commit -m "chore: Update my-library to latest"
-    git push
-    ```
-
------
-
-### 方法二：`git subtree` - 简单的代码集成
-
-这是一种更简单直观的方式，它将外部代码"吸收"成项目的一部分，对协作者非常友好。
-
-**适用场景：**
-
-  * 引入**团队内部**的共享组件，你可能需要经常修改它。
-  * 希望**简化团队协作**，避免成员学习额外的 `submodule` 命令。
-  * 不介意主项目的 Git 历史变得更复杂。
-
-**关键操作：**
-
-1.  **添加子树**
-
-    ```bash
-    # 语法: git subtree add --prefix=<本地路径> <仓库URL> <分支> --squash
-    git subtree add --prefix=libs/my-library https://github.com/some-user/my-library.git main --squash
-    ```
-
-      * `--squash`：强烈推荐！它将子项目的所有历史压缩成一个 commit，保持主项目历史的整洁。
-
-2.  **更新子树**
-    从远程拉取子树的最新更新。
-
-    ```bash
-    git subtree pull --prefix=libs/my-library https://github.com/some-user/my-library.git main --squash
-    ```
-
------
-
-### 如何选择：Submodule vs. Subtree 对比
-
-| 特性 | Git Submodule (子模块) | Git Subtree (子树) |
-| :--- | :--- | :--- |
-| **协作者克隆** | 复杂 (`clone --recurse-submodules`) | **简单** (只需 `git clone`) |
-| **历史记录** | **清晰分离** (两个独立历史) | 混合在一起 (可能变复杂) |
-| **仓库体积** | **小** (只保存链接) | 大 (包含所有文件) |
-| **管理方式** | 严格，但步骤稍多 | **直观** (像普通文件夹) |
-| **推荐场景** | 依赖**外部**、不常改动的库 | 依赖**内部**、可能修改的库 |
-
------
-
-### 终极实战：在主项目中开发个人库
-
-这是一个非常具体的需求：**库是你自己写的，你会在主项目中直接修改它，并希望这些修改能推送回库自己的仓库**。
-
-**最佳方案：`git submodule`**
-
-**原因**：`submodule` 的工作模式完美契合这个需求。它让你在子目录中拥有一个**完整的、标准**的 Git 仓库。你可以使用最熟悉的 `git push/pull` 命令来管理库，同时保持主项目和库项目的历史完全独立，这对于长期维护至关重要。
-
-**您的日常开发流程：**
-
-1.  **修改代码**：
-    在主项目中，直接修改 `libs/my-library` 文件夹（即子模块目录）下的代码。
-
-2.  **推送"库"的更新**：
-    这是关键一步，你需要进入子模块目录，完成一次对库的独立推送。
-
-    ```bash
-    # 1. 进入子模块（你的库）目录
-    cd libs/my-library
-
-    # 2. 提交并推送到【库的远程仓库】
-    git add .
-    git commit -m "feat: Add new awesome feature"
-    git push origin main
-    ```
-
-3.  **更新"主项目"的引用**：
-    返回主项目，告诉它库已经更新到了最新版本。
-
-    ```bash
-    # 1. 回到主项目根目录
-    cd ../..
-
-    # 2. 提交这个指向新版本的"指针"
-    git add libs/my-library
-    git commit -m "chore: Sync library to latest version"
-    git push
-    ```
-
-这个"两步提交"的流程虽然比单项目多了一步，但它逻辑清晰，完美地将两个独立项目的变更管理得井井有条，是该场景下的最佳实践。
-
-
-### 19. 常见工作流示例
-
-#### 1. 新功能开发
-```bash
-git checkout -b feature
-# 开发代码...
-git add .
-git commit -m "Add new feature"
-git push origin feature
-# 提交 PR/MR 或合并到 main
-git checkout main
-git merge feature
-git push origin main
-```
-
-#### 2. 修复 bug
-```bash
-git checkout -b bugfix
-# 修复 bug...
-git add .
-git commit -m "Fix bug"
-git push origin bugfix
-```
-
-#### 3. 撤销错误提交
-```bash
-# 撤销最近提交（保留更改）
-git reset --soft HEAD^1
-# 撤销并丢弃更改
-git reset --hard HEAD^1
-# 或创建撤销提交
-git revert HEAD
-```
-
-#### 4. 同步远程更改
-```bash
-git fetch origin
-git checkout main
-git pull origin main
-```
-
----
-
-
-### 20. 参考资源
-- **官方文档**: [git-scm.com](https://git-scm.com/doc)
-- **教程**: [Atlassian Git Tutorial](https://www.atlassian.com/git)
-- **可视化工具**: GitKraken, SourceTree, VS Code Git 插件
-- **社区**: Stack Overflow, GitHub Discussions
-
----
 
 
 ## 一些问题解决
@@ -1333,7 +357,7 @@ git merge --no-ff feature
 
 ### 如何解决 "fatal: Need to specify how to reconcile divergent branches" 错误
 
-#### 问题根源：什么是“分支分叉”？
+ 问题根源：什么是“分支分叉”？
 
 这个错误的核心原因是：**您的本地分支和它所跟踪的远程分支，各自都有了新的、对方不知道的提交。**
 
@@ -1355,11 +379,11 @@ git merge --no-ff feature
 
 当您执行 `git pull` 时，Git 发现它无法简单地“快进”（Fast-forward）来更新您的代码，因为它不知道应该如何处理这两条分叉的路径。为了避免自动操作可能带来的混乱，新版 Git 强制要求您必须明确告诉它您的合并策略。
 
-#### 二、 核心概念：两种合并策略 Merge vs. Rebase
+ 二、 核心概念：两种合并策略 Merge vs. Rebase
 
 要解决分叉问题，您有两种主要的方法：`Merge` (合并) 和 `Rebase` (变基)。
 
-##### 方案 A：临时解决本次问题
+ 方案 A：临时解决本次问题
 
 
 
@@ -1391,7 +415,7 @@ git merge --no-ff feature
 
 
 
-##### 方案 B：永久配置默认行为 (一劳永逸)
+ 方案 B：永久配置默认行为 (一劳永逸)
 
 
 
@@ -1735,22 +759,22 @@ step3：删除github相关的凭证
 
 ### git config --global --add safe.directory 设置安全目录
 
-#### 命令用途
+ 命令用途
 `git config --global --add safe.directory` 命令用于将指定的目录添加到 Git 的安全目录列表中，解决 Git 安全机制导致的仓库访问问题。
 
-#### 问题背景
+ 问题背景
 从 Git 2.35.2 开始，Git 引入了更严格的安全机制，默认情况下会拒绝访问由其他用户拥有的目录中的 Git 仓库。这通常发生在以下情况：
 - 在 WSL (Windows Subsystem for Linux) 环境中
 - 在共享目录或挂载的目录中
 - 在 Docker 容器中访问宿主机目录
 - 在多用户系统中
 
-#### 命令语法
+ 命令语法
 ```bash
 git config --global --add safe.directory <directory-path>
 ```
 
-#### 使用示例
+ 使用示例
 ```bash
 # 添加单个目录到安全目录列表
 git config --global --add safe.directory /code/GRT
@@ -1763,7 +787,7 @@ git config --global --add safe.directory /path/to/repo1
 git config --global --add safe.directory /path/to/repo2
 ```
 
-#### 查看当前安全目录列表
+ 查看当前安全目录列表
 ```bash
 # 查看所有安全目录
 git config --global --get-all safe.directory
@@ -1772,7 +796,7 @@ git config --global --get-all safe.directory
 git config --global --list | grep safe.directory
 ```
 
-#### 删除安全目录
+ 删除安全目录
 ```bash
 # 删除特定的安全目录
 git config --global --unset-all safe.directory /code/GRT
@@ -1781,7 +805,7 @@ git config --global --unset-all safe.directory /code/GRT
 git config --global --unset-all safe.directory
 ```
 
-#### 常见错误信息
+ 常见错误信息
 当遇到安全目录问题时，Git 会显示类似以下的错误：
 ```
 fatal: detected dubious ownership in repository at '/code/GRT'
@@ -1789,19 +813,19 @@ To add an exception for this directory, call:
     git config --global --add safe.directory /code/GRT
 ```
 
-#### 安全注意事项
+ 安全注意事项
 1. **谨慎添加目录**：只添加你信任的目录，避免添加系统关键目录
 2. **使用绝对路径**：建议使用绝对路径而不是相对路径
 3. **定期检查**：定期检查安全目录列表，删除不再需要的目录
 4. **环境隔离**：在不同环境中使用不同的安全目录配置
 
-#### 替代方案
+ 替代方案
 如果不想使用全局配置，也可以：
 1. **使用本地配置**：在特定仓库中使用 `--local` 而不是 `--global`
 2. **修改目录权限**：确保目录的所有权正确
 3. **使用 Git 环境变量**：设置 `GIT_SAFE_DIRECTORIES` 环境变量
 
-#### 验证配置
+ 验证配置
 配置完成后，可以验证是否生效：
 ```bash
 # 进入目标目录
@@ -2134,6 +1158,8 @@ hosts位置在    /etc/hosts
 ## 知识点
 
 
+
+
 ### 将Python包发布到GitHub并通过pip安装的教程
 
 1. **创建Python包结构**  
@@ -2297,7 +1323,7 @@ A <- B <- C (HEAD)
 
 在 Git 项目中，`.githooks` 目录中的钩子（hook）脚本默认是不会被 Git 版本控制系统自动纳入版本管理的，因为 `.githooks` 目录通常被视为本地配置的一部分。为了将 Git 钩子脚本保留到项目中并与团队共享，你需要采取一些额外的步骤。以下是具体的方法：
 
-#### 方法一：将钩子脚本纳入版本控制
+ 方法一：将钩子脚本纳入版本控制
 1. **将 `.githooks` 目录重命名或移动到项目中**：
    - 默认情况下，Git 钩子存储在 `.git/hooks` 目录中，这些文件不会被 Git 跟踪。你可以将钩子脚本移动到项目的一个自定义目录（例如 `githooks` 或 `hooks`），并纳入版本控制。
    - 示例：
@@ -2328,7 +1354,7 @@ A <- B <- C (HEAD)
 4. **团队成员同步配置**：
    - 其他团队成员在克隆或拉取项目后，需要手动运行 `git config core.hooksPath githooks` 来启用自定义钩子路径。或者，你可以通过脚本自动设置。
 
-#### 方法二：使用脚本自动安装钩子
+ 方法二：使用脚本自动安装钩子
 为了让团队成员无需手动配置 `core.hooksPath`，你可以在项目中添加一个安装脚本，自动将钩子脚本复制到 `.git/hooks` 目录。
 
 1. **创建安装脚本**：
@@ -2355,7 +1381,7 @@ A <- B <- C (HEAD)
      ./install-hooks.sh
      ```
 
-#### 方法三：使用 Git 模板目录
+ 方法三：使用 Git 模板目录
 如果你希望钩子脚本在所有新项目中自动生效，可以配置 Git 的全局模板目录：
 
 1. **创建全局钩子模板**：
@@ -2376,7 +1402,7 @@ A <- B <- C (HEAD)
 3. **注意事项**：
    - 这种方法适合个人开发环境，但不适合团队项目，因为模板目录是本地的，无法直接共享。
 
-#### 方法四：使用工具管理钩子
+ 方法四：使用工具管理钩子
 可以使用一些工具来简化 Git 钩子的管理和共享，例如：
 
 - **Husky**（适用于 Node.js 项目）：
@@ -2402,7 +1428,7 @@ A <- B <- C (HEAD)
     pre-commit install
     ```
 
-#### 注意事项
+ 注意事项
 1. **权限问题**：
    - 确保钩子脚本具有可执行权限（`chmod +x githooks/*`）。
    - 在 Windows 系统上，可能需要额外处理文件权限问题。
@@ -2416,7 +1442,7 @@ A <- B <- C (HEAD)
 4. **避免覆盖本地钩子**：
    - 如果直接覆盖 `.git/hooks`，可能会覆盖团队成员的本地钩子配置。使用 `core.hooksPath` 或脚本复制的方式更安全。
 
-#### 总结
+ 总结
 最推荐的方式是将钩子脚本放入项目中的 `githooks` 目录，提交到版本控制，并通过脚本或 `git config core.hooksPath` 自动配置。结合工具如 Husky 或 pre-commit 可以进一步简化管理。根据项目类型和团队习惯选择合适的方法。
 - 当前 HEAD 指向提交 `C`。
 - 执行 `git reset --hard HEAD^` 后：
@@ -2448,7 +1474,7 @@ A <- B (HEAD)
 
 本教程旨在解决一个常见问题：当你在 `git push` 时，即使已经删除了某个大文件，GitHub 依然提示 `GH001: Large files detected` 错误，导致推送失败。
 
-#### 问题场景
+ 问题场景
 
 你执行了 `git rm a_large_file.pkl` 并创建了一个新的 commit，但在推送时仍然看到类似下面的报错：
 
@@ -2465,11 +1491,11 @@ remote: error: GH001: Large files detected.
 
 -----
 
-### 推荐方案：使用 `git-filter-repo` (更简单、更快速)
+ 推荐方案：使用 `git-filter-repo` (更简单、更快速)
 
 `git-filter-repo` 是 Git 官方现在推荐用来清理历史记录的工具，它比 Git 的原生命令更高效且易于使用。
 
-#### 1\. 安装 `git-filter-repo`
+ 1\. 安装 `git-filter-repo`
 
 如果尚未安装，请先执行安装。
 
@@ -2479,7 +1505,7 @@ remote: error: GH001: Large files detected.
     ```
   * 对于其他系统，请参考其[官方安装文档](https://www.google.com/search?q=https://github.com/newren/git-filter-repo/blob/main/INSTALL.md)。
 
-#### 2\. 从历史记录中删除文件
+ 2\. 从历史记录中删除文件
 
 在你的本地仓库根目录运行以下命令。**此操作会重写历史记录**。
 
@@ -2490,7 +1516,7 @@ git filter-repo --path "path/to/your/large_file.pkl" --invert-paths
 
 这条命令会自动处理所有分支和标签，从中移除对指定文件的所有引用。
 
-#### 3\. 强制推送到远程仓库
+ 3\. 强制推送到远程仓库
 
 由于本地历史已被重写，你需要强制推送来覆盖远程仓库的历史。
 
@@ -2500,7 +1526,7 @@ git push --force
 
 -----
 
-### 备选方案：使用纯 Git 命令 `git filter-branch`
+ 备选方案：使用纯 Git 命令 `git filter-branch`
 
 ![git filter-branch](images/index/image-21.png)
 
@@ -2508,7 +1534,7 @@ git push --force
 
 **警告：** 此命令非常复杂且速度慢，操作前强烈建议**备份你的整个项目文件夹**。
 
-#### 1\. 执行历史重写命令
+ 1\. 执行历史重写命令
 
 ```bash
 # 将 "path/to/your/large_file.pkl" 替换为你的大文件实际路径
@@ -2520,7 +1546,7 @@ git filter-branch --force --index-filter \
   * `--ignore-unmatch`: 确保在不包含该文件的历史 commit 上命令不会报错。
   * 此命令执行速度可能很慢，请耐心等待。
 
-#### 2\. 清理仓库并回收空间
+ 2\. 清理仓库并回收空间
 
 `filter-branch` 会留下备份。运行以下命令以彻底清除旧数据并压缩仓库。
 
@@ -2529,7 +1555,7 @@ git reflog expire --expire=now --all
 git gc --prune=now --aggressive
 ```
 
-#### 3\. 强制推送
+ 3\. 强制推送
 
 同样，你需要强制推送来更新远程仓库。
 
@@ -2539,13 +1565,13 @@ git push --force
 
 -----
 
-### 未来建议：使用 Git LFS 管理大文件
+ 未来建议：使用 Git LFS 管理大文件
 
 为了从根源上避免此类问题，当项目中必须包含大文件时，应使用 **Git Large File Storage (LFS)**。
 
 Git LFS 会将大文件存储在专门的服务器上，而在你的仓库中只保留一个轻量级的指针文件，从而使仓库保持小巧和快速。
 
-#### LFS 快速上手
+ LFS 快速上手
 
 1.  **安装 LFS 客户端**
     ```bash
@@ -2573,7 +1599,7 @@ Git LFS 会将大文件存储在专门的服务器上，而在你的仓库中只
 
 当一个项目长期不用，但又不想彻底删除时，你有以下三种方法可以将其"隐藏"起来，同时保留代码。
 
-#### 方案一：归档仓库 (Archive) - ⭐最推荐
+ 方案一：归档仓库 (Archive) - ⭐最推荐
 
 这是 GitHub 官方设计的最佳方案，用于封存项目。
 
@@ -2590,7 +1616,7 @@ Git LFS 会将大文件存储在专门的服务器上，而在你的仓库中只
 2. 在 `General` (常规) 标签页，拉到最下方的 `Danger Zone` (危险区域)。
 3. 点击 `Archive this repository` (归档这个仓库) 并确认。
 
-#### 方案二：设为私有仓库 (Make Private)
+ 方案二：设为私有仓库 (Make Private)
 
 如果只是不想让公众看到，但自己还可能修改。
 
@@ -2606,7 +1632,7 @@ Git LFS 会将大文件存储在专门的服务器上，而在你的仓库中只
 2. 点击 `Change repository visibility` (更改仓库可见性)。
 3. 选择 `Make private` (设为私有) 并确认。
 
-#### 方案三：作为另一项目的分支 (不推荐)
+ 方案三：作为另一项目的分支 (不推荐)
 
 将旧仓库的历史合并到另一个项目中，然后删除旧仓库。这是一种复杂且有损的操作。
 
@@ -2640,7 +1666,7 @@ git remote remove old_repo
 # 7. 去 GitHub 网站上手动删除 old-repo 仓库
 ```
 
-#### 总结对比
+总结对比
 
 | 方法 | 优点 | 缺点 | 推荐度 |
 | :--- | :--- | :--- | :--- |
@@ -2678,10 +1704,10 @@ git remote set-url zata git@github.com-zata:zata-zhangtao/ZataTree.git
 
 ### 恢复被 Git 合并覆盖的提交并防止未来覆盖
 
-#### 问题背景
+ 问题背景
 主分支（`main`）的修改在合并（如 `zata_ssh/hugo`）时被覆盖，可能是快速合并或 `ort` 策略自动选择远程分支内容导致。
 
-#### 恢复被覆盖的提交
+ 恢复被覆盖的提交
 1. **查看历史**：
    ```bash
    git reflog main
@@ -2706,7 +1732,7 @@ git remote set-url zata git@github.com-zata:zata-zhangtao/ZataTree.git
    ```
    **警告**：提前通知团队，强制推送会影响远程历史。
 
-#### 重新合并（避免覆盖）
+ 重新合并（避免覆盖）
 1. **拉取远程分支**：
    ```bash
    git fetch zata_ssh
@@ -2730,7 +1756,7 @@ git remote set-url zata git@github.com-zata:zata-zhangtao/ZataTree.git
    git merge zata_ssh/hugo
    ```
 
-#### 预防未来覆盖
+ 预防未来覆盖
 - **禁用快速合并**：
   ```bash
   git config --global merge.ff false
@@ -2746,7 +1772,7 @@ git remote set-url zata git@github.com-zata:zata-zhangtao/ZataTree.git
   git merge zata_ssh/hugo
   ```
 
-#### 注意事项
+ 注意事项
 - 检查合并提交（`61d17c8`, `14e36c9`）的文件变化：
   ```bash
   git show 61d17c8
@@ -2840,7 +1866,7 @@ git push origin feature-branch
 
 要将当前分支推送到远程仓库并保持当前分支的名字，可以按照以下步骤操作：
 
-#### 步骤
+ 步骤
 1. **确认当前分支**：
    确保你位于正确的分支。运行以下命令查看当前分支：
    ```bash
@@ -2867,7 +1893,7 @@ git push origin feature-branch
    ```
    这会将当前分支推送到远程仓库，并将远程分支设置为当前分支的上游分支，方便后续直接使用 `git push` 或 `git pull`。
 
-#### 示例
+ 示例
 假设你的当前分支是 `0710display-prototype3`，你可以运行：
 ```bash
 git push origin 0710display-prototype3
@@ -2881,7 +1907,7 @@ git push origin $(git branch --show-current)
 git push --set-upstream origin 0710display-prototype3
 ```
 
-#### 注意事项
+ 注意事项
 - **检查远程仓库**：
   确保远程仓库（如 `origin`）已配置正确。运行 `git remote -v` 查看远程仓库的 URL。
 - **工作区状态**：
@@ -2889,7 +1915,7 @@ git push --set-upstream origin 0710display-prototype3
 - **分支名冲突**：
   如果远程仓库已存在同名分支，推送可能会失败（例如，提示需要拉取或强制推送）。可以先运行 `git fetch origin` 检查远程分支状态，或者使用 `git push --force`（谨慎使用，仅当你确定要覆盖远程分支）。
 
-#### 验证推送
+ 验证推送
 推送完成后，运行以下命令确认远程分支已创建：
 ```bash
 git fetch origin
@@ -2910,12 +1936,12 @@ error: cannot lock ref 'refs/remotes/zata/hugo': unable to resolve reference 're
 
 这个错误通常是因为本地的 Git 引用缓存与远程仓库状态不一致导致的。
 
-#### 问题原因
+ 问题原因
 1. **远程分支被强制更新**：远程仓库的分支可能被强制推送（`git push --force`），导致本地缓存的提交哈希值与远程最新的提交哈希值不匹配。
 2. **本地引用损坏或不一致**：本地的 `.git/refs/remotes/` 文件可能被锁定、损坏，或者由于网络中断等原因未正确更新。
 3. **Git 缓存问题**：Git 的引用日志或跟踪分支信息可能出现了问题，导致无法正常同步。
 
-#### 解决方法
+ 解决方法
 以下是几种解决方法，建议按顺序尝试：
 
 **方法 1：清理并重新拉取**
@@ -2961,7 +1987,7 @@ cd ZataTree
 ```
 - **注意**：在执行此操作前，请备份所有本地未提交的更改（例如通过 `git stash` 或复制工作目录）。
 
-#### 预防措施
+ 预防措施
 1. **避免强制推送**：如果多人协作，尽量避免对公共分支使用 `git push --force`，改用 `git push --force-with-lease` 以减少冲突。
 2. **定期清理**：定期运行 `git fetch --prune` 清理无效的远程分支引用。
 3. **检查网络**：确保网络连接稳定，避免 `git pull` 中断导致引用不一致。
@@ -2972,13 +1998,13 @@ cd ZataTree
 
 在 Linux 上将文件从 `sendEmailToMe.py` 重命名为 `sendEmailTome.py` 后，Git 可能未检测到变化。以下是精简的解决步骤：
 
-#### 问题原因
+ 问题原因
 
 - Git 配置为大小写不敏感（`core.ignorecase=true`）。
 - 文件系统（如 FAT32/NTFS）大小写不敏感。
 - Git 索引未更新，仅大小写的变化未被识别。
 
-#### 解决步骤
+ 解决步骤
 
 **1. 检查 Git 大小写敏感性**
 ```bash
@@ -3038,7 +2064,7 @@ renamed:    sendEmailToMe.py -> sendEmailTome.py
 git push origin main
 ```
 
-#### 预防措施
+预防措施
 
 - 统一文件名风格（如全小写：`send_email_to_me.py`）。
 - 在 `.gitattributes` 中添加 `* -text` 强制大小写敏感。
@@ -3066,11 +2092,11 @@ git push origin main
 
 ---
 
-#### 方案一：切换远程仓库地址 (简单直接)
+ 方案一：切换远程仓库地址 (简单直接)
 
 这个方案直接把本地仓库的 `origin` 指向从原始仓库地址修改为你的新仓库地址。
 
-##### 第一步：提交你的本地更改
+ 第一步：提交你的本地更改
 
 ```bash
 git status
@@ -3078,7 +2104,7 @@ git add .
 git commit -m "这里写下你的提交信息，比如：添加了xx功能"
 ```
 
-##### 第二步：同步原始仓库的更新
+ 第二步：同步原始仓库的更新
 
 ```bash
 git pull --rebase origin main  # 如果你的分支不是 main，请替换为实际分支名
@@ -3087,7 +2113,7 @@ git pull --rebase origin main  # 如果你的分支不是 main，请替换为实
 - `git pull --rebase` 会先拉取原始仓库的新提交，再把你本地的提交"重新播放"在最前面，保持提交历史线性。
 - 如果遇到冲突，解决后用 `git add <文件名>` 标记解决，然后 `git rebase --continue`。
 
-##### 第三步：更改远程仓库 `origin` 的 URL
+ 第三步：更改远程仓库 `origin` 的 URL
 
 ```bash
 git remote -v  # 查看当前远程仓库地址
@@ -3095,7 +2121,7 @@ git remote set-url origin <你自己的新仓库URL>
 git remote -v  # 再次确认
 ```
 
-##### 第四步：推送到你自己的仓库
+ 第四步：推送到你自己的仓库
 
 ```bash
 git push -u origin main  # -u 建立本地分支与远程分支的追踪关系
@@ -3103,11 +2129,11 @@ git push -u origin main  # -u 建立本地分支与远程分支的追踪关系
 
 ---
 
-#### 方案二：添加新的远程仓库 (最佳实践)
+ 方案二：添加新的远程仓库 (最佳实践)
 
 这个方案保留了原始仓库的连接（通常命名为 `upstream`），同时添加你自己的仓库作为新的远程连接（通常还叫 `origin`）。这样做的好处是，未来你还可以随时方便地从原始仓库拉取更新。
 
-##### 第一步和第二步：同方案一
+ 第一步和第二步：同方案一
 
 ```bash
 git add .
@@ -3115,7 +2141,7 @@ git commit -m "你的提交信息"
 git pull --rebase origin main
 ```
 
-##### 第三步：重命名原始仓库并添加你自己的仓库
+ 第三步：重命名原始仓库并添加你自己的仓库
 
 ```bash
 git remote rename origin upstream  # 原始仓库重命名为 upstream
@@ -3127,13 +2153,13 @@ git remote -v  # 检查远程仓库配置
 - `origin` 指向你的新仓库地址（可读写）。
 - `upstream` 指向你最初克隆的那个原始仓库地址（通常是只读的）。
 
-##### 第四步：推送到你自己的仓库
+ 第四步：推送到你自己的仓库
 
 ```bash
 git push -u origin main
 ```
 
-##### 未来的工作流
+ 未来的工作流
 - 推送自己的修改：`git push origin main`
 - 同步原始项目的更新：
   ```bash
@@ -3143,7 +2169,7 @@ git push -u origin main
 
 ---
 
-#### 常见问题与注意事项
+ 常见问题与注意事项
 
 - **分支名不是 main？**
   - 如果你的分支名是 `master` 或其他，请将命令中的 `main` 替换为实际分支名。
@@ -3153,4 +2179,3 @@ git push -u origin main
   - 检查你是否有新仓库的写权限，或 SSH/Token 配置是否正确。
 - **未来如何同步原始仓库的更新？**
   - 只需 `git fetch upstream`，然后 `git rebase upstream/main`。
-

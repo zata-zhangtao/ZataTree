@@ -108,6 +108,28 @@ mkdir -p ~/.npm-global
 ```
 
 
+#### windows 安装node 
+
+可以先安装一个nvm [nvm下载地址](https://github.com/coreybutler/nvm-windows/releases)
+![nvm下载](images/index/image-1.png)
+
+把nvm解压到自己的目录下面，然后创建settings.txt和nodejs文件夹
+![创建文件](images/index/image-5.png)
+```txt
+root: D:\Program\nvm
+path: D:\Program\nvm\nodejs
+arch: 64
+proxy: none
+```
+
+下面步骤非常重要，一定要配置这两个环境变量，不然会报错 
+![系统环境变量](images/index/image-2.png)![path环境变量](images/index/image-3.png)
+
+【这是报错示例】
+![错误示例](images/index/image-4.png)
+
+然后就可以使用了
+![使用](images/index/image-6.png)
 
 ### 配置其他模型api以使用claude_code
 
