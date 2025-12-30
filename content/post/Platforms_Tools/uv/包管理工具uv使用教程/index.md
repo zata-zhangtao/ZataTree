@@ -10,6 +10,8 @@ tags:
 ---
 
 
+[github地址](https://github.com/astral-sh/uv)
+
 ||
 |---|
 |- [UV常用命令](#uv常用命令)|
@@ -134,6 +136,9 @@ UV 是一个由 Astral (Ruff 的开发者) 开发的、用 Rust 编写的极速 
 
 ### 2. 安装 UV
 
+
+
+1. 在linux或者mac中安装
 你可以通过多种方式安装 UV：
 
 * **使用 `curl` (Linux & macOS):**
@@ -157,7 +162,21 @@ UV 是一个由 Astral (Ruff 的开发者) 开发的、用 Rust 编写的极速 
     ```bash
     cargo install uv
     ```
+
+2. 在windows中安装
+
+
+[安装教程](https://www.cnblogs.com/haima/p/18928947)
+
 * **从 GitHub Releases 下载预编译的二进制文件。**
+[下载地址](https://github.com/astral-sh/uv/releases)
+![选择x64文件](images/index/image-2.png)
+![解压之后是这三个文件](images/index/image-3.png)
+![移动到自己的目录，然后添加环境变量](images/index/image-4.png)
+
+
+
+
 
 安装完成后，验证安装：
 ```bash
