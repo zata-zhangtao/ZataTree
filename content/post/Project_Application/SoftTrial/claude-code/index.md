@@ -30,9 +30,14 @@ tags:
 
 - 我感觉上，最好把一个任务拆分成非常细的list，然后每一步人工检查一下claude做的对不对，如果让它一次性做很多，最后可能会不太可用，而且需要返工很久
 
+- 如果在容器中开发，可以使用如下指令让它自动执行
+```bash 
+# 如果用户是root
+IS_SANDBOX=1 claude --dangerously-skip-permissions 
 
-- IS_SANDBOX=1 claude --dangerously-skip-permissions  如果在容器中开发，可以使用如上指令让它自动执行
-
+# 如果用户不是root
+claude --dangerously-skip-permissions 
+```
 
 
 
@@ -45,6 +50,8 @@ tags:
 - [Claude Code 實戰教學：三大超好用功能公開！【2025年6月更新】【AI寫程式】](https://vocus.cc/article/6854309dfd89780001335549)
 - [Claude Code 最佳实践](https://gaccode.com/document/claude-code-best-practices-zh)
 - [让claude更加好用](https://itecsonline.com/post/claude-code-tips-tricks)
+- [Claude Code 用法全面拆解！26 项核心功能 + 实战技巧](https://zhuanlan.zhihu.com/p/1928918331810886674)
+
 
 
 
@@ -147,7 +154,7 @@ export ANTHROPIC_BASE_URL="https://api.moonshot.cn/anthropic/"
 #### 配置GLM4.5
 https://zhuanlan.zhihu.com/p/1935092461279117856
 
-# ZHIPU-GLM4.5
+#####  ZHIPU-GLM4.5
 export ANTHROPIC_AUTH_TOKEN=xxxxxxx..xxxxx
 export ANTHROPIC_BASE_URL="https://open.bigmodel.cn/api/anthropic"
 
@@ -155,16 +162,19 @@ export ANTHROPIC_BASE_URL="https://open.bigmodel.cn/api/anthropic"
 ### 实战
 
 
+#### CLAUDE.md 文件管理
 
+
+![claude.md管理](images/index/image-8.png)
 
 
 
 #### 修复 macOS 上 Claude Code 需要 sudo 运行的问题 （没有修复）
 
-##### 问题
+ 问题
 Claude Code 安装在 `/usr/local/lib`，需要 `sudo claude` 运行，导致权限问题。卸载 `https://gaccode.com/claudecode/install` 失败，因为使用了错误包名。
 
-##### 解决步骤
+解决步骤
 1. **卸载 Claude Code**
    ```bash
    sudo npm uninstall -g @anthropic-ai/claude-code
@@ -198,7 +208,7 @@ Claude Code 安装在 `/usr/local/lib`，需要 `sudo claude` 运行，导致权
    claude --help  # 应显示帮助信息
    ```
 
-##### 注意事项
+注意事项
 - 如果仍有错误，检查：
   - `npm config get prefix` 是否为 `~/.npm-global`。
   - `echo $PATH` 是否包含 `~/.npm-global/bin`。
