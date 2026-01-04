@@ -245,7 +245,114 @@ rules:
 ---
 
 
-### 进阶问题
+### 进阶
+
+#### 使用api切换节点
+
+
+在clash的设置中打开外部控制
+
+![外部控制设置](images/index/image-14.png)
+
+```python 
+import urllib.parse  # 顶部添加
+import random
+import time
+import requests
+
+API_URL = "http://127.0.0.1:9097"
+SECRET = "clashapikeyXXXX"  # 如果设置了
+GROUP_NAME = "🇺🇸 美国"  # 你的proxy-group名字，必须是type: select的组
+clash_api_headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+    'Accept': 'application/json, text/plain, */*',
+    'Accept-Language': 'en-US,en;q=0.9',
+    'Authorization': f'Bearer {SECRET}'  # <--- 必须加上这一行
+}
+# 在 get_proxies() 后，添加一个 encoded 版本
+ENCODED_GROUP_NAME = urllib.parse.quote(GROUP_NAME)
+# 先获取所有可用节点
+def get_proxies():
+    global GROUP_NAME
+    resp = requests.get(f"{API_URL}/proxies", headers={"Authorization": f"Bearer {SECRET}"} if SECRET else {})
+    proxies_data = resp.json()["proxies"]
+    print("Available proxy groups:")
+    # print(proxies_data)
+    for group_name in proxies_data:
+        if proxies_data[group_name].get("type") == "select":
+            try:
+                print(f"  - {group_name}")
+            except UnicodeEncodeError:
+                print(f"  - [包含特殊字符的组名] ({len(group_name)} chars)")
+    if GROUP_NAME not in proxies_data:
+        print(f"Warning: Group '{GROUP_NAME}' not found. Using first available select group.")
+        for group_name in proxies_data:
+            if proxies_data[group_name].get("type") == "select":
+                GROUP_NAME = group_name
+                break
+    return list(proxies_data[GROUP_NAME]["all"])  # 返回节点名列表
+
+proxies_list = get_proxies()
+print(proxies_list)
+
+# 修改 switch_proxy 函数
+def switch_proxy():
+    try:
+        new_proxy = random.choice(proxies_list)
+        print(f"尝试切换到节点: {new_proxy}")
+        
+        # 使用 encoded 的组名在 URL 中
+        resp = requests.put(
+            f"{API_URL}/proxies/{ENCODED_GROUP_NAME}",  #如果grounp Name里面有emoji，不用encoded会出错
+            json={"name": new_proxy},
+            headers=clash_api_headers
+        )
+        print(resp)
+        
+        # 关键：检查响应！Clash 切换成功返回 204 No Content
+        if resp.status_code == 204:
+            print(f"成功切换到节点: {new_proxy}")
+        else:
+            print(f"切换失败！状态码: {resp.status_code}, 响应: {resp.text}")
+            # 可选：打印当前实际选中的节点
+            current = requests.get(f"{API_URL}/proxies/{ENCODED_GROUP_NAME}", headers=clash_api_headers).json()
+            print(f"当前实际节点: {current.get('now')}")
+        
+        time.sleep(5)  # 等待切换生效（有些节点需要几秒）
+        
+    except Exception as e:
+        print(f"切换异常: {e}")
+
+
+
+# 示例爬虫循环
+for i in range(10):  # 减少循环次数用于测试
+
+    switch_proxy()
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'en-US,en;q=0.9',
+    }
+# 你的爬虫请求
+    try:
+        resp = requests.get(headers=headers, url="https://httpbin.org/ip", timeout=5,proxies={"http": "http://127.0.0.1:7897", "https": "http://127.0.0.1:7897"})
+        print("当前IP:", resp.text.strip())
+    except requests.exceptions.RequestException as e:
+        print(f"请求失败 (Clash代理未运行?): {e}")
+        # 尝试不使用代理
+        try:
+            resp = requests.get(headers=headers, url="https://httpbin.org/ip", timeout=5,proxies={"http": "http://127.0.0.1:7897", "https": "http://127.0.0.1:7897"})
+            print("直连IP:", resp.text.strip())
+        except requests.exceptions.RequestException as e2:
+            print(f"直连也失败: {e2}")
+    time.sleep(5)
+
+```
+
+![使用api切换](images/index/image-13.png)
+
+
 
 #### DOMAIN-SUFFIX 和 DOMAIN  （顺序影响行为）
 
