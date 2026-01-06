@@ -1,5 +1,5 @@
 ---
-title: claude-code
+title: claude-code&codex&Gemini-cli
 description: ""
 date: 2025-06-23T19:57:52+08:00
 image: images/index/index.png
@@ -8,6 +8,10 @@ categories:
 tags:
     - SoftTrial
 ---
+
+
+
+## claude code
 
 
 ###目录
@@ -59,6 +63,32 @@ claude --dangerously-skip-permissions
 
 
 ### 安装
+
+
+
+#### windows 安装nvm 然后安装node 然后再安装claude
+
+可以先安装一个nvm [nvm下载地址](https://github.com/coreybutler/nvm-windows/releases)
+![nvm下载](images/index/image-1.png)
+
+把nvm解压到自己的目录下面，然后创建settings.txt文件
+![创建settings文件](images/index/image-7.png)
+```txt
+root: D:\Program\nvm
+path: D:\Program\nvm\nodejs
+arch: 64
+proxy: none
+```
+
+下面步骤非常重要，一定要配置这两个环境变量，不然会报错 
+![系统环境变量](images/index/image-2.png)![path环境变量](images/index/image-3.png)
+
+【这是报错示例】
+![错误示例](images/index/image-4.png)
+
+然后就可以使用了
+![使用](images/index/image-6.png)
+
 
 #### windows安装通过wsl
 
@@ -114,29 +144,6 @@ mkdir -p ~/.npm-global
 
 ```
 
-
-#### windows 安装node 
-
-可以先安装一个nvm [nvm下载地址](https://github.com/coreybutler/nvm-windows/releases)
-![nvm下载](images/index/image-1.png)
-
-把nvm解压到自己的目录下面，然后创建settings.txt文件
-![创建settings文件](images/index/image-7.png)
-```txt
-root: D:\Program\nvm
-path: D:\Program\nvm\nodejs
-arch: 64
-proxy: none
-```
-
-下面步骤非常重要，一定要配置这两个环境变量，不然会报错 
-![系统环境变量](images/index/image-2.png)![path环境变量](images/index/image-3.png)
-
-【这是报错示例】
-![错误示例](images/index/image-4.png)
-
-然后就可以使用了
-![使用](images/index/image-6.png)
 
 ### 配置其他模型api以使用claude_code
 
@@ -606,4 +613,28 @@ Set up keyboard shortcuts: Cmd+1 through Cmd+4 for different Claude instances, C
 /security @api            # Security audit
 /deps @package.json       # Dependency analysis
 ```
+
+
+
+
+## codex 
+
+
+### 安装和配置
+
+#### windows
+
+｀安装｀
+
+安装和claude一样，参考claude的安装方式
+
+--- 
+
+｀配置｀
+
+**设置默认agent full模式**
+![windows 下的agent full](images/index/image-9.png)
+
+
+
 
