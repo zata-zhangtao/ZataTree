@@ -633,7 +633,14 @@ Set up keyboard shortcuts: Cmd+1 through Cmd+4 for different Claude instances, C
 ｀配置｀
 
 **设置默认agent full模式**
+
 ![windows 下的agent full](images/index/image-9.png)
+
+**设置$env:PYTHONUTF8 = "1"**
+
+不设置的话会出现乱码,因为python代码默认是utf8但是命令行默认是ascii
+
+![pythonutf8](images/index/image-10.png)
 
 
 
