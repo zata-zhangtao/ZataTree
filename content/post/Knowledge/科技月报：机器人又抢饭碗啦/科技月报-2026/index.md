@@ -19,14 +19,20 @@ tags:
 
 [程序员需要学习的长青技能](https://www.zhihu.com/question/658581470/answer/3537010340?share_code=13LxuIBhw5qmK&utm_psn=1994135294623097989)
 
+[使用ai生成ppt和科研绘图](https://mp.weixin.qq.com/s/EvYW0-2xXBHsUawEcNuVMQ)
 
 ## 第二周
 
-[开源3天斩获 2K Star，这个开源 Skills 技能把 AI 的“记忆缺陷”补上了！](https://mp.weixin.qq.com/s/xcdMQU0Ab7-dEfNHre7_4A)
+[开源 Skills -- 让ai模仿manus的思考计划执行](https://mp.weixin.qq.com/s/xcdMQU0Ab7-dEfNHre7_4A)  --- [github](https://github.com/OthmanAdi/planning-with-files/tree/master)
+
 [大模型推理框架，SGLang和vLLM有哪些区别？](https://www.zhihu.com/question/666943660/answer/1914348903668651349?share_code=h9km3fx6Orp5&utm_psn=1992517491310731858)
+
 [曾对AI嗤之以鼻，如今2周生成7万行代码：Rust大佬与Claude联手打造新语言Rue](https://zhuanlan.zhihu.com/p/1992184161176396135?share_code=KmCtV9l4Zdpe&utm_psn=1992543254135198132)
+
 [claude skills](https://zhuanlan.zhihu.com/p/1992416332776498488?share_code=ghBLWee96a06&utm_psn=1992675370751788552)
+
 [恭喜你! 发明了 [最强] RAG测试工具](https://www.bilibili.com/video/BV1btmYBFE9L/?share_source=copy_web&vd_source=05dd0ef7887b6a935d77cde96e5a7d4b)
+
 [Deeptutor ai帮助学习](https://mp.weixin.qq.com/s/uiovqvQlhDY2oZy-WUdiKA)
 
 ## 第一周

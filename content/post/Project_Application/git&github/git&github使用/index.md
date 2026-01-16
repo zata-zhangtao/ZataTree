@@ -81,13 +81,6 @@ tags: ["git&github","教程"]
 
 ```bash
 
-git log --oneline --graph --all # 显示所有分支的提交记录
-
-git branch --set-upstream-to=origin/<远程分支> <本地分支> # 绑定本地分支和远程分支
-
-git remote prune <remote-name> # 清理本地仓库中对远程仓库 zata 已删除分支的过时跟踪引用。 并不是删除分支
-git gc --prune=now  #清理不必要的文件并优化本地仓库
-
 %%设置用户签名%%
 git config --global user.name [username]      
 git config --global user.email [useremail]
@@ -97,6 +90,22 @@ git config--global core.quotepath false
 
 %%设置init分支名%%
 git config --global init.defaultBranch main
+
+git branch --set-upstream-to=origin/<远程分支> <本地分支> # 绑定本地分支和远程分支
+
+git pull --rebase # 变基拉取
+
+
+git stash push --keep-index  #只 stash 未暂存但已跟踪的修改  加-u 参数同时 stash 未跟踪文件
+
+git stash pop   # 恢复被 stash 的未暂存部分
+# 或
+git stash apply
+
+git remote prune <remote-name> # 清理本地仓库中对远程仓库 zata 已删除分支的过时跟踪引用。 并不是删除分支
+
+
+git gc --prune=now  #清理不必要的文件并优化本地仓库
 
 
 %% 设置远端库别名
@@ -146,6 +155,9 @@ git log --graph --oneline --all --remotes
 
 %%版本穿梭%%  一般用soft多一点
 git reset --hard  【版本号】
+
+
+git log --oneline --graph --all # 显示所有分支的提交记录建议直接使用gitG
 
 --.gitignore--------------------
 test* 忽略以test开头的文件
