@@ -17,6 +17,10 @@ tags:
 
 ## 第三周
 
+[claude code templates -- 给claude code的提示词 保证相应准确](https://github.com/davila7/claude-code-templates)
+
+[Windows自动化软件zTasker - 定时软件](https://mp.weixin.qq.com/s/a4hA-MdY3MujwXyNE13bUw)
+
 [程序员需要学习的长青技能](https://www.zhihu.com/question/658581470/answer/3537010340?share_code=13LxuIBhw5qmK&utm_psn=1994135294623097989)
 
 [使用ai生成ppt和科研绘图](https://mp.weixin.qq.com/s/EvYW0-2xXBHsUawEcNuVMQ)
