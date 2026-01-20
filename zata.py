@@ -238,6 +238,137 @@ def find_tag_category(tag_name):
     
     return found_categories
 
+
+# ---------- 交互式 CLI ----------
+def _prompt_choice(prompt, options):
+    """显示编号选项并返回用户选择的索引，支持返回 None 代表无效或退出"""
+    print(prompt)
+    for idx, opt in enumerate(options, 1):
+        print(f"{idx}. {opt}")
+    try:
+        choice = int(input("选择序号: ").strip() or "0")
+    except ValueError:
+        return None
+    return choice - 1
+
+
+def search_tags_items(keyword=None):
+    """以 (category, tag, path) 列表返回匹配的 tag"""
+    base_path = os.path.join("content", "post")
+    if not os.path.exists(base_path):
+        return []
+    items = []
+    for category in os.listdir(base_path):
+        category_path = os.path.join(base_path, category)
+        if not os.path.isdir(category_path):
+            continue
+        for tag in os.listdir(category_path):
+            tag_path = os.path.join(category_path, tag)
+            if os.path.isdir(tag_path):
+                if not keyword or keyword.lower() in tag.lower():
+                    items.append((category, tag, tag_path))
+    return items
+
+
+def interactive_create_post():
+    """命令行交互：按关键字筛选 tag，选择后创建文章"""
+    while True:
+        keyword = input("通过关键字筛选Tag（留空显示全部，输入 q 返回）: ").strip()
+        if keyword.lower() == "q":
+            return
+
+        items = search_tags_items(keyword)
+        if not items:
+            print("未找到匹配的Tag，请重试。\n")
+            continue
+
+        display = [f"{tag} ({cat})" for cat, tag, _ in items]
+        display.extend(["重新搜索", "返回主菜单"])
+
+        choice_idx = _prompt_choice("选择一个Tag:", display)
+        if choice_idx is None:
+            print("无效选择，请重试。\n")
+            continue
+
+        if choice_idx == len(display) - 2:  # 重新搜索
+            continue
+        if choice_idx == len(display) - 1:  # 返回
+            return
+
+        sel_cat, sel_tag, _ = items[choice_idx]
+        print(f"已选择Tag: {sel_tag} (Category: {sel_cat})")
+        while True:
+            title = input("请输入文章标题: ").strip()
+            if title:
+                break
+            print("标题不能为空。")
+        success, msg = create_folder_and_md(sel_cat, sel_tag, title)
+        print(msg + "\n")
+        return
+
+
+def interactive_create_tag():
+    """命令行交互：选择/新建 category，再创建 tag"""
+    while True:
+        categories = get_existing_categories()
+        if not categories:
+            print("当前没有任何Category，请先创建。")
+            new_cat = input("输入新Category名称（或 q 返回）: ").strip()
+            if not new_cat or new_cat.lower() == "q":
+                return
+            img = input("可选：Category图片路径（留空跳过）: ").strip() or None
+            success, msg = create_category(new_cat, img)
+            print(msg + "\n")
+            continue
+
+        options = categories + ["新建Category", "返回主菜单"]
+        choice_idx = _prompt_choice("选择一个Category:", options)
+        if choice_idx is None:
+            print("无效选择，请重试。\n")
+            continue
+
+        if choice_idx == len(options) - 2:  # 新建
+            new_cat = input("输入新Category名称: ").strip()
+            if not new_cat:
+                print("名称不能为空。\n")
+                continue
+            img = input("可选：Category图片路径（留空跳过）: ").strip() or None
+            success, msg = create_category(new_cat, img)
+            print(msg + "\n")
+            continue
+        if choice_idx == len(options) - 1:  # 返回
+            return
+
+        category = categories[choice_idx]
+        while True:
+            tag = input("输入要创建的Tag名称: ").strip()
+            if tag:
+                break
+            print("Tag名称不能为空。")
+        img = input("可选：Tag图片路径（留空跳过）: ").strip() or None
+        success, msg = create_tag(category, tag, img)
+        print(msg + "\n")
+        return
+
+
+def interactive_menu():
+    """交互主菜单"""
+    while True:
+        options = ["创建博客 Post（按相似Tag选择）", "创建Tag", "退出"]
+        choice_idx = _prompt_choice("Zata 交互模式 - 请选择:", options)
+        if choice_idx is None:
+            print("无效选择，请重试。\n")
+            continue
+        if choice_idx == 0:
+            interactive_create_post()
+        elif choice_idx == 1:
+            interactive_create_tag()
+        elif choice_idx == 2:
+            print("已退出交互模式。")
+            return
+        print()
+
+
 # GUI 界面
 def create_gui():
     try:
@@ -517,6 +648,7 @@ def main():
     search_parser.add_argument("-k", "--keyword", help="搜索关键词（可选）")
 
     gui_parser = subparsers.add_parser("gui", help="启动图形界面")
+    subparsers.add_parser("select", help="交互式CLI菜单")
 
     args = parser.parse_args()
 
@@ -565,6 +697,8 @@ def main():
                 print("-" * 50)
     elif args.command == "gui":
         create_gui()
+    elif args.command == "select":
+        interactive_menu()
 
 if __name__ == "__main__":
     main()

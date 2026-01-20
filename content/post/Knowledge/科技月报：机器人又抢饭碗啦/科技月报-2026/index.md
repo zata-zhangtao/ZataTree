@@ -15,11 +15,35 @@ tags:
 # 2026-01
 
 
+## 第四周
+
+
+[ai agent 记忆体系分类](https://zhuanlan.zhihu.com/p/1985435669187825983?share_code=MGCCA9B6mhU9&utm_psn=1996501582125228373)
+
+[claude code 的设计模式解析](https://github.com/shareAI-lab/learn-claude-code)
+
+[现代大模型一般采用哪些技术框架](https://www.zhihu.com/question/667226672/answer/1996320972941305569?share_code=UtmmRrYo9G3B&utm_psn=1996505533277045877)
+
+[如何一天修改你的人生 - 鸡汤文学](https://zhuanlan.zhihu.com/p/1996049853562786218?share_code=1jqDmMhRinwbu&utm_psn=1996862846630393332)
+
+[claude cowork平替](https://mp.weixin.qq.com/s/9TQfGuRfVIE5IBIAD6WN8g)
+
+[nanobanana 生成ppt](https://zhuanlan.zhihu.com/p/1976238610337521748)
+
+[deepseek mHC](https://zhuanlan.zhihu.com/p/1996653743056393440?share_code=1fhjuA2MGUDPE&utm_psn=1996975644815402549)
+
 ## 第三周
 
+[google translateGemma - 先进的翻译模型](https://mp.weixin.qq.com/s/GtwrZjLd2V7PJ9wMAxZEiA)
 [claude code templates -- 给claude code的提示词 保证相应准确](https://github.com/davila7/claude-code-templates)
 
+[claude code skills](https://zhuanlan.zhihu.com/p/1995802528294646467?share_code=Et3BCY9CDni3&utm_psn=1996163291421114646)
+
+[垂直ai agent落地](https://zhuanlan.zhihu.com/p/1994124775983970078?share_code=1kQtqEr4P62o8&utm_psn=1995864694217519537)
 [Windows自动化软件zTasker - 定时软件](https://mp.weixin.qq.com/s/a4hA-MdY3MujwXyNE13bUw)
+
+
+[优雅的打印日志](https://mp.weixin.qq.com/s/uuE31DPndh4OU5miYlaEmA)
 
 [程序员需要学习的长青技能](https://www.zhihu.com/question/658581470/answer/3537010340?share_code=13LxuIBhw5qmK&utm_psn=1994135294623097989)
 
