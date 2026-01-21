@@ -18,6 +18,28 @@ tags:
 ## 第四周
 
 
+
+[gemini 本地反代](https://github.com/cliouo/aistudio-build-proxy-all)
+
+[claude code 技术原理](https://www.zhihu.com/question/1920949805166858531/answer/1926373954517444345?share_code=vEroR7UkBCRf&utm_psn=1997255059692623213)
+
+[Ralph Loop](https://mp.weixin.qq.com/s/bKd9Z57DoJZC1oq1pLrNHA)
+[github](https://github.com/snarktank/ralph?tab=readme-ov-file)
+
+[solidquene 替代redis](https://mp.weixin.qq.com/s/qcxn9LRQV4l0RCbskSetxg)
+
+[让ai通过json生成UI代码](https://mp.weixin.qq.com/s/_5C9zv1ETZYXArXGKkrB7Q)
+
+[滑块验证码破解机制](https://www.zhihu.com/question/287191234/answer/1925877980816713052?share_code=ZiZLVu08z1V9&utm_psn=1997222492343914583)
+
+[planning-with-files 做技术预研](https://zhuanlan.zhihu.com/p/1996159235571087230?share_code=eazo9XwLnksF&utm_psn=1997028579922444851)
+
+[Chat2DB - AI数据库连接客户端](https://github.com/CodePhiliaX/Chat2DB)
+
+[nano banana  做ppt生成的提示词](https://zhuanlan.zhihu.com/p/1977185306399762070)  
+
+提示词: 极简商务演示风格，苹果发布会美学，大量留白，干净的无衬线字体，高端摄影图，网格布局，Helvetica字体，4k分辨率，超干净背景。
+
 [ai agent 记忆体系分类](https://zhuanlan.zhihu.com/p/1985435669187825983?share_code=MGCCA9B6mhU9&utm_psn=1996501582125228373)
 
 [claude code 的设计模式解析](https://github.com/shareAI-lab/learn-claude-code)
