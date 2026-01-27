@@ -15,6 +15,77 @@ tags:
 # 2026-01
 
 
+
+
+## 第五周
+
+
+[agent 入门指南](https://zhuanlan.zhihu.com/p/1995813479794353043?share_code=bl8f9GqJ9csl&utm_psn=1997781967228401056)
+
+[Coze 2.0 Skill ](https://mp.weixin.qq.com/s/xcT-buTknDmCKaEEatn0Pg)
+
+[什么样的行为极大的改善了你的心理健康？](https://www.zhihu.com/question/1937991623154852740/answer/1976405280599326735?share_code=FpaAr61Z9rij&utm_psn=1997964778161854228)
+
+[模糊搜索插件, claude LSP的增强](https://github.com/wsdjeg/picker.nvim)
+
+[未来程序员的展望](https://www.zhihu.com/question/1962476460834031068/answer/1998496081793812142?share_code=15y8wxP2dsSKF&utm_psn=1998498556911322652)
+
+[RankCoT 用排序思维链 + 自反思，提升 RAG 性能上限](https://www.zhihu.com/pin/1998023052370407583?native=1&scene=share&share_code=6ALccC6vCcyP&utm_psn=1998543061576349216)
+
+[一人开发者的技术路线  作战地图](https://github.com/XiaomingX/indie-hacker-tools-plus)
+
+[给AI编码智能体用的简单开放格式](https://github.com/agentsmd/agents.md)
+
+[notebooklm的使用技巧](https://www.bilibili.com/video/BV1FXvfBREHe?-Arouter=story&buvid=XXEAF42E0D12CAAB7A17180004AFD47D57D49&from_spmid=tm.recommend.0.0&is_story_h5=false&mid=6gzusIP5Ek7I2qEGhVKy2g%3D%3D&plat_id=163&share_from=ugc&share_medium=android&share_plat=android&share_session_id=1478c7f3-d64e-42dc-af3c-1f8e9017678f&share_source=WEIXIN&share_tag=s_i&spmid=main.ugc-video-detail-vertical.0.0&timestamp=1769273755&unique_k=VYz6aid&up_id=3546884870244925)
+
+[GroupViT 深度剖析：如何仅用文本监督实现零样本语义分割？](https://zhuanlan.zhihu.com/p/1998719498753160269?share_code=1v3jC5ApjaBo&utm_psn=1998740189334507614)
+
+[如何自己做一个类似claude code 的agent](https://zhuanlan.zhihu.com/p/1998443272360710794?share_code=15K3kMgw4yn0C&utm_psn=1998743450040944249)
+
+[阿里开源Qwen3-tts](https://mp.weixin.qq.com/s/gVQrVAWzSJ1VnrwkHKfCJA)
+
+[让多个agent同时帮你干活](https://github.com/eigent-ai/eigent)
+
+[RAG、LangChain、Agent 到底有什么关系？](https://www.zhihu.com/question/2495164206/answer/23805726342?share_code=UXjNKS0GhEuL&utm_psn=1998782570024957157)
+
+[人生问答提示词](https://mp.weixin.qq.com/s/DKEMNX76RHbNtpoqUawv9A)
+
+[大模型方面的推荐书籍](https://www.zhihu.com/question/13137834509/answer/1996602577983406520?share_code=7KHEzH8sW6eY&utm_psn=1998853367041118867)
+
+[Agentic Memory 思考](https://zhuanlan.zhihu.com/p/1998702974571152503?share_code=6w2szgzNwn38&utm_psn=1999039893146462061)
+
+[Clawdbot - 会进化,可以通过聊天工具接入的个人助手](https://mp.weixin.qq.com/s/7GZxu1i4AGJ5S0uCkJyVig)[github](https://github.com/clawdbot/clawdbot)
+
+[antigravity 使用方式 -- 摆脱地域限制](https://zhuanlan.zhihu.com/p/1997232428591371625?share_code=FMxaZnVntu1c&utm_psn=1999205420162627540)
+
+[可视化杀进程](https://www.zhihu.com/pin/1994591422993688206?native=1&scene=share&share_code=ZjulDozgxule&utm_psn=1999213479769445468)
+
+[Everything Claude Code  -- 如何正确使用claude code](https://mp.weixin.qq.com/s/hBShK-aD0KQpkGz43TPTgQ)[另一篇文章](https://zhuanlan.zhihu.com/p/1997978582736204425?share_code=4akMY0oPbvBS&utm_psn=1998498080161538735)
+
+[谷歌“可编程搜索”要变天了](https://mp.weixin.qq.com/s/xBvW9NNJEg8iSnbnVyEyGQ)
+
+[Mistral 发布 ocr 3 提高手写以及结构化文档识别准确率](https://mp.weixin.qq.com/s/h7CH6VE_W4I229dqG7K7yQ)
+
+
+[使用agent 搞定ocr - 吴恩达](https://mp.weixin.qq.com/s/BzhG5cq2wizdHnJHYbaaLA)[课程地址](https://www.deeplearning.ai/short-courses/document-ai-from-ocr-to-agentic-doc-extraction/)
+
+[什么是lovable](https://blog.logto.io/zh-TW/lovable-logto-auth)
+
+[agent 未来的展望](https://mp.weixin.qq.com/s/v33WXh-qBSqps-pPddxXXg)
+
+[大模型上下文优化方法](https://mp.weixin.qq.com/s/Kg5oiN4LUWPDuW6ngTlP5A)
+
+[claude LSP插件](https://mp.weixin.qq.com/s/6irUretbQVnwM5epUk4frg)
+
+[把github项目封装成为一个skills - 以youtube下载为例](https://mp.weixin.qq.com/s/JER462B3dVYlwVYl6rTmzw)
+
+[OCR模型 LightOnOCR-2-1B](https://mp.weixin.qq.com/s/ptTmYm-TJaFMculcIlFgzQ)
+
+[一个被忽视的prompt是复制粘贴](https://mp.weixin.qq.com/s/jlpaO-piFqvnxAgVJ47wyw)
+
+
+
+
 ## 第四周
 
 
