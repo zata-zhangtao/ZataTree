@@ -10,6 +10,22 @@ tags:
 ---
 
 
+
+
+最快安装命令合集如下
+
+```bash
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+irm get.scoop.sh | iex
+scoop install git  ## 注意要按指示执行几个命令
+scoop install uv
+scoop install just
+scoop install nvm
+
+
+```
+
+
 # 🚀 2026 现代化 Python 开发环境配置指南：拥抱 uv 与 Just
 
 换了新电脑，最让人头疼也最令人兴奋的事情莫过于**重新配置开发环境**。
