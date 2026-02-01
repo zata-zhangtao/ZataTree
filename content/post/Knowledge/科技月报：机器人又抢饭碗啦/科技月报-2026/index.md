@@ -88,7 +88,7 @@ tags:
 
 ## 第四周
 
-
+[banana slides](https://zhuanlan.zhihu.com/p/1989349474322108982)[github](https://github.com/Anionex/banana-slides)
 
 [gemini 本地反代](https://github.com/cliouo/aistudio-build-proxy-all)
 
