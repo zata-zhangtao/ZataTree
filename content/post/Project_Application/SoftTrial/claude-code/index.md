@@ -66,31 +66,10 @@ claude --dangerously-skip-permissions
 
 
 
-#### windows 安装nvm 然后安装node 然后再安装claude
 
-可以先安装一个nvm [nvm下载地址](https://github.com/coreybutler/nvm-windows/releases)
-![nvm下载](images/index/image-1.png)
+#### windows 
 
-把nvm解压到自己的目录下面，然后创建settings.txt文件
-![创建settings文件](images/index/image-7.png)
-```txt
-root: D:\Program\nvm
-path: D:\Program\nvm\nodejs
-arch: 64
-proxy: none
-```
-
-下面步骤非常重要，一定要配置这两个环境变量，不然会报错 
-![系统环境变量](images/index/image-2.png)![path环境变量](images/index/image-3.png)
-
-【这是报错示例】
-![错误示例](images/index/image-4.png)
-
-然后就可以使用了
-![使用](images/index/image-6.png)
-
-
-#### windows安装通过wsl
+推荐通过wsl安装
 
 [安装参考](https://itecsonline.com/post/how-to-install-claude-code-on-windows)
 
@@ -103,33 +82,12 @@ proxy: none
 sudo apt update
 sudo apt full-upgrade -y
 
-
-安装node
-其中，我拉取nvm的时候出错了，外网连接不上，原因是vpn的问题，去把vpn的选项都开开
-
-
-
+目前claude支持原生安装（2026/02） [claude code](https://code.claude.com/docs/en/overview)
 ```bash
-cd ~  # Switch to Linux Home Directory
-
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash   #  Install Node.js via NVM (Recommended)
-
-#或者如果网络不行，使用下面的国内镜像去拉取
-# curl -o- https://cdn.jsdelivr.net/gh/nvm-sh/nvm@v0.40.3/install.sh | bash
-
-# 如果还是不行，应该是解析的问题
-# 查看raw.githubusercontent.com的解析地址，如果是0.0.0.0就是有问题的，使用sudo apt install dnsutils 安装nslookup
-#nslookup raw.githubusercontent.com
-
-# 如果是解析问题，使用 Google DNS（8.8.8.8）, 修改好解析之后在进行上一步
-#echo "nameserver 8.8.8.8" | tee /etc/resolv.conf  
-
-. "$HOME/.nvm/nvm.sh"  # Activate NVM without restarting:
-
-nvm install 20  # Install Node.js version 20 (LTS):
-
-node --version && npm --version  #  Verify Installation
+curl -fsSL https://claude.ai/install.sh | bash
 ```
+
+安装cc-switch， 参考 本网站的 cc-switch 教程 
 
 Install Additional Dependencies
 
