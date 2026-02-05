@@ -21,6 +21,43 @@ tags:
 [windows官方](https://learn.microsoft.com/zh-cn/windows/wsl/install)
 
 
+安装相关软件
+```
+apt install git
+apt install just
+
+# 安装uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+安装nvm
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+```
+
+
+### 配置
+
+![网络设置为镜像模式,nat很麻烦](images/index/image-2.png)
+
+
+配置中文字体
+```bash
+sudo apt update
+sudo apt install fonts-noto-cjk fonts-wqy-microhei fonts-wqy-zenhei
+sudo locale-gen zh_CN.UTF-8
+```
+
+如果从windows复制过来的.sh需要修改字符
+```bash
+sed -i 's/\r$//' ./zata.sh
+```
+
+
+
+
+
+
 
 ### 问题解决
 
