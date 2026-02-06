@@ -23,6 +23,8 @@ tags:
 
 -[uv sync报错：hint: This usually indicates a problem with the package or the build environment.](#problem_with_the_package_or_the_build_environment)
 
+-[下载速度慢？使用 export UV_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple 设置镜像源]
+
 
 
 
