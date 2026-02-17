@@ -18,29 +18,20 @@ tags:
 ## claude code
 
 
-###目录
-- [相关教程](#相关教程)
 
-**安装**
-  - [windows安装通过wsl](#windows安装通过wsl)
+### 使用教程
+```bash
+"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"  # agent teams
 
-**配置其他模型api** 
-
-  - [配置其他模型api以使用claude_code](#配置其他模型api以使用claude_code)
-  - [Claude Code PR Documentation Action](https://github.com/marketplace/actions/claude-code-automatic-pr-documentation-generator)
-
-  - [使用/output-style切换输出模式（learning模式）](https://zhuanlan.zhihu.com/p/1939676396168409586)
+# 无需确认
+# 如果用户是root
+IS_SANDBOX=1 claude --dangerously-skip-permissions 
+# 如果用户不是root
+claude --dangerously-skip-permissions 
 
 
+```
 
-
-
-
-
-
-
-
-### 相关教程
 - [非常好用，在windows通过wsl使用claude，我就是看的这个](https://itecsonline.com/post/how-to-install-claude-code-on-windows)
 - [claude code 官方实战](https://docs.anthropic.com/en/docs/claude-code/overview)
 - [claude code 仓库](https://github.com/anthropics/claude-code)

@@ -12,9 +12,31 @@ tags:
 
 
 
+# 2026-02
+
+
+
+## 第三周
+
+## 第二周
+
+
+
+[ai 排行榜](https://www.zhihu.com/question/1975199818042327496/answer/2006490495979909971)
+
+[cursor trae 比较](https://www.zhihu.com/question/1946791222762014096/answer/2004939008887787533?share_code=12Ze0cu2iZ7bn&utm_psn=2005369288580690949)
+
+[如何评价anthropic在可解释性方面工作？](https://www.zhihu.com/question/1911022705769152635/answer/2004915744811529185?share_code=PdvaGU5GgFcL&utm_psn=2005367305350169225)
+
+## 第一周
+
+[trae](https://zhuanlan.zhihu.com/p/1999437027184230530?share_code=2G6xSHltIClx&utm_psn=2004469742006706443)
+
+[trae](https://zhuanlan.zhihu.com/p/2001972320089167419?share_code=1k8f0nCNvMQCo&utm_psn=2004471921446769732)
+
+
+
 # 2026-01
-
-
 
 
 ## 第五周
