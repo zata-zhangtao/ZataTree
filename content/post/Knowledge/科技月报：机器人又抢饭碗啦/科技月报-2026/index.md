@@ -18,9 +18,25 @@ tags:
 
 ## 第三周
 
+[如何在1-2年内成为某个领域的专家](https://www.zhihu.com/question/604298189/answer/2007008280740925555?share_code=WLPxaFrQC5XT&utm_psn=2008169961105929223)
+
+[bun 1.3来了，替代npm](https://mp.weixin.qq.com/s/qy9oGEHLx18JGBjg8Ryi-w)
+
+[gemini 3 是最强模型吗](https://www.zhihu.com/question/1975199818042327496/answer/2006490495979909971?share_code=L8GWWeZim4Y4&utm_psn=2006813374617510293)
+
+[国产小龙虾开源！网易有道开源 LobsterAI：国产 Agent 的“真·干活”时代来了！](https://mp.weixin.qq.com/s/mB2ru7MUOCyVWeh-YBO6ww)
+
 ## 第二周
 
+[一个视频看完ClaudeCode过去几个月重大更新](https://www.bilibili.com/video/BV1YgzTBTEEG?-Arouter=story&buvid=XXEAF42E0D12CAAB7A17180004AFD47D57D49)
 
+[Agent Infra: Sandbox技术和选型](https://zhuanlan.zhihu.com/p/1999938129465979624?share_code=v0vwE98ByUpm&utm_psn=2006043128814126180)
+
+[我与agent的2025](https://zhuanlan.zhihu.com/p/2005799834565755820?share_code=112LHNaDLvPR&utm_psn=2005986208887628599)
+
+[多智能体系统：基于A2A协议实现AI智能体编排](https://zhuanlan.zhihu.com/p/2005705701478114362?share_code=ggwj41jYcBxy&utm_psn=2005985492290791362)
+
+[为啥coze和dify这种llmops没热度了，是不是没必要部署了？ - Jayhow的回答 - 知乎]([text](https://www.zhihu.com/question/1953809252960407580/answer/1998778960763455230))
 
 [ai 排行榜](https://www.zhihu.com/question/1975199818042327496/answer/2006490495979909971)
 
