@@ -2,7 +2,8 @@
     {{ $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
     {{ $notHidden := where .Site.RegularPages "Params.hidden" "!=" true }}
     {{ $filtered := ($pages | intersect $notHidden) }}
-    {{ $pag := .Paginate ($filtered) }}
+    {{ $sorted := $filtered.ByLastmod.Reverse }}
+    {{ $pag := .Paginate ($sorted) }}
 
     <section class="article-list">
         {{ range $index, $element := $pag.Pages }}

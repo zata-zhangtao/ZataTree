@@ -8,7 +8,8 @@
     {{ $pages := where .Site.RegularPages "Section" "in" .Site.Params.mainSections }}
     {{ $notHidden := where .Site.RegularPages "Params.hidden" "!=" true }}
     {{ $filtered := ($pages | intersect $notHidden) }}
-    {{ $pag := .Paginate ($filtered) }}
+    {{ $sorted := $filtered.ByLastmod.Reverse }}
+    {{ $pag := .Paginate ($sorted) }}
 
     {{ if .Paginator.HasPrev }}
         <!-- Paginated. Append page number to title -->
@@ -21,7 +22,8 @@
 
     <!-- Build paginator -->
     {{ $notHidden := where .Pages "Params.hidden" "!=" true }}
-    {{ $pag := .Paginate ($notHidden) }}
+    {{ $sorted := $notHidden.ByLastmod.Reverse }}
+    {{ $pag := .Paginate ($sorted) }}
 
     <!-- {TAXONOMY_TYPE}: {TAXONOMY_TERM} -->
     {{ $title = slice (title .Data.Singular) ": " $title }}
