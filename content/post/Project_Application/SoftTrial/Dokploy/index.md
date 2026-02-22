@@ -11,7 +11,7 @@ tags:
 
 
 
-# 安装使用教程
+# 快速安装使用教程
 
 
 [官网地址](https://dokploy.com/)
@@ -22,11 +22,31 @@ curl -sSL https://dokploy.com/install.sh | sh
 ```
 
 
+帮助子节点安装docker
+```bash
+curl -fsSL https://get.docker.com | sh
+
+# 设置开机自启  
+systemctl enable --now docker
+```
+
+
+
+
+
 
 
 ![安装完成之后的管理员注册界面](images/index/image.png)
 
 
+
+# 注意事项
+
+1. 可以先用自己电脑ssh-copy-id 到远程服务器，然后把自己电脑上的ssh密钥复制过来
+![可以复制自己电脑上的ssh密钥](images/index/image-1.png)
+
+2. 子节点默认可能是没有docker的
+![没有docker报错](images/index/image-2.png)
 
 
 # Dokploy介绍
@@ -105,3 +125,178 @@ Dokploy 是一个新兴的、开源的、基于 Web 的服务器管理和应用�
  总结
 
 Dokploy 填补了“完全托管的云服务”与“手动服务器运维”之间的空白，让开发者能专注于编写代码，而将部署与运维的复杂性封装在一个美观、易用的界面之后。对于追求自主权、控制权和成本效益的开发者而言，Dokploy 是一个极具吸引力的现代部署解决方案。如果您正在寻找一种比手动操作更高效、比大型云平台更自主的部署方式，Dokploy 绝对值得一试。
+
+
+
+
+# Dokploy 搭配 Nginx Proxy Manager 保姆级实操教程
+
+没问题！既然你习惯了 1Panel 的操作逻辑，那么**方案一：使用 Nginx Proxy Manager (NPM)** 绝对是你的最佳选择。
+
+这将是一个**手把手、保姆级**的实操教程，涵盖从网络配置到最终通过域名访问的全过程。
+
+---
+
+**准备工作**
+
+1.  **一台安装好 Dokploy 的服务器**。
+2.  **一个域名**（假设为 `example.com`）。
+3.  **确保端口未被占用**：确保服务器的 80 和 443 端口没有被其他程序占用（Dokploy 面板默认通常在 3000 端口，所以 80/443 通常是空闲的）。
+
+---
+
+**第一步：规划 Docker 网络（关键点）**
+
+在 1Panel 里，系统帮你自动处理了网络。但在 Dokploy（以及原生 Docker）中，为了让“反向代理容器”能找到“应用容器”，它们必须在**同一个 Docker 网络**中。
+
+我们先创建一个专用的网络，名字叫 `proxy-net`。
+
+1.  登录你的服务器终端（SSH）。
+2.  执行以下命令创建网络：
+
+```bash
+docker network create proxy-net
+```
+
+这一步做完，以后所有的应用和 NPM 都加入这个网络，它们就能通过“容器名”互相通信了。
+
+---
+
+**第二步：在 Dokploy 中部署 Nginx Proxy Manager**
+
+1.  登录 Dokploy 面板。
+2.  进入 **Project（项目）** -> 选择或新建一个项目（例如叫 `System`）。
+3.  点击 **Compose** -> **Add Compose**。
+    *   **Name:** `nginx-proxy-manager`
+    *   **Description:** 反向代理服务
+4.  在右侧的编辑器中，粘贴以下配置（注意我添加了网络配置）：
+
+```yaml
+version: '3.8'
+services:
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx-proxy-manager
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    networks:
+      - proxy-net
+
+networks:
+  proxy-net:
+    external: true
+```
+
+5.  点击 **Deploy**（部署）。
+6.  等待日志显示 `Listening on port 81`，表示启动成功。
+
+---
+
+**第三步：初始化 Nginx Proxy Manager**
+
+1.  在浏览器访问：`http://你的服务器 IP:81`
+2.  使用默认账号登录：
+    *   **Email:** `admin@example.com`
+    *   **Password:** `changeme`
+3.  登录后，系统会立即要求你修改**用户名**和**密码**，请务必修改并记住。
+
+此时，你的“反向代理中心”已经搭建好了！
+
+---
+
+**第四步：部署一个业务应用（以 Alist 为例）**
+
+现在我们来部署一个实际的应用，并尝试通过域名访问它。
+
+1.  回到 Dokploy 面板。
+2.  进入你的项目，点击 **Compose** -> **Add Compose**。
+3.  **Name:** `alist`
+4.  粘贴以下配置（**注意看 `networks` 和 `ports` 的部分**）：
+
+```yaml
+version: '3.3'
+services:
+  alist:
+    image: 'xhofe/alist:latest'
+    container_name: alist-app
+    restart: always
+    volumes:
+      - './etc/alist:/opt/alist/data'
+    networks:
+      - proxy-net
+
+networks:
+  proxy-net:
+    external: true
+```
+
+5.  点击 **Deploy**。
+
+**重点理解**：此时，`alist-app` 和 `nginx-proxy-manager` 都在 `proxy-net` 这个网络里。虽然你在公网通过 IP:5244 访问不到 Alist（因为没暴露端口），但 NPM 可以通过内部网络访问到它。
+
+---
+
+**第五步：域名解析 (DNS)**
+
+去你的域名服务商（阿里云、腾讯云、Cloudflare 等）：
+
+1.  添加一条 **A 记录**。
+2.  **主机记录 (Name):** 例如 `pan` (即 `pan.example.com`)。
+3.  **记录值 (Value):** 填写你 **Dokploy 服务器的公网 IP**。
+
+---
+
+**第六步：在 NPM 中配置反向代理（最后一步！）**
+
+1.  回到 NPM 的管理后台 (`http://你的服务器 IP:81`)。
+2.  点击顶部菜单 **Hosts** -> **Proxy Hosts**。
+3.  点击右上角 **Add Proxy Host**。
+
+**A. Details 标签页 (基本信息)**
+*   **Domain Names:** `pan.example.com` (你刚才解析的域名)
+*   **Scheme:** `http`
+*   **Forward Hostname / IP:** `alist-app`
+    *   这里最关键！填写你在第四步定义的 `container_name`。不要填 IP，填容器名即可。
+*   **Forward Port:** `5244`
+    *   填写 Alist 的内部端口。
+*   **Cache Assets / Block Common Exploits:** 推荐勾选。
+
+**B. SSL 标签页 (HTTPS 证书)**
+*   **SSL Certificate:** 选择 `Request a new SSL Certificate`。
+*   **Force SSL:** 勾选 (强制跳转 HTTPS)。
+*   **HTTP/2 Support:** 推荐勾选。
+*   **Email Address:** 填写你的邮箱。
+*   **I Agree to the Terms:** 勾选。
+
+4.  点击 **Save**。
+
+---
+
+**验证成果**
+
+现在，在浏览器输入 `https://pan.example.com`。
+
+*   如果一切顺利，你应该能看到 Alist 的页面。
+*   并且浏览器地址栏有一把**小锁**（HTTPS 已启用）。
+*   整个过程你不需要手动去碰 Nginx 的配置文件，也不需要手动上传证书。
+
+**进阶小贴士**
+
+1.  **后续添加新应用：**
+    *   在 Dokploy 部署新应用时，记得在 Compose 文件里加上 `networks: - proxy-net`。
+    *   记下容器名 (`container_name`) 和内部端口。
+    *   去 NPM 添加一条新的 Proxy Host 即可。
+
+2.  **关于端口 81 的安全：**
+    *   NPM 的后台（81 端口）直接暴露在公网其实不太安全。
+    *   **高级玩法**：你可以在 NPM 里，把自己（`nginx-proxy-manager` 容器，端口 81）也代理一下！
+    *   配置一个域名如 `npm.example.com` -> Forward Hostname: `nginx-proxy-manager` -> Port: `81`。
+    *   一旦配置成功，去云服务商防火墙把 81 端口封掉，只留 80/443，以后通过 `npm.example.com` 访问管理后台，更加安全且带有 HTTPS。
+
+通过这套流程，你在 Dokploy 上就完美复刻了 1Panel 的反向代理体验，甚至在多服务器扩展性上比 1Panel 更强（因为基于标准的 Docker 网络）。
