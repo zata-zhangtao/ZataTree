@@ -2,7 +2,7 @@
 title: SSH使用教程
 description: ""
 date: 2025-03-14T00:23:43+08:00
-# image: images/index/index.png
+image: images/index/index.png
 categories:
     - Project&Application
 tags:
