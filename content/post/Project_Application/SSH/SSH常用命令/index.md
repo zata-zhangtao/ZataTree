@@ -47,6 +47,8 @@ ssh-keygen -t rsa -b 4096
 
 # 复制公钥到远程服务器
 ssh-copy-id username@hostname   # 如果是windows可以看问题：在Windows客户机上实现类似ssh-copy-id功能即下次不需要输入密码
+# 或者， （有些时候上吗会出错）ssh-keygen -R <IP address>  to delete history record
+cat ~/.ssh/id_ed25519.pub | ssh root@<IP address> "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
 
 # 查看已知主机
 cat ~/.ssh/known_hosts

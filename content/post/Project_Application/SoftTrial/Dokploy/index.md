@@ -48,6 +48,14 @@ systemctl enable --now docker
 2. 子节点默认可能是没有docker的
 ![没有docker报错](images/index/image-2.png)
 
+3. 添加docker swarm 误操作添加了管理节点，然后又下线会导致原本的管理节点脑裂
+```bash
+docker swarm init --force-new-cluster --advertise-addr <你的服务器内网IP或公网IP>
+```
+
+
+
+
 
 # Dokploy介绍
 
@@ -128,8 +136,126 @@ Dokploy 填补了“完全托管的云服务”与“手动服务器运维”之
 
 
 
+# 使用与配置
 
-# Dokploy 搭配 Nginx Proxy Manager 保姆级实操教程
+
+## Dokploy 安全建议检查与服务器加固操作指南
+
+
+![刚安装完成的dokploy](images/index/image-3.png)
+
+这张截图显示的是 Dokploy 的 **安全建议检查（Security Suggestions）**。它并不是让你在 Dokploy 的网页界面里填个表，而是提示你需要登录到 **服务器的终端（Terminal）** 去修改系统配置文件。这是一份服务器“加固”清单。要把这些红色的叉号（❌）变成绿色的勾号（✅），你需要 SSH 登录到这台服务器，依次执行以下操作。
+
+⚠️ **警告：在操作之前，请务必确保你已经可以通过 SSH 密钥登录服务器！如果你在没有配置好密钥的情况下禁用了密码登录，你将无法进入服务器！**
+
+---
+
+**第一步：修复 SSH 设置 (最重要)**
+
+截图建议你禁用密码登录（Password Auth）和 PAM，只允许密钥登录。
+
+1.  **SSH 登录服务器**。
+2.  **编辑 SSH 配置文件**：
+    ```bash
+    sudo nano /etc/ssh/sshd_config
+    ```
+3.  **修改以下配置项**（使用键盘上下键找到这些行，修改后的样子如下）：
+    *   找到 `PasswordAuthentication`，将其改为 `no`：
+        ```text
+        PasswordAuthentication no
+        ```
+    *   找到 `UsePAM`，建议改为 `no` (注意：有些系统改为 no 可能会有副作用，通常改 PasswordAuthentication 最关键，但为了满足 Dokploy 的检查，你可以改为 no)：
+        ```text
+        UsePAM no
+        ```
+    *   *确保 `PubkeyAuthentication` 是 `yes`（通常默认就是）。*
+4.  **保存并退出**：按 `Ctrl + O` 回车保存，按 `Ctrl + X` 退出。
+5.  **重启 SSH 服务**使配置生效：
+    ```bash
+    sudo systemctl restart ssh
+    ```
+    *操作完这一步，SSH 部分的红色叉号应该会变绿。*
+
+---
+
+**第二步：配置 UFW 防火墙**
+
+截图显示 UFW 已安装但未激活，且默认策略不是“拒绝”。
+
+1.  **设置默认拒绝进入**（安全基线）：
+    ```bash
+    sudo ufw default deny incoming
+    ```
+2.  **放行必要的端口**（**非常重要，否则你会把自己关在外面**）：
+    ```bash
+    # 放行 SSH (通常是 22)
+    sudo ufw allow 22/tcp
+
+    # 放行 Web 服务 (HTTP/HTTPS)
+    sudo ufw allow 80/tcp
+    sudo ufw allow 443/tcp
+
+    # 放行 Dokploy 面板端口 (默认是 3000)
+    sudo ufw allow 3000/tcp
+    ```
+3.  **启用防火墙**：
+    ```bash
+    sudo ufw enable
+    ```
+    *(系统会提示你这可能会断开 SSH 连接，输入 `y` 确认即可，只要上面 allow 22 执行了就没事)*。
+
+---
+
+**第三步：安装并配置 Fail2Ban**
+
+截图显示 Fail2Ban 根本没安装，建议安装并开启 SSH 攻击保护（Aggressive 模式）。
+
+1.  **安装 Fail2Ban**：
+    ```bash
+    sudo apt-get update
+    sudo apt-get install fail2ban -y
+    ```
+2.  **创建配置文件**（不要直接改 jail.conf，新建 jail.local）：
+    ```bash
+    sudo nano /etc/fail2ban/jail.local
+    ```
+3.  **粘贴以下内容**（开启 SSH 保护并设为激进模式）：
+    ```ini
+    [sshd]
+    enabled = true
+    port    = ssh
+    filter  = sshd
+    logpath = /var/log/auth.log
+    maxretry = 3
+    # 截图建议 SSH Mode: aggressive
+    mode    = aggressive
+    ```
+4.  **保存并退出**：`Ctrl + O` 回车，`Ctrl + X`。
+5.  **启动 Fail2Ban 服务**：
+    ```bash
+    sudo systemctl enable fail2ban
+    sudo systemctl start fail2ban
+    ```
+
+---
+
+**最后一步：验证**
+
+回到 Dokploy 网页界面，点击弹窗右上角的 **Refresh (刷新)** 按钮。如果操作正确，大部分或者全部的红叉 ❌ 应该都会变成绿色的 ✅。
+
+**简单总结：**
+1.  改 `/etc/ssh/sshd_config` 禁止密码。
+2.  运行 `ufw` 命令开放端口并开启防火墙。
+3.  运行 `apt install fail2ban` 并配置它。
+
+
+![配置完成如下](images/index/image-4.png)
+
+
+
+
+
+## Dokploy 搭配 Nginx Proxy Manager 保姆级实操教程
 
 没问题！既然你习惯了 1Panel 的操作逻辑，那么**方案一：使用 Nginx Proxy Manager (NPM)** 绝对是你的最佳选择。
 
