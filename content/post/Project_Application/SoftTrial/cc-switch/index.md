@@ -14,13 +14,18 @@ tags:
 ##  公开教程
 
 [bili](https://www.bilibili.com/read/cv44051635/?opus_fallback=1)
-[github](https://github.com/farion1231/cc-switch/issues/814)
+
+[github issue --- vscode里面使用claude code for vscode免登录 ](https://github.com/farion1231/cc-switch/issues/814)
+
 [zhihu](https://zhuanlan.zhihu.com/p/1992351805414334464)
 
 
 ## 安装
 
 1. 入到仓库,这里以wsl-ubuntu为例,下载deb包
+
+[cc-switch github地址](https://github.com/farion1231/cc-switch)
+
 ![github](images/index/image.png)
 2. 使用sudo apt install ./... 命令去安装
 

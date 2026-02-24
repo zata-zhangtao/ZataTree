@@ -17,8 +17,6 @@ tags:
 
 ## claude code
 
-
-
 ### 使用教程
 ```bash
 "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"  # agent teams
@@ -261,13 +259,19 @@ claude --dangerously-skip-permissions
 
 ## codex 
 
+[codex 官方](https://developers.openai.com/codex/cli/)
+
+
+
 ### 安装和配置
 
-#### windows
 
 ｀安装｀
 
-安装和claude一样，参考claude的安装方式
+```bash
+npm i -g @openai/codex
+```
+
 
 --- 
 
