@@ -10,7 +10,208 @@ tags:
 ---
 
 
-# 实战指南：使用 Docker 和 Traefik 搭建私有镜像仓库（及踩坑记录）
+
+# Dokploy 实战：搭建自带“自动清理”功能的私有 Docker 镜像仓库 --- 20260225
+
+在个人服务器上搭建私有 Docker Registry（镜像仓库）是很多开发者的刚需。使用 Dokploy 部署虽然简单，但很多人很快会遇到一个棘手的问题：**磁盘空间爆炸**。
+
+原生的 Docker Registry 像个“只进不出”的貔貅，默认既不支持删除镜像，删除了也不释放空间。
+
+本文将带你通过 Dokploy 部署一个**带 Web 管理界面**、**支持删除**且**每晚自动释放磁盘空间**的完美私有仓库。
+
+---
+
+**1. 为什么 Registry 的清理这么麻烦？**
+
+在开始配置之前，我们需要理解为什么 Docker 官方把 Registry 设计得这么“难用”。很多人发现，即便开启了删除功能，删除了镜像，磁盘占用依然没变。
+
+这是因为 Registry 的清理机制分为两步：
+
+1.  **软删除 (Soft Delete)**：当你通过 API 或 UI 点击删除时，Registry 只是删除了**清单（Manifest）**。这就像你在 Windows 上把文件拖进了回收站，文件其实还在磁盘上。
+2.  **垃圾回收 (Garbage Collection)**：这是真正的物理删除。因为 Docker 的镜像是由很多“层（Layers）”组成的，且不同镜像会**共享**底层。Registry 必须通过扫描全盘，计算引用关系，确认某一层真的没有被任何镜像使用后，才敢真正删除它。
+
+**此外，官方默认禁用删除操作（`REGISTRY_STORAGE_DELETE_ENABLED: false`）主要基于以下考量：**
+
+*   **层共享保护**：防止误删被其他镜像依赖的基础层。
+*   **并发安全**：防止在清理时，刚好有新镜像正在推送（Push）导致数据损坏。
+*   **不可变基础设施**：发布的镜像应当被视为不可变的历史存档。
+
+但在个人或小团队场景下，为了省钱（服务器磁盘贵啊！），我们需要它能够清理。
+
+---
+
+**2. 编写 `docker-compose.yml`**
+
+我们将通过 Dokploy 部署三个服务：
+
+1.  **Registry**：核心仓库服务。
+2.  **Auto-Auth**：一个辅助容器，启动时生成账号密码文件，然后自动退出。
+3.  **Registry UI**：一个轻量级的 Web 界面，方便我们查看和删除镜像。
+
+在 Dokploy 的 `Compose` 选项卡中，填入以下配置：
+
+```yaml
+version: '3.8'
+
+# 定义数据卷，持久化存储镜像和认证信息
+volumes:
+  registry-data:
+  registry-auth-data: 
+
+# 使用 Dokploy 预置的外部网络
+networks:
+  dokploy-network:
+    external: true
+
+services:
+  # 1. 认证辅助服务：生成账号 admin / 密码 123456
+  # 启动一次生成文件后就会退出，这是正常的
+  auto-setup-auth:
+    image: httpd:alpine
+    command: /bin/sh -c "htpasswd -Bbn admin 123456 > /auth/htpasswd"
+    volumes:
+      - registry-auth-data:/auth
+
+  # 2. 核心 Registry 服务
+  registry:
+    image: registry:2
+    container_name: my-private-registry
+    restart: always
+    networks:
+      - dokploy-network
+    # 映射端口方便本地调试，生产环境主要靠 Traefik 转发
+    ports:
+      - "5000:5000"
+    environment:
+      # 认证配置
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: "Registry Realm"
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+      # 反向代理配置
+      REGISTRY_HTTP_HEADERS_X_FORWARDED_FOR: true
+      REGISTRY_HTTP_HEADERS_X_FORWARDED_PROTO: https
+      # 【关键配置】开启删除权限
+      REGISTRY_STORAGE_DELETE_ENABLED: "true"
+      # 【跨域配置】允许 UI 界面通过浏览器调用 API
+      REGISTRY_HTTP_HEADERS_ACCESS_CONTROL_ALLOW_ORIGIN: '[https://registry-ui.zata.cafe]'
+      REGISTRY_HTTP_HEADERS_ACCESS_CONTROL_ALLOW_METHODS: '[HEAD,GET,OPTIONS,DELETE]'
+      REGISTRY_HTTP_HEADERS_ACCESS_CONTROL_ALLOW_HEADERS: '[Authorization,Accept,Cache-Control]'
+      REGISTRY_HTTP_HEADERS_ACCESS_CONTROL_EXPOSE_HEADERS: '[Docker-Content-Digest]'
+    volumes:
+      - registry-data:/var/lib/registry
+      - registry-auth-data:/auth
+    depends_on:
+      auto-setup-auth:
+        condition: service_completed_successfully
+
+    # Traefik 标签：配置域名和 HTTPS
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.registry.rule=Host(`registry.zata.cafe`)"
+      - "traefik.http.routers.registry.entrypoints=websecure"
+      - "traefik.http.routers.registry.tls.certresolver=letsencrypt"
+      - "traefik.http.services.registry.loadbalancer.server.port=5000"
+      # 取消请求体大小限制，防止 Push 大镜像失败
+      - "traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=0"
+
+  # 3. Web UI 管理界面
+  registry-ui:
+    image: joxit/docker-registry-ui:latest
+    container_name: registry-ui
+    restart: always
+    networks:
+      - dokploy-network
+    environment:
+      # 指向 Registry 的内部地址
+      - REGISTRY_URL=http://my-private-registry:5000
+      # 开启 UI 上的删除按钮
+      - DELETE_IMAGES=true
+      - REGISTRY_TITLE=Zata Registry
+    labels:
+      - "traefik.enable=true"
+      # 注意：UI 需要一个独立的域名
+      - "traefik.http.routers.registry-ui.rule=Host(`registry-ui.zata.cafe`)"
+      - "traefik.http.routers.registry-ui.entrypoints=websecure"
+      - "traefik.http.routers.registry-ui.tls.certresolver=letsencrypt"
+      - "traefik.http.services.registry-ui.loadbalancer.server.port=80"
+```
+
+> **注意**：请将代码中的 `zata.cafe` 替换为你自己的域名，并确保 DNS 解析已指向你的服务器。
+
+点击 **Deploy** 部署应用。
+
+---
+
+**3. 实现自动化清理 (GC)**
+
+部署完成后，你现在可以通过 `registry-ui.zata.cafe` 访问界面，并手动删除不需要的镜像 Tag。但这只是“软删除”。为了释放磁盘空间，我们需要在**宿主机**上配置定时任务。
+
+**步骤 1：创建清理脚本**
+
+SSH 登录到你的服务器，创建一个脚本文件：
+
+```bash
+nano /root/clean_registry.sh
+```
+
+写入以下内容：
+
+```bash
+#!/bin/bash
+
+echo "Starting Registry Garbage Collection: $(date)"
+
+# 调用容器内的 registry 工具执行垃圾回收
+# -m 参数表示同时删除不再被引用的 manifest（清单）
+docker exec my-private-registry /bin/registry garbage-collect /etc/docker/registry/config.yml -m
+
+echo "Garbage Collection Finished: $(date)"
+```
+
+保存并退出（Ctrl+O, Enter, Ctrl+X），然后赋予执行权限：
+
+```bash
+chmod +x /root/clean_registry.sh
+```
+
+**步骤 2：配置定时任务 (Crontab)**
+
+我们希望在每天凌晨（比如 4 点）没人使用的时候执行清理。
+
+输入命令编辑定时任务：
+
+```bash
+crontab -e
+```
+
+在文件末尾添加一行：
+
+```cron
+# 每天凌晨 4:00 执行清理，并将日志输出到文件以便排查
+0 4 * * * /root/clean_registry.sh >> /var/log/registry_gc.log 2>&1
+```
+
+---
+
+**4. 最终工作流**
+
+完成以上配置后，你的私有仓库工作流变成了这样：
+
+1.  **日常开发**：正常 `docker push` 推送镜像。
+2.  **手动维护**：觉得某个镜像版本太老了？打开 `registry-ui` 网页，点一下垃圾桶图标删除它（此时空间未释放）。
+3.  **自动瘦身**：不用管了，去睡觉吧。凌晨 4 点，服务器会自动运行 GC，扫描并彻底删除那些你标记为删除的文件块，第二天早上起来，磁盘空间就回来了。
+
+---
+
+**总结**
+
+通过 Dokploy 配合 Traefik，我们不仅拥有了一个 HTTPS 安全的私有仓库，还加上了可视化管理界面。再配合简单的 Shell 脚本和 Crontab，解决了 Docker Registry 最令人头疼的磁盘占用问题。
+
+Happy Coding! 🐳
+
+
+
+# 实战指南：使用 Docker 和 Traefik 搭建私有镜像仓库（及踩坑记录）--- 202602/23
 
 在 DevOps 流程中，拥有一个私有的 Docker Registry（镜像仓库）是必不可少的。虽然 Docker Hub 很好用，但出于隐私、速度和成本的考虑，自建仓库往往是更好的选择。本文将手把手教你如何使用 Docker Compose 和 Traefik 反向代理搭建一个带 HTTPS 和基础认证的轻量级私有仓库，并重点分析部署过程中最容易遇到的 “Gateway Timeout” 和 “Connection Refused” 等网络问题。
 

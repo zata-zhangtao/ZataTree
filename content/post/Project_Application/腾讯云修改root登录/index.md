@@ -15,5 +15,15 @@ categories:
 
 ---
 
+```bash
+sudo passwd root
+sudo vim /etc/ssh/sshd_config
+# 修改 PermitRootLogin yes
+sudo systemctl restart ssh
+
+如果需要通过密钥登录root,最好使用ssh-copy-id, 我试过自己粘贴,很麻烦
+```
+
+
 
 ![alt text](image/腾讯云修改root登录/腾讯云修改root登录.jpg)
