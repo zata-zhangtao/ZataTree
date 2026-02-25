@@ -35,17 +35,9 @@ https://blog.csdn.net/weixin_46474921/article/details/132841711
 
 ![设置terminal](image/index/index-1.png)
 
-### 3. 修改Code Runner 的配置（右键运行）
+### 自动fetch远程分支
 
-`首先你要安装好Code Runner 插件`
-
-- 修改点击右键运行时的运行环境，改为终端运行
-
-![让runconde默认在terminal](image/index/index-2.png)
-
-- 修改右键运行时工作路径
-
-![修改run code默认的路径](image/index/index-3.png)
+![alt text](images/index/image-5.png)
 
 4. 设置文件自动保存
 
