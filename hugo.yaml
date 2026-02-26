@@ -255,7 +255,7 @@ markup:
     tableOfContents:
         endLevel: 4                    # 目录包含到 4 级标题
         ordered: true                  # 目录编号
-        startLevel: 2                  # 从 2 级标题开始
+        startLevel: 1                  # 从 1 级标题开始（包含 # 标题）
     highlight:
         noClasses: false               # 使用 CSS 类高亮代码
         codeFences: true               # 启用代码块
