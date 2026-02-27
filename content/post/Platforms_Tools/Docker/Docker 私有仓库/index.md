@@ -1,5 +1,5 @@
 ---
-title: Docker 私有镜像仓库
+title: Docker 私有镜像仓库registry
 description: ""
 date: 2026-02-23T00:20:36+08:00
 image: images/index/index.png
@@ -122,14 +122,14 @@ services:
     networks:
       - dokploy-network
     environment:
-      # 指向 Registry 的内部地址
-      - REGISTRY_URL=http://my-private-registry:5000
-      # 开启 UI 上的删除按钮
+      # 删除 REGISTRY_URL，改用下面这两个变量：
+      - NGINX_PROXY_PASS_URL=http://my-private-registry:5000
+      - SINGLE_REGISTRY=true
+      
       - DELETE_IMAGES=true
       - REGISTRY_TITLE=Zata Registry
     labels:
       - "traefik.enable=true"
-      # 注意：UI 需要一个独立的域名
       - "traefik.http.routers.registry-ui.rule=Host(`registry-ui.zata.cafe`)"
       - "traefik.http.routers.registry-ui.entrypoints=websecure"
       - "traefik.http.routers.registry-ui.tls.certresolver=letsencrypt"

@@ -16,6 +16,7 @@ tags:
 
 
 [官网地址](https://dokploy.com/)
+[关于swarm的安装](https://docs.dokploy.com/docs/core/manual-installation)
 
 一键安装脚本，安装完成之后会给一个地址
 ```bash
