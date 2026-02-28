@@ -101,31 +101,14 @@ mkdir -p ~/.npm-global
 ```
 
 
-### 配置其他模型api以使用claude_code
+### 配置其他模型api以使用claude_code --- 20260228
 
-#### 配置kimi-k2-api
-
-https://zhuanlan.zhihu.com/p/1928071611342393465
-
-
-
-![alt text](images/index/image.png)
-
-export ANTHROPIC_AUTH_TOKEN=sk-xxxxxxx..xxxxx
-export ANTHROPIC_BASE_URL="https://api.moonshot.cn/anthropic/"
-
-#### 配置GLM4.5
-https://zhuanlan.zhihu.com/p/1935092461279117856
-
-#####  ZHIPU-GLM4.5
-export ANTHROPIC_AUTH_TOKEN=xxxxxxx..xxxxx
-export ANTHROPIC_BASE_URL="https://open.bigmodel.cn/api/anthropic"
+参考cc-swith
 
 
 ### 使用技巧
 
-
-#### 1. CLAUDE.md 文件管理
+1. CLAUDE.md 文件管理
 
 
 ![claude.md管理](images/index/image-8.png)
@@ -133,7 +116,7 @@ export ANTHROPIC_BASE_URL="https://open.bigmodel.cn/api/anthropic"
 
 ---
 
-#### 2. claude code 使用git worktree 开启多线程工作
+2. claude code 使用git worktree 开启多线程工作
 
 
   - 1. 创建 Git Worktree
@@ -244,7 +227,7 @@ npm install -g https://gaccode.com/claudecode/install --registry=https://registr
 claude --dangerously-skip-permissions
 ```
 
-#### 3. 在容器中开发时--dangerously-skip-permissions指令让它自动执行
+3. 在容器中开发时--dangerously-skip-permissions指令让它自动执行
 ```bash 
 # 如果用户是root
 IS_SANDBOX=1 claude --dangerously-skip-permissions 
@@ -253,9 +236,302 @@ IS_SANDBOX=1 claude --dangerously-skip-permissions
 claude --dangerously-skip-permissions 
 ```
 
-#### 4. VS Code 插件
+### Claude Code Plugin 系统终极指南 (最新版)  --- 20260228
 
+Claude Code 是 Anthropic 官方推出的 AI 编码助手（CLI + IDE 集成）。其 **Plugin（插件）系统** 是最强大的扩展机制，允许通过 **Skills、Agents、Hooks、MCP Servers、LSP** 等组件扩展功能，实现一键安装、版本管理和团队共享，告别手动复制 `.claude/` 配置。
 
+本教程结合官方文档与最佳实践，覆盖 **环境搭建 → 发现使用 → 管理维护 → 开发创建** 全流程。
+
+---
+
+**一、环境搭建：安装 Claude Code**
+
+在使用插件前，需确保已安装最新版本的 Claude Code。
+
+**1.1 安装 CLI 工具**
+
+适用于 macOS / Linux / WSL（推荐）：
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+适用于 Windows PowerShell：
+
+```bash
+irm https://claude.ai/install.ps1 | iex
+```
+
+验证安装 (建议版本 1.0.33+)：
+
+```bash
+claude --version
+```
+
+*首次运行 `claude` 需登录 Anthropic 账号（需要 Claude Pro / Team / Max 订阅）。*
+
+**1.2 安装 IDE 插件（可选但推荐）**
+
+插件系统在 IDE 中同样可用，且体验更佳：
+
+- **VS Code**：扩展市场搜索 **"Claude Code"** 安装官方插件。
+- **JetBrains**：市场搜索 **"Claude Code [Beta]"** 安装。
+- *效果*：编辑器右侧可直接聊天，支持 Diff 查看、自动打开文件，所有插件命令无缝集成。
+
+---
+
+**二、核心概念：插件由什么组成？**
+
+插件不仅仅是命令，它是一个功能包。理解组件有助于你选择合适的插件。
+
+| 组件 | 功能描述 | 调用方式 | 典型用途 |
+|------|----------|----------|----------|
+| **Skills / Commands** | 自定义 slash 命令 | `/plugin-name:command` | 快捷操作（如 `/commit:commit`） |
+| **Agents** | 专用子代理 | `/agents` 列表中选择 | 特定任务专家（如安全审查员） |
+| **Hooks** | 自动化钩子 | 自动触发 | 文件保存后自动 lint/format |
+| **MCP Servers** | 连接外部工具 | 自动出现在工具列表 | 连接 GitHub、Slack、数据库 |
+| **LSP Servers** | 代码智能服务 | 自动启用 | 代码跳转、类型提示、诊断 |
+
+> **注意**：安装插件后，命令通常带有 **命名空间** 以避免冲突，例如 `/commit-commands:commit`。
+
+---
+
+**三、用户指南：发现与安装插件**
+
+**3.1 打开插件管理器**
+
+在 Claude Code 会话中输入：
+
+```bash
+/plugin
+```
+
+进入交互式界面，包含四个 Tab：
+
+- **发现 (Discover)**：浏览所有可用插件。
+- **已安装 (Installed)**：管理已装插件。
+- **市场 (Marketplaces)**：添加/删除插件源。
+- **错误 (Errors)**：查看加载失败详情。
+
+*操作提示：使用 `Tab` 切换选项卡，方向键选择，`Enter` 确认。*
+
+**3.2 添加插件市场**
+
+官方市场 `claude-plugins-official` 通常自动可用。如需添加第三方市场：
+
+添加 Anthropic 演示市场：
+
+```bash
+/plugin marketplace add anthropics/claude-code
+```
+
+添加 GitHub 仓库市场：
+
+```bash
+/plugin marketplace add owner/repo
+```
+
+添加本地路径：
+
+```bash
+/plugin marketplace add ./my-marketplace
+```
+
+**3.3 安装插件（三种方式）**
+
+**方式 A：交互式（最简单）**
+
+1. 输入 `/plugin` → 切换到“发现”Tab。
+2. 找到插件 → `Enter`。
+3. **选择安装范围**（关键步骤）：
+   - `user`：仅当前用户，所有项目可用（默认）。
+   - `project`：写入 `.claude/settings.json`，团队共享（推荐）。
+   - `local`：写入 `.claude/settings.local.json`，不提交 git。
+
+**方式 B：命令行一键安装**
+
+官方市场安装：
+
+```bash
+/plugin install typescript-lsp@claude-plugins-official
+```
+
+指定范围安装（团队共享）：
+
+```bash
+claude plugin install pr-review-toolkit@anthropics-claude-code --scope project
+```
+
+**方式 C：热门插件推荐**
+
+| 插件名 | 功能 | 推荐场景 |
+|--------|------|----------|
+| `typescript-lsp` / `pyright-lsp` | 代码智能 | 所有开发项目 |
+| `commit-commands` | 智能提交 | Git 工作流 |
+| `pr-review-toolkit` | PR 审查 | 代码合并前 |
+| `security-guidance` | 安全审查 | 敏感代码处理 |
+| `context7` | API 文档 | 查阅最新文档 |
+
+---
+
+**四、管理插件：更新与维护**
+
+| 操作 | 命令 / 路径 | 说明 |
+|------|------------|------|
+| **查看已安装** | `/plugin` → 已安装 Tab | 查看版本与状态 |
+| **禁用/启用** | `/plugin disable <name>` | 暂时停用但不卸载 |
+| **卸载** | `/plugin uninstall <name>` | 完全移除 |
+| **更新单个** | `/plugin update <name>` | 升级到最新版本 |
+| **更新市场** | `/plugin marketplace update <name>` | 刷新插件列表 |
+| **配置文件** | `.claude/settings.json` | 手动编辑项目级配置 |
+
+**自动更新配置**
+
+可通过环境变量控制更新行为：
+
+禁用所有自动更新：
+
+```bash
+export DISABLE_AUTOUPDATER=true
+```
+
+仅保留插件更新，禁用 CLI 更新：
+
+```bash
+export FORCE_AUTOUPDATE_PLUGINS=true
+```
+
+---
+
+**五、开发者指南：创建自己的插件**
+
+**5.1 标准目录结构**
+
+创建一个文件夹，结构如下：
+
+```
+my-awesome-plugin/
+├── .claude-plugin/           # 元数据目录
+│   └── plugin.json           # 插件清单（必需）
+├── skills/                   # 技能命令
+│   └── greet/
+│       └── SKILL.md
+├── agents/                   # 子代理
+│   └── security-reviewer.md
+├── hooks/                    # 钩子配置
+│   └── hooks.json
+├── .mcp.json                 # MCP 服务器定义
+├── .lsp.json                 # LSP 服务器配置
+└── scripts/                  # 可执行脚本
+    └── format.sh
+```
+
+**5.2 编写 plugin.json**
+
+```json
+{
+  "name": "my-awesome-plugin",
+  "version": "1.0.0",
+  "description": "我的第一个插件",
+  "author": { "name": "Your Name", "email": "you@example.com" },
+  "license": "MIT",
+  "skills": "./skills/",
+  "agents": "./agents/",
+  "hooks": "./hooks/hooks.json"
+}
+```
+
+**5.3 创建 Skill 示例**
+
+`skills/greet/SKILL.md`:
+
+```markdown
+---
+description: 向用户问好
+---
+你好！我是你的专属助手，今天有什么可以帮你的吗？
+```
+
+**5.4 配置 Hooks 示例**
+
+`hooks/hooks.json` (实现保存后自动格式化):
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/format.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**5.5 本地调试与测试**
+
+无需发布即可测试插件：
+
+指定插件目录启动：
+
+```bash
+claude --plugin-dir ./my-awesome-plugin
+```
+
+调试模式查看加载详情：
+
+```bash
+claude --debug
+```
+
+进入会话后输入 `/my-awesome-plugin:greet` 验证功能。
+
+**5.6 发布到市场**
+
+1. 将代码上传至 GitHub 公共仓库。
+2. 创建 `marketplace.json` 索引文件。
+3. 通过 Claude.ai 设置 → Plugins → Submit 提交至官方市场，或分享给团队直接使用 Git URL 安装。
+
+---
+
+**六、故障排除 (Troubleshooting)**
+
+| 问题现象 | 可能原因 | 解决方案 |
+|----------|----------|----------|
+| `/plugin` 命令不识别 | 版本过低 | 升级 CLI：`curl -fsSL https://claude.ai/install.sh | bash` |
+| 插件未加载 | 缓存问题 | 删除缓存：`rm -rf ~/.claude/plugins/cache` 后重启 |
+| 命令未出现 | 目录结构错误 | 确保 `skills/` 或 `commands/` 在插件根目录 |
+| Hooks 未触发 | 脚本无权限 | 运行 `chmod +x scripts/*.sh` |
+| LSP 报错 | 语言服务器缺失 | 安装对应二进制（如 `npm i -g typescript-language-server`） |
+| 安装失败 | 网络/权限问题 | 检查 GitHub 仓库是否公开，或切换网络环境 |
+| 命令冲突 | 命名空间重复 | 使用完整命名空间 `/plugin-name:cmd` 调用 |
+
+---
+
+**七、最佳实践与建议**
+
+1.  **版本管理**：遵循语义版本控制（MAJOR.MINOR.PATCH），便于回滚。
+2.  **团队共享**：使用 `--scope project` 将插件配置提交到 `.claude/settings.json`，确保团队成员环境一致。
+3.  **安全优先**：安装第三方插件前，检查其 `plugin.json` 和脚本内容，确认来源可信。
+4.  **路径规范**：插件内部所有路径必须相对于插件根目录，以 `./` 开头，或使用 `${CLAUDE_PLUGIN_ROOT}` 变量。
+5.  **结合规范**：在项目根目录放置 `CLAUDE.md` 定义编码规范，插件会自动遵守。
+
+---
+
+**八、官方资源**
+
+- **官方文档 (中文)**： `https://code.claude.com/docs/zh-CN/` 
+- **插件开发文档**： `https://code.claude.com/docs/zh-CN/plugins` 
+- **官方演示仓库**： `https://github.com/anthropics/claude-code` 
+- **社区讨论**：Claude 官方 Discord 频道
+
+掌握插件系统后，Claude Code 的生产力将显著提升。通过团队统一安装核心插件（如 LSP、Commit、Security），可实现「一键 PR 审查 + 自动部署 + 安全扫描」的现代化开发全流程。
 
 ## codex 
 
