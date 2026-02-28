@@ -20,7 +20,12 @@ tags:
 
 一键安装脚本，安装完成之后会给一个地址
 ```bash
+export ADVERTISE_ADDR=<指定IP地址>  # 需要指定公网IP
 curl -sSL https://dokploy.com/install.sh | sh
+
+# 或者
+
+curl -sSL https://dokploy.com/install.sh | ADVERTISE_ADDR=<你的服务器公网IP> bash
 ```
 
 
@@ -39,9 +44,28 @@ docker service ps
 ```
 
 
+## 安装卡住时的清理方法
 
+有时候安装Dokploy可能会卡住，需要清除重来，以下是完整的清理步骤：
 
+```bash
+# 离开 swarm 并清理
+docker swarm leave --force
 
+# 删掉所有 Dokploy 相关的东西
+docker service rm $(docker service ls -q)
+docker container rm -f $(docker ps -aq --filter "name=dokploy")
+docker volume rm $(docker volume ls -q --filter "name=dokploy")
+docker network rm $(docker network ls -q --filter "name=dokploy")
+
+# 清理残留镜像（可选）
+docker system prune -a --volumes --force
+
+# 再跑安装（加 --debug 看更详细输出）
+curl -sSL https://dokploy.com/install.sh | bash -s -- --debug
+# 或指定 advertise addr（如果你的公网IP不是自动检测到的）
+curl -sSL https://dokploy.com/install.sh | ADVERTISE_ADDR=你的服务器公网IP bash
+```
 
 ![安装完成之后的管理员注册界面](images/index/image.png)
 
@@ -59,7 +83,7 @@ docker service ps
 2. 子节点默认可能是没有docker的,需要安装一下
 ![没有docker报错](images/index/image-2.png)
 
-3. 添加docker swarm 误操作添加了管理节点，然后又下线会导致原本的管理节点脑裂
+3. 添加docker swarm 误操作添加了管理节点，然后又下线会导致原本的管理节点脑裂,详情需要看dokploy的官方文档
 ```bash
 docker swarm init --force-new-cluster --advertise-addr <你的服务器内网IP或公网IP>
 ```
