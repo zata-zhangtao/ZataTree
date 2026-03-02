@@ -35,6 +35,13 @@ curl -fsSL https://get.docker.com | sh
 
 # 设置开机自启  
 systemctl enable --now docker
+
+# 作为子节点加入到 swarm 集群
+docker swarm join \
+  --token <TOKEN> \
+  --advertise-addr <当前子节点的_公网IP> \
+  --data-path-addr <当前子节点的_公网IP> \
+  <Manager_公网IP>:2377
 ```
 
 
@@ -67,8 +74,6 @@ curl -sSL https://dokploy.com/install.sh | bash -s -- --debug
 curl -sSL https://dokploy.com/install.sh | ADVERTISE_ADDR=你的服务器公网IP bash
 ```
 
-![安装完成之后的管理员注册界面](images/index/image.png)
-
 
 
 # 注意事项
@@ -84,9 +89,8 @@ curl -sSL https://dokploy.com/install.sh | ADVERTISE_ADDR=你的服务器公网I
 ![没有docker报错](images/index/image-2.png)
 
 3. 添加docker swarm 误操作添加了管理节点，然后又下线会导致原本的管理节点脑裂,详情需要看dokploy的官方文档
-```bash
-docker swarm init --force-new-cluster --advertise-addr <你的服务器内网IP或公网IP>
-```
+重新安装请查看前面的方法
+
 4. dokploy很多时候部署失败可能是不提示的,尤其是使用 docker stack 的时候
 
 5. 配置了域名地址之后,有时候可能要等一会才能生效
@@ -204,6 +208,126 @@ networks:
 
 # 使用与配置
 
+
+## Dokploy Swarm 子节点联通性测试指南
+
+这是一份专为 Dokploy 用户准备的 **Docker Swarm 子节点（Worker Node）联通性测试教程**。在搭建好 Dokploy 多节点集群后，最关键的一步是验证 **管理节点（Manager）** 是否能通过 **Overlay 网络** 正常调度并连接到 **子节点（Worker）** 上的容器。本教程将通过部署一个跨节点的测试应用，验证网络数据平面（Data Plane）是否畅通。
+
+**一、核心概念：为什么不能用“默认”网络？**
+
+很多教程提到“不要使用默认网络”，这通常指两点：
+
+1.  **禁止使用 `bridge` 网络**：这是单机网络。如果你不指定网络，Docker 默认使用 `bridge`，跨服务器的容器将无法互相访问。
+2.  **必须使用 `Overlay` 网络**：Swarm 模式下，只有 Overlay 网络能建立跨物理机的虚拟隧道。
+3.  **Dokploy 的做法**：Dokploy 已经预设了一个名为 `dokploy-network` 的 Overlay 网络。**我们的应用必须挂载到这个网络上**，才能被 Dokploy 的 Traefik 网关识别并实现跨节点转发。
+
+**二、准备工作**
+
+1.  确保在 Dokploy 的 **Servers** 菜单中，子节点显示为 `Ready`。
+2.  （可选）为子节点添加标签：
+    *   在管理节点终端执行：`docker node update --label-add type=worker <子节点主机名>`
+    *   *这能确保我们的测试应用准确落在子节点上。*
+
+**三、编写部署文件 (Compose)**
+
+在 Dokploy 中新建一个 **Compose**，选择 **Stack** 模式，填入以下配置：
+
+```yaml
+version: '3.8'
+
+services:
+  # 服务 A：强制运行在管理节点 (Manager)
+  test-manager:
+    image: nginxdemos/hello:plain-text
+    networks:
+      - dokploy-network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+
+  # 服务 B：强制运行在子节点 (Worker)
+  test-worker:
+    image: nginxdemos/hello:plain-text
+    networks:
+      - dokploy-network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          # 如果没打标签，可用 - node.role == worker
+          - node.role == worker 
+
+networks:
+  # 使用 Dokploy 预设的 Overlay 网络
+  dokploy-network:
+    external: true
+```
+
+*注意：上述 YAML 中的注释行已保留，但请确保在实际编辑时不要误删关键配置。*
+
+**四、部署步骤**
+
+1.  **创建 Stack**：在 Dokploy 项目中点击 `Create Service` -> `Compose`。
+2.  **配置**：
+    *   **Name**: `swarm-test`
+    *   **Source**: 直接粘贴上述 YAML 代码。
+3.  **部署**：点击 **Deploy**。
+4.  **确认位置**：
+    *   部署完成后，在 Dokploy 的容器列表里查看。
+    *   确认 `test-manager` 运行在管理节点 IP 上。
+    *   确认 `test-worker` 运行在子节点 IP 上。
+
+**五、联通性验证（手动测试）**
+
+即使两个容器都显示 "Running"，也不代表网络是通的。我们需要执行以下两项压力测试：
+
+**1. 容器间内网互访（验证 Overlay 网络）**
+
+进入管理节点上的 `test-manager` 容器，尝试访问子节点上的服务名：
+
+```bash
+    # 1. 在管理节点终端找到容器 ID
+docker ps | grep test-manager
+
+    # 2. 进入容器内部
+docker exec -it <容器 ID> sh
+
+    # 3. 通过服务名访问子节点的容器（Swarm 会自动做 VIP 负载均衡）
+curl http://test-worker
+```
+
+*   **成功标志**：如果返回 `Server address: 10.0.x.x` 且该 IP 是子节点的内部 IP，说明 **Overlay 网络跨机通信正常**。
+
+**2. 外部网关转发（验证 Traefik 联通）**
+
+在 Dokploy 中为 `test-worker` 服务配置一个域名（Domain）：
+
+1.  在 `test-worker` 的域名设置里绑定一个测试域名。
+2.  通过浏览器访问该域名。
+*   **原理**：流量会先到达 **管理节点的 Traefik** -> 通过 **dokploy-network** -> 转发到 **子节点的容器**。
+*   **成功标志**：浏览器正常显示网页。如果出现 `502 Bad Gateway`，说明管理节点和子节点之间的 **4789/UDP** 端口被防火墙拦截了。
+
+**六、故障排查**
+
+如果测试不通，请检查各节点间防火墙是否放行了以下 Swarm 必需端口：
+
+1.  **TCP 2377**：集群管理通信。
+2.  **TCP/UDP 7946**：节点发现与健康检查。
+3.  **UDP 4789**：**关键！** 数据平面 Overlay 网络（UDP 封装）。如果该端口不通，容器能启动但无法互相 ping 通。
+
+**检查指令（在任一节点查看网络详情）：**
+
+```bash
+docker network inspect dokploy-network
+```
+
+确认子节点（Worker）的容器 IP 是否出现在 `Containers` 列表中。
+
+**总结**
+
+在 Dokploy 中测试子节点，**核心就是利用 `dokploy-network` (External Overlay)**。只要能通过管理节点的容器 `curl` 通子节点的容器名，你的集群网络就是完美的。
 
 ## Dokploy + Docker Swarm 实战：为什么扩容后看不见容器？(多节点部署避坑指南)
 

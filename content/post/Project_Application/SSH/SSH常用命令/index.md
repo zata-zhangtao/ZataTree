@@ -33,6 +33,9 @@ sudo service ssh restart # 重启服务，然后就可以连接了，有时候�
 # 基本连接
 ssh username@hostname
 
+# 通过代理连接
+ssh -o "ProxyCommand nc -X 5 -x 127.0.0.1:7897 %h %p" root@107.172.234.205
+
 # 指定端口连接
 ssh -p 2222 username@hostname
 
