@@ -93,6 +93,13 @@ git config --global init.defaultBranch main
 
 git branch --set-upstream-to=origin/<远程分支> <本地分支> # 绑定本地分支和远程分支
 
+# 设置 HTTP/HTTPS 代理
+git config --global http.proxy http://127.0.0.1:7890
+git config --global https.proxy http://127.0.0.1:7890
+
+# 或者设置 SOCKS5 代理（更稳定）
+git config --global http.proxy socks5://127.0.0.1:7890
+
 git pull --rebase # 变基拉取
 
 
