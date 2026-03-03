@@ -14,6 +14,8 @@ tags:
 #       常用 BASH 命令精简版
 # ==================================
 
+export all_proxy=socks5h://127.0.0.1:7898 # 设置全局代理，包括 wget, curl 等
+
 # --- 文件和目录管理 (File & Directory Management) ---
 ls -l              # 以长格式列出文件和目录
 cd /path/to/dir    # 切换目录
