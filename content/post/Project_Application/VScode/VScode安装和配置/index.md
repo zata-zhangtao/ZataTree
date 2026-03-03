@@ -89,10 +89,17 @@ https://blog.csdn.net/weixin_46474921/article/details/132841711
 
 ## vscode 插件
 
+```json
+GitLG
+Office Viewer
+Markdown Preview Mermaid Support
+```
+
+
 1. GitLG
 ![GitLG](images/index/PixPin_2025-10-22_11-54-38.png)
 
-2.office viewer
+2. office viewer
 ![alt text](images/index/index-1.png)
 
 `但是有一个非常严重的问题，就是说如果安装了office viewer 会导致vscode自己的image paste失效`
@@ -104,6 +111,10 @@ https://blog.csdn.net/weixin_46474921/article/details/132841711
 当然，如果想支持更多办公文档的查看，那么可以一步到位，直接安装office viewer(Markdown Editor)。但这个插件有一个坑点，就是会更改markdown文件的格式，所以安装之后，可以取消对markdown文件的默认开启方式。方法很简单，只需右键单击一个markdown文件，选择打开方式，在命令栏中选择最下面的为*.md配置默认编辑器，最后点击文本编辑器就可以了。
 
 此外，这个插件内嵌了一个主题，所以安装之后界面的颜色可能会发生变化，不必惊慌，重新选择一个主题就可以了。
+
+3. Markdown Preview Mermaid Support（作者：Matt Bierner）
+特点：这是下载量最高、最基础的 Mermaid 插件。安装后，它会无缝集成到 VS Code 原生的 Markdown 预览功能中。
+用法：在 .md 文件中输入 ```mermaid 代码块，然后点击 VS Code 右上角的“预览”按钮（或快捷键 Ctrl+Shift+V / Cmd+Shift+V），就能直接在右侧看到渲染出的图表。
 
 ## 遇到的问题和解决方案
 
