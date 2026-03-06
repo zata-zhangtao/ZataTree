@@ -209,6 +209,83 @@ networks:
 # 使用与配置
 
 
+## dokploy 如果因为磁盘爆了而崩溃，怎么解决
+
+```bash
+# 确认磁盘状态
+df -h  
+
+
+# 清除陈旧的系统日志
+sudo journalctl --vacuum-time=1d
+sudo journalctl --vacuum-size=100M
+
+# 清理未使用的 Docker 镜像和停止的容器
+docker system prune -a -f
+```
+
+
+## 配置S3 Destinations
+
+- 以b2_buckets 为例
+
+
+**将 Backblaze B2 配置到 Dokploy 的 S3 存储指南**
+
+将 Backblaze B2 配置到 Dokploy 的 S3 存储中主要分为两步：首先在 Backblaze 获取凭据，然后在 Dokploy 仪表板中完成设置。
+
+**第一步：在 Backblaze B2 中获取信息**
+
+1.  **创建存储桶 (Bucket)**
+    *   登录 Backblaze，进入 B2 Cloud Storage > Buckets。
+    *   创建一个新存储桶（例如命名为 `dokploy-backups`）。
+    *   注意：在存储桶列表中找到刚才创建的桶，复制其显示的 S3 Endpoint（例如 `s3.us-west-002.backblazeb2.com`）。
+
+2.  **创建应用程序密钥 (Application Keys)**
+    *   进入 App Keys 页面。
+    *   点击 Add a New Application Key。
+    *   设置名称，并确保权限设置为 Read and Write。
+    *   创建后，你会得到：
+        *   `keyID`（即 Dokploy 中的 Access Key）
+        *   `applicationKey`（即 Dokploy 中的 Secret Key）
+    *   注意：`applicationKey` 仅显示一次，请务必保存。
+
+**第二步：在 Dokploy 中进行配置**
+
+1.  进入 Dokploy 面板，点击左侧菜单的 Settings (设置)。
+2.  找到 S3 Destinations 选项卡，点击 Add S3 Destination。
+3.  根据以下对应关系填写表单：
+
+| Dokploy 字段 | 对应 Backblaze 的信息 | 示例值 |
+| :--- | :--- | :--- |
+| Name | 自定义名称 | Backblaze-B2 |
+| Provider |  | 选择 Amazon Web Services （AWS）S3 ｜
+| Endpoint | 存储桶页面的 S3 Endpoint (需带 https://) | `https://s3.us-west-002.backblazeb2.com` |
+| Region | Endpoint 中的地区部分 | `us-west-002` |
+| Bucket | 你创建的存储桶名称 | `dokploy-backups` |
+| Access Key | 刚才生成的 keyID | `002123456789...` |
+| Secret Key | 刚才生成的 applicationKey | `K001abcd...` |
+
+4.  **保存并测试**：填写完成后，点击 Test Connection。如果显示成功，则说明配置正确。
+
+**第三步：为数据库或应用开启备份**
+
+配置好 S3 目的地后，你还需要将其应用到具体的备份任务中：
+
+1.  进入你想备份的 Database (数据库) 或 Service。
+2.  点击 Backups 选项卡。
+3.  在 Select Destination 下拉菜单中选择刚才创建的 Backblaze-B2。
+4.  设置 Cron Schedule（例如 `0 0 * * *` 表示每天午夜备份）并启用。
+
+**常见问题排查**
+
+*   **权限错误**：确保创建 Key 时勾选了对应存储桶的 "Read and Write" 权限。
+*   **Endpoint 格式**：Dokploy 通常需要完整的 URL 格式，请确保包含 `https://`。
+*   **地区 (Region)**：Backblaze 的地区代码通常就在 Endpoint URL 中（如 `us-west-002`），必须准确填写。
+
+
+
+
 ## Dokploy Swarm 子节点联通性测试指南
 
 这是一份专为 Dokploy 用户准备的 **Docker Swarm 子节点（Worker Node）联通性测试教程**。在搭建好 Dokploy 多节点集群后，最关键的一步是验证 **管理节点（Manager）** 是否能通过 **Overlay 网络** 正常调度并连接到 **子节点（Worker）** 上的容器。本教程将通过部署一个跨节点的测试应用，验证网络数据平面（Data Plane）是否畅通。
