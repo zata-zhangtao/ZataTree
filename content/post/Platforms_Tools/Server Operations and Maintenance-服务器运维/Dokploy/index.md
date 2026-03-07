@@ -107,6 +107,141 @@ networks:
 # 一些应用的部署
 
 
+## Docker Registry  --- 20260307创建 未做测试
+
+Docker Registry 原生并没有提供“自动根据时间删除镜像”的功能。要实现超过 7 天自动删除，必须分为两步完成：
+
+1. **调用 API 删除标签**：将超过 7 天的镜像标记为“已删除”（但此时物理磁盘空间还未释放）。
+2. **执行垃圾回收 (Garbage Collection)**：清理那些失去标签的底层文件（Blob），真正释放磁盘空间。
+
+为了在 Docker Compose 中实现自动化，我们可以**增加一个专门的清理服务（`registry-cleanup`）**。它会每天自动运行一个广受欢迎的开源 Python 脚本 `registry-cli` 来删除旧镜像，并调用 Registry 的 GC 命令释放空间。
+
+下面是修改后的完整 `docker-compose.yml`：
+
+```yaml
+version: '3.8'
+
+# 定义数据卷，持久化存储镜像和认证信息
+volumes:
+  registry-data:
+  registry-auth-data: 
+
+# 使用 Dokploy 预置的外部网络
+networks:
+  dokploy-network:
+    external: true
+
+services:
+  # 1. 认证辅助服务：生成账号 admin / 密码 123456
+  auto-setup-auth:
+    image: httpd:alpine
+    command: /bin/sh -c "htpasswd -Bbn admin 123456 > /auth/htpasswd"
+    volumes:
+      - registry-auth-data:/auth
+
+  # 2. 核心 Registry 服务
+  registry:
+    image: registry:2
+    container_name: my-private-registry
+    restart: always
+    networks:
+      - dokploy-network
+    ports:
+      - "5000:5000"
+    environment:
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: "Registry Realm"
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+      REGISTRY_HTTP_HEADERS_X_FORWARDED_FOR: true
+      REGISTRY_HTTP_HEADERS_X_FORWARDED_PROTO: https
+      # 【关键配置】开启删除权限（必须开启，清理脚本才能工作）
+      REGISTRY_STORAGE_DELETE_ENABLED: "true"
+      REGISTRY_HTTP_HEADERS_ACCESS_CONTROL_ALLOW_ORIGIN: '[https://registry-ui.zata.cafe]'
+      REGISTRY_HTTP_HEADERS_ACCESS_CONTROL_ALLOW_METHODS: '[HEAD,GET,OPTIONS,DELETE]'
+      REGISTRY_HTTP_HEADERS_ACCESS_CONTROL_ALLOW_HEADERS: '[Authorization,Accept,Cache-Control]'
+      REGISTRY_HTTP_HEADERS_ACCESS_CONTROL_EXPOSE_HEADERS: '[Docker-Content-Digest]'
+    volumes:
+      - registry-data:/var/lib/registry
+      - registry-auth-data:/auth
+    depends_on:
+      auto-setup-auth:
+        condition: service_completed_successfully
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.registry.rule=Host(`registry.zata.cafe`)"
+      - "traefik.http.routers.registry.entrypoints=websecure"
+      - "traefik.http.routers.registry.tls.certresolver=letsencrypt"
+      - "traefik.http.services.registry.loadbalancer.server.port=5000"
+      - "traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=0"
+
+  # 3. Web UI 管理界面
+  registry-ui:
+    image: joxit/docker-registry-ui:latest
+    container_name: registry-ui
+    restart: always
+    networks:
+      - dokploy-network
+    environment:
+      - NGINX_PROXY_PASS_URL=http://my-private-registry:5000
+      - SINGLE_REGISTRY=true
+      - DELETE_IMAGES=true
+      - REGISTRY_TITLE=Zata Registry
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.registry-ui.rule=Host(`registry-ui.zata.cafe`)"
+      - "traefik.http.routers.registry-ui.entrypoints=websecure"
+      - "traefik.http.routers.registry-ui.tls.certresolver=letsencrypt"
+      - "traefik.http.services.registry-ui.loadbalancer.server.port=80"
+
+  # 4. 【新增】自动清理服务 (每天执行)
+  registry-cleanup:
+    image: docker:cli
+    container_name: registry-cleanup
+    restart: always
+    networks:
+      - dokploy-network
+    volumes:
+      # 挂载宿主机的 Docker Socket，以便此容器能够向 registry 容器发送垃圾回收命令
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - registry
+    entrypoint: ["/bin/sh", "-c"]
+    # 核心自动化脚本
+    command: 
+      - |
+        # 安装 Python 和 HTTP 请求库
+        apk add --no-cache python3 py3-requests curl
+        # 下载著名的开源镜像清理脚本 registry-cli
+        curl -sSLO https://raw.githubusercontent.com/anoxis/registry-cli/master/registry.py
+        chmod +x registry.py
+      
+        echo "自动清理服务已启动..."
+        while true; do
+          echo "==== 开始调用 API 清理 7 天前的镜像标签 ===="
+          # 参数说明:
+          # --keep-days 7 : 删除 7 天前的镜像
+          # --keep-tags 1 : 即使超过 7 天，也强制保留最新生成的 1 个版本（防止仓库被彻底删空，如果你想彻底删空可去掉此参数）
+          python3 registry.py -r http://my-private-registry:5000 -l admin:123456 --delete --keep-days 7 --keep-tags 1
+        
+          echo "==== 开始执行 GC (垃圾回收) 释放磁盘空间 ===="
+          # 必须执行 --delete-untagged，否则上一段脚本删除的镜像文件依然会占用物理空间
+          docker exec my-private-registry registry garbage-collect --delete-untagged /etc/docker/registry/config.yml
+        
+          echo "==== 清理与回收完成，休眠 24 小时 ===="
+          sleep 86400
+        done
+```
+ 新增服务原理解析：
+
+1. **基础镜像 (`docker:cli`)**：我们需要在脚本最后使用 `docker exec` 去调用 Registry 容器执行垃圾回收，因此使用了带 docker 命令的基础镜像，并挂载了宿主机的 `docker.sock`。
+2. **依赖安装**：自动下载著名的 `anoxis/registry-cli` 脚本，它擅长处理 Docker Registry 的 API，并且支持基于时间删除。
+3. **保留策略控制**：
+   * `--keep-days 7`：这就是你要求的，超过 7 天的删除。
+   * `--keep-tags 1`：（推荐设置）保护机制，如果某个镜像 1 个月没更新了，清理时依然会保留最近的一个版本，以免业务拉取不到镜像。
+4. **垃圾回收 (`garbage-collect`)**：脚本删除标签后，镜像状态会变成 untagged（无标签），最后执行 `registry garbage-collect --delete-untagged` 才会把它们真正从宿主机的物理硬盘上删除。
+5. **内网直连**：脚本直接使用内网地址 `http://my-private-registry:5000` 通信，既快又不会受到外部 Traefik 或 Nginx 超时策略的影响。
+
+
 ## FileBrowser
 
 这份教程不仅能让你拥有一个管理 VPS 全盘文件的神器，还规避了密码无法重置、下载系统文件报错等常见问题。
@@ -205,8 +340,121 @@ networks:
 *   **务必**设置强密码，不要将此服务随意暴露给不可信的人。
 
 
+## webDAV
+
+```yaml
+services:
+  webdav:
+    image: bytemark/webdav
+    restart: unless-stopped
+    environment:
+      - AUTH_TYPE=Basic
+      - USERNAME=your_username
+      - PASSWORD=your_password
+    volumes:
+      - ./data:/var/lib/dav
+    labels:
+      - "traefik.enable=true"
+      # 1. 路由规则：域名匹配
+      - "traefik.http.routers.webdav.rule=Host(`dav.yourdomain.com`)"
+      # 2. 启用 TLS 并在入口点使用 HTTPS (443)
+      - "traefik.http.routers.webdav.entrypoints=websecure"
+      # 3. 指定你的 Let's Encrypt 解析器名称 (通常在 Traefik 全局配置里定义)
+      - "traefik.http.routers.webdav.tls.certresolver=letsencrypt"
+      # 4. 强制指定内部端口，防止 Traefik 误判
+      - "traefik.http.services.webdav.loadbalancer.server.port=80"
+
+  cleaner:
+    image: alpine
+    restart: unless-stopped
+    volumes:
+      - ./data:/var/lib/dav
+    command:
+      - /bin/sh
+      - -c
+      - |
+        while true; do
+          # 检查 1024MB (1GB)
+          while [ $$(du -sm /var/lib/dav | awk '{print $$1}') -gt 1024 ]; do
+            # 删掉最老的文件
+            OLDEST=$$(find /var/lib/dav -type f -exec stat -c "%Y %n" {} + | sort -n | head -n 1 | cut -d" " -f2-)
+            [ -z "$$OLDEST" ] && break
+            rm -f "$$OLDEST"
+          done
+          sleep 60
+        done
+```
+
+---
+
+**💡补充几点：**
+
+1. **证书解析器名称**：
+   标签里的 `tls.certresolver=letsencrypt`。这里的 `letsencrypt` 必须和你 Traefik 静态配置文件（或是 Dokploy 设置里）定义的解析器名称**完全一致**。如果不一致，证书不会自动签发。
+2. **网络（Network）的坑**：
+   如果你发现域名访问报 **504 Gateway Timeout**，那 99% 还是网络问题。此时你需要运行 `docker network ls` 看看 Traefik 在哪个网段，并在 `webdav` 服务下加上该网络。
+3. **关于清理脚本（Cleaner）**：
+   这个脚本是并行的。WebDAV 负责写，Cleaner 负责巡逻。它们共享 `./data` 卷，所以互不干扰。
+
+## alist 
+
+alist 直接可以在应用市场安装
+
+
+
+
+
 
 # 使用与配置
+
+
+## 部署相同项目的但是不同的环境（staging和production）发现冲突 --- trakfik路由重名冲突问题
+
+在 Dokploy 中，路由重名问题（Route Name Collision / Duplicate Route）是一个在部署多个应用或同一应用的多个实例时经常遇到的网络路由冲突问题。
+
+要理解这个问题，首先需要了解 Dokploy 的底层网络架构：Dokploy 依赖 Traefik 作为其反向代理和负载均衡器。Traefik 通过读取 Docker 容器上的标签（Labels）或动态配置文件，来决定如何将外部的 HTTP/HTTPS 请求转发到正确的内部容器。
+
+以下是关于 Dokploy 中路由重名问题的详细解释：
+
+**什么是“路由重名”？**
+
+在 Traefik 的配置体系中，每个路由规则都需要一个唯一的路由名称（Router Name）。例如，在 Docker Compose 的 labels 中，你可能会看到这样的配置：`traefik.http.routers.my-app-router.rule=Host('example.com')`。这里的 `my-app-router` 就是路由名称。如果在 Dokploy 中，有两个不同的服务或应用使用了完全相同的路由名称，Traefik 就会发生冲突。
+
+**常见的触发场景**
+
+*   **部署同一模板的多个实例（多租户场景）：** 假设你使用 Docker Compose 模板在 Dokploy 上部署了一个开源系统（如 ERPNext、WordPress 或你自己的项目）。当你想要为另一个客户部署第二套相同的系统时，如果你直接复制了 Compose 文件而没有修改里面的 Traefik 标签，两个容器都会声明自己叫 `my-app-router`。
+*   **误绑重复的域名：** 团队成员在 Dokploy 的控制面板中，不小心为两个不同的应用程序绑定了相同的域名（在 Dokploy 的 GitHub 仓库中，Issue #3036 专门提到了缺少重复域名校验导致的 Traefik 路由崩溃问题）。
+*   **服务从其他平台迁移时的硬编码：** 直接复制了原本在 Coolify 或纯 Docker 环境下的 Compose 文件，导致不同项目复用了默认的通用路由名称（如 `web-router` 或 `frontend-router`）。
+
+**路由重名会导致的后果**
+
+*   **流量串门 / 覆盖失效：** Traefik 无法区分这两个服务。通常情况下，后启动的容器可能会覆盖先启动的容器的路由规则，导致访问应用 A 的域名却打开了应用 B 的页面。
+*   **服务不可用（504 或 404 错误）：** Traefik 的动态配置加载可能会因为命名冲突而报错，导致该路由规则被整体丢弃，最终访问域名时出现 504 Gateway Timeout 或 404 Not Found。
+*   **部署状态假死：** Dokploy 面板显示应用已成功部署且正在运行，但外部始终无法通过域名访问。
+
+**如何解决和避免？**
+
+*   **方法一：确保路由名称的唯一性（最核心）**
+    如果你通过 Templates 或 Docker Compose 部署应用，必须确保 labels 里的 router 和 service 名称是全局唯一的。
+    *   错误写法（写死名称）：`- "traefik.http.routers.web-router.rule=..."`
+    *   正确写法（添加唯一标识/租户 ID）：`- "traefik.http.routers.app1-web-router.rule=..."` 或 `- "traefik.http.routers.app2-web-router.rule=..."`
+    *   或者使用环境变量：`- "traefik.http.routers.${TENANT_ID}-router.rule=..."`
+*   **方法二：明确指定 Traefik 网络**
+    当出现复杂的网络配置时（例如应用同时加入了多个 Docker Network），Traefik 会不知道该把流量发往哪个网络，从而引发 504 错误。在标签中明确指定 Dokploy 的默认网络可以防范此类路由异常：`- "traefik.docker.network=dokploy-network"`。
+*   **方法三：使用 Dokploy 原生 Application 部署**
+    如果你使用的是 Dokploy 的 Applications 功能（基于 Nixpacks, Dockerfile 或 Buildpacks 部署），Dokploy 底层会通过修改 Traefik 的文件系统（File Provider）来自动为你生成带有唯一哈希值的路由名称。这种模式下，只要你不绑定完全重复的域名，通常不会触发路由重名问题。
+
+总结：Dokploy 的路由重名本质上是 Traefik 代理引擎的命名空间冲突。在编写 Compose 文件或打标签时，养成为所有 Traefik 相关的 router、service、middlewares 加上项目名前缀的习惯，就能完美避开这个问题。
+
+**参考资料**
+
+*   cherryservers.com
+*   dokploy.com
+*   frappe.io
+*   github.com
+*   lobehub.com
+*   Google Search Suggestions: "dokploy" router name collision, "dokploy" route name, "dokploy" 路由冲突，"dokploy" duplicate route
+
 
 
 ## dokploy 如果因为磁盘爆了而崩溃，怎么解决
