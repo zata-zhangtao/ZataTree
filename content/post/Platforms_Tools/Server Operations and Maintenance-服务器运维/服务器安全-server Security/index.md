@@ -189,6 +189,13 @@ Port 22222                     # 修改默认端口（记得在防火墙放行�
 
 ```
 
+*注意* 如果 /etc/ssh/sshd_config.d/ 目录下有任何以 .conf 结尾的文件（比如云厂商预设的配置），它们的内容会覆盖掉你在主配置文件里的修改。
+
+
+ - 检查方法：ls /etc/ssh/sshd_config.d/
+
+ - 检查密码登录是否已禁用：sshd -T | grep passwordauthentication
+
 
 3. **检查并重启**：
 ```bash
