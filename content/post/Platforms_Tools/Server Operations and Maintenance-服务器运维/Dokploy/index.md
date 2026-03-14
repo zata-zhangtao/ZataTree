@@ -104,6 +104,9 @@ networks:
 
 
 
+
+
+
 # 一些应用的部署
 
 
@@ -408,6 +411,83 @@ alist 直接可以在应用市场安装
 # 使用与配置
 
 
+## 解决 Traefik 处理大文件上传时的 502 错误 (i/o timeout)
+
+在使用 Traefik 作为反向代理时，如果遇到大文件上传导致 `502 Bad Gateway` 错误，且日志中出现 `i/o timeout` 相关信息，通常是因为 Traefik 的默认超时设置过短。
+
+以下是具体的排查思路与解决方案。
+
+**1. 问题现象与日志分析**
+
+当上传较大文件时，请求在到达后端之前被 Traefik 截断，返回 502 错误。查看 Traefik 容器日志，关键错误信息如下：
+
+```text
+vulcand/oxy/buffer: error when reading request body, err: i/o timeout
+entryPointName=websecure middlewareName=transmaster-staging-backend-buffering@docker
+```
+
+**原因定位：**
+*   错误并非由 `maxRequestBodyBytes`（请求体大小限制）引起。
+*   根本原因是 Traefik 的 `buffering` 中间件在等待客户端上传数据时发生了 **I/O 超时 (i/o timeout)**。默认的读取超时时间对于大文件上传来说太短了。
+
+**2. 解决方案**
+
+需要修改 `traefik.yml` 配置文件，在对应的 `entryPoints`（入口点）下增加 `respondingTimeouts` 配置，延长读取和写入的超时时间。
+
+**修改 `traefik.yml`**
+
+找到你的 `traefik.yml` 文件（通常位于 `/etc/dokploy/traefik/traefik.yml` 或类似路径），在 `entryPoints` 部分添加或修改 `transport` 配置。
+
+**配置示例：**
+
+```yaml
+entryPoints:
+  web:
+    address: :80
+    transport:
+      respondingTimeouts:
+        readTimeout: 900s   # 读取请求体超时时间（针对大文件上传，建议设大一点，如 15 分钟）
+        writeTimeout: 900s  # 写入响应超时时间
+        idleTimeout: 180s   # 空闲连接超时时间
+  websecure:
+    address: :443
+    transport:
+      respondingTimeouts:
+        readTimeout: 900s
+        writeTimeout: 900s
+        idleTimeout: 180s
+    http:
+      tls:
+        certResolver: letsencrypt
+```
+
+**参数说明：**
+*   `readTimeout`: 最关键参数。决定 Traefik 等待客户端把请求体传完的时间。如果上传文件较大或网速较慢，需适当调大（例如 900s）。
+*   `writeTimeout`: 决定 Traefik 等待后端服务返回响应的时间。
+*   `idleTimeout`: 保持连接空闲的超时时间，通常不需要太大。
+
+**3. 应用配置**
+
+修改保存配置文件后，需要重启 Traefik 容器以使配置生效。
+
+**执行重启命令：**
+
+```bash
+docker restart dokploy-traefik
+// 或者根据你的容器名称调整，例如：
+// docker restart <traefik_container_name>
+```
+
+**4. 验证结果**
+
+重启完成后，再次尝试上传之前失败的大文件。
+
+*   **观察日志：** 确认不再出现 `i/o timeout` 错误。
+*   **业务测试：** 文件上传成功，不再返回 502 错误。
+
+通过调整 `respondingTimeouts`，即可解决因网络波动或文件过大导致的 Traefik 上传超时问题。
+
+
 ## 部署相同项目的但是不同的环境（staging和production）发现冲突 --- trakfik路由重名冲突问题
 
 在 Dokploy 中，路由重名问题（Route Name Collision / Duplicate Route）是一个在部署多个应用或同一应用的多个实例时经常遇到的网络路由冲突问题。
@@ -524,6 +604,21 @@ docker system prune -a -f
 2.  点击 Backups 选项卡。
 3.  在 Select Destination 下拉菜单中选择刚才创建的 Backblaze-B2。
 4.  设置 Cron Schedule（例如 `0 0 * * *` 表示每天午夜备份）并启用。
+
+** 第四步：恢复备份**
+
+总结恢复步骤清单：
+
+本地已经部署镜像并启动容器，对应需要恢复的卷名是 9cut8x_postgres_data。
+
+1. 命令行查卷(这个卷名换成实际的)： docker ps -a --filter volume=9cut8x_postgres_data
+2. 清理现场： docker rm -f <查到的容器ID>
+3. 彻底删除旧卷： docker volume rm 9cut8x_postgres_data
+4. 执行恢复： 在 Dokploy 的 Volume Backups 页面填入 9cut8x_postgres_data 并点击 Restore。
+5. 验证： 恢复完成后，执行 docker volume ls 确保该卷已重新创建。
+6. 部署应用： 回到 Dokploy 对应的服务界面，点击 "Deploy"（这会根据你的 docker-compose.yml 重新挂载刚才恢复好的卷）。
+
+
 
 **常见问题排查**
 
