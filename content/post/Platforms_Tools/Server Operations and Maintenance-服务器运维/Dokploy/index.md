@@ -411,6 +411,110 @@ alist 直接可以在应用市场安装
 # 使用与配置
 
 
+
+## Dokploy 自动化部署踩坑
+
+在使用 Dokploy 配合 CI/CD（如 GitHub Actions）进行自动化部署时，很多人会踩到两个致命的坑：
+
+*   **时序错乱（抢跑）**：刚 git push 完代码，CI/CD 还没把镜像打包推送完，Dokploy 就已经提前开始拉取部署了，导致部署失败或拉到旧镜像。
+*   **镜像缓存（死不更新）**：等镜像真正推送完，去触发 Dokploy Webhook 时，由于镜像标签都是 latest，Dokploy 直接用了本地缓存，怎么部署都是旧版本！
+
+今天，我们就用 **“Raw 模式分离” + “API 改写镜像 SHA”** 的终极方案，彻底打通这条全自动流水线！
+
+**踩坑一：为什么一 Push 代码 Dokploy 就抢跑？**
+
+根本原因：如果你在 Dokploy 中选择了 Git 作为代码源，它的触发器只有 On Push，一旦侦测到代码提交它就会立刻执行。
+
+破局思路：既然镜像已经由 CI/CD 负责打包，Dokploy 就只需要做一个“纯粹的执行器”。
+
+👉 **解决方法：**
+
+在 Dokploy 的应用设置中，不要选 Git/GitHub。
+
+*   如果是单容器，数据源选 **Docker**。
+*   如果是编排部署，数据源选 **Raw 模式**（直接粘贴你的 docker-compose.yml）。
+
+这样 Dokploy 就彻底脱离了 Git 仓库的束缚，只会安静等待指令。
+
+**踩坑二：触发更新时，如何彻底避免 latest 镜像缓存？**
+
+很多教程只教你推完镜像后 curl 一下 Webhook，但这不够。为了实现绝对的不可变部署（Immutable Deployment），最佳实践是在 CI/CD 构建完镜像后，提取该镜像唯一的 SHA 摘要（Digest），利用 Dokploy 的 API 动态改写配置，然后再触发部署。
+
+**准备工作：获取 API 密钥与 URL**
+
+1.  **生成 API Key**：登录 Dokploy 面板，点击右上角头像 -> Profile -> 找到 API/CLI 区域，生成一串 API Key。
+2.  **确认 API URL**：即你的 Dokploy 访问地址（例如 `https://dokploy.your-domain.com`）。
+3.  **获取应用 ID**：在 Dokploy 中点开你的应用，看浏览器地址栏，通常能找到你的 `applicationId` 或 `composeId`。
+
+**终极 CI/CD 流水线实战（以 GitHub Actions 为例）**
+
+我们需要在工作流中完成三个步骤：构建推送 -> 改写 Dokploy 配置里的 SHA -> 触发部署。
+
+在你的 `.github/workflows/deploy.yml` 最后加上这段核心代码：
+
+```yaml
+# 前置步骤：正常拉取代码并登录镜像库...
+
+- name: 构建并推送 Docker 镜像，提取 SHA
+  id: build-image
+  run: |
+    # 1. 正常打包并推送最新镜像
+    docker build -t your-namespace/your-image:latest .
+    docker push your-namespace/your-image:latest
+  
+    # 2. 核心操作：获取刚刚推送在云端生成的唯一 SHA256 摘要
+    IMAGE_SHA=$(docker inspect --format='{{index .RepoDigests 0}}' your-namespace/your-image:latest)
+    echo "IMAGE_SHA=$IMAGE_SHA" >> $GITHUB_ENV
+    echo "最新镜像摘要为: $IMAGE_SHA"
+
+- name: 调用 Dokploy API 改写镜像 SHA
+  run: |
+    # 3. 将带有 SHA 的完整镜像地址更新到 Dokploy 的配置中
+    curl -X POST "https://dokploy.your-domain.com/api/application.update" \
+      -H "Authorization: Bearer ${{ secrets.DOKPLOY_API_KEY }}" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "applicationId": "${{ secrets.DOKPLOY_APP_ID }}",
+        "dockerImage": "${{ env.IMAGE_SHA }}"
+      }'
+
+- name: 调用 Dokploy API 触发真实部署
+  run: |
+    # 4. 配置修改完毕，正式下达部署指令
+    curl -X POST "https://dokploy.your-domain.com/api/application.deploy" \
+      -H "Authorization: Bearer ${{ secrets.DOKPLOY_API_KEY }}" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "applicationId": "${{ secrets.DOKPLOY_APP_ID }}"
+      }'
+```
+
+(💡 提示：记得在 GitHub 的 Secrets 中配置好 `DOKPLOY_API_KEY` 和 `DOKPLOY_APP_ID`)
+
+**💡 进阶技巧：如果你用的是 Raw 模式 (Docker Compose) 怎么办？**
+
+在 Raw 模式下由于是直接写 YAML 文件，API 更新全文有些繁琐。最佳实践是结合环境变量：
+
+在 Dokploy 的 Raw 配置框中这样写：
+
+```yaml
+services:
+  web:
+    image: your-namespace/your-image@${IMAGE_SHA} # 引用环境变量
+```
+
+在 GitHub Actions 中，调用 Dokploy 的环境变量更新 API（`/api/application.env.set` 或相关路由），把新的 SHA 刷进环境变量里。最后再触发 Deploy。
+
+**总结**
+
+通过上述改造，我们完美分离了“代码构建”与“容器部署”的职责：
+
+*   CI/CD 专职负责构建镜像，并产出带有唯一指纹的 SHA 摘要。
+*   Dokploy 作为纯粹的容器执行引擎，通过 API 接收最新的 SHA 彻底绕过本地缓存。
+
+时序绝对正确，更新绝对精准，你的全自动 CI/CD 部署流水线现在坚不可摧了！🎉
+
+
 ## 解决 Traefik 处理大文件上传时的 502 错误 (i/o timeout)
 
 在使用 Traefik 作为反向代理时，如果遇到大文件上传导致 `502 Bad Gateway` 错误，且日志中出现 `i/o timeout` 相关信息，通常是因为 Traefik 的默认超时设置过短。
