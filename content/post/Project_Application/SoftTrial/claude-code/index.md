@@ -54,7 +54,13 @@ claude --dangerously-skip-permissions
 - 安装
 ```bash
   # 注意，要吧下面的端口设置成你自己的vpn端口，为什么先要设置代理环境变量？ 因为curl默认不会走代理
+
+  # 设置代理环境变量，这个是socks5代理
+  export all_proxy="socks5://127.0.0.1:7897"
+  或者
   export https_proxy=http://127.0.0.1:7897 http_proxy=http://127.0.0.1:7897
+
+  
   curl -fsSL https://claude.ai/install.sh | bash
 ```
 - 卸载
