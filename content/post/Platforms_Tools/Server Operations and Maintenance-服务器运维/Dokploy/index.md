@@ -55,6 +55,83 @@ docker service ps
 ```
 
 
+## 服务器爬墙来安装
+
+服务器爬墙的内容可以看我另一篇 《服务器爬墙》教程
+
+**🛠️ Dokploy 完美安装四部曲**
+
+**第一步：基础环境准备 (Ubuntu/Debian)**
+首先确保系统干净，并安装必要的工具。
+```bash
+apt update && apt upgrade -y
+apt install -y curl vim net-tools
+```
+
+**第二步：安装并优化 Docker (核心环节)**
+不要直接运行 Dokploy 脚本，先手动把 Docker 装好并配置代理。
+
+1.  **安装 Docker**：
+    ```bash
+    curl -fsSL https://get.docker.com | bash
+    systemctl enable --now docker
+    ```
+
+2.  **配置 Docker 代理 (解决镜像下载失败)**：
+    这是国内服务器成功的关键。
+    ```bash
+    mkdir -p /etc/systemd/system/docker.service.d
+    vim /etc/systemd/system/docker.service.d/http-proxy.conf
+    ```
+    写入以下内容（假设你的 Mihomo 代理在 7890）：
+    ```ini
+    [Service]
+    Environment="HTTP_PROXY=http://127.0.0.1:7890"
+    Environment="HTTPS_PROXY=http://127.0.0.1:7890"
+    Environment="NO_PROXY=localhost,127.0.0.1,你的服务器公网IP"
+    ```
+
+3.  **重启生效**：
+    ```bash
+    systemctl daemon-reload
+    systemctl restart docker
+    ```
+
+**第三步：部署 Dokploy**
+现在 Docker 已经可以丝滑地拉取镜像了，直接运行官方脚本：
+
+```bash
+# 注意替换成你自己的服务器公网 IP
+curl -sSL https://dokploy.com/install.sh | ADVERTISE_ADDR=你的服务器公网IP bash
+```
+
+**这一步脚本会自动完成以下操作：**
+*   初始化 Docker Swarm（容器集群模式）。
+*   创建 `dokploy-network` 虚拟网络。
+*   生成随机的数据库密码并存入 `Docker Secrets`。
+*   部署 `Postgres` (数据库)、`Redis` (缓存) 和 `Dokploy` (主程序)。
+
+**第四步：防火墙与初始化**
+
+1.  **放行端口**：
+    去你的云商后台（腾讯云/阿里云等）开启以下入站规则：
+    *   **3000**：Dokploy 面板访问端口。
+    *   **80 / 443**：未来你部署应用后的访问端口。
+
+2.  **访问面板**：
+    打开浏览器：`http://你的服务器IP:3000`
+    *   **第一次进入**：会要求你创建管理员账号（邮箱/密码）。
+    *   **配置面板**：进入后在 `Settings` 中确认 `Server IP` 正确。
+
+**💡 为什么之前会失败？（复盘总结）**
+
+| 错误阶段 | 根本原因 | 表现 |
+| :--- | :--- | :--- |
+| **安装 Docker 报错** | 脚本传参语法不对 | `Failure writing output` |
+| **创建容器一直 Preparing** | Docker 无法连接官方镜像仓库 | 镜像下载进度 0% |
+| **PostgresError (密码错误)** | 残留的旧数据库卷与新生成的密码冲突 | 容器一直重启，日志报 `auth_failed` |
+
+
 ## 安装卡住时的清理方法
 
 有时候安装Dokploy可能会卡住，需要清除重来，以下是完整的清理步骤：
@@ -68,6 +145,19 @@ docker service rm $(docker service ls -q)
 docker container rm -f $(docker ps -aq --filter "name=dokploy")
 docker volume rm $(docker volume ls -q --filter "name=dokploy")
 docker network rm $(docker network ls -q --filter "name=dokploy")
+
+# 更加彻底的：
+# 删除所有服务
+docker service rm $(docker service ls -q)
+# 删除 Dokploy 存储的密码密钥 (关键！)
+docker secret rm $(docker secret ls -q)
+# 删除网络
+docker network rm dokploy-network
+# 删除数据卷（如果你不介意清空重来，这能解决 99% 的数据库问题）
+docker volume rm $(docker volume ls -q)
+
+
+
 
 # 清理残留镜像（可选）
 docker system prune -a --volumes --force
