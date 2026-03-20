@@ -27,6 +27,9 @@ IS_SANDBOX=1 claude --dangerously-skip-permissions
 # 如果用户不是root
 claude --dangerously-skip-permissions 
 
+# 别名，方便使用，加入到zshrc中
+alias clauded="claude --dangerously-skip-permissions"
+
 
 ```
 
