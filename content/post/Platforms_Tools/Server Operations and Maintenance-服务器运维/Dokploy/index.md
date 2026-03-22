@@ -111,6 +111,11 @@ docker swarm join \
   --advertise-addr <当前子节点的_公网IP> \
   --data-path-addr <当前子节点的_公网IP> \
   <Manager_公网IP>:2377
+
+
+# 检查是否成功加入 swarm 集群
+telnet <Manager_公网IP> 2377 
+telnet <Manager_公网IP> 7946
 ```
 
 
@@ -268,6 +273,59 @@ networks:
 
 # 一些应用的部署
 
+
+##  IP 重定向 (解决切换IP后访问域名失败的问题) --- 20260323
+
+将所有访问你的域名的请求重定向到你的新 IP 地址。
+
+```bash
+version: '3.8'
+
+services:
+  ip-redirector:
+    image: nginx:alpine
+    restart: unless-stopped
+    networks:
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      # 【修改这里 1】替换成你真实的域名
+      - "traefik.http.routers.ip-redirector.rule=Host(`yourdomain.com`) || Host(`www.yourdomain.com`)"
+      - "traefik.http.services.ip-redirector.loadbalancer.server.port=80"
+      - "traefik.http.routers.ip-redirector.entrypoints=websecure"
+      - "traefik.http.routers.ip-redirector.tls.certresolver=letsencrypt" 
+
+    command: >
+      /bin/sh -c "
+      echo 'server {
+          listen 80;
+          
+          location / {
+              # 【修改这里 2】改成你的新IP！注意这里改成了 https://
+              proxy_pass https://1.2.3.4; 
+              
+              # 传递真实访客信息
+              proxy_set_header Host $$host;
+              proxy_set_header X-Real-IP $$remote_addr;
+              proxy_set_header X-Forwarded-For $$proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto https;
+              
+              # 【新增：核心修复代码】开启 SNI，否则新服务器的 HTTPS 无法识别域名会报错
+              proxy_ssl_server_name on;
+              proxy_ssl_name $$host;
+              
+              # 支持 WebSocket 等长连接
+              proxy_http_version 1.1;
+              proxy_set_header Upgrade $$http_upgrade;
+              proxy_set_header Connection \"upgrade\";
+          }
+      }' > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
+      "
+
+networks:
+  dokploy-network:
+    external: true
+```
 
 ## Docker Registry  --- 20260307创建 未做测试
 
@@ -1047,7 +1105,10 @@ docker system prune -a -f
 
 本地已经部署镜像并启动容器，对应需要恢复的卷名是 9cut8x_postgres_data。
 
-1. 命令行查卷(这个卷名换成实际的)： docker ps -a --filter volume=9cut8x_postgres_data
+1. 命令行查卷(这个卷名换成实际的)： 
+```bash
+docker ps -a --filter volume=9cut8x_postgres_data
+```
 2. 清理现场： docker rm -f <查到的容器ID>
 3. 彻底删除旧卷： docker volume rm 9cut8x_postgres_data
 4. 执行恢复： 在 Dokploy 的 Volume Backups 页面填入 9cut8x_postgres_data 并点击 Restore。
