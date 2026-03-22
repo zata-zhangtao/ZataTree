@@ -13,14 +13,25 @@ tags:
 
 # 安装和配置
 
-[github地址](https://github.com/MetaCubeX/mihomo/releases)
+[mihomo安装包](mihomo-linux-amd64-v1.19.21.deb)
 
-1. 首先下载deb包（或者压缩包）
+[mmdb文件](country.mmdb)
+
+--- 
+
+[mihomo - github地址](https://github.com/MetaCubeX/mihomo/releases)
+
+[maxmind-geoip - github地址](https://github.com/Dreamacro/maxmind-geoip/releases)
+
+1. 首先下载deb包和mmdb（或者压缩包）
 ![deb安装包](images/index/image.png)
+![mmdb文件](images/index/image-2.png)
+
 
 2. 传输到远程服务器
 ```bash 
 scp <deb包名>.deb root@remote_server:/root/
+scp <mmdb文件名>.mmdb root@remote_server:/root/
 ```
 
 3. 安装deb包
@@ -32,9 +43,15 @@ dpkg -i /root/<deb包名>.deb
 ```bash
 # 进入配置目录
 cd /etc/mihomo
-
 # 下载 Country.mmdb
 curl -L -o Country.mmdb https://ghp.ci/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb
+
+#或者
+
+# 复制 mmdb 文件
+cp /root/<mmdb文件名>.mmdb Country.mmdb
+# 复制 mmdb 文件
+cp Country.mmdb /etc/mihomo/
 ```
 
 5. 修改配置文件

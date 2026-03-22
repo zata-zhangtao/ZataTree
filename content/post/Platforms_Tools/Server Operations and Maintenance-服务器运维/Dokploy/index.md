@@ -12,7 +12,7 @@ tags:
 
 
 
-# 快速安装使用教程
+# 快速安装使用教程 (注意，如果内存小于等于2G，一定要加虚拟内存，否则会卡死)
 
 
 [官网地址](https://dokploy.com/)
@@ -34,6 +34,46 @@ curl -sSL https://dokploy.com/install.sh | ADVERTISE_ADDR=<你的服务器公网
 
 
 帮助子节点安装docker
+
+**阿里云服务器**
+ ···bash
+ # Add the Aliyun Repository
+ echo "deb [arch=$(dpkg --print-architecture)] https://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+ # Update your Package List
+ sudo apt-get update
+
+ # Install Docker 
+ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+ # verify the installation
+ docker version
+
+sudo systemctl enable --now docker
+sudo systemctl enable containerd
+ ···
+
+**腾讯云服务器**
+```bash
+sudo install -m 0755 -d /etc/apt/keyrings
+
+curl -fsSL http://mirrors.tencentyun.com/docker-ce/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] http://mirrors.tencentyun.com/docker-ce/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update
+
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+
+
+  
 ```bash
 curl -fsSL https://get.docker.com | sh
 
