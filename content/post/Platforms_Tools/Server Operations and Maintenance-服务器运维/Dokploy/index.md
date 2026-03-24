@@ -265,6 +265,11 @@ networks:
   dokploy-network:
     external: true
 
+7. 如何更换swarm的advertise addr
+docker swarm init --force-new-cluster --advertise-addr <你的服务器IP>
+
+
+
 
 
 
@@ -626,6 +631,79 @@ alist 直接可以在应用市场安装
 
 
 # 使用与配置
+
+
+## docker swarm 切换advertise addr
+
+```bash
+docker swarm init --force-new-cluster --advertise-addr <你的服务器IP>
+```
+**注意: 需要等待几分钟,等待dokploy重新启动**
+
+![切换advertise addr](images/index/image-7.png)
+
+
+---
+
+如果你已经安装好了 Dokploy，并且它正在运行，此时你**绝对不能执行** `docker swarm leave`，否则就像我们前面说的，整个 Dokploy 连同你的数据库会瞬间灰飞烟灭。
+
+但是 Docker 官方提供了一个非常优雅的“无损更换网络”的隐藏指令！你可以通过强制基于当前状态创建一个新集群的方式，在不丢失任何服务和数据的情况下更改 IP。
+
+**核心命令：无损更改 Advertise IP**
+
+在你的主节点（运行 Dokploy 面板的服务器）上，直接执行以下命令：
+
+```bash
+docker swarm init --force-new-cluster --advertise-addr <你的内网IP>
+```
+
+例如：`docker swarm init --force-new-cluster --advertise-addr 10.0.0.5`
+
+**为什么这个命令有效且安全？**
+
+这个命令里的 `--force-new-cluster`（强制新建集群）是关键。它的底层逻辑是：提取当前 Swarm 的所有数据状态（包括 Dokploy 面板、Postgres 数据库、Traefik 路由以及你已经部署的所有应用），然后用你指定的新 IP 强行拉起一个新的集群配置。
+
+在这个过程中：
+
+- 你的底层容器和 Volume 数据卷**完全不会丢失**。
+- Dokploy 面板在短暂的重启后会**立刻恢复可用**。
+
+操作后的确认与收尾工作
+
+更改完成后，你需要做两步检查：
+
+**第一步：确认 IP 已经更改成功**
+
+运行以下命令查看当前节点的实际广播地址：
+
+```bash
+docker info | grep "Node Address"
+```
+
+如果输出显示的是你的内网 IP，说明网络通道已经成功切换到内网了。
+
+**第二步：重新连接子节点（重要！）**
+
+如果你之前已经添加了其他子节点（Worker），由于你强制生成了新的集群状态（集群的隐藏 ID 已经变了），以前加入的旧子节点会**全部断开连接**。你需要让它们重新加入：
+
+1. 在主节点上获取新的加入令牌：
+
+```bash
+docker swarm join-token worker
+```
+
+（复制终端打印出来的那串新命令）
+
+2. 登录到所有的子节点服务器，先让它们强制退出旧网络，再加入新网络：
+
+```bash
+# 先让子节点强制离开旧集群
+docker swarm leave --force
+
+# 然后粘贴你刚刚复制的加入命令，例如：
+docker swarm join --token SWMTKN-1-xxxx <主节点内网IP>:2377
+```
+
 
 ## Volume  vs Bind Mount vs Environment Variables --- 20260310
 
