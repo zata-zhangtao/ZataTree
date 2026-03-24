@@ -295,42 +295,8 @@ docker commit <my-container> <my-new-image> [:tag]    # 如果tag不填就默认
 # 使用指南
 
 
-### 将数据和数据卷挂载到 /mnt
-*   **基础操作：** 如何把 `/mnt` 下的特定目录映射给容器用。
-*   **进阶操作（核心）：** 如何让 Docker 把自己创建的数据卷（Volumes）甚至所有数据都默认存放到 `/mnt` 中。
+### docker自动创建的数据卷自动挂载到 /mnt
 
-**场景一：把 /mnt 的指定目录绑定到容器内部（Bind Mounts）**
-
-如果你只是想让某个特定的容器（比如 Nginx 或 MySQL）读写 `/mnt/my_data` 里的文件，不需要修改 Docker 的全局配置，直接使用 **绑定挂载（Bind Mount）** 即可。
-
-**方式 1：使用 Docker 命令行**
-
-使用 `-v` 参数是最简单的方式：
-
-```bash
-docker run -d \
-  --name my_nginx \
-  -v /mnt/my_data:/app/data \
-  nginx
-```
-
-解释：这会将宿主机的 `/mnt/my_data` 映射到容器内的 `/app/data`。如果宿主机没有这个目录，Docker 会自动帮你以 root 权限创建。
-
-**方式 2：使用 Docker Compose (推荐)**
-
-在实际开发中，我们更多使用 `docker-compose.yml` 来管理：
-
-```yaml
-version: '3.8'
-services:
-  web:
-    image: nginx
-    container_name: my_nginx
-    volumes:
-      - /mnt/my_data:/app/data
-```
-
-**场景二：让 Docker 把自动创建的“数据卷”存放在 /mnt（核心干货）**
 
 在很多场景下，我们习惯让 Docker 自己管理数据卷（即 Named Volumes，比如 `docker volume create my_vol`）。这些卷默认存放在 `/var/lib/docker/volumes/`。
 
@@ -346,6 +312,9 @@ services:
 
     ```bash
     sudo systemctl stop docker
+
+    #如果docker.socket服务没有停止，需要先停止它
+    sudo systemctl stop docker.socket
     ```
 
 2.  **修改或创建配置文件：**
