@@ -67,8 +67,93 @@ tags:
 
 
 
-### docker 安装
+# docker 安装
 
+## 阿里云安装docker
+
+**阿里云服务器**
+ ```bash
+
+# 先下载 GPGkey
+sudo curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc                                                      
+sudo chmod a+r /etc/apt/keyrings/docker.asc  
+
+
+# Add the Aliyun Repository
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null 
+ # Update your Package List
+sudo apt-get update
+
+ # Install Docker 
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+
+
+#配置镜像加速
+sudo mkdir -p /etc/docker
+
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://<你的加速镜像地址，进入阿里云镜像加速服务获取>.mirror.aliyuncs.com","https://mirror.ccs.tencentyun.com"]
+
+}
+EOF
+
+#设置docker服务自启
+sudo systemctl daemon-reload
+sudo systemctl enable --now docker
+sudo systemctl enable containerd
+
+
+ # verify the installation
+docker version
+docker compose version
+
+#------------------------------------------
+# 到这里docker到安装完成，下面是docker swarm的安装
+#------------------------------------------
+
+# 初始化docker swarm 集群 --advertise-addr <ip地址> #如果没有指定，默认是当前机器的局域网ip地址
+docker swarm init --advertise-addr <公网ip地址>
+
+```
+
+## 腾讯云安装docker
+**腾讯云服务器**
+```bash
+sudo install -m 0755 -d /etc/apt/keyrings
+
+curl -fsSL http://mirrors.tencentyun.com/docker-ce/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] http://mirrors.tencentyun.com/docker-ce/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update
+
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+
+sudo mkdir -p /etc/docker
+
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://mirror.ccs.tencentyun.com"]
+}
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
+sudo systemctl enable --now docker
+sudo systemctl enable containerd
+```
+
+
+
+
+# docker使用
 #### windows 安装docker desktop
 
 
