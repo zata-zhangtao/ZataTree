@@ -152,9 +152,7 @@ sudo systemctl enable containerd
 
 
 
-
-# docker使用
-#### windows 安装docker desktop
+## windows 安装docker desktop
 
 
 ![wsl 设置](images/index/image-9.png)
@@ -168,13 +166,30 @@ sudo systemctl enable containerd
 
 
 
-### docker容器常用命令
 
-```bash 
-# Docker 常用命令汇总
+
+# 常用命令
+
+```bash
+# 列出所有正在运行的容器
+docker ps [-a]
+
+# 查看所有容器的统计信息, --no-stream 不实时更新
+docker stats [容器ID或容器名] [--no-stream]
+
+# 清理所有停止的容器
+docker rm $(docker ps -aq)
+# 清理所有悬空的镜像
+docker rmi $(docker images -qf "dangling=true")
+# 清理所有悬空的网络
+docker network prune $(docker network ls -qf "dangling=true")
+# 清理所有悬空的卷
+docker volume prune $(docker volume ls -qf "dangling=true")
 
 # 将容器的当前状态保存为新的镜像
 docker commit <my-container> <my-new-image> [:tag]    # 如果tag不填就默认是latest
+
+
 
 
 ```
@@ -268,6 +283,155 @@ docker commit <my-container> <my-new-image> [:tag]    # 如果tag不填就默认
 | `docker logout` | 登出 Docker Hub 或其他镜像仓库。 |
 | `docker info` | 显示 Docker 系统范围的信息。 |
 | `docker version` | 显示 Docker 的版本信息。 |
+
+
+
+
+# 注意事项
+
+
+
+
+# 使用指南
+
+
+### 将数据和数据卷挂载到 /mnt
+*   **基础操作：** 如何把 `/mnt` 下的特定目录映射给容器用。
+*   **进阶操作（核心）：** 如何让 Docker 把自己创建的数据卷（Volumes）甚至所有数据都默认存放到 `/mnt` 中。
+
+**场景一：把 /mnt 的指定目录绑定到容器内部（Bind Mounts）**
+
+如果你只是想让某个特定的容器（比如 Nginx 或 MySQL）读写 `/mnt/my_data` 里的文件，不需要修改 Docker 的全局配置，直接使用 **绑定挂载（Bind Mount）** 即可。
+
+**方式 1：使用 Docker 命令行**
+
+使用 `-v` 参数是最简单的方式：
+
+```bash
+docker run -d \
+  --name my_nginx \
+  -v /mnt/my_data:/app/data \
+  nginx
+```
+
+解释：这会将宿主机的 `/mnt/my_data` 映射到容器内的 `/app/data`。如果宿主机没有这个目录，Docker 会自动帮你以 root 权限创建。
+
+**方式 2：使用 Docker Compose (推荐)**
+
+在实际开发中，我们更多使用 `docker-compose.yml` 来管理：
+
+```yaml
+version: '3.8'
+services:
+  web:
+    image: nginx
+    container_name: my_nginx
+    volumes:
+      - /mnt/my_data:/app/data
+```
+
+**场景二：让 Docker 把自动创建的“数据卷”存放在 /mnt（核心干货）**
+
+在很多场景下，我们习惯让 Docker 自己管理数据卷（即 Named Volumes，比如 `docker volume create my_vol`）。这些卷默认存放在 `/var/lib/docker/volumes/`。
+
+如果你想让 Docker 把这些自己创建的卷也放到 `/mnt` 里，这里有三种方案，请根据实际需求选择：
+
+**方案 A：修改全局默认存储路径（强烈推荐，一劳永逸）**
+
+这是最规范的做法。它不仅会把数据卷存到 `/mnt`，还会把拉取的镜像、容器日志等所有 Docker 数据都转移过去，彻底解放系统盘。
+
+操作步骤：
+
+1.  **停止 Docker 服务：**
+
+    ```bash
+    sudo systemctl stop docker
+    ```
+
+2.  **修改或创建配置文件：**
+    编辑 `/etc/docker/daemon.json` 文件：
+
+    ```bash
+    sudo nano /etc/docker/daemon.json
+    ```
+
+    写入以下配置（假设你要把数据存在 `/mnt/docker_data`）：
+
+    ```json
+    {
+      "data-root": "/mnt/docker_data"
+    }
+    ```
+
+3.  **（重要）迁移历史数据：**
+    为了防止你以前创建的容器和镜像丢失，务必将原数据同步到新目录：
+
+    ```bash
+    sudo rsync -aP /var/lib/docker/ /mnt/docker_data/
+    ```
+
+4.  **重启 Docker：**
+
+    ```bash
+    sudo systemctl start docker
+    ```
+
+**效果：** 以后你执行任何关于 Docker 的操作，数据都会自动落在大硬盘 `/mnt/docker_data` 里了！
+
+**方案 B：使用软链接（简单粗暴）**
+
+如果你只想把数据卷（Volumes）挪到 `/mnt`，而镜像等其他数据还要留在系统盘，可以使用 Linux 的软链接魔法。
+
+操作步骤：
+
+1.  停止服务：`sudo systemctl stop docker`
+2.  在 `/mnt` 创建目标文件夹：`sudo mkdir -p /mnt/docker_volumes`
+3.  迁移现有的卷数据：`sudo mv /var/lib/docker/volumes/* /mnt/docker_volumes/`
+4.  删除原本的空文件夹：`sudo rm -rf /var/lib/docker/volumes`
+5.  创建软链接：
+
+    ```bash
+    sudo ln -s /mnt/docker_volumes /var/lib/docker/volumes
+    ```
+
+6.  重启服务：`sudo systemctl start docker`
+
+**效果：** 欺骗了 Docker。Docker 以为自己还是写在 `/var/lib` 下，但实际上数据已经悄悄存进了 `/mnt`。
+
+**方案 C：在 Docker Compose 中按需指定物理路径（优雅灵活）**
+
+如果你不想修改系统的任何配置，只想在部署某个特定项目时，让它自己的数据卷落在 `/mnt`，可以在定义 volume 时使用 local 驱动。
+
+这在编写 `docker-compose.yml` 时非常实用：
+
+```yaml
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/my_project/mysql_data
+```
+
+**效果：** 既保留了 Named Volumes 的便捷性，又实现了数据的物理分离，非常适合项目迁移和备份。
+
+**总结建议**
+
+*   如果你的系统盘马上就要满了：别犹豫，直接用 **方案 A**，修改 `data-root` 把整个 Docker 搬家到大硬盘。
+*   如果你只是想把项目数据单独分类存放大盘：推荐 **方案 C**，在 `docker-compose.yml` 中使用 `driver_opts`，干净且优雅。
+
+希望这篇文章能帮你解决 Docker 存储空间的烦恼！如果遇到权限问题（Permission Denied），记得检查 `/mnt` 对应目录的用户权限哦（chown）。
+
+(Tags: Docker, Linux, 运维，存储优化，DockerVolume)
+
 
 
 
@@ -1337,7 +1501,7 @@ Docker 容器默认运行在桥接网络（bridge network）中，主机和容�
 
 
 
-## docker实战
+# docker实战
 
 ### Docker使用实战-容器保存和迁移
 

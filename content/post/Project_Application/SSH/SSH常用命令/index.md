@@ -11,12 +11,38 @@ tags:
 
 
 
+##  ☆ SSH常用命令
+
+```bash
+# 连接远程服务器 
+ssh username@hostname [-p port] [-i private_key] 
+
+# 复制公钥到远程服务器
+ssh-copy-id username@hostname [-p port] [-i private_key]
+
+# Generate ED25519 key (recommended)
+ssh-keygen -t ed25519 -C "your_email@example.com"
+# 删除已知主机记录
+ssh-keygen -R <IP address> 
+
+# Edit SSH config file
+nano ~/.ssh/config
+
+
+# Copy file from local to remote
+scp localfile.txt username@hostname:/path/to/destination/
+# Copy file from remote to local
+scp username@hostname:/path/to/file /var/www/local_dir/destination/
+# Copy directory recursively
+scp -r localdir/ username@hostname:/path/to/destination/ 
+# Copy with specific port
+scp -P 2222 localfile.txt username@hostname:/path/to/destination/
+
+```
 
 
 
 
-
-#  ☆ SSH常用命令
 ## SSH安装
 1. ubuntu 
 
@@ -367,7 +393,7 @@ sudo systemctl restart ssh
 这些是 Ubuntu 下管理 SSH 服务的基本操作，建议在修改配置时先备份，并保持一个可用的连接会话，以防配置错误导致无法连接。
 
 
-## SSH 问题
+# SSH 使用指南
 
 
 
