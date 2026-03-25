@@ -205,9 +205,6 @@ pyinstaller --onefile --console --name=zata --clean zata.py
 
 ## 智能体 (Agent)
 
-### metaGPT
-- [metaGPT](content/post/Agent/metaGPT/)
-
 ### LangChain
 - [langchain使用教程教程_langchainv0.3](content/post/Agent/LangChain/langchain使用教程教程_langchainv0.3/)
 - [langchain_v0.3_API](content/post/Agent/LangChain/langchain_v0.3_API/)
