@@ -67,6 +67,214 @@ tags:
 
 
 
+
+
+# 常用命令
+
+**docker 单机常用命令**
+```bash
+# 列出所有正在运行的容器
+docker ps [-a]
+
+# 停止并删除容器
+docker stop <容器ID或容器名>
+docker rm <容器ID或容器名>
+
+
+# 删除指定卷
+docker volume rm <卷ID或卷名>
+
+# 查看所有容器的统计信息, --no-stream 不实时更新
+docker stats [容器ID或容器名] [--no-stream]
+
+# 清理所有停止的容器
+docker rm $(docker ps -aq)
+# 清理所有悬空的镜像
+docker rmi $(docker images -qf "dangling=true")
+# 清理所有悬空的网络
+docker network prune $(docker network ls -qf "dangling=true")
+# 清理所有悬空的卷
+docker volume prune $(docker volume ls -qf "dangling=true")
+
+# 将容器的当前状态保存为新的镜像
+docker commit <my-container> <my-new-image> [:tag]    # 如果tag不填就默认是latest
+```
+
+
+**docker swarm 常用命令**
+```bash
+# 初始化 Swarm 集群（管理节点）
+docker swarm init --advertise-addr <IP地址>
+
+# 获取管理节点加入命令
+docker swarm join-token manager
+
+# 获取加入集群的命令（在工作节点执行）
+docker swarm join-token worker
+
+# 加入 Swarm 集群
+docker swarm join --token <token> <管理节点IP>:2377
+
+# 离开 Swarm 集群
+docker swarm leave
+
+# 强制离开集群
+docker swarm leave --force
+
+# 更新 Swarm 配置
+docker swarm update --param value
+
+# 查看集群节点列表
+docker node ls
+
+# 查看节点详细信息
+docker node inspect <节点ID或名称>
+
+# 更新节点属性
+docker node update --availability active/pause/drain <节点ID>
+
+# 提升节点为管理节点
+docker node promote <节点ID>
+
+# 降级管理节点为工作节点
+docker node demote <节点ID>
+
+# 删除节点
+docker node rm <节点ID>
+
+# 创建服务
+docker service create --name <服务名> --replicas <副本数> -p <端口> <镜像名>
+
+# 查看服务列表
+docker service ls
+
+# 查看服务详细信息
+docker service inspect <服务名>
+
+# 查看服务运行的任务
+docker service ps <服务名>
+
+# 扩展服务副本数
+docker service scale <服务名>=<副本数>
+
+# 更新服务配置
+docker service update --image <新镜像> <服务名>
+
+# 更新服务端口
+docker service update --publish-add <端口> <服务名>
+
+# 删除服务
+docker service rm <服务名>
+
+# 查看服务日志
+docker service logs <服务名>
+
+
+# 创建覆盖网络
+docker network create --driver overlay <网络名>
+
+# 查看网络列表
+docker network ls
+
+
+
+```
+
+
+
+
+镜像 (Image) 相关命令
+
+镜像是创建容器的基础，包含了应用程序及其依赖的环境。
+
+| 命令 | 描述 |
+| :--- | :--- |
+| `docker images` | 列出本地所有镜像。 |
+| `docker pull [镜像名]:[标签]` | 从 Docker Hub 或其他镜像仓库拉取镜像 (例如: `docker pull ubuntu:22.04`)。 |
+| `docker push [用户名]/[镜像名]:[标签]` | 将本地镜像推送到 Docker Hub 或其他镜像仓库。 |
+| `docker build -t [镜像名]:[标签] .` | 根据当前目录下的 Dockerfile 构建镜像 (例如: `docker build -t my-app:1.0 .`)。 |
+| `docker rmi [镜像ID或镜像名]` | 删除一个或多个镜像 (例如: `docker rmi ubuntu:22.04`)。 |
+| `docker tag [源镜像] [新镜像名]` | 为本地镜像添加一个新的标签 (例如: `docker tag my-app:1.0 my-app:latest`)。 |
+| `docker history [镜像名]` | 查看镜像的构建历史。 |
+| `docker save -o [文件名.tar] [镜像名]` | 将镜像保存为一个 tar 归档文件。 |
+| `docker load -i [文件名.tar]` | 从一个 tar 归档文件加载镜像。 |
+| `docker rmi $(docker images -qf "dangling=true")` | 删除所有悬空的（dangling）镜像。 |
+
+ 容器 (Container) 相关命令
+
+容器是镜像的运行实例，是真正运行应用程序的地方。
+
+| 命令 | 描述 |
+| :--- | :--- |
+| `docker run [选项] [镜像名] [命令]` | 创建并启动一个新的容器。 |
+| `docker ps` | 列出所有正在运行的容器。 |
+| `docker ps -a` | 列出所有容器（包括已停止的）。 |
+| `docker start [容器ID或容器名]` | 启动一个或多个已停止的容器。 |
+| `docker stop [容器ID或容器名]` | 停止一个或多个正在运行的容器。 |
+| `docker restart [容器ID或容器名]` | 重启一个容器。 |
+| `docker rm [容器ID或容器名]` | 删除一个或多个容器。 |
+| `docker rm -f $(docker ps -aq)` | 强制删除所有容器（无论运行中还是已停止）。 |
+| `docker logs [容器ID或容器名]` | 查看容器的日志输出 (`-f` 选项可以持续跟踪日志)。 |
+| `docker exec -it [容器ID] [命令]` | 在正在运行的容器中执行一个交互式命令 (例如: `docker exec -it my-nginx /bin/bash`)。 |
+| `docker cp [本地路径] [容器ID]:[容器内路径]` | 在宿主机和容器之间复制文件/文件夹。 |
+| `docker stats` | 实时显示容器的资源使用情况。 |
+| `docker top [容器ID]` | 查看容器内运行的进程。 |
+| `docker inspect [容器ID或镜像ID]`| 查看容器或镜像的详细信息（元数据）。|
+
+### `docker run` 常用选项
+
+* `-d`: 后台运行容器（detached mode）。
+* `-p [宿主机端口]:[容器端口]`: 端口映射。
+* `-v [宿主机路径]:[容器内路径]`: 数据卷挂载。
+* `--name [容器名]`: 为容器指定一个名称。
+* `-it`: 启动交互式会话 (`-i` 交互, `-t` 分配一个伪终端)。
+* `--rm`: 容器停止后自动删除。
+* `-e [环境变量名]=[值]`: 设置环境变量。
+* `--network [网络名]`: 将容器连接到指定网络。
+
+**示例:**
+`docker run -d -p 8080:80 --name my-web-server -v /webapp:/usr/share/nginx/html nginx`
+
+ Docker Compose 相关命令
+
+用于定义和运行多容器 Docker 应用程序的工具。
+
+| 命令 | 描述 |
+| :--- | :--- |
+| `docker-compose up` | 根据 `docker-compose.yml` 创建并启动所有服务。 |
+| `docker-compose up -d` | 在后台创建并启动所有服务。 |
+| `docker-compose down` | 停止并移除由 `up` 创建的容器、网络、卷。 |
+| `docker-compose ps` | 列出 `docker-compose.yml` 文件中定义的所有容器的状态。 |
+| `docker-compose logs` | 查看所有服务的日志。 |
+| `docker-compose logs -f [服务名]` | 实时跟踪特定服务的日志。 |
+| `docker-compose build` | 构建或重新构建服务。 |
+| `docker-compose pull` | 拉取服务依赖的镜像。 |
+| `docker-compose exec [服务名] [命令]` | 在指定的服务容器中执行命令。 |
+| `docker-compose stop` | 停止服务，但不删除容器。 |
+| `docker-compose start` | 启动已停止的服务。 |
+
+ 系统与资源管理命令
+
+| 命令 | 描述 |
+| :--- | :--- |
+| `docker system prune` | 清理系统中未使用的 Docker 资源（容器、镜像、网络、卷）。 |
+| `docker system prune -a --volumes` | 更彻底的清理，会删除所有未使用的镜像和数据卷。 **请谨慎使用！** |
+| `docker system df` | 查看 Docker 的磁盘使用情况。 |
+| `docker volume ls` | 列出所有的数据卷。 |
+| `docker volume rm [卷名]` | 删除一个或多个数据卷。 |
+| `docker network ls` | 列出所有的网络。 |
+| `docker network rm [网络名]` | 删除一个或多个网络。 |
+| `docker login` | 登录到 Docker Hub 或其他镜像仓库。 |
+| `docker logout` | 登出 Docker Hub 或其他镜像仓库。 |
+| `docker info` | 显示 Docker 系统范围的信息。 |
+| `docker version` | 显示 Docker 的版本信息。 |
+
+
+
+
+
+
+
 # docker 安装
 
 ## 阿里云安装docker
@@ -162,127 +370,6 @@ sudo systemctl enable containerd
 如果需要查询vpm有没有在容器里面生效
 
 ![curl -L ipinfo.io](images/index/image-11.png)
-
-
-
-
-
-
-# 常用命令
-
-```bash
-# 列出所有正在运行的容器
-docker ps [-a]
-
-# 查看所有容器的统计信息, --no-stream 不实时更新
-docker stats [容器ID或容器名] [--no-stream]
-
-# 清理所有停止的容器
-docker rm $(docker ps -aq)
-# 清理所有悬空的镜像
-docker rmi $(docker images -qf "dangling=true")
-# 清理所有悬空的网络
-docker network prune $(docker network ls -qf "dangling=true")
-# 清理所有悬空的卷
-docker volume prune $(docker volume ls -qf "dangling=true")
-
-# 将容器的当前状态保存为新的镜像
-docker commit <my-container> <my-new-image> [:tag]    # 如果tag不填就默认是latest
-
-
-
-
-```
-
-
-
-
-
-镜像 (Image) 相关命令
-
-镜像是创建容器的基础，包含了应用程序及其依赖的环境。
-
-| 命令 | 描述 |
-| :--- | :--- |
-| `docker images` | 列出本地所有镜像。 |
-| `docker pull [镜像名]:[标签]` | 从 Docker Hub 或其他镜像仓库拉取镜像 (例如: `docker pull ubuntu:22.04`)。 |
-| `docker push [用户名]/[镜像名]:[标签]` | 将本地镜像推送到 Docker Hub 或其他镜像仓库。 |
-| `docker build -t [镜像名]:[标签] .` | 根据当前目录下的 Dockerfile 构建镜像 (例如: `docker build -t my-app:1.0 .`)。 |
-| `docker rmi [镜像ID或镜像名]` | 删除一个或多个镜像 (例如: `docker rmi ubuntu:22.04`)。 |
-| `docker tag [源镜像] [新镜像名]` | 为本地镜像添加一个新的标签 (例如: `docker tag my-app:1.0 my-app:latest`)。 |
-| `docker history [镜像名]` | 查看镜像的构建历史。 |
-| `docker save -o [文件名.tar] [镜像名]` | 将镜像保存为一个 tar 归档文件。 |
-| `docker load -i [文件名.tar]` | 从一个 tar 归档文件加载镜像。 |
-| `docker rmi $(docker images -qf "dangling=true")` | 删除所有悬空的（dangling）镜像。 |
-
- 容器 (Container) 相关命令
-
-容器是镜像的运行实例，是真正运行应用程序的地方。
-
-| 命令 | 描述 |
-| :--- | :--- |
-| `docker run [选项] [镜像名] [命令]` | 创建并启动一个新的容器。 |
-| `docker ps` | 列出所有正在运行的容器。 |
-| `docker ps -a` | 列出所有容器（包括已停止的）。 |
-| `docker start [容器ID或容器名]` | 启动一个或多个已停止的容器。 |
-| `docker stop [容器ID或容器名]` | 停止一个或多个正在运行的容器。 |
-| `docker restart [容器ID或容器名]` | 重启一个容器。 |
-| `docker rm [容器ID或容器名]` | 删除一个或多个容器。 |
-| `docker rm -f $(docker ps -aq)` | 强制删除所有容器（无论运行中还是已停止）。 |
-| `docker logs [容器ID或容器名]` | 查看容器的日志输出 (`-f` 选项可以持续跟踪日志)。 |
-| `docker exec -it [容器ID] [命令]` | 在正在运行的容器中执行一个交互式命令 (例如: `docker exec -it my-nginx /bin/bash`)。 |
-| `docker cp [本地路径] [容器ID]:[容器内路径]` | 在宿主机和容器之间复制文件/文件夹。 |
-| `docker stats` | 实时显示容器的资源使用情况。 |
-| `docker top [容器ID]` | 查看容器内运行的进程。 |
-| `docker inspect [容器ID或镜像ID]`| 查看容器或镜像的详细信息（元数据）。|
-
-### `docker run` 常用选项
-
-* `-d`: 后台运行容器（detached mode）。
-* `-p [宿主机端口]:[容器端口]`: 端口映射。
-* `-v [宿主机路径]:[容器内路径]`: 数据卷挂载。
-* `--name [容器名]`: 为容器指定一个名称。
-* `-it`: 启动交互式会话 (`-i` 交互, `-t` 分配一个伪终端)。
-* `--rm`: 容器停止后自动删除。
-* `-e [环境变量名]=[值]`: 设置环境变量。
-* `--network [网络名]`: 将容器连接到指定网络。
-
-**示例:**
-`docker run -d -p 8080:80 --name my-web-server -v /webapp:/usr/share/nginx/html nginx`
-
- Docker Compose 相关命令
-
-用于定义和运行多容器 Docker 应用程序的工具。
-
-| 命令 | 描述 |
-| :--- | :--- |
-| `docker-compose up` | 根据 `docker-compose.yml` 创建并启动所有服务。 |
-| `docker-compose up -d` | 在后台创建并启动所有服务。 |
-| `docker-compose down` | 停止并移除由 `up` 创建的容器、网络、卷。 |
-| `docker-compose ps` | 列出 `docker-compose.yml` 文件中定义的所有容器的状态。 |
-| `docker-compose logs` | 查看所有服务的日志。 |
-| `docker-compose logs -f [服务名]` | 实时跟踪特定服务的日志。 |
-| `docker-compose build` | 构建或重新构建服务。 |
-| `docker-compose pull` | 拉取服务依赖的镜像。 |
-| `docker-compose exec [服务名] [命令]` | 在指定的服务容器中执行命令。 |
-| `docker-compose stop` | 停止服务，但不删除容器。 |
-| `docker-compose start` | 启动已停止的服务。 |
-
- 系统与资源管理命令
-
-| 命令 | 描述 |
-| :--- | :--- |
-| `docker system prune` | 清理系统中未使用的 Docker 资源（容器、镜像、网络、卷）。 |
-| `docker system prune -a --volumes` | 更彻底的清理，会删除所有未使用的镜像和数据卷。 **请谨慎使用！** |
-| `docker system df` | 查看 Docker 的磁盘使用情况。 |
-| `docker volume ls` | 列出所有的数据卷。 |
-| `docker volume rm [卷名]` | 删除一个或多个数据卷。 |
-| `docker network ls` | 列出所有的网络。 |
-| `docker network rm [网络名]` | 删除一个或多个网络。 |
-| `docker login` | 登录到 Docker Hub 或其他镜像仓库。 |
-| `docker logout` | 登出 Docker Hub 或其他镜像仓库。 |
-| `docker info` | 显示 Docker 系统范围的信息。 |
-| `docker version` | 显示 Docker 的版本信息。 |
 
 
 
