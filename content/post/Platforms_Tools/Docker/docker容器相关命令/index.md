@@ -106,14 +106,14 @@ docker commit <my-container> <my-new-image> [:tag]    # 如果tag不填就默认
 # 初始化 Swarm 集群（管理节点）
 docker swarm init --advertise-addr <IP地址>
 
-# 获取管理节点加入命令
+# 获取管理节点加入命令 
 docker swarm join-token manager
 
 # 获取加入集群的命令（在工作节点执行）
 docker swarm join-token worker
 
 # 加入 Swarm 集群
-docker swarm join --token <token> <管理节点IP>:2377
+docker swarm join --token <token>   --advertise-addr <IP地址>  --data-path-addr <IP地址>  --listen-addr 0.0.0.0:2377  <管理节点IP>:2377
 
 # 离开 Swarm 集群
 docker swarm leave
