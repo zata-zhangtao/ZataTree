@@ -302,7 +302,7 @@ sudo mkdir -p /etc/docker
 
 sudo tee /etc/docker/daemon.json <<-'EOF'
 {
-  "registry-mirrors": ["https://<你的加速镜像地址，进入阿里云镜像加速服务获取>.mirror.aliyuncs.com","https://mirror.ccs.tencentyun.com"]
+  "registry-mirrors": ["https://docker.m.daocloud.io","https://<你的加速镜像地址，进入阿里云镜像加速服务获取>.mirror.aliyuncs.com","https://mirror.ccs.tencentyun.com"]
 
 }
 EOF
