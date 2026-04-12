@@ -10,7 +10,7 @@ This is a Hugo-based static blog repository named "ZataTree" that serves as a co
 
 ### Content Structure
 The blog follows a hierarchical content organization:
-- **Categories**: Top-level content classifications (Agent, Chart, DeepLearning, Grammar, Knowledge, Library, PaperReading, Platforms_Tools, Project_Application)
+- **Categories**: Top-level content classifications (Agent, Design, Engineering, DeepLearning, Grammar, Knowledge, Library, PaperReading, Platforms_Tools, Project_Application)
 - **Tags**: Specific topics within categories
 - **Posts**: Individual articles organized as `content/post/{category}/{tag}/{title}/index.md`
 
@@ -144,7 +144,8 @@ The zata.py tool requires write permissions to create directories and files in t
 
 ### Supported Categories
 - **Agent**: AI agents, LangChain, MetaGPT
-- **Chart**: Diagrams, architecture, visualization  
+- **Design**: Architecture, modeling, diagrams, prototyping
+- **Engineering**: Software engineering, observability, development practices
 - **DeepLearning**: ML models, training, tools
 - **Grammar**: Programming language syntax (Python, Matlab, PyQt)
 - **Knowledge**: General knowledge, tutorials, documentation

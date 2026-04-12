@@ -6,7 +6,8 @@ date: 2025-02-24T00:00:00+08:00
 # image: helena-hertz-wWZzXlDpMog-unsplash.jpg
 categories:
     # - DeepLearning
-    # - Chart
+    # - Design
+    # - Engineering
     # - Python
     # - LLM
     # - Project&Application
@@ -32,7 +33,8 @@ draft: true  # 设置文章为草稿状态，Hugo 默认不会渲染，但是本
 image: XXX
 categories:
     # - DeepLearning
-    # - Chart
+    # - Design
+    # - Engineering
     # - Python
     # - LLM
     # - Library
@@ -186,19 +188,27 @@ pyinstaller --onefile --console --name=zata --clean zata.py
 - [PyQt](content/post/Grammar/PyQt/)
 - [Matlab](content/post/Grammar/Matlab/)
 
-## 图表和可视化 (Chart)
+## 设计 (Design)
 
 ### 软件架构设计
-- [软件架构设计-培养软件架构师的思维](content/post/Chart/软件架构设计/软件架构设计-培养软件架构师的思维/)
-- [软件项目开发流程](content/post/Chart/软件架构设计/软件项目开发流程/)
-- [项目中日志的使用教程](content/post/Chart/软件架构设计/项目中日志的使用教程/)
+- [软件架构设计-培养软件架构师的思维](content/post/Design/软件架构设计/软件架构设计-培养软件架构师的思维/)
+- [FastAPI 后端架构设计](content/post/Design/软件架构设计/FastAPI后端架构设计/)
+- [一个标准的软件项目结构](content/post/Design/软件架构设计/一个标准的软件项目结构/)
 
-### 其他图表类型
-- [行为图](content/post/Chart/行为图/)
-- [结构图](content/post/Chart/结构图/)
-- [原型图](content/post/Chart/原型图/)
-- [功能图](content/post/Chart/功能图/)
-- [值得学习的图](content/post/Chart/值得学习的图/)
+### 设计图与原型
+- [行为图](content/post/Design/行为图/)
+- [结构图](content/post/Design/结构图/)
+- [原型图](content/post/Design/原型图/)
+- [功能图](content/post/Design/功能图/)
+- [值得学习的图](content/post/Design/值得学习的图/)
+
+## 工程实践 (Engineering)
+
+### 软件工程
+- [软件项目开发流程](content/post/Engineering/软件工程/软件项目开发流程/)
+
+### 可观测性
+- [项目中日志的使用教程](content/post/Engineering/可观测性/项目中日志的使用教程/)
 
 ## 论文阅读 (PaperReading)
 - [RuijinHospitalandNearviewTechnologyLaunchRamanSpectroscopyforNon-InvasiveBloodGlucoseMonitoring_NatureMetabolism](content/post/PaperReading/RuijinHospitalandNearviewTechnologyLaunchRamanSpectroscopyforNon-InvasiveBloodGlucoseMonitoring_NatureMetabolism/) - 瑞金医院拉曼光谱血糖监测
@@ -263,7 +273,8 @@ pyinstaller --onefile --console --name=zata --clean zata.py
 ## 分类说明
 主要分类包括：
 - `DeepLearning`: 深度学习相关
-- `Chart`: 图表和可视化
+- `Design`: 设计与建模
+- `Engineering`: 工程实践
 - `Python`: Python 相关
 - `LLM`: 大语言模型相关
 - `Library`: 库和工具相关

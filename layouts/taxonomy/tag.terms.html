@@ -1,0 +1,70 @@
+{{ define "main" }}
+    <header>
+        <h1 class="section-term">{{ T "widget.tagCloud.title" | default "Tags" }}</h1>
+        <h3 class="section-count">{{ T "list.page" (len .Pages) }}</h3>
+
+        <div style="margin-top: 1rem;">
+            <input
+                id="tag-search"
+                type="text"
+                placeholder="搜索标签…"
+                autocomplete="off"
+                style="
+                    width: 100%;
+                    padding: 0.5rem 0.75rem;
+                    font-size: 1rem;
+                    border: 1px solid var(--card-separator-color, #ddd);
+                    border-radius: 8px;
+                    background: var(--card-background, #fff);
+                    color: var(--card-text-color-main, #000);
+                    box-sizing: border-box;
+                "
+            />
+        </div>
+    </header>
+
+    <div id="tag-list" class="article-list--tile" style="margin-top: 1.5rem;">
+        {{ range .Pages.ByTitle }}
+            <article data-tag-name="{{ .Title | lower }}">
+                <a href="{{ .RelPermalink }}">
+                    <div class="article-details">
+                        <h2 class="article-title">{{ .Title }}</h2>
+                        <footer class="article-time">
+                            <span>{{ len .Pages }} 篇</span>
+                        </footer>
+                    </div>
+                </a>
+            </article>
+        {{ end }}
+    </div>
+
+    <p id="tag-empty" style="display:none; color: var(--card-text-color-tertiary, #999); margin-top:1rem;">
+        没有匹配的标签。
+    </p>
+
+    <script>
+        (function () {
+            var input = document.getElementById('tag-search');
+            var list  = document.getElementById('tag-list');
+            var empty = document.getElementById('tag-empty');
+            var items = list.querySelectorAll('article[data-tag-name]');
+
+            input.addEventListener('input', function () {
+                var q = this.value.trim().toLowerCase();
+                var visible = 0;
+                items.forEach(function (el) {
+                    var match = el.dataset.tagName.indexOf(q) !== -1;
+                    el.style.display = match ? '' : 'none';
+                    if (match) visible++;
+                });
+                empty.style.display = visible === 0 ? '' : 'none';
+            });
+        })();
+    </script>
+
+    {{ partialCached "footer/footer" . }}
+{{ end }}
+
+{{ define "right-sidebar" }}
+    {{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}
+{{ end }}
