@@ -103,6 +103,9 @@ docker commit <my-container> <my-new-image> [:tag]    # 如果tag不填就默认
 
 **docker swarm 常用命令**
 ```bash
+# 查看容器日志
+docker logs -f <容器ID或容器名>
+
 # 初始化 Swarm 集群（管理节点）
 docker swarm init --advertise-addr <IP地址>
 
