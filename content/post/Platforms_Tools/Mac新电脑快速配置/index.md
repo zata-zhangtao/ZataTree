@@ -113,14 +113,27 @@ git config --global core.editor "code --wait"
 
 ### 3.3 SSH 密钥
 
+生成密钥对并配置到 GitHub，之后 `git clone`/`git push` 就无需反复输密码。
+
 ```bash
+# 生成密钥对（ed25519 是目前最推荐的算法，比 RSA 更安全、密钥更短）
+# -C 只是加个注释，写邮箱方便你识别这是哪台电脑的 key
+# 执行后一路回车，会在 ~/.ssh/ 下生成 id_ed25519（私钥，绝不可泄露）和 id_ed25519.pub（公钥，可以公开）
 ssh-keygen -t ed25519 -C "your.email@example.com"
+
+# 启动 ssh-agent（密钥管家），eval 是把环境变量注入当前终端，让终端知道管家的位置
+# 执行后会输出类似 "Agent pid 12345"
 eval "$(ssh-agent -s)"
+
+# 把私钥交给 ssh-agent 保管，之后整个终端会话内的 git 操作都自动认证，无需再输密码
 ssh-add ~/.ssh/id_ed25519
+
+# 把公钥复制到剪贴板（macOS 专属命令），然后贴到 GitHub → Settings → SSH and GPG keys → New SSH key
+# 注意：是 .pub 文件（公钥），不是没后缀的私钥！
 pbcopy < ~/.ssh/id_ed25519.pub
 ```
 
-粘贴到 GitHub/GitLab 的 SSH Keys 设置页面，然后测试：
+粘贴到 GitHub/GitLab 的 SSH Keys 设置页面，然后测试连接：
 
 ```bash
 ssh -T git@github.com
@@ -236,15 +249,66 @@ uv sync
 
 ---
 
-## 六、其他常用工具
+## 六、其他推荐工具
+
+### 6.1 系统增强
 
 ```bash
-# CLI 工具
-brew install tree ripgrep fd jq wget curl
+# 全能启动器，取代 Spotlight，支持剪贴板历史、窗口管理、翻译等
+# 安装后建议配置：
+#   1. 设置快捷键为 Cmd+Space（替代 Spotlight），把 Spotlight 改绑 Option+Space
+#   2. 开启「剪贴板历史」（Cmd+Space → Search Clipboard History），默认保存最近 3 个月
+#   3. 在 Store 里安装常用扩展：Window Management、Calculator、Dictionary、System Monitor
+brew install --cask raycast
 
-# VSCode
-brew install --cask visual-studio-code
+# 窗口分屏（左右半屏、上下、四分之一等）
+brew install --cask rectangle
+
+# 菜单栏显示 CPU / 内存 / 网速 / 温度
+brew install --cask stats
+
+# 折叠菜单栏右侧图标，避免挤爆
+brew install --cask hiddenbar
+
+# 彻底卸载应用，连带删除偏好设置、缓存等残留文件
+brew install --cask appcleaner
 ```
+
+### 6.2 开发工具
+
+```bash
+# 终端，比分屏、搜索、配色都比自带 Terminal 强
+brew install --cask iterm2
+
+# API 调试工具
+brew install --cask postman
+
+# 数据库 GUI（MySQL / PostgreSQL / MongoDB 等）
+brew install --cask tableplus
+
+# 容器化开发
+brew install --cask docker
+```
+
+### 6.3 命令行神器
+
+```bash
+# 一条命令装完
+brew install tree eza bat fd fzf zoxide ripgrep tldr jq htop wget curl httpie
+```
+
+| 工具 | 取代 | 亮点 |
+|:---|:---|:---|
+| **eza** | `ls` | 彩色、git 状态、树形、图标 |
+| **bat** | `cat` | 语法高亮、行号、Git diff |
+| **ripgrep (rg)** | `grep` | 极速、自动忽略 .gitignore |
+| **fd** | `find` | 简洁语法、彩色输出 |
+| **fzf** | — | 模糊搜索文件 / 历史 / 任何列表 |
+| **zoxide** | `cd` | `z xxx` 自动跳转去过的目录 |
+| **tldr** | `man` | 看常用命令的简例，不看长篇手册 |
+| **jq** | — | 命令行处理 JSON，提取字段、格式化 |
+| **htop** | `top` | 交互式系统监控 |
+| **httpie** | `curl` | 更友好的 HTTP 请求工具 |
 
 ---
 
