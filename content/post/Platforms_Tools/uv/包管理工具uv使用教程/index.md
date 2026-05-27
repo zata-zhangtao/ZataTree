@@ -573,6 +573,8 @@ uv tool install <package>              # 安装指定包的工具（如 ruff）
 uv tool install <package>==<version>   # 安装特定版本的工具
 uv tool install <package> --with <dep> # 安装工具并附带额外依赖
 uv tool install <package> --python <version> # 使用指定 Python 版本安装
+uv tool install -e .                   # 以 editable 模式安装当前目录项目（开发 CLI 工具时常用）
+uv tool install -e . --force           # 强制重新安装当前目录 editable 项目
 
 # 在临时环境中运行工具（别名 uvx）
 uvx <command>                          # 运行工具（如 uvx pycowsay 'hello'）
@@ -633,6 +635,7 @@ uv tool install <package> [options]
 - `--python <version>`：指定 Python 版本。
 - `--force`：强制重新安装。
 - `--from <package>`：指定工具来源包（当包名和工具名不同时）。
+- `--editable` / `-e`：以可编辑模式安装本地项目，开发 CLI 工具时无需重复安装即可生效代码改动。
 
 **示例 1：安装 ruff 工具**
 `ruff` 是一个快速的 Python 代码检查工具。
@@ -669,6 +672,17 @@ uv tool install 'ruff==0.5.0'
 ```bash
 uv tool install mkdocs --with mkdocs-material
 ```
+
+**示例 5：以 editable 模式安装本地项目（开发 CLI 工具）**
+如果你正在开发一个包含 `[project.scripts]` 入口点的 Python 包，可以用 editable 模式将其安装为命令行工具：
+```bash
+uv tool install -e .
+```
+- 这样安装后，修改源码无需重新安装即可生效。
+- 配合 `--force` 可在源码结构或入口点变更时强制刷新：
+  ```bash
+  uv tool install --editable --force .
+  ```
 
 **注意**：
 - 安装的工具可执行文件默认位于 `~/.local/bin/`（Linux/macOS）或 `%USERPROFILE%\.local\bin`（Windows）。确保该路径在 `PATH` 中。

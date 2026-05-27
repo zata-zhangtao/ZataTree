@@ -213,3 +213,67 @@ tags:
 [11.2K Star！AI编程Agent的“赛博包工头”来了，Vibe Kanban让效率再翻 10 倍！-感觉和autoclaude类似](https://mp.weixin.qq.com/s/umgH2sbsgxGFhZonjROnIg)
 
 [Qwen-Edit-2511](https://www.bilibili.com/video/BV1hqicBCE9N?buvid=XXEAF42E0D12CAAB7A17180004AFD47D57D49&from_spmid=dt.dt.video.0&is_story_h5=false&mid=6gzusIP5Ek7I2qEGhVKy2g%3D%3D&plat_id=114&share_from=ugc&share_medium=android&share_plat=android&share_session_id=beae95ce-b321-4bb3-9c21-3a7dcd5f04d5&share_source=WEIXIN&share_tag=s_i&spmid=united.player-video-detail.0.0&timestamp=1767450382&unique_k=A554YYB&up_id=78652351)
+
+
+
+# 2026-05
+
+## 第四周
+
+[Google I/O 2026 | 开发者主题演讲精华集锦 — AI 从辅助迈向独立处理复杂任务的智能体阶段](https://www.geekpark.net/news/364870)
+
+[1年暴涨8倍！借力AI，存储大厂美光市值突破1万亿美元](https://www.geekpark.net/news/364872)
+
+[打破光刻工艺束缚，华为提出「韬定律」](https://www.geekpark.net/news/364791)
+
+[宇树科技将于6月1日接受科创板上市审核](https://www.geekpark.net/news/364791)
+
+[不止于Copilot：医渡科技超级智能体，想做医疗界的Claude Code](https://www.geekpark.net/news/364838)
+
+[谷歌CEO承认：Gemini 在 AI 编程赛道已落后](https://www.geekpark.net/news/364791)
+
+[法拉利首款纯电动车 Ferrari Luce 发布](https://www.geekpark.net/news/364791)
+
+[奥尔特曼改口：AI 对白领岗位的冲击没那么严重](https://www.aibase.com/zh/news/28393)
+
+[Codex 自我蒸馏玩法爆火！让 Codex 自动扫描历史会话并打包成可复用工具](https://www.aibase.com/zh/news/28392)
+
+[OpenAI 推理模型自主攻克80年难题：独立解决埃尔德什单位距离猜想](https://www.aibase.com/zh/news/28391)
+
+[小鹏汽车推进人形机器人量产冲刺：计划2026年底量产，2027年进店导购](https://www.aibase.com/zh/news/28390)
+
+[OpenAI 广告业务大转向：取消20万美元预付，全面拥抱中小商家](https://www.aibase.com/zh/news/28388)
+
+[Google 将 SynthID 技术接入搜索与 Chrome：一键验证是否为 AI 生成](https://www.aibase.com/zh/news/28384)
+
+[通义千问升级"拍照问健康"：能圈图、懂推理，三甲医生实测认可](https://www.aibase.com/zh/news/28379)
+
+[MiniCPM-V 4.6 发布：仅1.3B参数的端侧多模态巅峰](https://www.aibase.com/zh/news/28378)
+
+[Stability AI 发布 Stable Audio 3：长音频秒级生成](https://www.aibase.com/zh/news/28377)
+
+[Uber 四个月烧光全年 AI 预算，高管质疑投入产出比](https://www.aibase.com/zh/news/28373)
+
+[上海发布 AI 微短剧"沪8条"：最高千万资助，全流程 AI 化](https://www.aibase.com/zh/news/28374)
+
+[高考考场不准作弊！国内主流大模型集体发声：期间将禁用拍题答疑](https://www.aibase.com/zh/news/28381)
+
+[环球音乐与 TikTok 续签多年授权协议，AI 监管成为合作核心](https://www.aibase.com/zh/news/28380)
+
+### GitHub 热门项目
+
+[kimi-code — MoonshotAI 开源的下一代 Agent 起点，对标 Claude Code](https://github.com/MoonshotAI/kimi-code)
+
+[awesome-architecture — 21 张架构地图（含 AI Gateway、RAG、Agent、推理服务等）+ 系统设计教程，中英文双语](https://github.com/study8677/awesome-architecture)
+
+[DeepSeek-GUI — DeepSeek 模型的 AI Agent 工作区，内置 Code 和 Claw 模式](https://github.com/XingYu-Zhong/DeepSeek-GUI)
+
+[codex-shim — 本地 Responses-API shim，让 Codex Desktop 接入自建模型](https://github.com/0xSero/codex-shim)
+
+[ccglass — 查看 Claude Code / Codex / Kimi 等 Coding Agent 实际发送到模型的内容，本地代理 + Web Dashboard](https://github.com/jianshuo/ccglass)
+
+[ai-memory — Agent Coding CLI 的长期记忆解决方案，支持不同 Agent 工具间的记忆交接](https://github.com/akitaonrails/ai-memory)
+
+[FigMirror — 自动按任意论文的图表风格绘制你的数据，AI Agent 工具](https://github.com/VILA-Lab/FigMirror)
+
+[PiD — NVIDIA 开源的快速高分辨率潜在解码器，基于像素扩散](https://github.com/nv-tlabs/PiD)
