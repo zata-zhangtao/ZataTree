@@ -37,9 +37,32 @@ https://blog.csdn.net/weixin_46474921/article/details/132841711
 
 ### 自动fetch远程分支
 
+Git 默认不会自动从远程拉取状态更新。只有当你显式运行 `git fetch` 或 `git pull` 时，本地仓库才会更新远程分支引用。如果你希望在 VS Code / Cursor 中自动感知远程分支变化，需要开启自动 fetch：
+
+**设置路径**：`Settings` → 搜索 `git.autofetch` → 勾选启用
+
 ![alt text](images/index/image-5.png)
 
-4. 设置文件自动保存
+建议同时设置自动 fetch 间隔（默认 3 分钟）：
+
+```json
+{
+  "git.autofetch": true,
+  "git.autofetchPeriod": 180
+}
+```
+
+**注意**：如果仓库的 remote 名不是默认的 `origin`，VS Code 的 Git 插件和 GitHub Pull Requests 插件可能无法正确识别上下文。需要在 `settings.json` 中显式配置：
+
+```json
+{
+  "githubPullRequests.remotes": ["zata", "origin", "upstream"]
+}
+```
+
+配置完成后执行 `Cmd+Shift+P` → `Developer: Reload Window` 生效。
+
+### 设置文件自动保存
 
 ![设置文件自动保存](image/index/index-4.png)
 
@@ -133,3 +156,47 @@ https://stackoverflow.com/questions/78886125/vscode-python-extension-loading-for
 
 cmd加载成功，但是 cursor ternimal没有生效。
 解决办法：完全退出cursor，然后重启cursor
+
+### GitHub Pull Requests 插件一直 Loading
+
+现象：安装 `GitHub Pull Requests and Issues` 插件后，VS Code 侧边栏一直处于 loading 状态，无法正常显示当前仓库的 PR。
+
+优先检查三个点：
+
+```bash
+git remote -v
+gh auth status
+gh pr list --repo OWNER/REPO --state all --limit 10
+```
+
+这次遇到的原因是仓库 remote 名不是默认的 `origin`，而是自定义的 `zata`。VS Code 的 GitHub PR 插件默认主要识别 `origin` 和 `upstream`，如果仓库使用了其他 remote 名，插件可能找不到 GitHub 仓库上下文，于是一直 loading。
+
+解决方法：在 VS Code 的 `settings.json` 中显式配置插件要识别的 remote 名：
+
+```json
+"githubPullRequests.remotes": [
+  "zata",
+  "origin",
+  "upstream"
+]
+```
+
+然后执行：
+
+```text
+Cmd+Shift+P
+Developer: Reload Window
+```
+
+如果还是 loading，打开下面这个输出面板看具体报错：
+
+```text
+View -> Output -> GitHub Pull Requests
+```
+
+另外要注意：如果 PR 已经 merge，插件的 open PR 列表里可能不会显示。可以用命令确认：
+
+```bash
+gh pr list --repo OWNER/REPO --state all --limit 10
+gh pr view PR_NUMBER --repo OWNER/REPO
+```

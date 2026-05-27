@@ -137,3 +137,33 @@ find $BACKUP_DIR -name "*.dump" -type f -mtime +7 -exec rm -f {} \;
 从“把所有东西塞进一个容器里一键启动”，到“将业务逻辑与基础设施拆分并做好隔离与备份”，这是每一个开发者向后端架构师蜕变的必经之路。
 
 “性能损失”从来不是自建数据库的痛点，“运维疏忽”才是。只要严格遵守分离部署 + 挂载卷 + 限制公网访问 + 定时异地备份，你用 Docker 搭建的 PostgreSQL，足以平稳支撑你的业务走过漫长的初创和成长期。
+
+---
+
+**5. 用户权限管理：创建只读用户**
+
+在实际生产环境中，我们经常需要给第三方工具或只读分析需求提供数据库访问，但绝不能直接暴露拥有写权限的超级用户。
+
+以下是在 PostgreSQL 中创建一个只读用户的完整命令：
+
+```sql
+-- 1. 创建只读用户（替换密码为强密码）
+CREATE USER readonly_vanta WITH PASSWORD 'Vanta123456!';
+
+-- 2. 授予数据库连接权限
+GRANT CONNECT ON DATABASE "Vanta" TO readonly_vanta;
+
+-- 3. 授予 schema 的使用权限
+GRANT USAGE ON SCHEMA public TO readonly_vanta;
+
+-- 4. 授予现有所有表的查询权限
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO readonly_vanta;
+
+-- 5. 【关键】设置默认权限，使该用户自动拥有未来新建表的查询权
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO readonly_vanta;
+```
+
+> 💡 **注意事项**
+> - 创建用户后，务必在安全组中限制该用户的连接来源 IP，避免公网直接暴露。
+> - 如果数据库已有多个 schema，需要针对每个 schema 重复执行 `GRANT USAGE` 和 `GRANT SELECT`。
+> - 如需回收权限，可使用 `REVOKE` 命令或直接用 `DROP USER readonly_vanta;` 删除用户。

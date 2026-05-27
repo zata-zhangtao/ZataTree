@@ -38,6 +38,7 @@ tags: ["git&github","教程"]
 
 - **GitHub 相关**
   - [公式 github github不显示md文件中的公式](#公式-github-github不显示md文件中的公式)
+  - [GitHub 分支保护规则（Rulesets）配置](#github-分支保护规则rulesets配置)
   - [Git 进阶教程(git lfs)：从“版本控制”到“内容追踪”](https://mp.weixin.qq.com/s/TEjkisB-s2p-KD_OHS-fnQ)
 
 - **身份验证**
@@ -915,6 +916,40 @@ git status
 
 # 如果没有错误信息，说明配置成功
 ```
+
+### GitHub 分支保护规则（Rulesets）配置
+
+在团队协作中，保护主分支（如 `main`）是非常重要的一项最佳实践。GitHub 提供了 **Rulesets**（规则集）功能，可以灵活地配置分支保护策略，而无需启用组织级别的付费功能。
+
+下面介绍两种常见的配置方案：
+
+**方案一：极简保护（防删 + 防强制推送）**
+
+适用于个人仓库或小型项目，仅开启最核心的两项保护：
+
+- **Restrict deletions** — 限制删除匹配的分支，防止误删主分支。
+- **Block force pushes** — 阻止强制推送，避免历史被覆盖。
+
+配置截图如下：
+
+![极简分支保护](images/index/image-32.png)
+
+**方案二：严格保护（推荐用于团队项目）**
+
+适用于多人协作的项目，要求更规范的代码合入流程：
+
+- **Restrict deletions** — 限制删除分支。
+- **Require a pull request before merging** — 必须通过 Pull Request 才能合并代码。
+- **Require status checks to pass** — 要求指定的 CI 检查通过后才能合并。例如：
+  - `Python Quality Gate`
+  - `Frontend Build`
+- **Block force pushes** — 阻止强制推送。
+
+配置截图如下：
+
+![严格分支保护](images/index/image-33.png)
+
+> **提示**：Rulesets 对私有仓库完全免费即可使用。对于团队项目，建议至少开启「Require a pull request before merging」和「Require status checks to pass」，以保证代码质量和审计追踪。
 
 ### `git clone 出现以下问题：fatal: unable to access XXX: gnutls_handshake() failed: The TLS connection was non-properly terminated.`
 

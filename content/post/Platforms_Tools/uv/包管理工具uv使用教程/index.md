@@ -635,7 +635,7 @@ uv tool install <package> [options]
 - `--python <version>`：指定 Python 版本。
 - `--force`：强制重新安装。
 - `--from <package>`：指定工具来源包（当包名和工具名不同时）。
-- `--editable` / `-e`：以可编辑模式安装本地项目，开发 CLI 工具时无需重复安装即可生效代码改动。
+- `-e, --editable`：以可编辑模式安装本地项目，开发 CLI 工具时无需重复安装即可生效代码改动。
 
 **示例 1：安装 ruff 工具**
 `ruff` 是一个快速的 Python 代码检查工具。
