@@ -333,5 +333,209 @@ docker run --rm -v my-compose-app_db-data:/data -v $(pwd):/backup busybox tar cv
 
 ---
 
+## Dokploy + Traefik 生产部署
+
+### 背景
+
+在 Dokploy 上使用 `docker-compose.dokploy.yml` 部署应用后，页面访问返回 404。这个 404 通常不是前端 Nginx 的 SPA fallback 返回的，因为前端容器内的 `/` 一般会 fallback 到 `index.html`。
+
+更常见的原因是 Traefik 没有匹配到任何路由：
+
+- `DOMAIN` 没有被 Docker Compose 插值，生成了空的 `Host(``)`。
+- 访问的域名不是 compose labels 里声明的 Host rule。
+- 容器没有接入 Dokploy 的 Traefik 网络。
+- 后端不健康，依赖后端健康状态的前端服务没有启动。
+
+### Dokploy 环境变量
+
+在 Dokploy 的 Compose Environment 中必须配置：
+
+```env
+DOMAIN=fsense.example.com
+```
+
+注意：
+
+- `DOMAIN` 只写域名，不要写 `http://`、`https://` 或路径。
+- 本地 `.env.dokploy` 不一定会被 Dokploy 自动加载。除非 Dokploy 的 compose 命令显式使用 `--env-file .env.dokploy`，否则要把变量复制到 Dokploy UI 的 Environment 中。
+- 密钥、数据库地址、对象存储配置等也放在 Dokploy Environment，不要写入公开仓库。
+
+### DNS 记录
+
+如果 compose 使用三套前端域名，需要把这些域名都解析到 Dokploy 服务器：
+
+```text
+fsense.example.com
+admin.fsense.example.com
+addin.fsense.example.com
+```
+
+对应关系：
+
+| 域名 | 服务 |
+| --- | --- |
+| `https://${DOMAIN}` | `outlook-index` |
+| `https://admin.${DOMAIN}` | `admin-frontend` |
+| `https://addin.${DOMAIN}` | `outlook-addin` |
+
+### Traefik labels 模板
+
+主站前端示例：
+
+```yaml
+labels:
+  - "traefik.enable=true"
+  - "traefik.docker.network=dokploy-network"
+  - "traefik.http.middlewares.outlook-index-https-redirect.redirectscheme.scheme=https"
+  - "traefik.http.routers.outlook-index-web.rule=Host(`${DOMAIN:?Set DOMAIN in Dokploy environment}`)"
+  - "traefik.http.routers.outlook-index-web.entrypoints=web"
+  - "traefik.http.routers.outlook-index-web.middlewares=outlook-index-https-redirect"
+  - "traefik.http.routers.outlook-index.rule=Host(`${DOMAIN:?Set DOMAIN in Dokploy environment}`)"
+  - "traefik.http.routers.outlook-index.entrypoints=websecure"
+  - "traefik.http.routers.outlook-index.tls=true"
+  - "traefik.http.routers.outlook-index.tls.certresolver=letsencrypt"
+  - "traefik.http.services.outlook-index.loadbalancer.server.port=80"
+```
+
+管理后台示例：
+
+```yaml
+labels:
+  - "traefik.enable=true"
+  - "traefik.docker.network=dokploy-network"
+  - "traefik.http.middlewares.admin-frontend-https-redirect.redirectscheme.scheme=https"
+  - "traefik.http.routers.admin-frontend-web.rule=Host(`admin.${DOMAIN:?Set DOMAIN in Dokploy environment}`)"
+  - "traefik.http.routers.admin-frontend-web.entrypoints=web"
+  - "traefik.http.routers.admin-frontend-web.middlewares=admin-frontend-https-redirect"
+  - "traefik.http.routers.admin-frontend.rule=Host(`admin.${DOMAIN:?Set DOMAIN in Dokploy environment}`)"
+  - "traefik.http.routers.admin-frontend.entrypoints=websecure"
+  - "traefik.http.routers.admin-frontend.tls=true"
+  - "traefik.http.routers.admin-frontend.tls.certresolver=letsencrypt"
+  - "traefik.http.services.admin-frontend.loadbalancer.server.port=80"
+```
+
+Outlook add-in 示例：
+
+```yaml
+environment:
+  - OUTLOOK_ADDIN_HOST_URL=https://addin.${DOMAIN:?Set DOMAIN in Dokploy environment}
+labels:
+  - "traefik.enable=true"
+  - "traefik.docker.network=dokploy-network"
+  - "traefik.http.middlewares.outlook-addin-https-redirect.redirectscheme.scheme=https"
+  - "traefik.http.routers.outlook-addin-web.rule=Host(`addin.${DOMAIN:?Set DOMAIN in Dokploy environment}`)"
+  - "traefik.http.routers.outlook-addin-web.entrypoints=web"
+  - "traefik.http.routers.outlook-addin-web.middlewares=outlook-addin-https-redirect"
+  - "traefik.http.routers.outlook-addin.rule=Host(`addin.${DOMAIN:?Set DOMAIN in Dokploy environment}`)"
+  - "traefik.http.routers.outlook-addin.entrypoints=websecure"
+  - "traefik.http.routers.outlook-addin.tls=true"
+  - "traefik.http.routers.outlook-addin.tls.certresolver=letsencrypt"
+  - "traefik.http.services.outlook-addin.loadbalancer.server.port=80"
+```
+
+关键点：
+
+- `${DOMAIN:?Set DOMAIN in Dokploy environment}` 可以让 compose 在变量缺失时直接失败，避免部署出空 Host rule。
+- `traefik.docker.network=dokploy-network` 明确告诉 Traefik 走 Dokploy 网络。
+- `web` 路由负责 HTTP 入口，并通过 middleware 跳到 HTTPS。
+- `websecure` 路由负责 HTTPS 入口和证书。
+
+### 网络配置
+
+服务需要接入 Dokploy 的外部网络：
+
+```yaml
+networks:
+  dokploy-network:
+    external: true
+```
+
+每个需要被 Traefik 或反向代理访问的服务都要加入该网络：
+
+```yaml
+networks:
+  - dokploy-network
+```
+
+如果服务不需要公网访问，例如内部 backend，可以只 `expose` 端口，不直接挂 Traefik label。
+
+### 只重建后端导致前端 API 代理失效
+
+Dokploy / Docker Compose 部署时可能只重建发生变更的服务。例如后端代码变化后，只重建 `backend`，而 `frontend` 容器没有重启。
+
+这种情况下可能出现一个隐蔽问题：
+
+- `frontend` 里的 Nginx 启动时解析过 `backend:8000`。
+- 后端容器重建后，Docker 内部 IP 发生变化。
+- 前端容器没有重启，Nginx 仍然可能持有旧的 upstream 解析结果。
+- 页面本身还能打开，但 `/api/*` 代理到后端失败，看起来像"前端路由"或"接口路由"坏了。
+
+推荐做法是让 Nginx 使用 Docker 内置 DNS，并定期重解析后端服务名：
+
+```nginx
+resolver 127.0.0.11 ipv6=off valid=5s;
+
+location /api/ {
+    set $backend_upstream backend:8000;
+
+    rewrite ^/api/?(.*)$ /$1 break;
+    proxy_pass http://$backend_upstream;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+}
+```
+
+注意：`proxy_pass` 一旦使用变量，就不要再写成 `proxy_pass http://$backend_upstream/;`。带变量的 `proxy_pass` 不再沿用普通 `proxy_pass http://backend:8000/;` 的 URI 替换语义，尾部 `/` 很容易把请求错误地转发到根路径。
+
+这个问题和 Traefik Host rule 404 不是同一个层面：
+
+- Traefik Host rule 错误：请求进不了前端容器，通常直接 404。
+- Nginx backend DNS 过期：请求能进前端容器，但 `/api/*` 代理后端失败。
+
+### 404 排查命令
+
+在服务器或 Dokploy 构建环境中检查最终插值结果：
+
+```bash
+docker compose -f docker-compose.dokploy.yml config | grep 'Host'
+```
+
+正常情况下应该看到实际域名，例如：
+
+```text
+Host(`fsense.example.com`)
+Host(`admin.fsense.example.com`)
+Host(`addin.fsense.example.com`)
+```
+
+检查容器是否运行：
+
+```bash
+docker ps | grep app-
+```
+
+检查后端健康和启动日志：
+
+```bash
+docker logs app-backend --tail=100
+```
+
+如果后端不健康，依赖 `condition: service_healthy` 的前端服务可能不会启动，Traefik 也就没有可用服务。
+
+### 修复检查清单
+
+- Dokploy Environment 中已设置 `DOMAIN`，且值不包含协议和路径。
+- DNS 已解析 `${DOMAIN}`、`admin.${DOMAIN}`、`addin.${DOMAIN}`。
+- compose labels 中有 `traefik.docker.network=dokploy-network`。
+- HTTPS router 使用 `entrypoints=websecure`、`tls=true`、`tls.certresolver=letsencrypt`。
+- HTTP router 使用 `entrypoints=web` 并绑定 HTTPS redirect middleware。
+- `docker compose config` 输出的 Host rule 是实际域名，不是空字符串。
+- `backend` 健康检查通过，前端容器正常启动。
+- 如果只重建过 `backend` 后 `/api/*` 失效，检查前端 Nginx 是否使用 Docker DNS 运行时重解析。
+
+---
+
 
 
