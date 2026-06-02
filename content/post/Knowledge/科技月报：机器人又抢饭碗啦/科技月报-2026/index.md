@@ -11,9 +11,102 @@ tags:
 
 
 
+# 2026-06
+
+## 第一周
+
+[大模型生态打破壁垒！开源网关GodeX发布新版本，完美桥接MiniMax-M3 多模态能力](https://www.aibase.com/zh/news/28528)
+
+[财务数据大危机！ChatGPT表格插件爆发严重安全漏洞](https://www.aibase.com/zh/news/28526)
+
+[英伟达发布全新Vera芯片专为智能代理打造，OpenAI与SpaceX成首批拥抱者](https://www.aibase.com/zh/news/28524)
+
+[AI狂飙带火"算力金属"！精炼锡半年暴涨40%面临枯竭危机](https://www.aibase.com/zh/news/28523)
+
+[硬核填补机器人缺失环节！英特尔发布全新OpenVINO物理AI框架](https://www.aibase.com/zh/news/28521)
+
+[LobsterAI上线图片视频大模型矩阵 一次性接入四大主流图像视频生成模型](https://www.aibase.com/zh/news/28520)
+
+[超越GPT-5.5！国产AI大模型MiniMax M3 正式发布](https://www.aibase.com/zh/news/28518)
+
+[OpenAI官宣重启机器人业务，奥特曼公开招募工程师短期专注基础设施研发](https://www.aibase.com/zh/news/28517)
+
+[全球首款全开源全模态物理AI大模型Cosmos3 发布，英伟达联手行业巨头成立宇宙联盟](https://www.aibase.com/zh/news/28515)
+
+[英伟达联手宇树发布首款开放式机器人参考设计，软硬一体化加速具身智能商用进程](https://www.aibase.com/zh/news/28514)
+
+[再见"联网幻觉"！Cloudflare将推AI专属搜索引擎](https://www.aibase.com/zh/news/28513)
+
+[AI大模型独角兽MiniMax开启A股IPO辅导，二级市场AI应用概念股掀起涨停潮](https://www.aibase.com/zh/news/28512)
+
+[华为AI眼镜 2499 元正式开售，自研芯片+小艺智能体引爆端侧](https://www.aibase.com/zh/news/28510)
+
+[英伟达发布RTX Spark处理器，拟于2026年向苹果M系列发起挑战](https://www.aibase.com/zh/news/28509)# 2026-05
+
+
+## 第四周
+
+[Google I/O 2026 | 开发者主题演讲精华集锦 — AI 从辅助迈向独立处理复杂任务的智能体阶段](https://www.geekpark.net/news/364870)
+
+[1年暴涨8倍！借力AI，存储大厂美光市值突破1万亿美元](https://www.geekpark.net/news/364872)
+
+[打破光刻工艺束缚，华为提出「韬定律」](https://www.geekpark.net/news/364791)
+
+[宇树科技将于6月1日接受科创板上市审核](https://www.geekpark.net/news/364791)
+
+[不止于Copilot：医渡科技超级智能体，想做医疗界的Claude Code](https://www.geekpark.net/news/364838)
+
+[谷歌CEO承认：Gemini 在 AI 编程赛道已落后](https://www.geekpark.net/news/364791)
+
+[法拉利首款纯电动车 Ferrari Luce 发布](https://www.geekpark.net/news/364791)
+
+[奥尔特曼改口：AI 对白领岗位的冲击没那么严重](https://www.aibase.com/zh/news/28393)
+
+[Codex 自我蒸馏玩法爆火！让 Codex 自动扫描历史会话并打包成可复用工具](https://www.aibase.com/zh/news/28392)
+
+[OpenAI 推理模型自主攻克80年难题：独立解决埃尔德什单位距离猜想](https://www.aibase.com/zh/news/28391)
+
+[小鹏汽车推进人形机器人量产冲刺：计划2026年底量产，2027年进店导购](https://www.aibase.com/zh/news/28390)
+
+[OpenAI 广告业务大转向：取消20万美元预付，全面拥抱中小商家](https://www.aibase.com/zh/news/28388)
+
+[Google 将 SynthID 技术接入搜索与 Chrome：一键验证是否为 AI 生成](https://www.aibase.com/zh/news/28384)
+
+[通义千问升级"拍照问健康"：能圈图、懂推理，三甲医生实测认可](https://www.aibase.com/zh/news/28379)
+
+[MiniCPM-V 4.6 发布：仅1.3B参数的端侧多模态巅峰](https://www.aibase.com/zh/news/28378)
+
+[Stability AI 发布 Stable Audio 3：长音频秒级生成](https://www.aibase.com/zh/news/28377)
+
+[Uber 四个月烧光全年 AI 预算，高管质疑投入产出比](https://www.aibase.com/zh/news/28373)
+
+[上海发布 AI 微短剧"沪8条"：最高千万资助，全流程 AI 化](https://www.aibase.com/zh/news/28374)
+
+[高考考场不准作弊！国内主流大模型集体发声：期间将禁用拍题答疑](https://www.aibase.com/zh/news/28381)
+
+[环球音乐与 TikTok 续签多年授权协议，AI 监管成为合作核心](https://www.aibase.com/zh/news/28380)
+
+### GitHub 热门项目
+
+[kimi-code — MoonshotAI 开源的下一代 Agent 起点，对标 Claude Code](https://github.com/MoonshotAI/kimi-code)
+
+[awesome-architecture — 21 张架构地图（含 AI Gateway、RAG、Agent、推理服务等）+ 系统设计教程，中英文双语](https://github.com/study8677/awesome-architecture)
+
+[DeepSeek-GUI — DeepSeek 模型的 AI Agent 工作区，内置 Code 和 Claw 模式](https://github.com/XingYu-Zhong/DeepSeek-GUI)
+
+[codex-shim — 本地 Responses-API shim，让 Codex Desktop 接入自建模型](https://github.com/0xSero/codex-shim)
+
+[ccglass — 查看 Claude Code / Codex / Kimi 等 Coding Agent 实际发送到模型的内容，本地代理 + Web Dashboard](https://github.com/jianshuo/ccglass)
+
+[ai-memory — Agent Coding CLI 的长期记忆解决方案，支持不同 Agent 工具间的记忆交接](https://github.com/akitaonrails/ai-memory)
+
+[FigMirror — 自动按任意论文的图表风格绘制你的数据，AI Agent 工具](https://github.com/VILA-Lab/FigMirror)
+
+[PiD — NVIDIA 开源的快速高分辨率潜在解码器，基于像素扩散](https://github.com/nv-tlabs/PiD)
+
+
 
 # 2026-02
-
 
 
 ## 第三周
@@ -24,7 +117,7 @@ tags:
 
 [gemini 3 是最强模型吗](https://www.zhihu.com/question/1975199818042327496/answer/2006490495979909971?share_code=L8GWWeZim4Y4&utm_psn=2006813374617510293)
 
-[国产小龙虾开源！网易有道开源 LobsterAI：国产 Agent 的“真·干活”时代来了！](https://mp.weixin.qq.com/s/mB2ru7MUOCyVWeh-YBO6ww)
+[国产小龙虾开源！网易有道开源 LobsterAI：国产 Agent 的"真·干活"时代来了！](https://mp.weixin.qq.com/s/mB2ru7MUOCyVWeh-YBO6ww)
 
 ## 第二周
 
@@ -100,7 +193,7 @@ tags:
 
 [Everything Claude Code  -- 如何正确使用claude code](https://mp.weixin.qq.com/s/hBShK-aD0KQpkGz43TPTgQ)[另一篇文章](https://zhuanlan.zhihu.com/p/1997978582736204425?share_code=4akMY0oPbvBS&utm_psn=1998498080161538735)
 
-[谷歌“可编程搜索”要变天了](https://mp.weixin.qq.com/s/xBvW9NNJEg8iSnbnVyEyGQ)
+[谷歌"可编程搜索"要变天了](https://mp.weixin.qq.com/s/xBvW9NNJEg8iSnbnVyEyGQ)
 
 [Mistral 发布 ocr 3 提高手写以及结构化文档识别准确率](https://mp.weixin.qq.com/s/h7CH6VE_W4I229dqG7K7yQ)
 
@@ -210,70 +303,8 @@ tags:
 
 [1.5K Star！GitHub 开源神器 LifeTrace，帮你找回消失的记忆与时间-- 屏幕记录工具，和我之前的想法一样](https://mp.weixin.qq.com/s/Err7QrrgaMKYqd39TiJuiw)
 
-[11.2K Star！AI编程Agent的“赛博包工头”来了，Vibe Kanban让效率再翻 10 倍！-感觉和autoclaude类似](https://mp.weixin.qq.com/s/umgH2sbsgxGFhZonjROnIg)
+[11.2K Star！AI编程Agent的"赛博包工头"来了，Vibe Kanban让效率再翻 10 倍！-感觉和autoclaude类似](https://mp.weixin.qq.com/s/umgH2sbsgxGFhZonjROnIg)
 
 [Qwen-Edit-2511](https://www.bilibili.com/video/BV1hqicBCE9N?buvid=XXEAF42E0D12CAAB7A17180004AFD47D57D49&from_spmid=dt.dt.video.0&is_story_h5=false&mid=6gzusIP5Ek7I2qEGhVKy2g%3D%3D&plat_id=114&share_from=ugc&share_medium=android&share_plat=android&share_session_id=beae95ce-b321-4bb3-9c21-3a7dcd5f04d5&share_source=WEIXIN&share_tag=s_i&spmid=united.player-video-detail.0.0&timestamp=1767450382&unique_k=A554YYB&up_id=78652351)
 
 
-
-# 2026-05
-
-## 第四周
-
-[Google I/O 2026 | 开发者主题演讲精华集锦 — AI 从辅助迈向独立处理复杂任务的智能体阶段](https://www.geekpark.net/news/364870)
-
-[1年暴涨8倍！借力AI，存储大厂美光市值突破1万亿美元](https://www.geekpark.net/news/364872)
-
-[打破光刻工艺束缚，华为提出「韬定律」](https://www.geekpark.net/news/364791)
-
-[宇树科技将于6月1日接受科创板上市审核](https://www.geekpark.net/news/364791)
-
-[不止于Copilot：医渡科技超级智能体，想做医疗界的Claude Code](https://www.geekpark.net/news/364838)
-
-[谷歌CEO承认：Gemini 在 AI 编程赛道已落后](https://www.geekpark.net/news/364791)
-
-[法拉利首款纯电动车 Ferrari Luce 发布](https://www.geekpark.net/news/364791)
-
-[奥尔特曼改口：AI 对白领岗位的冲击没那么严重](https://www.aibase.com/zh/news/28393)
-
-[Codex 自我蒸馏玩法爆火！让 Codex 自动扫描历史会话并打包成可复用工具](https://www.aibase.com/zh/news/28392)
-
-[OpenAI 推理模型自主攻克80年难题：独立解决埃尔德什单位距离猜想](https://www.aibase.com/zh/news/28391)
-
-[小鹏汽车推进人形机器人量产冲刺：计划2026年底量产，2027年进店导购](https://www.aibase.com/zh/news/28390)
-
-[OpenAI 广告业务大转向：取消20万美元预付，全面拥抱中小商家](https://www.aibase.com/zh/news/28388)
-
-[Google 将 SynthID 技术接入搜索与 Chrome：一键验证是否为 AI 生成](https://www.aibase.com/zh/news/28384)
-
-[通义千问升级"拍照问健康"：能圈图、懂推理，三甲医生实测认可](https://www.aibase.com/zh/news/28379)
-
-[MiniCPM-V 4.6 发布：仅1.3B参数的端侧多模态巅峰](https://www.aibase.com/zh/news/28378)
-
-[Stability AI 发布 Stable Audio 3：长音频秒级生成](https://www.aibase.com/zh/news/28377)
-
-[Uber 四个月烧光全年 AI 预算，高管质疑投入产出比](https://www.aibase.com/zh/news/28373)
-
-[上海发布 AI 微短剧"沪8条"：最高千万资助，全流程 AI 化](https://www.aibase.com/zh/news/28374)
-
-[高考考场不准作弊！国内主流大模型集体发声：期间将禁用拍题答疑](https://www.aibase.com/zh/news/28381)
-
-[环球音乐与 TikTok 续签多年授权协议，AI 监管成为合作核心](https://www.aibase.com/zh/news/28380)
-
-### GitHub 热门项目
-
-[kimi-code — MoonshotAI 开源的下一代 Agent 起点，对标 Claude Code](https://github.com/MoonshotAI/kimi-code)
-
-[awesome-architecture — 21 张架构地图（含 AI Gateway、RAG、Agent、推理服务等）+ 系统设计教程，中英文双语](https://github.com/study8677/awesome-architecture)
-
-[DeepSeek-GUI — DeepSeek 模型的 AI Agent 工作区，内置 Code 和 Claw 模式](https://github.com/XingYu-Zhong/DeepSeek-GUI)
-
-[codex-shim — 本地 Responses-API shim，让 Codex Desktop 接入自建模型](https://github.com/0xSero/codex-shim)
-
-[ccglass — 查看 Claude Code / Codex / Kimi 等 Coding Agent 实际发送到模型的内容，本地代理 + Web Dashboard](https://github.com/jianshuo/ccglass)
-
-[ai-memory — Agent Coding CLI 的长期记忆解决方案，支持不同 Agent 工具间的记忆交接](https://github.com/akitaonrails/ai-memory)
-
-[FigMirror — 自动按任意论文的图表风格绘制你的数据，AI Agent 工具](https://github.com/VILA-Lab/FigMirror)
-
-[PiD — NVIDIA 开源的快速高分辨率潜在解码器，基于像素扩散](https://github.com/nv-tlabs/PiD)
