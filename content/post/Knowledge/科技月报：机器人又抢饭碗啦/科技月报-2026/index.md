@@ -15,34 +15,58 @@ tags:
 
 ## 第一周
 
-[大模型生态打破壁垒！开源网关GodeX发布新版本，完美桥接MiniMax-M3 多模态能力](https://www.aibase.com/zh/news/28528)
-
-[财务数据大危机！ChatGPT表格插件爆发严重安全漏洞](https://www.aibase.com/zh/news/28526)
-
-[英伟达发布全新Vera芯片专为智能代理打造，OpenAI与SpaceX成首批拥抱者](https://www.aibase.com/zh/news/28524)
-
-[AI狂飙带火"算力金属"！精炼锡半年暴涨40%面临枯竭危机](https://www.aibase.com/zh/news/28523)
-
-[硬核填补机器人缺失环节！英特尔发布全新OpenVINO物理AI框架](https://www.aibase.com/zh/news/28521)
-
-[LobsterAI上线图片视频大模型矩阵 一次性接入四大主流图像视频生成模型](https://www.aibase.com/zh/news/28520)
-
 [超越GPT-5.5！国产AI大模型MiniMax M3 正式发布](https://www.aibase.com/zh/news/28518)
-
-[OpenAI官宣重启机器人业务，奥特曼公开招募工程师短期专注基础设施研发](https://www.aibase.com/zh/news/28517)
-
-[全球首款全开源全模态物理AI大模型Cosmos3 发布，英伟达联手行业巨头成立宇宙联盟](https://www.aibase.com/zh/news/28515)
 
 [英伟达联手宇树发布首款开放式机器人参考设计，软硬一体化加速具身智能商用进程](https://www.aibase.com/zh/news/28514)
 
-[再见"联网幻觉"！Cloudflare将推AI专属搜索引擎](https://www.aibase.com/zh/news/28513)
-
-[AI大模型独角兽MiniMax开启A股IPO辅导，二级市场AI应用概念股掀起涨停潮](https://www.aibase.com/zh/news/28512)
+[估值近万亿美元！Anthropic秘密申请IPO](https://www.aibase.com/zh/news/28565)
 
 [华为AI眼镜 2499 元正式开售，自研芯片+小艺智能体引爆端侧](https://www.aibase.com/zh/news/28510)
 
-[英伟达发布RTX Spark处理器，拟于2026年向苹果M系列发起挑战](https://www.aibase.com/zh/news/28509)# 2026-05
+[豪掷 750 亿欧元！软银全面加码欧洲算力](https://www.aibase.com/zh/news/28567)
 
+[国产具身智能迎突破！越疆发布"空弈"大模型，标准任务成功率超99%](https://www.aibase.com/zh/news/28560)
+
+[微信AI智能体曝光:主打应用内任务处理](https://www.aibase.com/zh/news/28552)
+
+[GitHub Copilot正式上线按量计费模式](https://www.aibase.com/zh/news/28558)
+
+### Hacker News 热门
+
+[Alphabet announces $80B equity capital raise to expand AI infra](https://news.ycombinator.com/item?id=48362515)
+
+[Can the stockmarket swallow Anthropic, SpaceX and OpenAI?](https://news.ycombinator.com/item?id=48364055)
+
+[Stanford CS336: AI Agent Guidelines - Claude guidelines for coursework](https://news.ycombinator.com/item?id=48359232)
+
+### GitHub Trending 热门项目
+
+[build-your-own-x — 511k Star! 从零构建你喜欢的技术](https://github.com/codecrafters-io/build-your-own-x)
+
+[markitdown — 微软开源，Office文档转Markdown工具](https://github.com/microsoft/markitdown)
+
+[TradingAgents — Multi-Agents LLM 金融交易框架](https://github.com/TauricResearch/TradingAgents)
+
+[MoneyPrinterTurbo — AI一键生成高清短视频](https://github.com/harry0703/MoneyPrinterTurbo)
+
+[Scrapling — 自适应Web爬虫框架，支持AI和MCP](https://github.com/D4Vinci/Scrapling)
+
+[heretic — LLM自动去除审查过滤](https://github.com/p-e-w/heretic)
+
+[compound-engineering-plugin — Claude Code/Codex/Cursor的Compound工程插件](https://github.com/EveryInc/compound-engineering-plugin)
+
+[oh-my-pi — AI Coding终端工具，Rust+TypeScript](https://github.com/can1357/oh-my-pi)
+
+[hermes-webui — Hermes Agent的Web界面](https://github.com/nesquena/hermes-webui)
+
+[supermemory — AI时代的记忆引擎](https://github.com/supermemoryai/supermemory)
+
+[VoxCPM — 清华开源，多语言TTS和声音克隆](https://github.com/OpenBMB/VoxCPM)
+
+[fff — 最快最准的文件搜索工具，支持AI Agents和Neovim](https://github.com/dmtrKovalenko/fff)
+
+
+# 2026-05
 
 ## 第四周
 
