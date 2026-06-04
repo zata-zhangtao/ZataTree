@@ -1,10 +1,11 @@
 ---
 title: 技术热点追踪
 description: "持续追踪 Agent 与文档结构化领域的技术热点与开源项目"
-date: 2026-06-03T10:00:00+08:00
+date: 2026-06-04T10:00:00+08:00
 image: images/index/index.png
 categories:
-    - 技术追踪
+    - Knowledge
+    - others
 tags:
     - agent
     - 文档结构化
@@ -34,14 +35,14 @@ tags:
 ### CrewAI
 
 - **GitHub**: [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI)
-- **Stars**: 52.7k
+- **Stars**: 52.8k
 - **简介**: 完全独立于 LangChain 的多 Agent 编排框架，提供 Crews（自主协作）和 Flows（事件驱动工作流）两种模式。
 - **特点**: 高性能、灵活定制、无外部依赖、YAML 配置化
 
 ### AutoGen (Microsoft)
 
 - **GitHub**: [microsoft/autogen](https://github.com/microsoft/autogen)
-- **Stars**: 58.6k
+- **Stars**: 58.7k
 - **状态**: 已进入维护模式
 - **推荐**: 新项目建议使用 [Microsoft Agent Framework](https://github.com/microsoft/agent-framework)
 
@@ -64,7 +65,7 @@ tags:
 ### llama.cpp
 
 - **GitHub**: [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp)
-- **Stars**: 114k
+- **Stars**: 114.5k
 - **简介**: C/C++ 实现的 LLM 推理引擎，高性能、本地化运行。
 - **特点**:
   - 纯 C/C++ 实现，无依赖
@@ -73,6 +74,28 @@ tags:
   - 支持 1.5-8bit 量化
   - 多语言 Binding（Python/Go/JS/Rust/C# 等）
 
+### vLLM
+
+- **GitHub**: [vllm-project/vllm](https://github.com/vllm-project/vllm)
+- **Stars**: 81.9k
+- **简介**: 高吞吐量 LLM 推理服务，支持 PagedAttention、Tensor Parallelism。
+- **特点**:
+  - 高吞吐量推理
+  - OpenAI 兼容 API
+  - Continuous Batching
+  - 多 GPU 分布式推理
+
+### SGLang
+
+- **GitHub**: [sglang-ai/sglang](https://github.com/sglang-ai/sglang)
+- **Stars**: 31k
+- **简介**: 高效的大模型服务框架，支持 RadixAttention、前融批处理。
+- **特点**:
+  - 结构化生成加速
+  - 前融批处理（Early Prefill）
+  - 支持对话、代码、Agent 多场景
+  - 与 vLLM 互补的调度优化
+
 ---
 
 ## RAG 检索增强生成
@@ -80,7 +103,7 @@ tags:
 ### RAGFlow
 
 - **GitHub**: [infiniflow/ragflow](https://github.com/infiniflow/ragflow)
-- **Stars**: 34.2k
+- **Stars**: 81.9k
 - **简介**: 基于深度文档理解的 RAG 引擎，提供端到端 RAG 工作流。
 - **特点**:
   - 深度文档理解
@@ -93,7 +116,7 @@ tags:
 
 | 工具 | Stars | 特点 |
 |------|-------|------|
-| [MaxKB](https://github.com/1Panel-dev/MaxKB) | 15.2k | 开箱即用的 RAG 聊天机器人 |
+| [MaxKB](https://github.com/1Panel-dev/MaxKB) | 21.1k | 开箱即用的 RAG 聊天机器人 |
 | [R2R](https://github.com/SciPhi-AI/R2R) | - | 开源 RAG 引擎 |
 
 ---
@@ -103,7 +126,7 @@ tags:
 ### MinerU
 
 - **GitHub**: [opendatalab/MinerU](https://github.com/opendatalab/MinerU)
-- **Stars**: 66.2k
+- **Stars**: 66.3k
 - **简介**: 高精度文档解析引擎，将 PDF、DOCX、PPTX、XLSX、图片、网页转换为 Markdown/JSON。
 - **特点**:
   - VLM + OCR 双引擎，支持 109 种语言
@@ -153,12 +176,23 @@ tags:
 ### SWE-Agent
 
 - **GitHub**: [SWE-agent/SWE-agent](https://github.com/SWE-agent/SWE-agent)
-- **Stars**: 17.5k
+- **Stars**: 19.4k
 - **简介**: 软件工程智能体，可自动修复 GitHub Issues，支持代码搜索、编辑、终端操作。
 - **特点**:
   - VS Code 风格工具调用
   - 根因分析能力
   - 多轮对话式修复
+
+### OpenHands
+
+- **GitHub**: [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands)
+- **Stars**: 45k
+- **简介**: AI 编码智能体，支持代码编辑、bash 终端、浏览器自动化。
+- **特点**:
+  - 多智能体协作
+  - 沙盒环境执行
+  - 支持 GitHub Issues 自动修复
+  - 与 VS Code 深度集成
 
 ---
 
@@ -184,15 +218,17 @@ tags:
 |------|------|-------|------|
 | Agent | LangChain | 138k | Agent 开发框架 |
 | Agent | MetaGPT | 68.5k | 多 Agent 软件开发 |
-| Agent | CrewAI | 52.7k | 多 Agent 编排 |
-| Data Agent | Data Interpreter | 9.8k | 数据分析智能体 |
+| Agent | CrewAI | 52.8k | 多 Agent 编排 |
 | Data Agent | Open Data Lab | 16.8k | 数据处理全家桶 |
-| 编程智能体 | SWE-Agent | 17.5k | 代码修复智能体 |
+| 编程智能体 | SWE-Agent | 19.4k | 代码修复智能体 |
+| 编程智能体 | OpenHands | 45k | AI 编码智能体 |
 | LLM | Ollama | 173k | 本地模型运行 |
-| LLM | llama.cpp | 114k | 高性能推理引擎 |
-| LLM | vLLM | 63.2k | 高吞吐量推理服务 |
-| RAG | RAGFlow | 34.2k | 文档理解 RAG |
-| 文档 | MinerU | 66.2k | PDF 解析 |
+| LLM | llama.cpp | 114.5k | 高性能推理引擎 |
+| LLM | vLLM | 81.9k | 高吞吐量推理服务 |
+| LLM | SGLang | 31k | 结构化生成加速 |
+| RAG | RAGFlow | 81.9k | 文档理解 RAG |
+| RAG | MaxKB | 21.1k | 开箱即用的 RAG 聊天机器人 |
+| 文档 | MinerU | 66.3k | PDF 解析 |
 | 文档 | Marker | 35.7k | 文档转换 |
 | OCR | Surya | 20.5k | 文字识别 |
 

@@ -15,6 +15,30 @@ tags:
 
 ## 第一周
 
+[火山引擎Maas业务爆发：Seedance2.0单月创收超10亿元](https://www.aibase.com/zh/news/28628)
+
+[英国新规落地：谷歌允许出版商一键退出AI搜索且不影响传统排名](https://www.aibase.com/zh/news/28627)
+
+[Google发布Gemma412B开源模型：主打无编码器全模态，16GB内存笔记本可本地运行](https://www.aibase.com/zh/news/28626)
+
+[Lovable深化与Google战略合作，基础设施全面转向Gemini与Google Cloud](https://www.aibase.com/zh/news/28625)
+
+[知识工作者喜提通用本地Agent！月之暗面正式开启Kimi Work内测](https://www.aibase.com/zh/news/28624)
+
+[亚马逊App上线搜索框AI生成图片功能，深化视觉搜索布局](https://www.aibase.com/zh/news/28623)
+
+[字节跳动开源Bernini框架：实现视频生成与精准编辑的完美统一](https://www.aibase.com/zh/news/28622)
+
+[豆包宣布计划推出付费专业版：提供六大垂直生产力服务](https://www.aibase.com/zh/news/28620)
+
+[全系标配智驾大模型！小米汽车YU7迎来HyperOS 1.16关键升级](https://www.aibase.com/zh/news/28619)
+
+[一年内翻倍！谷歌Gemini App月活突破9亿](https://www.aibase.com/zh/news/28618)
+
+[拉响教育警报！美国教师联合会呼吁禁止AI系统进入小学课堂](https://www.aibase.com/zh/news/28617)
+
+### Hacker News 热门
+
 [超越GPT-5.5！国产AI大模型MiniMax M3 正式发布](https://www.aibase.com/zh/news/28518)
 
 [英伟达联手宇树发布首款开放式机器人参考设计，软硬一体化加速具身智能商用进程](https://www.aibase.com/zh/news/28514)
@@ -41,9 +65,35 @@ tags:
 
 ### GitHub Trending 热门项目
 
-[build-your-own-x — 511k Star! 从零构建你喜欢的技术](https://github.com/codecrafters-io/build-your-own-x)
+#### 6月4日
+
+[headroom — 开源项目，自动化代码审查与更新](https://github.com/chopratejas/headroom)
+
+[ECC — 纠错码库](https://github.com/affaan-m/ECC)
+
+[trivy — AquaSecurity开源的容器/镜像漏洞扫描工具](https://github.com/aquasecurity/trivy)
+
+[hermes-agent — Nous Research开源AI Agent](https://github.com/NousResearch/hermes-agent)
 
 [markitdown — 微软开源，Office文档转Markdown工具](https://github.com/microsoft/markitdown)
+
+[hermes-webui — Hermes Agent的Web界面](https://github.com/nesquena/hermes-webui)
+
+[Scrapling — 自适应Web爬虫框架，支持AI和MCP](https://github.com/D4Vinci/Scrapling)
+
+[opendataloader-pdf — OpenDataLab PDF数据加载器](https://github.com/opendataloader-project/opendataloader-pdf)
+
+[airllm — 大模型内存优化，无注意力机制的LLM推理](https://github.com/lyogavin/airllm)
+
+[supermemory — AI时代的记忆引擎](https://github.com/supermemoryai/supermemory)
+
+[Vibe-Trading — AI驱动的金融交易框架](https://github.com/HKUDS/Vibe-Trading)
+
+[fff — 最快最准的文件搜索工具，支持AI Agents和Neovim](https://github.com/dmtrKovalenko/fff)
+
+#### 6月3日
+
+[build-your-own-x — 511k Star! 从零构建你喜欢的技术](https://github.com/codecrafters-io/build-your-own-x)
 
 [TradingAgents — Multi-Agents LLM 金融交易框架](https://github.com/TauricResearch/TradingAgents)
 
