@@ -146,6 +146,27 @@ tags:
   - 支持结构化提取（Schema 定义）
   - GPU/CPU/MPS 多平台支持
 
+### Docling
+
+- **GitHub**: [docling/docling](https://github.com/docling-project/docling)
+- **Stars**: 28.4k
+- **简介**: IBM 开源的文档解析工具，支持 PDF、DOCX、HTML、图片等格式转换为 JSON/Markdown/HTML。
+- **特点**:
+  - 表格结构识别与转换
+  - 代码块、公式、链接提取
+  - 多语言支持
+  - 简单易用的 API
+
+### 其他文档工具
+
+| 项目 | 语言 | 特点 |
+|------|------|------|
+| [markitdown](https://github.com/matamorphosis/markitdown) | Python | 从 Word/PDF/HTML 提取 Markdown，结构保真 |
+| [unstructured](https://github.com/Unstructured-IO/unstructured) | Python | 通用文档解析，支持 30+ 格式 |
+| [pyMuPDF](https://github.com/pymupdf/pymupdf) | Python | PDF 解析，提取文本、表格、图像 |
+| [python-docx](https://github.com/python-openxml/python-docx) | Python | Word 文档解析 |
+| [pdfplumber](https://github.com/jsvine/pdfplumber) | Python | 专注 PDF 表格提取 |
+
 ## Data Agent 数据智能体
 
 ### Data Interpreter (MetaGPT)
