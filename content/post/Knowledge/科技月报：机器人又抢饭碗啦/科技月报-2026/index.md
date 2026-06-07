@@ -178,6 +178,70 @@ tags:
 
 [PiD — NVIDIA 开源的快速高分辨率潜在解码器，基于像素扩散](https://github.com/nv-tlabs/PiD)
 
+#### [Open Design — 开源 Claude Design 替代](https://github.com/nexu-io/open-design)
+
+Open Design 的定位很清晰：把 Claude Design 这类“AI 生成设计稿 / 原型 / 演示 / 视觉资产”的能力做成 local-first 的开源桌面工具。它不是单纯的网页生成器，而是把 design system、skills、plugins、coding agent 串成一个本地设计工作流。
+
+值得关注的点：
+
+- 支持 web、desktop、mobile 原型，也能生成 slides、images、videos 等多种设计资产。
+- 可以导出 HTML、PDF、PPTX、MP4，对“从想法到可交付物”很友好。
+- 能接 Claude Code、Codex、Cursor、OpenCode、Qwen、Kimi 等 coding agent，适合做 AI 设计工作流中枢。
+- 更像“AI 时代的 Figma 替代方向”：不是在画布上手动推像素，而是让设计系统和 agent 共同产出可运行的 artifact。
+
+我的判断：这个项目值得持续跟踪。AI 编程工具已经很卷了，但“AI 设计 + 前端实现 + 可交付导出”的链路还没有完全跑通，Open Design 刚好踩在这个交叉点上。
+
+#### [Headroom — AI 上下文压缩神器](https://github.com/chopratejas/headroom)
+
+Headroom 解决的是 Agent 使用里的一个硬问题：工具输出、日志、文件、RAG chunk、历史对话太长，最后把 LLM context 撑爆，或者让成本和延迟飙升。它会在内容进入模型前做压缩，目标是用更少 token 保持同样的回答质量。
+
+值得关注的点：
+
+- 可以压缩 tool outputs、logs、files、RAG chunks、conversation history。
+- 支持 library、proxy、MCP server 多种接入方式，不一定要改原项目代码。
+- 强调 local-first 和 reversible compression，适合对隐私和可追溯性敏感的场景。
+- 对 Claude Code、Codex、Cursor、LangChain 这类长任务场景很有价值。
+
+我的判断：如果未来 coding agent 越来越依赖长日志、长 diff、长检索结果，那么“上下文工程”会成为基础设施。Headroom 这种工具很可能会变成 Agent Infra 的一层标配。
+
+#### [Taste Skill — 给 AI 培养审美的前端 skill](https://github.com/Leonxlnx/taste-skill)
+
+Taste Skill 不是一个普通 UI 组件库，而是一组给 AI agent 使用的前端设计 skill。它主要解决 AI 生成页面时常见的问题：布局无聊、留白混乱、字体层级弱、动效随意、整体看起来像模板站。
+
+值得关注的点：
+
+- 用 skill 的方式约束 AI 输出，让页面在 layout、typography、motion、spacing 上更像专业设计。
+- 包含 greenfield 前端生成、已有项目 redesign、image-to-code、brandkit 等不同场景。
+- 可以通过 `npx skills add` 安装，也可以直接把 `SKILL.md` 复制到项目或对话里使用。
+- 对 Codex、Claude Code、Cursor 这类“能直接改前端代码”的工具尤其有用。
+
+我的判断：这类项目说明 AI 前端开发已经从“能不能写出来”进入“写出来是否好看、是否有品味”的阶段。以后前端 agent 的竞争点会越来越多地落在审美、交互细节和设计一致性上。
+
+#### [English-level-up-tips — 离谱的英语学习指南](https://github.com/byoungd/English-level-up-tips)
+
+这个项目不是 AI 工具，但很适合放在科技热点里当“高质量学习资源”。它是一份面向中文读者的英语进阶指南，重点不是背几个单词，而是讲英语学习的方法、路线和长期训练思路。
+
+值得关注的点：
+
+- 内容偏系统学习，而不是碎片技巧。
+- 对程序员、研究生、AI 从业者都有实际价值，因为很多一手技术资料仍然是英文。
+- 英语能力本质上是信息获取能力，尤其在 AI、开源、论文、产品文档这些场景里非常明显。
+
+我的判断：AI 时代更需要英语，而不是更不需要英语。因为 AI 可以帮你翻译，但你自己能直接阅读英文资料，依然意味着更低的信息损耗和更快的判断速度。
+
+#### [ai-engineering-from-scratch — 从零手搓 AI 工程](https://github.com/rohitg00/ai-engineering-from-scratch)
+
+ai-engineering-from-scratch 是一份非常系统的 AI 工程学习路线，强调 Learn it、Build it、Ship it。它覆盖数学基础、机器学习、深度学习、CV、NLP、Audio、Transformer、LLM、RAG、MCP、Agent Engineering 等主题，并且大量内容都偏“从原理到实现”。
+
+值得关注的点：
+
+- 不是只讲 API 调用，而是从底层原理和代码实现入手。
+- 内容跨度很大，适合建立完整 AI 工程地图。
+- 覆盖 LLM Engineering、MCP、Agent Engineering 等当前很实用的新方向。
+- 对想从“会调包”进阶到“能理解系统、能造轮子、能做工程落地”的人很适合。
+
+我的判断：这类项目的价值在于补齐 AI 工程师的基本功。现在很多 AI 应用看起来门槛很低，但真正做稳定、可评估、可扩展的系统，还是需要扎实理解模型、数据、推理、工具调用、上下文和部署链路。
+
 
 
 # 2026-02
@@ -380,5 +444,4 @@ tags:
 [11.2K Star！AI编程Agent的"赛博包工头"来了，Vibe Kanban让效率再翻 10 倍！-感觉和autoclaude类似](https://mp.weixin.qq.com/s/umgH2sbsgxGFhZonjROnIg)
 
 [Qwen-Edit-2511](https://www.bilibili.com/video/BV1hqicBCE9N?buvid=XXEAF42E0D12CAAB7A17180004AFD47D57D49&from_spmid=dt.dt.video.0&is_story_h5=false&mid=6gzusIP5Ek7I2qEGhVKy2g%3D%3D&plat_id=114&share_from=ugc&share_medium=android&share_plat=android&share_session_id=beae95ce-b321-4bb3-9c21-3a7dcd5f04d5&share_source=WEIXIN&share_tag=s_i&spmid=united.player-video-detail.0.0&timestamp=1767450382&unique_k=A554YYB&up_id=78652351)
-
 
