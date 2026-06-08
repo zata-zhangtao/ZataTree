@@ -5,13 +5,17 @@ set -Eeuo pipefail
 #
 # Usage:
 #   bash install-docker-traefik.sh
-#   ACME_EMAIL=admin@example.com bash install-docker-traefik.sh
+#   ACME_EMAIL=you@your-domain.com bash install-docker-traefik.sh
+#
+# If you do NOT pass ACME_EMAIL, the script installs Traefik with HTTP only
+# and skips the Let's Encrypt resolver. You can re-run with a real email
+# later to enable HTTPS certificate issuance.
 #
 # Optional environment variables:
 #   TRAEFIK_DIR=/opt/traefik
 #   TRAEFIK_NETWORK=traefik
 #   TRAEFIK_IMAGE=traefik:v3.7
-#   ACME_EMAIL=admin@example.com
+#   ACME_EMAIL=you@your-domain.com
 #   ENABLE_HTTPS_REDIRECT=true|false
 #   INSTALL_SAMPLE=true|false
 #   WHOAMI_HOST=whoami.example.com
@@ -19,6 +23,18 @@ set -Eeuo pipefail
 TRAEFIK_DIR="${TRAEFIK_DIR:-/opt/traefik}"
 TRAEFIK_NETWORK="${TRAEFIK_NETWORK:-traefik}"
 TRAEFIK_IMAGE="${TRAEFIK_IMAGE:-traefik:v3.7}"
+# Default is empty on purpose. When empty, the script does NOT write a
+# certificatesResolvers block to traefik.yml — Traefik will only serve the
+# built-in fallback self-signed cert, which is fine for local dev.
+#
+# To enable Let's Encrypt you MUST pass a real mailbox:
+#   ACME_EMAIL=you@your-domain.com bash install-docker-traefik.sh
+#
+# Do NOT pass the legacy placeholder "admin@example.com" / "you@example.com":
+# Let's Encrypt silently rejects the registration, acme.json is never created,
+# and Traefik serves the TRAEFIK DEFAULT CERT to every visitor. If you've
+# already done this, fix the running install with the
+# "fix-acme-email.sh" companion script in this repo.
 ACME_EMAIL="${ACME_EMAIL:-}"
 ENABLE_HTTPS_REDIRECT="${ENABLE_HTTPS_REDIRECT:-}"
 INSTALL_SAMPLE="${INSTALL_SAMPLE:-false}"
@@ -348,6 +364,27 @@ Dashboard 默认只监听服务器本机：
   ${TRAEFIK_DIR}/examples/whoami.compose.yml
 
 EOF
+
+  if [[ -z "$ACME_EMAIL" ]]; then
+    cat <<EOF
+提示：本次没有传 ACME_EMAIL，所以还没有启用 Let's Encrypt 证书解析器。
+  - 当前 Traefik 只能提供 HTTP（80 端口），HTTPS 会返回自签证书。
+  - 想启用真证书，先把 DNS 解析指到本机，再重跑：
+      ACME_EMAIL=you@your-domain.com bash $(basename "$0")
+    脚本是幂等的，会自动追加 certificatesResolvers 段并重启 Traefik。
+
+EOF
+  else
+    cat <<EOF
+Let's Encrypt 证书解析器已启用（ACME_EMAIL=${ACME_EMAIL}）。
+  - DNS 必须先把要签发的域名解析到本机，否则 LE HTTP challenge 拿不到 80。
+  - 第一个外部 HTTPS 请求触发后，Traefik 会自动向 LE 申请证书（通常 30 秒内）。
+  - 想看 LE 流程：sudo docker logs -f \$(sudo docker ps -q --filter ancestor=${TRAEFIK_IMAGE})
+  - 证书存放在 ${TRAEFIK_DIR}/letsencrypt/acme.json，Traefik 自动续期。
+  - 如果浏览器一直显示"此网站的证书无效"，确认 traefik.yml 里 email 字段没被误改成占位。
+
+EOF
+  fi
 }
 
 main() {
@@ -357,6 +394,20 @@ main() {
   fi
 
   require_sudo
+
+  # Fail fast if the user passed a known placeholder email. Let's Encrypt
+  # silently rejects registrations with these, the cert never gets issued,
+  # and Traefik falls back to its default self-signed cert (which browsers
+  # mark as "invalid"). Reject up front with a clear pointer to the fix.
+  if [[ -n "$ACME_EMAIL" ]]; then
+    if [[ "$ACME_EMAIL" =~ @(example\.com|example\.org|example\.net|localhost)$ ]]; then
+      die "ACME_EMAIL='$ACME_EMAIL' 看起来是占位邮箱。Let's Encrypt 不会接受 example.com / localhost 等保留域名，会导致证书申请失败、浏览器报'此网站的证书无效'。请传一个真实邮箱，例如 ACME_EMAIL=you@your-domain.com"
+    fi
+    if ! [[ "$ACME_EMAIL" =~ ^[^@[:space:]]+@[^@[:space:]]+\.[^@[:space:]]+$ ]]; then
+      die "ACME_EMAIL='$ACME_EMAIL' 格式不像合法邮箱。"
+    fi
+  fi
+
   install_docker
   create_traefik_network
   write_traefik_files

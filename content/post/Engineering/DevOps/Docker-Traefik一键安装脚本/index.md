@@ -44,10 +44,10 @@ chmod +x install-docker-traefik.sh
 ./install-docker-traefik.sh
 ```
 
-如果要给真实网站签发 Let's Encrypt 证书，建议填写 `ACME_EMAIL`：
+如果要给真实网站签发 Let's Encrypt 证书，建议填写 `ACME_EMAIL`（**必须是真实邮箱**，脚本会拒绝 `you@example.com` 这类占位值，Let's Encrypt 也只会用占位邮箱会让证书一直申请失败）：
 
 ```bash
-ACME_EMAIL=you@example.com ./install-docker-traefik.sh
+ACME_EMAIL=you@your-domain.com ./install-docker-traefik.sh
 ```
 
 脚本会把 Traefik 配置写到：
@@ -161,13 +161,92 @@ sudo mkdir -p /opt/apps/my-app
 cd /opt/apps/my-app
 ```
 
-目录里放两个文件：
+#### 组织方案选择
+
+每个项目目录里至少需要 `.env`（存放部署变量）和 `docker-compose.yml`（定义容器运行方式）。这两者的关系有几种组织方式：
+
+**方案 A：compose 文件直接放在项目目录（默认）**
 
 ```text
-/opt/apps/my-app
+/opt/apps/my-app/
 ├── .env
 └── docker-compose.yml
 ```
+
+简单直观，适合 compose 文件不常变更的项目。
+
+**方案 B：compose 文件集中管理**
+
+如果多个项目的 compose 模板相似，想统一维护，可以把 compose 文件放到共享目录：
+
+```text
+/opt/compose-templates/
+├── traefik-app.yml
+└── static-site.yml
+
+/opt/apps/my-app/
+└── .env
+```
+
+部署时用 `-f` 指定模板路径：
+
+```bash
+docker compose -f /opt/compose-templates/traefik-app.yml --env-file /opt/apps/my-app/.env up -d
+```
+
+CD 流水线里也这样写，每次更新 compose 模板时只需要改 `/opt/compose-templates/` 下的文件。
+
+**方案 C：用脚本封装**
+
+在项目目录下放一个启动脚本，把模板路径写死在脚本里：
+
+```bash
+#!/bin/bash
+# /opt/apps/my-app/deploy.sh
+cd /opt/compose-templates
+docker compose -f traefik-app.yml --env-file /opt/apps/my-app/.env "$@"
+```
+
+这样部署命令变成：
+
+```bash
+/opt/apps/my-app/deploy.sh up -d
+./deploy.sh logs -f
+```
+
+脚本本身也可以加入检查、重试、通知等逻辑，适合有统一运维规范的项目。
+
+**方案 D：用 git 仓库管理 compose 文件**
+
+如果 CD 流水线已经配好了 SSH 密钥，服务器可以直接用 git 操作。只需要 clone 一次，之后 CD 时 `git pull` 拉取最新配置：
+
+```bash
+git clone git@github.com:your-org/server-configs.git /opt/configs
+```
+
+目录结构：
+
+```text
+/opt/configs/
+├── compose.yml      # git 管理
+└── .env.example     # 提交 git，真实值在服务器上配置
+
+/opt/apps/my-app/
+└── .env             # 不提交 git，只存在服务器
+```
+
+CD 部署时：
+
+```bash
+cd /opt/configs && git pull && cd /opt/apps/my-app && docker compose -f /opt/configs/compose.yml --env-file .env up -d
+```
+
+`.env` 里的密钥留在服务器本地，不进 git 仓库。compose 文件由 git 管理，可以 review 和回滚。
+
+
+**怎么选**：如果 compose 模板基本固定、很少改，用默认的方案 A 就行。如果想统一管理模板、减少每个项目重复的 compose 内容，选方案 B 或 C。如果需要多人协作、版本控制和 PR review，选方案 D。
+
+下面以方案 A 为例继续说明。如果选了其他方案，记得相应调整后面的路径和命令。
 
 `.env` 只放部署层变量：
 
@@ -432,13 +511,41 @@ sudo docker compose --env-file /opt/traefik/.env -f /opt/traefik/docker-compose.
 sudo docker compose --env-file /opt/traefik/.env -f /opt/traefik/docker-compose.yml logs -f
 ```
 
-测试服务可以这样启动：
+测试服务可以这样启动（同样，`ACME_EMAIL` 必须是真实邮箱）：
 
 ```bash
-ACME_EMAIL=you@example.com INSTALL_SAMPLE=true WHOAMI_HOST=whoami.example.com ./install-docker-traefik.sh
+ACME_EMAIL=you@your-domain.com INSTALL_SAMPLE=true WHOAMI_HOST=whoami.example.com ./install-docker-traefik.sh
 ```
 
 如果 `whoami.example.com` 能访问，说明 DNS、80/443、防火墙、Traefik 路由和证书申请基本都通了。
+
+## 如果浏览器一直显示"此网站的证书无效"
+
+按本博客早期示例用过 `ACME_EMAIL=admin@example.com` 之类占位邮箱的用户会撞到这个问题。Let's Encrypt 静默拒绝占位邮箱，acme.json 一直不生成，Traefik 只能回落到自签证书。
+
+修法是直接把 `traefik.yml` 里的 `email:` 改成真实邮箱，不需要重装：
+
+```bash
+# 1) 把真实邮箱替换进 traefik.yml
+sudo sed -i 's#admin@example.com#you@your-domain.com#' /opt/traefik/traefik.yml
+# （如果之前是别的占位值，把 sed 第一个参数里的字面量对应替换）
+
+# 2) 清掉任何残留的 acme.json，让 Traefik 重新申请
+sudo rm -f /opt/traefik/letsencrypt/acme.json
+sudo touch /opt/traefik/letsencrypt/acme.json
+sudo chmod 600 /opt/traefik/letsencrypt/acme.json
+
+# 3) 重启 Traefik，让它从第一个 HTTPS 请求开始走真正的 LE 申请
+cd /opt/traefik && sudo docker compose restart traefik
+```
+
+修完后用下面命令验证证书已经换成真证书：
+
+```bash
+echo | openssl s_client -connect your-domain.com:443 -servername your-domain.com 2>/dev/null \
+  | openssl x509 -noout -issuer -subject -dates
+# 应该看到 issuer 含 "Let's Encrypt"，subject 是你的域名
+```
 
 ## 注意事项
 
@@ -447,6 +554,7 @@ ACME_EMAIL=you@example.com INSTALL_SAMPLE=true WHOAMI_HOST=whoami.example.com ./
 3. Traefik dashboard 使用 `api.insecure: true`，但端口只绑定到 `127.0.0.1:8080`，不要改成公网监听，除非你额外加认证。
 4. Traefik 通过只读方式挂载 `/var/run/docker.sock`。这依然是高权限入口，生产环境要限制谁能创建带 Traefik labels 的容器。
 5. Let's Encrypt HTTP challenge 需要 `80` 端口能从公网访问，否则证书申请会失败。
+6. `ACME_EMAIL` 必须是真实邮箱。脚本会拒绝 `admin@example.com`、`you@example.com`、`*@example.com` 等占位值；不要被早期示例误导。
 
 ## 参考
 
