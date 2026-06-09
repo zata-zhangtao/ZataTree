@@ -4,3 +4,4 @@ test.*
 build
 *.pyc
 assets/jsconfig.json
+.DS_Store

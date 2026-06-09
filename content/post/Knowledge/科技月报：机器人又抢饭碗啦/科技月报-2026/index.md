@@ -13,6 +13,120 @@ tags:
 
 # 2026-06
 
+## 第二周
+
+### AI 行业重磅新闻
+
+[WWDC 2026：苹果发布 iOS 27，新版 Siri 联手谷歌 Gemini](https://www.aibase.com/zh/news/28763)
+
+苹果在 WWDC 2026 发布全新 Siri，宣布与谷歌合作引入 Gemini 大模型，采用新 AI 架构提升智能表现。苹果高管克雷格严厉抨击"为AI而AI"的功利现状，强调实用与用户价值。新版 Siri 支持跨 App 协同，今年晚些时候推送 Beta 测试版（欧盟/中国大陆暂不支持）。
+
+[苹果联合谷歌与英伟达开发 Apple Foundation Model Cloud Pro](https://www.aibase.com/zh/news/28764)
+
+苹果、谷歌与英伟达联合开发新一代 AI 模型 Apple Foundation Model Cloud Pro，性能对标谷歌 Gemini。该模型基于英伟达高性能 GPU 集群运行，深度纳进苹果私有云计算体系，端云协同与隐私安全双轨并行。
+
+[苹果首次免除小型开发者云 API 费用](https://www.aibase.com/zh/news/28750)
+
+苹果宣布：首次下载量低于 200 万次的 App 开发者可免费调用其私有云基础模型，无需支付任何云 API 费用。此举旨在降低 AI 基础设施成本，激励小型开发者进行前沿 AI 应用探索。
+
+[苹果 Photos 应用迎来 AI 重构：支持一键"重构"照片](https://www.aibase.com/zh/news/28765)
+
+iOS 27 的 Photos 应用引入"重构"（Reframe）功能，利用生成式 AI 自动优化照片取景，解决拍摄时构图不佳的问题。用户可通过拖拽调整照片透视，边缘模糊区域由 AI 智能填充。
+
+### IPO 潮：AI 巨头扎堆上市
+
+[OpenAI 已向 SEC 秘密提交 IPO 申请](https://www.aibase.com/zh/news/28752)
+
+继 Anthropic 之后，OpenAI 也向美国证券交易委员会秘密提交 IPO 注册声明草案，估值达 8520 亿美元。目前拥有约 9 亿周活跃用户，但面临财务压力：据预测到 2028 年 AI 算力投入将高达 1220 亿美元，当年预计亏损 850 亿美元。
+
+[奥特曼宣布 AI 迈入第三阶段：普及、安全与易用](https://www.aibase.com/zh/news/28751)
+
+OpenAI CEO 山姆·奥尔特曼与首席科学家联合发文，宣布公司进入发展第三阶段，核心目标是让先进的智能技术更加普及、易用，并确保安全性。高管呼吁成立国际机构专门负责人工智能监管，必要时暂停前沿技术研发。
+
+### GitHub 热门项目
+
+[openclaw/openclaw](https://github.com/openclaw/openclaw) — 377K Stars! 开源个人AI助手，任意OS/平台都能跑，🦞 style
+
+[obra/superpowers](https://github.com/obra/superpowers) — 221K Stars! Agentic Skills 框架 + 软件开发方法论
+
+[NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) — 187K Stars! 成长型 AI Agent
+
+[anomalyco/opencode](https://github.com/anomalyco/opencode) — 171K Stars! 开源编码 Agent
+
+[anthropics/claude-code](https://github.com/anthropics/claude-code) — 131K Stars! Anthropic官方CLI编码工具
+
+[mattpocock/skills](https://github.com/mattpocock/skills) — 120K Stars! 来自Matt Pocock的Claude Code Skills集合
+
+[BigPizzaV3/CodexPlusPlus](https://github.com/BigPizzaV3/CodexPlusPlus) — 15K Stars! Codex增强工具(Rust)
+
+[nexu-io/open-design](https://github.com/nexu-io/open-design) — 61K Stars! 本地优先的开源Claude Design替代品
+
+[VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md) — 88K Stars! 品牌设计系统DESIGN.md集合
+
+[chenglou/pretext](https://github.com/chenglou/pretext) — 48K Stars! 快速准确的文本测量和布局工具
+
+[MemPalace/mempalace](https://github.com/MemPalace/mempalace) — 54K Stars! 开源AI内存系统，benchmark表现最佳
+
+[JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman) — 69K Stars! Claude Code Skill，可减少65%的token消耗
+
+[pewdiepie-archdaemon/odysseus](https://github.com/pewdiepie-archdaemon/odysseus) — 62K Stars! 自托管AI工作空间
+
+[antirez/ds4](https://github.com/antirez/ds4) — 13K Stars! DeepSeek 4本地推理引擎，支持Metal和CUDA
+
+[n8n-io/n8n](https://github.com/n8n-io/n8n) — 191K Stars! 原生 AI 能力的开源工作流自动化平台
+
+[ollama/ollama](https://github.com/ollama/ollama) — 173K Stars! 本地跑 AI 模型（Kimi-K2.6、GLM-5.1、MiniMax、DeepSeek 等）
+
+[langgenius/dify](https://github.com/langgenius/dify) — 144K Stars! 生产级 Agent 工作流开发平台
+
+[firecrawl/firecrawl](https://github.com/firecrawl/firecrawl) — 130K Stars! 大规模网页抓取和搜索 API
+
+### V2EX 热门项目
+
+[OpenAgent：单文件版龙虾——双击就能跑的高性能 Agent](https://www.v2ex.com)
+
+一个仅有一个文件的高性能 Agent 实现，双击就能运行。支持 AI 股票数据、运维工具等场景。
+
+[给 AI Agent 造了个免费股票数据弹药库](https://www.v2ex.com)
+
+pip install 装了就能跑的股票数据工具，为 AI Agent 提供金融数据支持。
+
+### 其他重要新闻
+
+[阿里巴巴成立 Token Foundry 事业部，CEO 吴泳铭直接领导](https://www.aibase.com/zh/news/28761)
+
+阿里巴巴将通义大模型事业部与未来生活实验室合并，成立 Token Foundry 事业部，由集团 CEO 吴泳铭直接领导，标志着 AI 布局升至最高战略层。
+
+[微信联合美团开放 AI Agent 能力，To A 布局加速](https://www.aibase.com/zh/news/28754)
+
+微信正式面向开发者开放 AI Agent 能力，用户可通过微信 Agent 直接调取小程序中的 AI 服务。美团作为首批内测伙伴，已完成接入测试，未来用户可通过微信 Agent 直接使用美团外卖等本地生活服务。
+
+[Kimi Code 开源编码代理重大升级：CLI 一键安装 + 视频上下文支持](https://www.aibase.com/zh/news/28762)
+
+Moonshot AI 旗下 Kimi Code 迎来重要版本升级：支持一行 CLI 命令安装、视频上下文能力（支持拖入视频作为编码参考）、丰富插件生态（股票查询、财务报告、学术论文等）。
+
+[小红书上线 RED Skill 功能，AI 应用首次深度嵌入社区笔记场景](https://www.aibase.com/zh/news/28749)
+
+小红书推出 RED Skill 功能，将 AI 应用与社区内容生态深度融合。部分创作者笔记下方已可挂载 AI 组件，用户无需跳转第三方平台即可直接获取相关服务。这是首个将 AI Skill 与社区场景深度绑定的分发机制。
+
+[微软数十个开源 AI 工具遭供应链攻击，大量开发者凭证被窃](https://www.aibase.com/zh/news/28755)
+
+黑客通过供应链攻击向至少 70 个微软开源项目注入恶意软件，意图在用户使用 Claude Code、Gemini CLI 和 VS Code 等 AI 编码应用时窃取密码及凭证。微软已紧急删除相关存储库。
+
+[毕马威调研：全球仅 26% 企业能全面掌控 AI 成本](https://www.aibase.com/zh/news/28759)
+
+毕马威调查显示，全球仅有 26% 的公司能够全面掌握其 AI 成本，50% 企业监管能力有限，22% 完全缺乏透明度。随着 AI 服务转向代币计费，多家企业几个月内便耗尽全年 AI 预算，部分客户代币使用量激增六倍。
+
+[AI 大厂月薪 3 万疯抢文科生](https://www.aibase.com/zh/news/28767)
+
+AI 行业爆发正在打破"文科无用"偏见，头部 AI 企业面向文科生开放的岗位占比从 5% 提升至 20%-30%，AI 叙事设计师、大模型人文训练师等新兴岗位月薪普遍在 2 万至 4 万元区间。
+
+[腾讯混元联合多家机构发布 MMAE 基准：当前模型精准编辑能力不足 5%](https://www.aibase.com/zh/news/28748)
+
+腾讯混元联合上海交大、南洋理工、北大等机构推出 MMAE（Massive Multitask Audio Editing Benchmark），首个针对通用指令驱动音频编辑的大规模多任务基准测试集。测试显示当前主流模型精确匹配率普遍低于 5%，揭示可靠音频编辑技术存在重大差距。
+
+---
+
 ## 第一周
 
 [火山引擎Maas业务爆发：Seedance2.0单月创收超10亿元](https://www.aibase.com/zh/news/28628)

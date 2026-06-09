@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>企业AI工具平台架构图 - 分层存储设计</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: #020617;
+      min-height: 100vh;
+      padding: 2rem;
+      color: white;
+    }
+    .container { max-width: 1400px; margin: 0 auto; }
+    .header { margin-bottom: 2rem; }
+    .header-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+    .pulse-dot { width: 12px; height: 12px; background: #4ade80; border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.025em; }
+    .subtitle { color: #94a3b8; font-size: 0.875rem; margin-left: 1.75rem; }
+    .diagram-container { background: rgba(15, 23, 42, 0.5); border-radius: 1rem; border: 1px solid #1e293b; padding: 1.5rem; overflow-x: auto; }
+    svg { width: 100%; min-width: 1200px; display: block; }
+    .footer { text-align: center; margin-top: 1.5rem; color: #475569; font-size: 0.75rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-row">
+        <div class="pulse-dot"></div>
+        <h1>企业AI工具平台架构</h1>
+      </div>
+      <p class="subtitle">数据资产化 · Agent工具化 · 分层存储设计</p>
+    </div>
+
+    <div class="diagram-container">
+      <svg viewBox="0 0 1200 1050">
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+
+        <!-- 核心原则 -->
+        <rect x="40" y="20" width="1120" height="40" rx="8" fill="rgba(74, 222, 128, 0.2)" stroke="#4ade80" stroke-width="2"/>
+        <text x="600" y="45" fill="#4ade80" font-size="12" font-weight="700" text-anchor="middle">★ Layer 1 持久化 ★ Layer 2 可重建 ★</text>
+
+        <!-- ========== Layer 1: 持久化层 ========== -->
+        <rect x="40" y="75" width="1120" height="200" rx="8" fill="rgba(74, 222, 128, 0.15)" stroke="#4ade80" stroke-width="2"/>
+        <text x="60" y="95" fill="#4ade80" font-size="11" font-weight="700">Layer 1: 原始数据层 (真正持久化，不可丢失)</text>
+        
+        <!-- PostgreSQL -->
+        <rect x="60" y="115" width="340" height="150" rx="6" fill="rgba(74, 222, 128, 0.2)" stroke="#4ade80" stroke-width="1"/>
+        <text x="230" y="135" fill="white" font-size="10" font-weight="600" text-anchor="middle">PostgreSQL</text>
+        
+        <rect x="80" y="150" width="130" height="50" rx="4" fill="rgba(74, 222, 128, 0.3)" stroke="#4ade80" stroke-width="1"/>
+        <text x="145" y="168" fill="white" font-size="8" font-weight="500" text-anchor="middle">用户数据</text>
+        <text x="145" y="183" fill="#4ade80" font-size="6" text-anchor="middle">FOREVER</text>
+        
+        <rect x="220" y="150" width="160" height="50" rx="4" fill="rgba(74, 222, 128, 0.3)" stroke="#4ade80" stroke-width="1"/>
+        <text x="300" y="168" fill="white" font-size="8" font-weight="500" text-anchor="middle">解析后文本内容</text>
+        <text x="300" y="183" fill="#4ade80" font-size="6" text-anchor="middle">TEXT字段 FOREVER</text>
+        
+        <rect x="80" y="210" width="130" height="45" rx="4" fill="rgba(74, 222, 128, 0.3)" stroke="#4ade80" stroke-width="1"/>
+        <text x="145" y="230" fill="white" font-size="8" font-weight="500" text-anchor="middle">Agent/Workflow</text>
+        <text x="145" y="243" fill="#4ade80" font-size="6" text-anchor="middle">Config FOREVER</text>
+        
+        <rect x="220" y="210" width="160" height="45" rx="4" fill="rgba(74, 222, 128, 0.3)" stroke="#4ade80" stroke-width="1"/>
+        <text x="300" y="230" fill="white" font-size="8" font-weight="500" text-anchor="middle">会话/消息</text>
+        <text x="300" y="243" fill="#fbbf24" font-size="6" text-anchor="middle">用户控制保留期</text>
+        
+        <!-- 对象存储 -->
+        <rect x="420" y="115" width="340" height="150" rx="6" fill="rgba(74, 222, 128, 0.2)" stroke="#4ade80" stroke-width="1"/>
+        <text x="590" y="135" fill="white" font-size="10" font-weight="600" text-anchor="middle">对象存储 (S3兼容)</text>
+        
+        <rect x="440" y="155" width="300" height="100" rx="4" fill="rgba(74, 222, 128, 0.25)" stroke="#4ade80" stroke-width="1"/>
+        <text x="590" y="180" fill="white" font-size="8" font-weight="500" text-anchor="middle">原始文档文件</text>
+        <text x="590" y="198" fill="#94a3b8" font-size="7" text-anchor="middle">PDF · Word · Markdown · Excel · ...</text>
+        <text x="590" y="215" fill="#94a3b8" font-size="7" text-anchor="middle">多版本控制 · SHA256校验</text>
+        <text x="590" y="240" fill="#4ade80" font-size="8" font-weight="600" text-anchor="middle">★ 真正持久化，跨供应商迁移</text>
+        
+        <!-- 备份 -->
+        <rect x="780" y="115" width="370" height="150" rx="6" fill="rgba(74, 222, 128, 0.2)" stroke="#4ade80" stroke-width="1"/>
+        <text x="965" y="135" fill="white" font-size="10" font-weight="600" text-anchor="middle">备份 & 合规</text>
+        
+        <rect x="800" y="155" width="160" height="45" rx="4" fill="rgba(74, 222, 128, 0.3)" stroke="#4ade80" stroke-width="1"/>
+        <text x="880" y="175" fill="white" font-size="8" text-anchor="middle">多副本同步</text>
+        <text x="880" y="190" fill="#4ade80" font-size="6" text-anchor="middle">实时复制</text>
+        
+        <rect x="970" y="155" width="160" height="45" rx="4" fill="rgba(74, 222, 128, 0.3)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="1050" y="175" fill="white" font-size="8" text-anchor="middle">使用日志</text>
+        <text x="1050" y="190" fill="#fbbf24" font-size="6" text-anchor="middle">合规保留1年+</text>
+        
+        <rect x="800" y="210" width="330" height="45" rx="4" fill="rgba(74, 222, 128, 0.3)" stroke="#4ade80" stroke-width="1"/>
+        <text x="965" y="230" fill="white" font-size="8" text-anchor="middle">数据导出 (JSON/ZIP) · 数据迁移 · 版本回滚</text>
+
+        <!-- Layer 1 → Layer 2 -->
+        <line x1="600" y1="275" x2="600" y2="290" stroke="#4ade80" stroke-width="2" stroke-dasharray="8,4"/>
+        <text x="620" y="285" fill="#4ade80" font-size="8">可重建</text>
+
+        <!-- ========== Layer 2: 索引层 ========== -->
+        <rect x="40" y="295" width="1120" height="120" rx="8" fill="rgba(251, 146, 60, 0.15)" stroke="#fb923c" stroke-width="2"/>
+        <text x="60" y="315" fill="#fb923c" font-size="11" font-weight="700">Layer 2: 索引数据层 (可重建，不要作为唯一数据源)</text>
+        
+        <rect x="80" y="335" width="180" height="70" rx="6" fill="rgba(251, 146, 60, 0.2)" stroke="#fb923c" stroke-width="1"/>
+        <text x="170" y="358" fill="white" font-size="9" font-weight="600" text-anchor="middle">向量数据库</text>
+        <text x="170" y="376" fill="#94a3b8" font-size="7" text-anchor="middle">Milvus / Qdrant / Pinecone</text>
+        <text x="170" y="395" fill="#fb923c" font-size="7" text-anchor="middle">← 可随时重建</text>
+        
+        <rect x="280" y="335" width="180" height="70" rx="6" fill="rgba(251, 146, 60, 0.2)" stroke="#fb923c" stroke-width="1"/>
+        <text x="370" y="358" fill="white" font-size="9" font-weight="600" text-anchor="middle">倒排索引</text>
+        <text x="370" y="376" fill="#94a3b8" font-size="7" text-anchor="middle">Elasticsearch</text>
+        <text x="370" y="395" fill="#fb923c" font-size="7" text-anchor="middle">← 可随时重建</text>
+        
+        <rect x="480" y="335" width="180" height="70" rx="6" fill="rgba(251, 146, 60, 0.2)" stroke="#fb923c" stroke-width="1"/>
+        <text x="570" y="358" fill="white" font-size="9" font-weight="600" text-anchor="middle">全文索引</text>
+        <text x="570" y="376" fill="#94a3b8" font-size="7" text-anchor="middle">ES / PG FTS</text>
+        <text x="570" y="395" fill="#fb923c" font-size="7" text-anchor="middle">← 可随时重建</text>
+        
+        <rect x="680" y="335" width="180" height="70" rx="6" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="770" y="358" fill="white" font-size="9" font-weight="600" text-anchor="middle">重建触发器</text>
+        <text x="770" y="376" fill="#94a3b8" font-size="7" text-anchor="middle">服务不可用 / 损坏 / 迁移</text>
+        <text x="770" y="395" fill="#4ade80" font-size="6" text-anchor="middle">✓ 自动重建</text>
+        
+        <rect x="880" y="335" width="260" height="70" rx="6" fill="rgba(76, 29, 149, 0.3)" stroke="#a78bfa" stroke-width="1"/>
+        <text x="1010" y="358" fill="white" font-size="9" font-weight="600" text-anchor="middle">索引重建服务</text>
+        <text x="1010" y="376" fill="#94a3b8" font-size="7" text-anchor="middle">从 Layer 1 原始数据重建</text>
+        <text x="1010" y="395" fill="#4ade80" font-size="7" text-anchor="middle">★ Layer 1 是唯一真相来源</text>
+
+        <!-- ========== Agent工具层 ========== -->
+        <rect x="40" y="430" width="1120" height="85" rx="8" fill="rgba(251, 146, 60, 0.3)" stroke="#fb923c" stroke-width="2"/>
+        <text x="60" y="450" fill="#fb923c" font-size="10" font-weight="700">Agent工具层 (可替换) - 从注册中心动态加载</text>
+        
+        <rect x="80" y="465" width="130" height="40" rx="4" fill="rgba(120, 53, 15, 0.5)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="145" y="485" fill="white" font-size="8" text-anchor="middle">Claude Code</text>
+        <text x="145" y="499" fill="#64748b" font-size="6" text-anchor="middle">← 可替换</text>
+        
+        <rect x="220" y="465" width="130" height="40" rx="4" fill="rgba(120, 53, 15, 0.5)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="285" y="485" fill="white" font-size="8" text-anchor="middle">OpenCAW</text>
+        <text x="285" y="499" fill="#64748b" font-size="6" text-anchor="middle">← 可替换</text>
+        
+        <rect x="360" y="465" width="130" height="40" rx="4" fill="rgba(120, 53, 15, 0.5)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="425" y="485" fill="white" font-size="8" text-anchor="middle">OpenCode</text>
+        <text x="425" y="499" fill="#64748b" font-size="6" text-anchor="middle">← 可替换</text>
+        
+        <rect x="500" y="465" width="130" height="40" rx="4" fill="rgba(120, 53, 15, 0.5)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="565" y="485" fill="white" font-size="8" text-anchor="middle">DeepSeek</text>
+        <text x="565" y="499" fill="#64748b" font-size="6" text-anchor="middle">← 可替换</text>
+        
+        <rect x="640" y="465" width="130" height="40" rx="4" fill="rgba(120, 53, 15, 0.5)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="705" y="485" fill="white" font-size="8" text-anchor="middle">Custom</text>
+        <text x="705" y="499" fill="#64748b" font-size="6" text-anchor="middle">← 可替换</text>
+        
+        <rect x="780" y="465" width="130" height="40" rx="4" fill="rgba(76, 29, 149, 0.5)" stroke="#a78bfa" stroke-width="1"/>
+        <text x="845" y="485" fill="white" font-size="8" text-anchor="middle">MCP Bridge</text>
+        <text x="845" y="499" fill="#a78bfa" font-size="6" text-anchor="middle">协议桥接</text>
+        
+        <rect x="920" y="465" width="130" height="40" rx="4" fill="rgba(76, 29, 149, 0.5)" stroke="#a78bfa" stroke-width="1"/>
+        <text x="985" y="485" fill="white" font-size="8" text-anchor="middle">Adapter Reg.</text>
+        <text x="985" y="499" fill="#a78bfa" font-size="6" text-anchor="middle">注册中心</text>
+
+        <!-- ========== 业务应用层 ========== -->
+        <rect x="40" y="525" width="1120" height="70" rx="8" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="60" y="545" fill="white" font-size="10" font-weight="600">业务应用层</text>
+        <rect x="100" y="555" width="140" height="32" rx="4" fill="rgba(6, 78, 59, 0.6)" stroke="#34d399" stroke-width="1"/>
+        <text x="170" y="575" fill="white" font-size="8" text-anchor="middle">Agent 管理</text>
+        <rect x="250" y="555" width="140" height="32" rx="4" fill="rgba(6, 78, 59, 0.6)" stroke="#34d399" stroke-width="1"/>
+        <text x="320" y="575" fill="white" font-size="8" text-anchor="middle">Workflow 编排</text>
+        <rect x="400" y="555" width="140" height="32" rx="4" fill="rgba(6, 78, 59, 0.6)" stroke="#34d399" stroke-width="1"/>
+        <text x="470" y="575" fill="white" font-size="8" text-anchor="middle">Knowledge 检索</text>
+        <rect x="550" y="555" width="140" height="32" rx="4" fill="rgba(6, 78, 59, 0.6)" stroke="#34d399" stroke-width="1"/>
+        <text x="620" y="575" fill="white" font-size="8" text-anchor="middle">Session 会话</text>
+        <rect x="700" y="555" width="140" height="32" rx="4" fill="rgba(6, 78, 59, 0.6)" stroke="#34d399" stroke-width="1"/>
+        <text x="770" y="575" fill="white" font-size="8" text-anchor="middle">Marketplace</text>
+        <rect x="850" y="555" width="140" height="32" rx="4" fill="rgba(6, 78, 59, 0.6)" stroke="#34d399" stroke-width="1"/>
+        <text x="920" y="575" fill="white" font-size="8" text-anchor="middle">用户管理</text>
+
+        <!-- ========== 编排调度层 ========== -->
+        <rect x="40" y="605" width="1120" height="60" rx="8" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1.5"/>
+        <text x="60" y="625" fill="white" font-size="10" font-weight="600">编排调度层</text>
+        <rect x="200" y="618" width="100" height="28" rx="4" fill="rgba(120, 53, 15, 0.5)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="250" y="635" fill="white" font-size="7" text-anchor="middle">Agent Runtime</text>
+        <rect x="310" y="618" width="100" height="28" rx="4" fill="rgba(120, 53, 15, 0.5)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="360" y="635" fill="white" font-size="7" text-anchor="middle">Workflow Engine</text>
+        <rect x="420" y="618" width="100" height="28" rx="4" fill="rgba(120, 53, 15, 0.5)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="470" y="635" fill="white" font-size="7" text-anchor="middle">Task Scheduler</text>
+        <rect x="530" y="618" width="100" height="28" rx="4" fill="rgba(120, 53, 15, 0.5)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="580" y="635" fill="white" font-size="7" text-anchor="middle">Event Bus</text>
+        <rect x="640" y="618" width="120" height="28" rx="4" fill="rgba(251, 146, 60, 0.5)" stroke="#fb923c" stroke-width="1"/>
+        <text x="700" y="630" fill="white" font-size="6" text-anchor="middle">Execution Router</text>
+        <text x="700" y="642" fill="#fb923c" font-size="5" text-anchor="middle">框架选择·降级</text>
+
+        <!-- ========== 集成层 ========== -->
+        <rect x="40" y="675" width="1120" height="80" rx="8" fill="rgba(136, 19, 55, 0.4)" stroke="#fb7185" stroke-width="1.5"/>
+        <text x="60" y="695" fill="white" font-size="10" font-weight="600">AI模型集成层</text>
+        
+        <rect x="80" y="710" width="130" height="35" rx="4" fill="rgba(120, 53, 15, 0.5)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="145" y="732" fill="white" font-size="8" text-anchor="middle">OpenAI gpt-4o</text>
+        
+        <rect x="220" y="710" width="130" height="35" rx="4" fill="rgba(120, 53, 15, 0.5)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="285" y="732" fill="white" font-size="8" text-anchor="middle">Claude 3.5</text>
+        
+        <rect x="360" y="710" width="130" height="35" rx="4" fill="rgba(120, 53, 15, 0.5)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="425" y="732" fill="white" font-size="8" text-anchor="middle">Gemini 2.0</text>
+        
+        <rect x="500" y="710" width="130" height="35" rx="4" fill="rgba(120, 53, 15, 0.5)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="565" y="732" fill="white" font-size="8" text-anchor="middle">GLM-4</text>
+        
+        <rect x="640" y="710" width="130" height="35" rx="4" fill="rgba(120, 53, 15, 0.5)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="705" y="732" fill="white" font-size="8" text-anchor="middle">Qwen-turbo</text>
+        
+        <rect x="780" y="710" width="130" height="35" rx="4" fill="rgba(120, 53, 15, 0.5)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="845" y="732" fill="white" font-size="8" text-anchor="middle">DeepSeek</text>
+        
+        <rect x="920" y="710" width="130" height="35" rx="4" fill="rgba(120, 53, 15, 0.3)" stroke="#64748b" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="985" y="732" fill="#94a3b8" font-size="8" text-anchor="middle">+ 更多</text>
+
+        <!-- ========== 图例 ========== -->
+        <rect x="40" y="770" width="1120" height="260" rx="6" fill="rgba(15, 23, 42, 0.8)" stroke="#1e293b" stroke-width="1"/>
+        
+        <!-- Layer 1 -->
+        <rect x="60" y="785" width="20" height="20" rx="4" fill="rgba(74, 222, 128, 0.3)" stroke="#4ade80" stroke-width="2"/>
+        <text x="90" y="800" fill="#4ade80" font-size="9" font-weight="600">Layer 1: 原始数据层</text>
+        <text x="90" y="818" fill="#94a3b8" font-size="8">PostgreSQL: 用户数据、Agent配置、解析后文本、会话消息</text>
+        <text x="90" y="834" fill="#94a3b8" font-size="8">对象存储: 原始文档文件 (PDF/Word/MD...)</text>
+        <text x="90" y="850" fill="#4ade80" font-size="8">★ 保留策略: FOREVER | 备份: 多副本实时同步 | 跨供应商迁移: 支持</text>
+        
+        <!-- Layer 2 -->
+        <rect x="60" y="865" width="20" height="20" rx="4" fill="rgba(251, 146, 60, 0.3)" stroke="#fb923c" stroke-width="2"/>
+        <text x="90" y="880" fill="#fb923c" font-size="9" font-weight="600">Layer 2: 索引数据层</text>
+        <text x="90" y="898" fill="#94a3b8" font-size="8">向量数据库、倒排索引、全文索引</text>
+        <text x="90" y="914" fill="#fb923c" font-size="8">← 可随时从 Layer 1 重建 | 不作为唯一数据源 | 换供应商需重建</text>
+        
+        <!-- 核心结论 -->
+        <rect x="60" y="930" width="540" height="85" rx="6" fill="rgba(74, 222, 128, 0.1)" stroke="#4ade80" stroke-width="1"/>
+        <text x="80" y="952" fill="white" font-size="9" font-weight="600">核心结论</text>
+        <text x="80" y="972" fill="#4ade80" font-size="8">1. 向量数据库不是持久化层，只是加速层</text>
+        <text x="80" y="990" fill="#4ade80" font-size="8">2. 解析后的文本内容要存在 PostgreSQL TEXT 字段</text>
+        <text x="80" y="1008" fill="#4ade80" font-size="8">3. 原始文档文件要存在对象存储（S3兼容）</text>
+        
+        <!-- 重建流程 -->
+        <rect x="620" y="865" width="520" height="150" rx="6" fill="rgba(76, 29, 149, 0.15)" stroke="#a78bfa" stroke-width="1"/>
+        <text x="640" y="885" fill="#a78bfa" font-size="9" font-weight="600">索引重建流程</text>
+        <text x="640" y="905" fill="#94a3b8" font-size="8">1. 触发: 向量DB不可用 / 损坏 / 供应商迁移</text>
+        <text x="640" y="925" fill="#94a3b8" font-size="8">2. 读取: 从 Layer 1 获取原始文档 + 解析文本</text>
+        <text x="640" y="945" fill="#94a3b8" font-size="8">3. 解析: 重新分块</text>
+        <text x="640" y="965" fill="#94a3b8" font-size="8">4. 向量化: 调用 Embedding API 重新生成向量</text>
+        <text x="640" y="985" fill="#94a3b8" font-size="8">5. 写入: 写入新的向量数据库集合</text>
+        <text x="640" y="1005" fill="#4ade80" font-size="8">★ 结果: 索引完整重建，Layer 1 数据 100% 保留</text>
+      </svg>
+    </div>
+
+    <p class="footer">
+      企业AI工具平台架构设计 • 分层存储：持久化 vs 可重建
+    </p>
+  </div>
+</body>
+</html>
