@@ -17,6 +17,10 @@ tags:
 # 连接远程服务器 
 ssh username@hostname [-p port] [-i private_key] 
 
+
+#远程服务器上跑了 PostgreSQL（默认端口 5432），但不允许外网直接连接。用这条命令后，你可以在本地用数据库客户端连接：
+ssh -L 5433:127.0.0.1:5432 root@远程IP
+
 # 复制公钥到远程服务器
 ssh-copy-id username@hostname [-p port] [-i private_key]
 
