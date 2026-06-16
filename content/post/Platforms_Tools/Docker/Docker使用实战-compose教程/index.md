@@ -494,6 +494,89 @@ location /api/ {
 - Traefik Host rule 错误：请求进不了前端容器，通常直接 404。
 - Nginx backend DNS 过期：请求能进前端容器，但 `/api/*` 代理后端失败。
 
+### macOS Docker build 使用 Clash 代理
+
+在 macOS + Docker Desktop + Clash 环境里，`docker compose build` 和宿主机终端不是同一个网络视角。宿主机里的 `127.0.0.1` 是 Mac 自己，但 Docker build 容器里的 `127.0.0.1` 是构建容器本身。
+
+一个典型现象是前端镜像构建时报平台原生依赖缺失，例如：
+
+```text
+Error: Cannot find module '../lightningcss.linux-arm64-musl.node'
+```
+
+如果日志里 `RUN npm ci` 显示为 `CACHED`，说明这次构建没有重新安装依赖。缓存层里可能缺了 Alpine / Linux / arm64 需要的 optional native package，例如 `lightningcss-linux-arm64-musl`。这类问题看起来像 Node 包损坏，本质上经常是“旧 Docker build 缓存层 + 网络代理不稳定”共同导致的。
+
+先强制绕过缓存验证真实问题：
+
+```bash
+docker compose build --no-cache kimi-ppt-frontend
+```
+
+如果错误变成 `npm ERR! code ECONNRESET`，就说明重新拉包时 Docker build 到 npm registry 的链路不稳定。
+
+检查当前 shell 代理：
+
+```bash
+printenv | grep -i proxy
+```
+
+检查 `~/.zshrc` 是否有重复覆盖：
+
+```bash
+grep -nE 'proxy|Proxy|Clash|789[0-9]' ~/.zshrc
+```
+
+容易出现的错误配置是前面写了一个可用端口，后面又覆盖成另一个端口：
+
+```bash
+export http_proxy="http://127.0.0.1:7897"
+export https_proxy="http://127.0.0.1:7897"
+export ALL_PROXY="socks5://127.0.0.1:7897"
+
+# 后面又覆盖了 http_proxy / https_proxy
+export https_proxy=http://127.0.0.1:7899 http_proxy=http://127.0.0.1:7899
+```
+
+应该保留一套一致配置。普通宿主机命令可以继续使用 `127.0.0.1`：
+
+```bash
+export http_proxy="http://127.0.0.1:7897"
+export https_proxy="http://127.0.0.1:7897"
+export HTTP_PROXY="$http_proxy"
+export HTTPS_PROXY="$https_proxy"
+export ALL_PROXY="socks5://127.0.0.1:7897"
+export all_proxy="$ALL_PROXY"
+export NO_PROXY="127.0.0.1,localhost,::1,host.docker.internal,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
+export no_proxy="$NO_PROXY"
+```
+
+但 Docker build 里要把代理地址改成宿主机网关：
+
+```bash
+docker compose build --no-cache \
+  --build-arg HTTP_PROXY=http://host.docker.internal:7897 \
+  --build-arg HTTPS_PROXY=http://host.docker.internal:7897 \
+  kimi-ppt-frontend
+```
+
+如果前端镜像已经重新构建成功，再构建整套服务：
+
+```bash
+docker compose build
+docker compose up -d
+```
+
+验证入口：
+
+```bash
+curl -I http://localhost/
+curl http://localhost:8000/health
+```
+
+如果 `http://localhost/` 返回 `200 OK`，`/health` 返回类似 `{"status":"ok"}`，说明前端和后端容器都已经正常启动。
+
+注意：不要把完整 `~/.zshrc` 粘贴到公开位置。很多人会把 API key、token 和代理配置都放在同一个 shell 配置文件里。
+
 ### 404 排查命令
 
 在服务器或 Dokploy 构建环境中检查最终插值结果：
@@ -536,6 +619,5 @@ docker logs app-backend --tail=100
 - 如果只重建过 `backend` 后 `/api/*` 失效，检查前端 Nginx 是否使用 Docker DNS 运行时重解析。
 
 ---
-
 
 
