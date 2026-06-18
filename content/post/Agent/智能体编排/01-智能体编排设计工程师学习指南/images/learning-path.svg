@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 500" font-family="'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#1a1a2e"/><stop offset="100%" style="stop-color:#16213e"/></linearGradient>
+    <linearGradient id="phase1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#667eea"/><stop offset="100%" style="stop-color:#764ba2"/></linearGradient>
+    <linearGradient id="phase2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#43e97b"/><stop offset="100%" style="stop-color:#38f9d7"/></linearGradient>
+    <linearGradient id="phase3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#f093fb"/><stop offset="100%" style="stop-color:#f5576c"/></linearGradient>
+    <linearGradient id="phase4" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#fa709a"/><stop offset="100%" style="stop-color:#fee140"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.25"/></filter>
+    <marker id="arr1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#667eea"/></marker>
+    <marker id="arr2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#43e97b"/></marker>
+    <marker id="arr3" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#f5576c"/></marker>
+  </defs>
+
+  <rect width="780" height="500" rx="16" fill="url(#bg)"/>
+  <rect x="0" y="0" width="780" height="46" rx="16" fill="#0f0f23"/>
+  <rect x="0" y="30" width="780" height="16" fill="#0f0f23"/>
+  <text x="390" y="30" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="bold">学习路径规划</text>
+
+  <!-- Phase 1 -->
+  <rect x="20" y="68" width="160" height="48" rx="10" fill="url(#phase1)" filter="url(#shadow)"/>
+  <text x="100" y="90" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Phase 1: 基础</text>
+  <text x="100" y="106" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="10">1-2 周</text>
+
+  <line x1="180" y1="92" x2="220" y2="92" stroke="#667eea" stroke-width="2" marker-end="url(#arr1)"/>
+
+  <!-- Phase 2 -->
+  <rect x="225" y="68" width="160" height="48" rx="10" fill="url(#phase2)" filter="url(#shadow)"/>
+  <text x="305" y="90" text-anchor="middle" fill="#1a1a2e" font-size="14" font-weight="bold">Phase 2: 框架</text>
+  <text x="305" y="106" text-anchor="middle" fill="rgba(26,26,46,0.75)" font-size="10">2-4 周</text>
+
+  <line x1="385" y1="92" x2="425" y2="92" stroke="#43e97b" stroke-width="2" marker-end="url(#arr2)"/>
+
+  <!-- Phase 3 -->
+  <rect x="430" y="68" width="160" height="48" rx="10" fill="url(#phase3)" filter="url(#shadow)"/>
+  <text x="510" y="90" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Phase 3: 编排</text>
+  <text x="510" y="106" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="10">4-8 周</text>
+
+  <line x1="590" y1="92" x2="630" y2="92" stroke="#f5576c" stroke-width="2" marker-end="url(#arr3)"/>
+
+  <!-- Phase 4 -->
+  <rect x="635" y="68" width="125" height="48" rx="10" fill="url(#phase4)" filter="url(#shadow)"/>
+  <text x="697" y="90" text-anchor="middle" fill="#1a1a2e" font-size="14" font-weight="bold">Phase 4</text>
+  <text x="697" y="106" text-anchor="middle" fill="rgba(26,26,46,0.75)" font-size="10">持续</text>
+
+  <!-- Content Grid -->
+  <!-- Phase 1 Details -->
+  <rect x="20" y="134" width="170" height="350" rx="10" fill="#0f0f23" opacity="0.6"/>
+  <text x="105" y="160" text-anchor="middle" fill="#667eea" font-size="12" font-weight="bold">🧱 理解 LLM 基础</text>
+
+  <line x1="35" y1="172" x2="175" y2="172" stroke="#2d3748" stroke-width="0.5"/>
+
+  <circle cx="42" cy="192" r="3" fill="#667eea"/>
+  <text x="52" y="196" fill="#a0aec0" font-size="10">Python 异步编程</text>
+
+  <circle cx="42" cy="218" r="3" fill="#667eea"/>
+  <text x="52" y="222" fill="#a0aec0" font-size="10">LLM API 调用</text>
+  <text x="52" y="234" fill="#718096" font-size="8">OpenAI / Claude</text>
+
+  <circle cx="42" cy="252" r="3" fill="#667eea"/>
+  <text x="52" y="256" fill="#a0aec0" font-size="10">Prompt 基础</text>
+  <text x="52" y="268" fill="#718096" font-size="8">CoT / Few-shot</text>
+
+  <rect x="35" y="290" width="140" height="35" rx="6" fill="#2d3748"/>
+  <text x="105" y="303" text-anchor="middle" fill="#667eea" font-size="9" font-weight="bold">🎯 练习项目</text>
+  <text x="105" y="317" text-anchor="middle" fill="#718096" font-size="7">聊天机器人 + CoT 推理</text>
+
+  <!-- Phase 2 Details -->
+  <rect x="205" y="134" width="170" height="350" rx="10" fill="#0f0f23" opacity="0.6"/>
+  <text x="290" y="160" text-anchor="middle" fill="#43e97b" font-size="12" font-weight="bold">🔧 LangChain 核心</text>
+
+  <line x1="220" y1="172" x2="360" y2="172" stroke="#2d3748" stroke-width="0.5"/>
+
+  <circle cx="227" cy="192" r="3" fill="#43e97b"/>
+  <text x="237" y="196" fill="#a0aec0" font-size="10">LangChain Chain</text>
+
+  <circle cx="227" cy="218" r="3" fill="#43e97b"/>
+  <text x="237" y="222" fill="#a0aec0" font-size="10">LangChain Agent</text>
+  <text x="237" y="234" fill="#718096" font-size="8">工具调用</text>
+
+  <circle cx="227" cy="252" r="3" fill="#43e97b"/>
+  <text x="237" y="256" fill="#a0aec0" font-size="10">LlamaIndex RAG</text>
+  <text x="237" y="268" fill="#718096" font-size="8">文档问答系统</text>
+
+  <circle cx="227" cy="288" r="3" fill="#43e97b"/>
+  <text x="237" y="292" fill="#a0aec0" font-size="10">Function Calling</text>
+
+  <rect x="220" y="310" width="140" height="35" rx="6" fill="#2d3748"/>
+  <text x="290" y="323" text-anchor="middle" fill="#43e97b" font-size="9" font-weight="bold">🎯 练习项目</text>
+  <text x="290" y="337" text-anchor="middle" fill="#718096" font-size="7">RAG 问答 + 搜索 Agent</text>
+
+  <!-- Phase 3 Details -->
+  <rect x="390" y="134" width="170" height="350" rx="10" fill="#0f0f23" opacity="0.6"/>
+  <text x="475" y="160" text-anchor="middle" fill="#f093fb" font-size="12" font-weight="bold">🔗 多 Agent 编排</text>
+
+  <line x1="405" y1="172" x2="545" y2="172" stroke="#2d3748" stroke-width="0.5"/>
+
+  <circle cx="412" cy="192" r="3" fill="#f093fb"/>
+  <text x="422" y="196" fill="#a0aec0" font-size="10">LangGraph 状态机</text>
+  <text x="422" y="208" fill="#718096" font-size="8">循环流程编排</text>
+
+  <circle cx="412" cy="232" r="3" fill="#f093fb"/>
+  <text x="422" y="236" fill="#a0aec0" font-size="10">多 Agent 协作模式</text>
+  <text x="422" y="248" fill="#718096" font-size="8">链式 / 层级 / 网状</text>
+
+  <circle cx="412" cy="272" r="3" fill="#f093fb"/>
+  <text x="422" y="276" fill="#a0aec0" font-size="10">AutoGen / CrewAI</text>
+  <text x="422" y="288" fill="#718096" font-size="8">对话驱动编排</text>
+
+  <rect x="405" y="310" width="140" height="35" rx="6" fill="#2d3748"/>
+  <text x="475" y="323" text-anchor="middle" fill="#f093fb" font-size="9" font-weight="bold">🎯 练习项目</text>
+  <text x="475" y="337" text-anchor="middle" fill="#718096" font-size="7">报表系统 + 代码助手</text>
+
+  <!-- Phase 4 Details -->
+  <rect x="575" y="134" width="185" height="350" rx="10" fill="#0f0f23" opacity="0.6"/>
+  <text x="667" y="160" text-anchor="middle" fill="#fa709a" font-size="12" font-weight="bold">🚀 生产落地</text>
+
+  <line x1="590" y1="172" x2="745" y2="172" stroke="#2d3748" stroke-width="0.5"/>
+
+  <circle cx="597" cy="192" r="3" fill="#fa709a"/>
+  <text x="607" y="196" fill="#a0aec0" font-size="10">Agent 系统架构</text>
+
+  <circle cx="597" cy="218" r="3" fill="#fa709a"/>
+  <text x="607" y="222" fill="#a0aec0" font-size="10">评估体系搭建</text>
+  <text x="607" y="234" fill="#718096" font-size="8">LangSmith + 自建</text>
+
+  <circle cx="597" cy="252" r="3" fill="#fa709a"/>
+  <text x="607" y="256" fill="#a0aec0" font-size="10">成本优化</text>
+  <text x="607" y="268" fill="#718096" font-size="8">降低 50%+</text>
+
+  <circle cx="597" cy="288" r="3" fill="#fa709a"/>
+  <text x="607" y="292" fill="#a0aec0" font-size="10">部署与运维</text>
+  <text x="607" y="304" fill="#718096" font-size="8">Docker / K8s / CI/CD</text>
+
+  <!-- Skill levels -->
+  <rect x="15" y="466" width="750" height="22" rx="6" fill="#0f0f23" opacity="0.7"/>
+  <text x="100" y="481" text-anchor="middle" fill="#667eea" font-size="10">初学者 →</text>
+  <text x="305" y="481" text-anchor="middle" fill="#43e97b" font-size="10">框架使用者 →</text>
+  <text x="510" y="481" text-anchor="middle" fill="#f093fb" font-size="10">编排设计者 →</text>
+  <text x="697" y="481" text-anchor="middle" fill="#fa709a" font-size="10">架构专家 →</text>
+</svg>

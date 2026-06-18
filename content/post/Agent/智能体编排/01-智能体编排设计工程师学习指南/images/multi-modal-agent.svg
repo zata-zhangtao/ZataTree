@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#1a1a2e"/><stop offset="100%" style="stop-color:#16213e"/></linearGradient>
+    <linearGradient id="text-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#667eea"/><stop offset="100%" style="stop-color:#764ba2"/></linearGradient>
+    <linearGradient id="vision-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#43e97b"/><stop offset="100%" style="stop-color:#38f9d7"/></linearGradient>
+    <linearGradient id="audio-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#f093fb"/><stop offset="100%" style="stop-color:#f5576c"/></linearGradient>
+    <linearGradient id="video-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4facfe"/><stop offset="100%" style="stop-color:#00f2fe"/></linearGradient>
+    <linearGradient id="orch" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#fa709a"/><stop offset="100%" style="stop-color:#a855f7"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.25"/></filter>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#a0aec0"/></marker>
+  </defs>
+
+  <rect width="760" height="420" rx="16" fill="url(#bg)"/>
+  <rect x="0" y="0" width="760" height="46" rx="16" fill="#0f0f23"/>
+  <rect x="0" y="30" width="760" height="16" fill="#0f0f23"/>
+  <text x="380" y="30" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="bold">多模态 Agent — 未来趋势</text>
+
+  <!-- Input section -->
+  <text x="380" y="72" text-anchor="middle" fill="#718096" font-size="11">📥 多模态输入</text>
+
+  <!-- Input boxes -->
+  <rect x="30" y="82" width="130" height="44" rx="10" fill="url(#text-grad)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="95" y="102" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">📝 文本</text>
+  <text x="95" y="118" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="9">自然语言查询</text>
+
+  <rect x="190" y="82" width="130" height="44" rx="10" fill="url(#vision-grad)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="255" y="102" text-anchor="middle" fill="#1a1a2e" font-size="12" font-weight="bold">🖼️ 图像</text>
+  <text x="255" y="118" text-anchor="middle" fill="rgba(26,26,46,0.7)" font-size="9">截图 / 设计稿</text>
+
+  <rect x="350" y="82" width="130" height="44" rx="10" fill="url(#audio-grad)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="415" y="102" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">🎵 音频</text>
+  <text x="415" y="118" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="9">语音 / 音乐</text>
+
+  <rect x="510" y="82" width="130" height="44" rx="10" fill="url(#video-grad)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="575" y="102" text-anchor="middle" fill="#1a1a2e" font-size="12" font-weight="bold">🎬 视频</text>
+  <text x="575" y="118" text-anchor="middle" fill="rgba(26,26,46,0.7)" font-size="9">录屏 / 监控</text>
+
+  <!-- Arrows down to agents -->
+  <line x1="95" y1="126" x2="95" y2="148" stroke="#667eea" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="255" y1="126" x2="255" y2="148" stroke="#43e97b" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="415" y1="126" x2="415" y2="148" stroke="#f093fb" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="575" y1="126" x2="575" y2="148" stroke="#4facfe" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Agent boxes -->
+  <rect x="30" y="152" width="130" height="52" rx="10" fill="url(#text-grad)" filter="url(#shadow)" opacity="0.85"/>
+  <text x="95" y="174" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">文本 Agent</text>
+  <text x="95" y="194" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="9">分析 · 摘要 · 生成</text>
+
+  <rect x="190" y="152" width="130" height="52" rx="10" fill="url(#vision-grad)" filter="url(#shadow)" opacity="0.85"/>
+  <text x="255" y="174" text-anchor="middle" fill="#1a1a2e" font-size="12" font-weight="bold">视觉 Agent</text>
+  <text x="255" y="194" text-anchor="middle" fill="rgba(26,26,46,0.7)" font-size="9">识别 · 理解 · 生成</text>
+
+  <rect x="350" y="152" width="130" height="52" rx="10" fill="url(#audio-grad)" filter="url(#shadow)" opacity="0.85"/>
+  <text x="415" y="174" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">音频 Agent</text>
+  <text x="415" y="194" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="9">转写 · 合成 · 分析</text>
+
+  <rect x="510" y="152" width="130" height="52" rx="10" fill="url(#video-grad)" filter="url(#shadow)" opacity="0.85"/>
+  <text x="575" y="174" text-anchor="middle" fill="#1a1a2e" font-size="12" font-weight="bold">视频 Agent</text>
+  <text x="575" y="194" text-anchor="middle" fill="rgba(26,26,46,0.7)" font-size="9">场景理解 · 摘要</text>
+
+  <!-- Arrows to orchestration -->
+  <line x1="95" y1="204" x2="95" y2="232" stroke="#a0aec0" stroke-width="1.5"/>
+  <line x1="255" y1="204" x2="255" y2="232" stroke="#a0aec0" stroke-width="1.5"/>
+  <line x1="415" y1="204" x2="415" y2="232" stroke="#a0aec0" stroke-width="1.5"/>
+  <line x1="575" y1="204" x2="575" y2="232" stroke="#a0aec0" stroke-width="1.5"/>
+  <line x1="95" y1="232" x2="575" y2="232" stroke="#718096" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <line x1="380" y1="232" x2="380" y2="256" stroke="#fa709a" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Orchestration layer -->
+  <rect x="180" y="260" width="400" height="52" rx="12" fill="url(#orch)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="380" y="284" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">🧠 多模态编排层 (Orchestration Layer)</text>
+  <text x="380" y="302" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="10">协调多模态 Agent 协作 · 融合结果 · 生成统一输出</text>
+
+  <line x1="380" y1="312" x2="380" y2="336" stroke="#fa709a" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Output -->
+  <rect x="280" y="340" width="200" height="36" rx="8" fill="#2d3748" filter="url(#shadow)"/>
+  <text x="380" y="363" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="bold">✅ 多模态综合输出</text>
+
+  <!-- Example scenarios -->
+  <text x="380" y="405" text-anchor="middle" fill="#718096" font-size="10">示例：营销 Agent（文案 + 海报图 + 配音视频）· 教育 Agent（作业图片分析 + 语音讲解 + 练习题生成）</text>
+</svg>

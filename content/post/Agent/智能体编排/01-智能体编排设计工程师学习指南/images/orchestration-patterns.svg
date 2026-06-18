@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 700" font-family="'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#1a1a2e"/><stop offset="100%" style="stop-color:#16213e"/></linearGradient>
+    <linearGradient id="chain-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#667eea"/><stop offset="100%" style="stop-color:#764ba2"/></linearGradient>
+    <linearGradient id="hier-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#f093fb"/><stop offset="100%" style="stop-color:#f5576c"/></linearGradient>
+    <linearGradient id="mesh-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4facfe"/><stop offset="100%" style="stop-color:#00f2fe"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.25"/></filter>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#a0aec0"/></marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="700" rx="16" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="46" rx="16" fill="#0f0f23"/>
+  <rect x="0" y="30" width="800" height="16" fill="#0f0f23"/>
+  <text x="400" y="30" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="bold">三种编排模式对比</text>
+
+  <!-- ============== PATTERN 1: CHAIN ============== -->
+  <text x="30" y="76" fill="#667eea" font-size="14" font-weight="bold">模式一：链式编排 (Chain)</text>
+  <text x="340" y="76" fill="#718096" font-size="11">线性顺序传递，适合流水线任务</text>
+
+  <rect x="30" y="88" width="100" height="44" rx="8" fill="url(#chain-grad)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="80" y="115" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">用户输入</text>
+
+  <line x1="138" y1="110" x2="170" y2="110" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="178" y="88" width="100" height="44" rx="8" fill="url(#chain-grad)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="228" y="110" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Agent A</text>
+  <text x="228" y="124" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="9">搜索</text>
+
+  <line x1="286" y1="110" x2="318" y2="110" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="326" y="88" width="100" height="44" rx="8" fill="url(#chain-grad)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="376" y="110" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Agent B</text>
+  <text x="376" y="124" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="9">总结</text>
+
+  <line x1="434" y1="110" x2="466" y2="110" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="474" y="88" width="100" height="44" rx="8" fill="url(#chain-grad)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="524" y="110" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Agent C</text>
+  <text x="524" y="124" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="9">翻译</text>
+
+  <line x1="582" y1="110" x2="614" y2="110" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="622" y="88" width="100" height="44" rx="8" fill="url(#chain-grad)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="672" y="115" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">输出</text>
+
+  <!-- ============== PATTERN 2: HIERARCHICAL ============== -->
+  <text x="30" y="172" fill="#f093fb" font-size="14" font-weight="bold">模式二：层级编排 (Hierarchical)</text>
+  <text x="340" y="172" fill="#718096" font-size="11">管理者拆解任务，工作者并行执行</text>
+
+  <!-- Manager -->
+  <rect x="280" y="188" width="200" height="44" rx="8" fill="url(#hier-grad)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="380" y="210" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Manager Agent</text>
+  <text x="380" y="224" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="9">任务拆解 + 结果汇总</text>
+
+  <!-- Down arrow from Manager -->
+  <line x1="380" y1="232" x2="380" y2="256" stroke="#f093fb" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Distribution lines -->
+  <line x1="160" y1="260" x2="540" y2="260" stroke="#718096" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="160" y1="260" x2="160" y2="272" stroke="#718096" stroke-width="1.5"/>
+  <line x1="300" y1="260" x2="300" y2="272" stroke="#718096" stroke-width="1.5"/>
+  <line x1="460" y1="260" x2="460" y2="272" stroke="#718096" stroke-width="1.5"/>
+  <line x1="600" y1="260" x2="600" y2="272" stroke="#718096" stroke-width="1.5"/>
+
+  <!-- Workers -->
+  <rect x="90" y="276" width="140" height="44" rx="8" fill="url(#hier-grad)" filter="url(#shadow)" opacity="0.85"/>
+  <text x="160" y="298" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Worker A</text>
+  <text x="160" y="312" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="9">写代码</text>
+
+  <rect x="230" y="276" width="140" height="44" rx="8" fill="url(#hier-grad)" filter="url(#shadow)" opacity="0.85"/>
+  <text x="300" y="298" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Worker B</text>
+  <text x="300" y="312" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="9">写测试</text>
+
+  <rect x="390" y="276" width="140" height="44" rx="8" fill="url(#hier-grad)" filter="url(#shadow)" opacity="0.85"/>
+  <text x="460" y="298" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Worker C</text>
+  <text x="460" y="312" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="9">部署</text>
+
+  <!-- Collector -->
+  <line x1="160" y1="320" x2="160" y2="336" stroke="#a0aec0" stroke-width="1.5"/>
+  <line x1="300" y1="320" x2="300" y2="336" stroke="#a0aec0" stroke-width="1.5"/>
+  <line x1="460" y1="320" x2="460" y2="336" stroke="#a0aec0" stroke-width="1.5"/>
+  <line x1="160" y1="336" x2="460" y2="336" stroke="#718096" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <line x1="380" y1="336" x2="380" y2="352" stroke="#f093fb" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="280" y="356" width="200" height="36" rx="8" fill="url(#hier-grad)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="380" y="378" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Manager 汇总结果</text>
+
+  <!-- ============== PATTERN 3: MESH ============== -->
+  <text x="30" y="432" fill="#4facfe" font-size="14" font-weight="bold">模式三：网状编排 (Mesh)</text>
+  <text x="340" y="432" fill="#718096" font-size="11">Agent 自由协作，适合创意探索</text>
+
+  <rect x="140" y="450" width="120" height="44" rx="8" fill="url(#mesh-grad)" filter="url(#shadow)" opacity="0.85"/>
+  <text x="200" y="472" text-anchor="middle" fill="#1a1a2e" font-size="13" font-weight="bold">Agent A</text>
+  <text x="200" y="486" text-anchor="middle" fill="rgba(26,26,46,0.7)" font-size="9">研究分析</text>
+
+  <rect x="340" y="450" width="120" height="44" rx="8" fill="url(#mesh-grad)" filter="url(#shadow)" opacity="0.85"/>
+  <text x="400" y="472" text-anchor="middle" fill="#1a1a2e" font-size="13" font-weight="bold">Agent B</text>
+  <text x="400" y="486" text-anchor="middle" fill="rgba(26,26,46,0.7)" font-size="9">创意写作</text>
+
+  <rect x="140" y="530" width="120" height="44" rx="8" fill="url(#mesh-grad)" filter="url(#shadow)" opacity="0.85"/>
+  <text x="200" y="552" text-anchor="middle" fill="#1a1a2e" font-size="13" font-weight="bold">Agent C</text>
+  <text x="200" y="566" text-anchor="middle" fill="rgba(26,26,46,0.7)" font-size="9">事实核查</text>
+
+  <rect x="340" y="530" width="120" height="44" rx="8" fill="url(#mesh-grad)" filter="url(#shadow)" opacity="0.85"/>
+  <text x="400" y="552" text-anchor="middle" fill="#1a1a2e" font-size="13" font-weight="bold">Agent D</text>
+  <text x="400" y="566" text-anchor="middle" fill="rgba(26,26,46,0.7)" font-size="9">综合评估</text>
+
+  <!-- Mesh arrows -->
+  <line x1="260" y1="472" x2="336" y2="472" stroke="#4facfe" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="340" y1="494" x2="260" y2="508" stroke="#a0aec0" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="260" y1="494" x2="336" y2="508" stroke="#a0aec0" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="200" y1="530" x2="200" y2="498" stroke="#a0aec0" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="400" y1="530" x2="400" y2="498" stroke="#a0aec0" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="260" y1="552" x2="336" y2="552" stroke="#4facfe" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="320" y1="472" x2="320" y2="546" stroke="#a0aec0" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Summary row -->
+  <rect x="30" y="610" width="740" height="72" rx="10" fill="#0f0f23" opacity="0.8"/>
+  <text x="95" y="635" text-anchor="middle" fill="#667eea" font-size="12" font-weight="bold">链式</text>
+  <text x="95" y="655" text-anchor="middle" fill="#a0aec0" font-size="10">线性 | 高可控 | 无并行</text>
+
+  <line x1="160" y1="620" x2="160" y2="672" stroke="#2d3748" stroke-width="1"/>
+
+  <text x="320" y="635" text-anchor="middle" fill="#f093fb" font-size="12" font-weight="bold">层级</text>
+  <text x="320" y="655" text-anchor="middle" fill="#a0aec0" font-size="10">树形 | 中可控 | 可并行</text>
+
+  <line x1="480" y1="620" x2="480" y2="672" stroke="#2d3748" stroke-width="1"/>
+
+  <text x="640" y="635" text-anchor="middle" fill="#4facfe" font-size="12" font-weight="bold">网状</text>
+  <text x="640" y="655" text-anchor="middle" fill="#a0aec0" font-size="10">自由通信 | 低可控 | 可并行</text>
+</svg>

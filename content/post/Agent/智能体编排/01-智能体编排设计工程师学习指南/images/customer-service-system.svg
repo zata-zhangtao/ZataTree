@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 540" font-family="'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#1a1a2e"/><stop offset="100%" style="stop-color:#16213e"/></linearGradient>
+    <linearGradient id="router" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#667eea"/><stop offset="100%" style="stop-color:#764ba2"/></linearGradient>
+    <linearGradient id="faq" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#43e97b"/><stop offset="100%" style="stop-color:#38f9d7"/></linearGradient>
+    <linearGradient id="order" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4facfe"/><stop offset="100%" style="stop-color:#00f2fe"/></linearGradient>
+    <linearGradient id="tech" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#f093fb"/><stop offset="100%" style="stop-color:#f5576c"/></linearGradient>
+    <linearGradient id="human" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#fa709a"/><stop offset="100%" style="stop-color:#fee140"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.25"/></filter>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#a0aec0"/></marker>
+  </defs>
+
+  <rect width="760" height="540" rx="16" fill="url(#bg)"/>
+  <rect x="0" y="0" width="760" height="46" rx="16" fill="#0f0f23"/>
+  <rect x="0" y="30" width="760" height="16" fill="#0f0f23"/>
+  <text x="380" y="30" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="bold">智能客服系统架构</text>
+
+  <!-- User input -->
+  <rect x="280" y="60" width="200" height="36" rx="8" fill="#2d3748" filter="url(#shadow)"/>
+  <text x="380" y="83" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="bold">📩 用户提问</text>
+
+  <line x1="380" y1="96" x2="380" y2="118" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Router -->
+  <rect x="230" y="122" width="300" height="50" rx="10" fill="url(#router)" filter="url(#shadow)"/>
+  <text x="380" y="144" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">🔀 Router Agent — 判断问题类型</text>
+  <text x="380" y="162" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">GPT-4o · 分类准确性优先</text>
+
+  <!-- Distribution lines -->
+  <line x1="380" y1="172" x2="380" y2="196" stroke="#a0aec0" stroke-width="1.5"/>
+  <line x1="140" y1="196" x2="620" y2="196" stroke="#718096" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="140" y1="196" x2="140" y2="210" stroke="#718096" stroke-width="1.5"/>
+  <line x1="300" y1="196" x2="300" y2="210" stroke="#718096" stroke-width="1.5"/>
+  <line x1="460" y1="196" x2="460" y2="210" stroke="#718096" stroke-width="1.5"/>
+  <line x1="620" y1="196" x2="620" y2="210" stroke="#718096" stroke-width="1.5"/>
+
+  <!-- Agent boxes -->
+  <rect x="65" y="214" width="150" height="70" rx="10" fill="url(#faq)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="140" y="242" text-anchor="middle" fill="#1a1a2e" font-size="13" font-weight="bold">📋 FAQ Agent</text>
+  <text x="140" y="258" text-anchor="middle" fill="rgba(26,26,46,0.75)" font-size="9">常见问题</text>
+  <text x="140" y="274" text-anchor="middle" fill="rgba(26,26,46,0.75)" font-size="9">RAG 检索知识库</text>
+
+  <rect x="225" y="214" width="150" height="70" rx="10" fill="url(#order)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="300" y="242" text-anchor="middle" fill="#1a1a2e" font-size="13" font-weight="bold">📦 Order Agent</text>
+  <text x="300" y="258" text-anchor="middle" fill="rgba(26,26,46,0.75)" font-size="9">订单查询</text>
+  <text x="300" y="274" text-anchor="middle" fill="rgba(26,26,46,0.75)" font-size="9">调用订单系统 API</text>
+
+  <rect x="385" y="214" width="150" height="70" rx="10" fill="url(#tech)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="460" y="242" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">🔧 Tech Agent</text>
+  <text x="460" y="258" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="9">技术支持</text>
+  <text x="460" y="274" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="9">RAG + 日志查询</text>
+
+  <rect x="545" y="214" width="150" height="70" rx="10" fill="url(#human)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="620" y="242" text-anchor="middle" fill="#1a1a2e" font-size="13" font-weight="bold">👤 Human Agent</text>
+  <text x="620" y="258" text-anchor="middle" fill="rgba(26,26,46,0.75)" font-size="9">复杂问题转人工</text>
+  <text x="620" y="274" text-anchor="middle" fill="rgba(26,26,46,0.75)" font-size="9">生成工单</text>
+
+  <!-- Collector -->
+  <line x1="140" y1="284" x2="140" y2="310" stroke="#a0aec0" stroke-width="1.5"/>
+  <line x1="300" y1="284" x2="300" y2="310" stroke="#a0aec0" stroke-width="1.5"/>
+  <line x1="460" y1="284" x2="460" y2="310" stroke="#a0aec0" stroke-width="1.5"/>
+  <line x1="620" y1="284" x2="620" y2="310" stroke="#a0aec0" stroke-width="1.5"/>
+  <line x1="140" y1="310" x2="620" y2="310" stroke="#718096" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <line x1="380" y1="310" x2="380" y2="332" stroke="#667eea" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="280" y="336" width="200" height="36" rx="8" fill="#2d3748" filter="url(#shadow)"/>
+  <text x="380" y="359" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="bold">✅ 回答用户</text>
+
+  <!-- Cost optimization section -->
+  <rect x="30" y="400" width="700" height="120" rx="10" fill="#0f0f23" opacity="0.8"/>
+  <text x="380" y="425" text-anchor="middle" fill="#a0aec0" font-size="12" font-weight="bold">💰 成本优化策略</text>
+
+  <rect x="55" y="440" width="150" height="40" rx="6" fill="#2d3748"/>
+  <text x="130" y="456" text-anchor="middle" fill="#667eea" font-size="10" font-weight="bold">Router Agent</text>
+  <text x="130" y="472" text-anchor="middle" fill="#a0aec0" font-size="9">GPT-4o</text>
+
+  <rect x="225" y="440" width="150" height="40" rx="6" fill="#2d3748"/>
+  <text x="300" y="456" text-anchor="middle" fill="#4facfe" font-size="10" font-weight="bold">FAQ / Order Agent</text>
+  <text x="300" y="472" text-anchor="middle" fill="#a0aec0" font-size="9">GPT-3.5 · 成本低</text>
+
+  <rect x="395" y="440" width="150" height="40" rx="6" fill="#2d3748"/>
+  <text x="470" y="456" text-anchor="middle" fill="#f093fb" font-size="10" font-weight="bold">Tech Agent</text>
+  <text x="470" y="472" text-anchor="middle" fill="#a0aec0" font-size="9">Claude · 长上下文</text>
+
+  <rect x="565" y="440" width="150" height="40" rx="6" fill="#2d3748"/>
+  <text x="640" y="456" text-anchor="middle" fill="#fa709a" font-size="10" font-weight="bold">Human Agent</text>
+  <text x="640" y="472" text-anchor="middle" fill="#a0aec0" font-size="9">转人工触发</text>
+
+  <text x="380" y="510" text-anchor="middle" fill="#718096" font-size="10">分层模型策略：不同复杂度任务使用不同级别的模型，整体成本降低 60-80%</text>
+</svg>

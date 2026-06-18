@@ -187,14 +187,91 @@ Step 4: 结构化输出
 
 ### 与其他解析方案的对比
 
-| 方案 | OCR | 布局分析 | 表格识别 | 公式识别 |
-|------|-----|----------|----------|----------|
-| PyPDF2 | ❌ | ❌ | ❌ | ❌ |
-| pdfplumber | ❌ | ⚠️ 基础 | ⚠️ 基础 | ❌ |
-| Unstructured | ⚠️ 外部 | ✅ | ⚠️ 基础 | ❌ |
-| **DeepDoc** | ✅ | ✅ | ✅ | ✅ |
+|| 方案 | OCR | 布局分析 | 表格识别 | 公式识别 | 输出格式 |
+|------|-----|----------|----------|----------|----------|
+| PyPDF2 | ❌ | ❌ | ❌ | ❌ | 纯文本 |
+| pdfplumber | ❌ | ⚠️ 基础 | ⚠️ 基础 | ❌ | 纯文本 |
+| Unstructured | ⚠️ 外部 | ✅ | ⚠️ 基础 | ❌ | 结构化 |
+| **MinerU** | ✅ | ✅ | ✅ | ✅ | Markdown/JSON |
+| **DeepDoc** | ✅ | ✅ | ✅ | ✅ | 结构化 + 语义信息 |
 
-DeepDoc 是目前开源方案中对复杂文档支持最完整的。
+### DeepDoc vs MinerU：不同的设计哲学
+
+MinerU 是 2024 年上海人工智能实验室开源的文档解析工具，同样具备强大的 OCR、表格识别、公式识别能力。但 DeepDoc 和 MinerU 的设计目标有本质区别：
+
+**MinerU：通用文档解析工具**
+
+```
+定位：将文档转换为 LLM 可用的 Markdown/JSON
+输出：标准化的文本格式
+目标：服务于各种下游应用（RAG、Agent、知识库等）
+集成：支持 LangChain、Dify、FastGPT、RAGFlow 等
+```
+
+**DeepDoc：RAG 原生文档理解引擎**
+
+```
+定位：RAGFlow 的核心组件，深度集成
+输出：保留语义结构的中间表示（标题层级、章节边界、表格结构等）
+目标：直接服务于 Chunking 和检索策略
+特点：与后续流程紧密耦合，非独立工具
+```
+
+**核心差异：输出是否保留结构语义**
+
+```
+MinerU 输出（Markdown）：
+# 第一章 概述
+## 1.1 背景
+文本内容...
+## 1.2 目标
+文本内容...
+
+↓ 丢失了什么？
+- 标题的层级深度信息
+- 章节边界的精确位置
+- 表格的行列结构（变成 Markdown 表格，但丢失原始坐标）
+
+DeepDoc 输出（结构化表示）：
+{
+  "chunks": [
+    {
+      "text": "文本内容...",
+      "metadata": {
+        "hierarchy": ["第一章", "概述", "1.1", "背景"],
+        "level": 3,
+        "bbox": [x1, y1, x2, y2],
+        "type": "paragraph"
+      }
+    }
+  ],
+  "tables": [
+    {
+      "cells": [[...]],
+      "headers": ["参数", "类型", "说明"],
+      "bbox": [...]
+    }
+  ]
+}
+```
+
+**为什么 RAGFlow 不用 MinerU？**
+
+1. **时间线**：RAGFlow（2023.12）比 MinerU（2024.02）更早，DeepDoc 已经开发成熟
+2. **深度集成**：DeepDoc 的输出直接适配 8 种 Chunking 策略，需要语义和结构信息
+3. **核心护城河**：文档理解是 RAGFlow 的差异化竞争力，不依赖外部工具
+4. **输出差异**：MinerU 输出 Markdown，DeepDoc 输出保留更多结构信息
+
+**选择建议**
+
+| 场景 | 推荐 | 理由 |
+|------|------|------|
+| 只需要文档转 Markdown | MinerU | 开箱即用，输出标准 |
+| 构建企业 RAG 系统 | RAGFlow + DeepDoc | 文档解析与检索一体化 |
+| 已有 RAG 框架，需补充解析能力 | MinerU | 作为独立组件集成 |
+| 需要自定义 Chunking 逻辑 | MinerU + 自己实现 | 更灵活 |
+
+DeepDoc 是目前开源方案中唯一为 RAG 场景深度优化的文档解析引擎。
 
 ## 三、Chunking 策略：一种文档一种切法
 
@@ -632,3 +709,7 @@ RAGFlow 不是"又一个 RAG 框架"，而是**从文档到答案的全流程解
 - GitHub: https://github.com/infiniflow/ragflow
 - 文档: https://ragflow.io/docs
 - Demo: https://ragflow.io
+
+**相关文章**：
+- [RAG 技术全景：从入门到进阶](../RAG技术全景：从入门到进阶/)
+- [Graph RAG 开源项目全景：从微软 GraphRAG 到 LightRAG](../GraphRAG开源项目全景：从微软GraphRAG到LightRAG/)

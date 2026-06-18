@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif">
+  <defs>
+    <linearGradient id="mem" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#667eea"/><stop offset="100%" style="stop-color:#764ba2"/></linearGradient>
+    <linearGradient id="plan" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#f093fb"/><stop offset="100%" style="stop-color:#f5576c"/></linearGradient>
+    <linearGradient id="act" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4facfe"/><stop offset="100%" style="stop-color:#00f2fe"/></linearGradient>
+    <linearGradient id="tool" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#43e97b"/><stop offset="100%" style="stop-color:#38f9d7"/></linearGradient>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#1a1a2e"/><stop offset="100%" style="stop-color:#16213e"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.3"/></filter>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#a0aec0"/></marker>
+    <marker id="arrow-mem" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#667eea"/></marker>
+    <marker id="arrow-plan" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#f5576c"/></marker>
+    <marker id="arrow-act" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#4facfe"/></marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="720" height="420" rx="16" fill="url(#bg)"/>
+
+  <!-- Title bar -->
+  <rect x="0" y="0" width="720" height="52" rx="16" fill="#0f0f23"/>
+  <rect x="0" y="36" width="720" height="16" fill="#0f0f23"/>
+  <text x="360" y="33" text-anchor="middle" fill="#e2e8f0" font-size="18" font-weight="bold">Agent 内部结构</text>
+
+  <!-- Memory Box -->
+  <rect x="80" y="80" width="260" height="120" rx="12" fill="url(#mem)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="210" y="125" text-anchor="middle" fill="#fff" font-size="20" font-weight="bold">🧠 记忆 (Memory)</text>
+  <text x="210" y="150" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-size="12">短期记忆：Context Window 管理</text>
+  <text x="210" y="172" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-size="12">长期记忆：向量数据库 / 关系数据库</text>
+
+  <!-- Planning Box -->
+  <rect x="380" y="80" width="260" height="120" rx="12" fill="url(#plan)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="510" y="125" text-anchor="middle" fill="#fff" font-size="20" font-weight="bold">🗺️ 规划 (Planning)</text>
+  <text x="510" y="150" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-size="12">CoT / ToT / ReAct</text>
+  <text x="510" y="172" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-size="12">Plan-and-Execute / 推理决策</text>
+
+  <!-- Action Box -->
+  <rect x="80" y="240" width="260" height="120" rx="12" fill="url(#act)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="210" y="285" text-anchor="middle" fill="#fff" font-size="20" font-weight="bold">⚡ 行动 (Action)</text>
+  <text x="210" y="310" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-size="12">响应式：回答问题</text>
+  <text x="210" y="332" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-size="12">执行式：调用 API / 修改外部状态</text>
+
+  <!-- Tools Box -->
+  <rect x="380" y="240" width="260" height="120" rx="12" fill="url(#tool)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="510" y="285" text-anchor="middle" fill="#1a1a2e" font-size="20" font-weight="bold">🔧 工具 (Tools)</text>
+  <text x="510" y="310" text-anchor="middle" fill="rgba(26,26,46,0.85)" font-size="12">搜索 / 计算 / 数据库 / API</text>
+  <text x="510" y="332" text-anchor="middle" fill="rgba(26,26,46,0.85)" font-size="12">Function Calling / Tool Use</text>
+
+  <!-- Arrows -->
+  <line x1="340" y1="170" x2="375" y2="170" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="210" y1="200" x2="210" y2="236" stroke="#667eea" stroke-width="2" marker-end="url(#arrow-mem)"/>
+  <line x1="510" y1="200" x2="510" y2="236" stroke="#f5576c" stroke-width="2" marker-end="url(#arrow-plan)"/>
+  <line x1="340" y1="300" x2="375" y2="300" stroke="#a0aec0" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Label -->
+  <text x="360" y="400" text-anchor="middle" fill="#718096" font-size="11">四个核心模块协同工作，形成感知→推理→执行→反馈的闭环</text>
+</svg>
