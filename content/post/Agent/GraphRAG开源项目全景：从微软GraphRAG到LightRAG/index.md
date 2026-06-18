@@ -2,7 +2,7 @@
 title: Graph RAG 开源项目全景：从微软 GraphRAG 到 LightRAG
 description: Graph RAG 是 RAG 技术的重要演进方向，本文系统梳理主流开源项目，帮你快速选型。
 date: 2026-03-27T16:00:00+08:00
-image: images/index.png
+image: images/index/index.png
 categories:
     - Agent
 tags:

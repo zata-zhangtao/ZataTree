@@ -2,7 +2,7 @@
 title: RAG 技术全景：从入门到进阶
 description: RAG 不只是检索+生成，Graph RAG、Agentic RAG、多模态 RAG……一文梳理 RAG 的技术演进路线。
 date: 2026-03-26T16:00:00+08:00
-image: images/index.png
+image: images/index/index.png
 categories:
     - Agent
 tags:
