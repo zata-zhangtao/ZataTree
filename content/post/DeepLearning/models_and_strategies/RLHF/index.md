@@ -2,6 +2,7 @@
 title: RLHF
 description: ""
 date: 2025-03-12T10:02:16+08:00
+image: images/index/index.png
 # image: images/index/index.png
 categories:
     - DeepLearning

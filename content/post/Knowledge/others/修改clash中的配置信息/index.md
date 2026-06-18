@@ -2,6 +2,7 @@
 title: clash 教程
 description: ""
 date: 2025-03-06T10:51:58+08:00
+image: images/index/index.png
 # image: images/index/index.png
 categories:
     - Knowledge

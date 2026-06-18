@@ -2,6 +2,7 @@
 title: “categories”（类别）和“tags”（标签）的区别
 description: “categories”（类别）和“tags”（标签）的区别
 date: 2025-03-02
+image: images/index/index.png
 # slug: 文件夹名/index.md ## 必填，文件夹名/index.md
 # image: helena-hertz-wWZzXlDpMog-unsplash.jpg
 categories:

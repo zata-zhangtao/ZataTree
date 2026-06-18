@@ -2,6 +2,7 @@
 title: 分类图
 description: 优秀图表学习
 date: 2025-02-24
+image: images/index/index.png
 # slug: 数据流图/建模图/功能图/数据流图.md.
 # image: helena-hertz-wWZzXlDpMog-unsplash.jpg
 categories:

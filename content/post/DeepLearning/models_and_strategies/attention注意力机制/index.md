@@ -2,6 +2,7 @@
 title: Attention
 description: 注意力机制（Attention Mechanism）详解
 date: 2025-02-16
+image: images/index/index.png
 # slug: 数据流图/建模图/功能图/数据流图.md.
 # image: helena-hertz-wWZzXlDpMog-unsplash.jpg
 categories:

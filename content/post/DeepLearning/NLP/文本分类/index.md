@@ -2,6 +2,7 @@
 title: 文本分类
 description: ""
 date: 2025-03-13T10:54:48+08:00
+image: images/index/index.png
 # image: images/index/index.png
 categories:
     - DeepLearning

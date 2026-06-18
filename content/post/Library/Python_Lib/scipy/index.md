@@ -2,6 +2,7 @@
 title: scipy
 description: SCiPY的常用操作
 date: 2025-02-27
+image: images/index/index.png
 slug: scipy/index.md
 # image: helena-hertz-wWZzXlDpMog-unsplash.jpg
 categories:

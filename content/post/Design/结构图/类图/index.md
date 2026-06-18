@@ -2,6 +2,7 @@
 title: 类图
 description: 建模图之类图
 date: 2025-02-20
+image: images/index/index.png
 # slug: 数据流图/建模图/功能图/数据流图.md.
 # image: helena-hertz-wWZzXlDpMog-unsplash.jpg
 categories:

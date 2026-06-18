@@ -2,6 +2,7 @@
 title: 领域驱动设计（DDD）分层架构：用领域语言构建复杂系统
 description: "系统讲解 DDD 四层架构模型，涵盖实体、值对象、聚合根、仓储、领域服务、领域事件的核心概念与 Python 落地实践。"
 date: 2026-04-12T12:00:00+08:00
+image: images/index/index.png
 categories:
     - Design
 tags:

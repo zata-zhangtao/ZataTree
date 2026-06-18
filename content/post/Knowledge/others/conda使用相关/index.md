@@ -2,6 +2,7 @@
 title: conda使用教程|pip使用教程|依赖安装_使用教程
 description: "详细介绍conda与pip的常用命令、环境管理、镜像配置、包安装及常见问题解决方案"
 date: 2025-03-10T14:00:34+08:00
+image: images/index/index.png
 # image: images/index/index.png
 categories:
     - Knowledge

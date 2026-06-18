@@ -2,6 +2,7 @@
 title: ❤️每日思考和AI资讯
 # description: BLOG介绍
 date: 2025-02-24T00:00:00+08:00
+image: images/index/index.png
 # slug: 文件夹名/index.md ## 必填，文件夹名/index.md
 # image: helena-hertz-wWZzXlDpMog-unsplash.jpg
 categories:

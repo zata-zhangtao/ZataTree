@@ -2,6 +2,7 @@
 title: python的命名规范
 description: ""
 date: 2025-03-06T11:26:47+08:00
+image: images/index/index.png
 # image: images/index/index.png
 categories:
     - Knowledge

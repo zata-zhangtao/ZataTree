@@ -2,6 +2,7 @@
 title: 使用 LangChain 构建订阅内容更新总结智能代理
 description: ""
 date: 2025-03-13T17:55:31+08:00
+image: images/index/index.png
 # image: images/index/index.png
 categories:
     - Agent

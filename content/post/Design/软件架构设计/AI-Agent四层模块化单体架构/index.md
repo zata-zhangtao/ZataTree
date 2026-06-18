@@ -2,6 +2,7 @@
 title: 从脚本到企业级平台：AI Agent 系统"整洁架构"演进与 Python 落地指南
 description: 结合领域驱动设计（DDD）与整洁架构（Clean Architecture）原则，深入剖析四层模块化单体架构在 AI Agent 平台中的落地实践。
 date: 2026-04-12T10:00:00+08:00
+image: images/index/index.png
 slug: ai-agent-clean-architecture
 categories:
     - Design

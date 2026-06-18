@@ -2,6 +2,7 @@
 title: 云原生可观测性：从"监控"到"洞察"的进化之路
 description: "深入解析云原生时代的可观测性体系，涵盖 Metrics、Logs、Traces 三大支柱，Prometheus、Grafana、Loki、OpenTelemetry 等技术栈，以及 eBPF 带来的新维度。"
 date: 2026-05-27T10:00:00+08:00
+image: images/index/index.png
 categories:
     - Engineering
 tags:

@@ -2,6 +2,7 @@
 title: 2-github action 使用
 description: GitHub Actions 是 GitHub 提供的自动化工具，可以帮助你在代码仓库中实现持续集成（CI）和持续部署（CD）。通过定义工作流（Workflow），你可以在代码推送、拉取请求或特定事件触发时自动运行测试、构建、部署等任务。
 date: 2025-03-03T00:00:00+08:00
+image: images/index/index.png
 # slug: 文件夹名/index.md ## 必填，文件夹名/index.md
 # image: helena-hertz-wWZzXlDpMog-unsplash.jpg
 categories:

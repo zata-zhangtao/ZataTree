@@ -2,6 +2,7 @@
 title: "Docker Swarm 实战（一）：核心概念与集群管理"
 description: Docker Swarm 原生集群编排完整指南，涵盖架构、核心概念、节点管理、服务部署与常用运维操作。
 date: 2026-04-12T10:00:00+08:00
+image: images/index/index.png
 slug: docker-swarm-guide
 categories:
     - Platforms&Tools

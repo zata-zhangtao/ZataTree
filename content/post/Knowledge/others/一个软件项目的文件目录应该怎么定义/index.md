@@ -2,6 +2,7 @@
 title: 一个软件项目的文件目录应该怎么定义
 description: ""
 date: 2025-03-12T23:43:30+08:00
+image: images/index/index.png
 # image: images/index/index.png
 categories:
     - Knowledge

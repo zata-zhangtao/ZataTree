@@ -2,6 +2,7 @@
 title: gh使用教程
 description: "详细介绍 GitHub CLI（gh）的常用命令、认证方式、仓库操作、PR/Issue 流程、Actions、Release、API 调用与自动化实践"
 date: 2026-04-12T21:50:00+08:00
+image: images/index/index.png
 categories:
     - Project_Application
 tags:

@@ -2,6 +2,7 @@
 title: VScode使用教程|cursor使用教程
 description: 
 date: 2025-03-03T00:00:00+08:00
+image: images/index/index.png
 # slug: 文件夹名/index.md ## 必填，文件夹名/index.md
 # image: helena-hertz-wWZzXlDpMog-unsplash.jpg
 categories:

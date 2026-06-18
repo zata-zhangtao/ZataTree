@@ -2,6 +2,8 @@
 
 This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
 
+> **Framework: Hugo** — This is a **Hugo** static site generator project (Hugo 0.141.0 extended). All content lives under `content/`, uses Hugo's TOML/YAML frontmatter conventions, and is rendered through the `hugo-theme-stack` theme. Use `hugo` / `hugo server` for build and dev work — do not introduce other static-site tooling.
+
 ## Repository Overview
 
 This is a Hugo-based static blog repository named "ZataTree" that serves as a comprehensive knowledge base covering computer science, programming, AI/ML, and software development topics. The site is deployed at www.zata.cc and uses the hugo-theme-stack theme.
@@ -96,6 +98,26 @@ draft: false  # Set to true for drafts
 - **Naming**: Use descriptive folder names that match the article title
 - **Categories**: Must be pre-created using the zata tool
 - **Tags**: Must be associated with categories and pre-created
+
+### Cover Image Generation
+
+Every published article must have a cover image referenced from its frontmatter as `image: images/index/index.<ext>`.
+
+**When creating or reviewing an article**, follow this decision tree:
+
+1. Check whether `images/index/index.png` (or `.svg`, `.jpg`, `.webp`) already exists in the article directory.
+2. If it exists → leave it alone, just confirm the frontmatter `image:` field points to it.
+3. If it is **missing**, do **not** search the web for a stock image. Instead, **generate an SVG cover**:
+   - File path: `{article-dir}/images/index/index.svg`
+   - Recommended canvas: **1200×630** (matches Open Graph / Twitter card aspect).
+   - Style: minimal, geometric, with the article title and (optionally) 1–2 tag words. Use the `hugo-theme-stack` accent palette (primary `#5b87bf`, accent tones of blue / purple / teal). Avoid stock-photo clichés.
+   - Format: inline SVG, no external assets, no remote fonts (use generic `sans-serif` / `serif`). Keep file size small (< 20 KB ideal).
+4. After generating, add or update the frontmatter:
+   ```yaml
+   image: images/index/index.svg
+   ```
+
+This rule applies to any new article, any article extracted from another article's directory (e.g. the `记忆模块技术文档` extraction), and any article missing a cover during cleanup. SVG-first keeps the repo self-contained and avoids copyright issues.
 
 ## Deployment
 

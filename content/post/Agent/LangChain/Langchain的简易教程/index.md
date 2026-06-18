@@ -2,6 +2,7 @@
 title: Langchain的简易教程
 description: ""
 date: 2025-03-11T11:05:13+08:00
+image: images/index/index.png
 # image: images/index/index.png
 categories:
     - Agent

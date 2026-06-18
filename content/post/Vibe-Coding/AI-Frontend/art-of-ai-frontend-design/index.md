@@ -1,6 +1,7 @@
 ---
 title: "用 AI 打造惊艳前端：从 Vibe Coding 到实战的艺术指南"
 date: 2025-06-11T18:30:00+08:00
+image: images/index/index.png
 draft: false
 description: "探索如何利用 AI 工具（Claude Code、Cursor、v0.dev、screenshot-to-code）快速构建美观的前端界面。从开源项目中汲取灵感，掌握 Vibe Coding 的核心技巧，让你的创意瞬间变为现实。"
 images:

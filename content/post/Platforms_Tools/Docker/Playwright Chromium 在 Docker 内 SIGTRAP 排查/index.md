@@ -2,7 +2,7 @@
 title: Playwright Chromium 在 Docker 内 SIGTRAP 启动崩溃排查实录
 description: Dokploy 部署后点击登录触发 Playwright TargetClosedError，最终定位为 useradd -r 没创 /home/appuser，chrome 拿不到可写 HOME 导致 crashpad handler 拿不到 --database 而 exit 1，主进程 IMMEDIATE_CRASH（SIGTRAP）。记录六轮被自己打脸的错误假设链
 date: 2026-06-08T15:30:00+08:00
-image: ""
+image: images/index/index.png
 categories:
     - Platforms_Tools
 tags:

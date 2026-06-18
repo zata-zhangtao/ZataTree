@@ -2,6 +2,7 @@
 title: linux使用教程
 description: ""
 date: 2025-03-16T17:16:02+08:00
+image: images/index/index.png
 # image: images/index/index.png
 categories:
     - Knowledge

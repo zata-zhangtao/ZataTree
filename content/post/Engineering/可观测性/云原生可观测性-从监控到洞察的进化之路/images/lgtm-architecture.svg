@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="solid" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#555"/>
+    </marker>
+    <marker id="dashed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#999"/>
+    </marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <text x="450" y="28" text-anchor="middle" font-size="17" font-weight="700" fill="#222">
+    LGTM 全家桶：云原生可观测性参考架构
+  </text>
+  <text x="450" y="48" text-anchor="middle" font-size="11" fill="#888">
+    统一采集 · 分而治之 · 统一查询
+  </text>
+
+  <text x="20" y="98" font-size="11" fill="#999" font-weight="600">可视化层</text>
+  <g filter="url(#shadow)">
+    <rect x="290" y="70" width="320" height="70" rx="8" fill="#FFF0E0" stroke="#F46800" stroke-width="2"/>
+    <text x="450" y="98" text-anchor="middle" font-size="16" font-weight="700" fill="#F46800">Grafana</text>
+    <text x="450" y="118" text-anchor="middle" font-size="11" fill="#666">统一面板 · 关联查询 · 告警中心</text>
+    <text x="450" y="132" text-anchor="middle" font-size="10" fill="#999">Metrics + Logs + Traces + Profiles</text>
+  </g>
+
+  <path d="M 410 140 Q 280 180 200 220" fill="none" stroke="#999" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#dashed)"/>
+  <path d="M 450 140 L 450 220" fill="none" stroke="#999" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#dashed)"/>
+  <path d="M 490 140 Q 620 180 700 220" fill="none" stroke="#999" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#dashed)"/>
+
+  <text x="20" y="260" font-size="11" fill="#999" font-weight="600">存储层</text>
+
+  <g filter="url(#shadow)">
+    <rect x="80" y="230" width="160" height="90" rx="6" fill="#FFE8E5" stroke="#E6522C" stroke-width="2"/>
+    <text x="160" y="258" text-anchor="middle" font-size="14" font-weight="700" fill="#E6522C">Prometheus</text>
+    <text x="160" y="278" text-anchor="middle" font-size="11" font-weight="600" fill="#444">Metrics</text>
+    <text x="160" y="295" text-anchor="middle" font-size="10" fill="#888">时序数据库 · 多维标签</text>
+    <text x="160" y="308" text-anchor="middle" font-size="10" fill="#888">PromQL · Pull 模型</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="370" y="230" width="160" height="90" rx="6" fill="#FFF8E1" stroke="#F5A623" stroke-width="2"/>
+    <text x="450" y="258" text-anchor="middle" font-size="14" font-weight="700" fill="#F5A623">Loki</text>
+    <text x="450" y="278" text-anchor="middle" font-size="11" font-weight="600" fill="#444">Logs</text>
+    <text x="450" y="295" text-anchor="middle" font-size="10" fill="#888">标签索引 · 不索引内容</text>
+    <text x="450" y="308" text-anchor="middle" font-size="10" fill="#888">LogQL · 对象存储</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="660" y="230" width="160" height="90" rx="6" fill="#F3E5F5" stroke="#9B59B6" stroke-width="2"/>
+    <text x="740" y="258" text-anchor="middle" font-size="14" font-weight="700" fill="#9B59B6">Tempo</text>
+    <text x="740" y="278" text-anchor="middle" font-size="11" font-weight="600" fill="#444">Traces</text>
+    <text x="740" y="295" text-anchor="middle" font-size="10" fill="#888">全链路追踪 · 低成本</text>
+    <text x="740" y="308" text-anchor="middle" font-size="10" fill="#888">TraceQL · 共享对象存储</text>
+  </g>
+
+  <path d="M 280 320 Q 320 360 380 390" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#solid)"/>
+  <path d="M 450 320 L 450 390" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#solid)"/>
+  <path d="M 620 320 Q 580 360 520 390" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#solid)"/>
+
+  <text x="20" y="420" font-size="11" fill="#999" font-weight="600">采集层</text>
+
+  <g filter="url(#shadow)">
+    <rect x="200" y="400" width="500" height="90" rx="10" fill="#FFF3E0" stroke="#E67E22" stroke-width="2.5"/>
+    <text x="450" y="430" text-anchor="middle" font-size="16" font-weight="700" fill="#E67E22">OpenTelemetry Collector</text>
+    <text x="450" y="450" text-anchor="middle" font-size="11" fill="#666">Receivers → Processors → Exporters</text>
+    <g font-size="10" fill="#888">
+      <text x="270" y="475" text-anchor="middle">统一接收</text>
+      <text x="370" y="475" text-anchor="middle">尾部采样</text>
+      <text x="470" y="475" text-anchor="middle">资源标签注入</text>
+      <text x="580" y="475" text-anchor="middle">敏感信息脱敏</text>
+      <text x="680" y="475" text-anchor="middle">批量转发</text>
+    </g>
+  </g>
+
+  <path d="M 280 490 Q 220 510 200 540" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#solid)"/>
+  <path d="M 400 490 L 380 540" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#solid)"/>
+  <path d="M 480 490 L 520 540" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#solid)"/>
+  <path d="M 620 490 Q 680 510 700 540" fill="none" stroke="#555" stroke-width="1.5" marker-end="url(#solid)"/>
+
+  <text x="450" y="520" text-anchor="middle" font-size="10" fill="#888">OTLP (gRPC:4317 / HTTP:4318)</text>
+
+  <text x="20" y="570" font-size="11" fill="#999" font-weight="600">应用层</text>
+
+  <g>
+    <rect x="100" y="548" width="140" height="60" rx="6" fill="#fff" stroke="#4A90E2" stroke-width="2"/>
+    <text x="170" y="572" text-anchor="middle" font-size="13" font-weight="600" fill="#4A90E2">order-service</text>
+    <text x="170" y="590" text-anchor="middle" font-size="10" fill="#888">Go · OTel SDK</text>
+  </g>
+  <g>
+    <rect x="280" y="548" width="140" height="60" rx="6" fill="#fff" stroke="#4A90E2" stroke-width="2"/>
+    <text x="350" y="572" text-anchor="middle" font-size="13" font-weight="600" fill="#4A90E2">payment-service</text>
+    <text x="350" y="590" text-anchor="middle" font-size="10" fill="#888">Java · Auto-Agent</text>
+  </g>
+  <g>
+    <rect x="460" y="548" width="140" height="60" rx="6" fill="#fff" stroke="#4A90E2" stroke-width="2"/>
+    <text x="530" y="572" text-anchor="middle" font-size="13" font-weight="600" fill="#4A90E2">inventory-service</text>
+    <text x="530" y="590" text-anchor="middle" font-size="10" fill="#888">Python · OTel SDK</text>
+  </g>
+  <g>
+    <rect x="640" y="548" width="140" height="60" rx="6" fill="#fff" stroke="#4A90E2" stroke-width="2"/>
+    <text x="710" y="572" text-anchor="middle" font-size="13" font-weight="600" fill="#4A90E2">user-service</text>
+    <text x="710" y="590" text-anchor="middle" font-size="10" fill="#888">Node.js · Auto-Instr.</text>
+  </g>
+
+  <g transform="translate(640, 100)" font-size="11" fill="#666">
+    <rect x="0" y="0" width="220" height="60" rx="4" fill="#fff" stroke="#ddd"/>
+    <text x="10" y="18" font-weight="600" fill="#444">图例</text>
+    <line x1="10" y1="35" x2="40" y2="35" stroke="#555" stroke-width="1.5" marker-end="url(#solid)"/>
+    <text x="48" y="39">数据写入 (OTel SDK → Collector)</text>
+    <line x1="10" y1="52" x2="40" y2="52" stroke="#999" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#dashed)"/>
+    <text x="48" y="56">查询拉取 (Grafana → Backend)</text>
+  </g>
+</svg>

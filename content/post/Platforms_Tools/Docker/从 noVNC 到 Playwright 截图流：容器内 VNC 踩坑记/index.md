@@ -2,7 +2,7 @@
 title: 从 noVNC 到 Playwright 截图流：容器内 VNC 踩坑记
 description: 在 Docker 容器内为有头 Chrome 提供远程桌面，先后踩遍 MIT-SHM 0-byte、VizDisplayCompositor 黑屏、x11vnc Azure VM 兼容性等坑，最终放弃 VNC 协议，改用 Playwright Page.screenshot 自定义帧流。记录选型思路、六轮修复与最终架构。
 date: 2026-06-09T14:00:00+08:00
-image: ""
+image: images/index/index.png
 categories:
     - Platforms_Tools
 tags:

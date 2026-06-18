@@ -3,6 +3,7 @@ title: Mac 新电脑快速配置 — Git、Node 与 UV
 description: "新 Mac 到手后的核心开发环境配置，Homebrew 管系统工具，fnm 管 Node，UV 管 Python"
 draft: true
 date: 2026-05-10T15:30:48+08:00
+image: images/index/index.png
 categories:
     - Platforms&Tools
 tags:

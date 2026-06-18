@@ -2,6 +2,7 @@
 title: 文档结构化实战：从 Markdown/PDF 到 Word
 description: "记录 Markdown 转 Word、PDF 转 Word 的实战经验，包括 LaTeX 公式渲染、表格提取等难点攻克"
 date: 2026-06-04T12:00:00+08:00
+image: images/index/index.png
 categories:
     - Knowledge
     - others

@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif">
+  <defs>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#000" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <text x="450" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#222">
+    SLO 多窗口多燃烧率告警矩阵
+  </text>
+  <text x="450" y="50" text-anchor="middle" font-size="11" fill="#888">
+    以 99.9% 月度可用性 SLO 为例（error budget = 43 min / 月）
+  </text>
+
+  <text x="450" y="98" text-anchor="middle" font-size="13" font-weight="600" fill="#444">告警矩阵：短窗口 × 长窗口（AND 条件）</text>
+
+  <g transform="translate(180, 120)">
+    <rect x="0" y="0" width="600" height="55" fill="#F5F7FA" stroke="#ccc"/>
+    <text x="300" y="35" text-anchor="middle" font-size="13" font-weight="700" fill="#444">长窗口 Long Window</text>
+
+    <g font-size="12" fill="#fff">
+      <rect x="0" y="55" width="150" height="60" fill="#37474F"/>
+      <text x="75" y="93" text-anchor="middle" font-size="13" font-weight="700">1h</text>
+
+      <rect x="150" y="55" width="150" height="60" fill="#37474F"/>
+      <text x="225" y="93" text-anchor="middle" font-size="13" font-weight="700">6h</text>
+
+      <rect x="300" y="55" width="150" height="60" fill="#37474F"/>
+      <text x="375" y="93" text-anchor="middle" font-size="13" font-weight="700">1d</text>
+
+      <rect x="450" y="55" width="150" height="60" fill="#37474F"/>
+      <text x="525" y="93" text-anchor="middle" font-size="13" font-weight="700">3d</text>
+    </g>
+
+    <g>
+      <rect x="0" y="115" width="150" height="60" fill="#FAFAFA" stroke="#ddd"/>
+      <text x="-15" y="150" text-anchor="end" font-size="13" font-weight="700" fill="#37474F">5m</text>
+
+      <rect x="150" y="115" width="150" height="60" fill="#FAFAFA" stroke="#ddd"/>
+      <text x="-15" y="150" text-anchor="end" font-size="13" font-weight="700" fill="#37474F">30m</text>
+
+      <rect x="300" y="115" width="150" height="60" fill="#FAFAFA" stroke="#ddd"/>
+      <text x="-15" y="150" text-anchor="end" font-size="13" font-weight="700" fill="#37474F">1h</text>
+
+      <rect x="450" y="115" width="150" height="60" fill="#FAFAFA" stroke="#ddd"/>
+      <text x="-15" y="150" text-anchor="end" font-size="13" font-weight="700" fill="#37474F">6h</text>
+    </g>
+
+    <g>
+      <rect x="0" y="175" width="150" height="60" fill="#FAFAFA" stroke="#ddd"/>
+      <text x="-15" y="210" text-anchor="end" font-size="13" font-weight="700" fill="#37474F">1h</text>
+
+      <rect x="150" y="175" width="150" height="60" fill="#FAFAFA" stroke="#ddd"/>
+      <text x="-15" y="210" text-anchor="end" font-size="13" font-weight="700" fill="#37474F">6h</text>
+
+      <rect x="300" y="175" width="150" height="60" fill="#FAFAFA" stroke="#ddd"/>
+      <text x="-15" y="210" text-anchor="end" font-size="13" font-weight="700" fill="#37474F">1d</text>
+
+      <rect x="450" y="175" width="150" height="60" fill="#FAFAFA" stroke="#ddd"/>
+      <text x="-15" y="210" text-anchor="end" font-size="13" font-weight="700" fill="#37474F">3d</text>
+    </g>
+
+    <g>
+      <rect x="0" y="235" width="150" height="60" fill="#FAFAFA" stroke="#ddd"/>
+      <text x="-15" y="270" text-anchor="end" font-size="13" font-weight="700" fill="#37474F">6h</text>
+
+      <rect x="150" y="235" width="150" height="60" fill="#FAFAFA" stroke="#ddd"/>
+      <text x="-15" y="270" text-anchor="end" font-size="13" font-weight="700" fill="#37474F">1d</text>
+
+      <rect x="300" y="235" width="150" height="60" fill="#FAFAFA" stroke="#ddd"/>
+      <text x="-15" y="270" text-anchor="end" font-size="13" font-weight="700" fill="#37474F">3d</text>
+
+      <rect x="450" y="235" width="150" height="60" fill="#FAFAFA" stroke="#ddd"/>
+      <text x="-15" y="270" text-anchor="end" font-size="13" font-weight="700" fill="#37474F">7d</text>
+    </g>
+
+    <g filter="url(#sh)">
+      <rect x="0" y="115" width="150" height="60" fill="#FFEBEE" stroke="#E74C3C" stroke-width="2.5"/>
+      <text x="75" y="142" text-anchor="middle" font-size="18" font-weight="700" fill="#E74C3C">14.4×</text>
+      <text x="75" y="162" text-anchor="middle" font-size="11" font-weight="700" fill="#C0392B">PAGE</text>
+    </g>
+
+    <g filter="url(#sh)">
+      <rect x="300" y="175" width="150" height="60" fill="#FFF3E0" stroke="#F39C12" stroke-width="2.5"/>
+      <text x="375" y="202" text-anchor="middle" font-size="18" font-weight="700" fill="#E67E22">3×</text>
+      <text x="375" y="222" text-anchor="middle" font-size="11" font-weight="700" fill="#D35400">TICKET</text>
+    </g>
+
+    <g filter="url(#sh)">
+      <rect x="150" y="175" width="150" height="60" fill="#FFEBEE" stroke="#E74C3C" stroke-width="2.5"/>
+      <text x="225" y="202" text-anchor="middle" font-size="18" font-weight="700" fill="#E74C3C">6×</text>
+      <text x="225" y="222" text-anchor="middle" font-size="11" font-weight="700" fill="#C0392B">PAGE</text>
+    </g>
+
+    <g filter="url(#sh)">
+      <rect x="450" y="235" width="150" height="60" fill="#FFF3E0" stroke="#F39C12" stroke-width="2.5"/>
+      <text x="525" y="262" text-anchor="middle" font-size="18" font-weight="700" fill="#E67E22">1×</text>
+      <text x="525" y="282" text-anchor="middle" font-size="11" font-weight="700" fill="#D35400">TICKET</text>
+    </g>
+  </g>
+
+  <text x="115" y="120" font-size="13" font-weight="700" fill="#37474F" transform="rotate(-90, 115, 120)">短窗口 Short</text>
+
+  <g transform="translate(40, 420)">
+    <text x="0" y="0" font-size="13" font-weight="700" fill="#444">告警级别说明</text>
+
+    <g transform="translate(0, 20)">
+      <rect x="0" y="0" width="20" height="20" fill="#FFEBEE" stroke="#E74C3C" stroke-width="2"/>
+      <text x="30" y="15" font-size="12" font-weight="700" fill="#E74C3C">PAGE</text>
+      <text x="90" y="15" font-size="11" fill="#666">— 立即唤醒值班，5 分钟内响应</text>
+    </g>
+
+    <g transform="translate(0, 50)">
+      <rect x="0" y="0" width="20" height="20" fill="#FFF3E0" stroke="#F39C12" stroke-width="2"/>
+      <text x="30" y="15" font-size="12" font-weight="700" fill="#E67E22">TICKET</text>
+      <text x="90" y="15" font-size="11" fill="#666">— 工单跟进，工作时间内处理</text>
+    </g>
+
+    <g transform="translate(0, 80)">
+      <rect x="0" y="0" width="20" height="20" fill="#FAFAFA" stroke="#ddd"/>
+      <text x="30" y="15" font-size="12" fill="#999">空</text>
+      <text x="90" y="15" font-size="11" fill="#666">— 该窗口组合不告警</text>
+    </g>
+  </g>
+
+  <g transform="translate(490, 420)">
+    <text x="0" y="0" font-size="13" font-weight="700" fill="#444">燃烧率含义</text>
+    <text x="0" y="22" font-size="11" fill="#666">倍数 = 当前错误率相对"按预算消耗完"的速度</text>
+
+    <g transform="translate(0, 38)" font-size="11">
+      <text x="0" y="12" fill="#E74C3C" font-weight="600">14.4×</text>
+      <text x="50" y="12" fill="#666">= 1 小时内烧光月度预算的 2%</text>
+
+      <text x="0" y="32" fill="#E74C3C" font-weight="600">6×</text>
+      <text x="50" y="32" fill="#666">= 6 小时内烧光月度预算的 5%</text>
+
+      <text x="0" y="52" fill="#E67E22" font-weight="600">3×</text>
+      <text x="50" y="52" fill="#666">= 1 天内烧光月度预算的 10%</text>
+
+      <text x="0" y="72" fill="#E67E22" font-weight="600">1×</text>
+      <text x="50" y="72" fill="#666">= 3 天内刚好烧光月度预算</text>
+    </g>
+  </g>
+
+  <g transform="translate(40, 560)">
+    <rect x="0" y="0" width="820" height="32" rx="4" fill="#F5F7FA" stroke="#ddd"/>
+    <text x="14" y="20" font-size="11" fill="#555" font-weight="600">关键原则：</text>
+    <text x="100" y="20" font-size="11" fill="#666">短窗口 × 长窗口 AND 条件同时满足才告警 → 误报率降低 90%，同时不会漏报真实事故</text>
+  </g>
+</svg>

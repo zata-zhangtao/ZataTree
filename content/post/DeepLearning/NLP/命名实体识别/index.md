@@ -2,6 +2,7 @@
 title: 命名实体识别
 description: ""
 date: 2025-03-13T14:29:48+08:00
+image: images/index/index.png
 # image: images/index/index.png
 categories:
     - DeepLearning

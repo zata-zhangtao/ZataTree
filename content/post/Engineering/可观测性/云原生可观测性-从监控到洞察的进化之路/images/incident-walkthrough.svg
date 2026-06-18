@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#555"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#E74C3C"/>
+    </marker>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <text x="450" y="28" text-anchor="middle" font-size="17" font-weight="700" fill="#222">
+    故障排查 Walkthrough：从告警到根因
+  </text>
+  <text x="450" y="48" text-anchor="middle" font-size="11" fill="#888">
+    trace_id=abc123 · 贯穿 Prometheus / Tempo / Loki
+  </text>
+
+  <text x="40" y="88" font-size="13" font-weight="600" fill="#444">Trace 时间线（waterfall）</text>
+  <text x="860" y="88" text-anchor="end" font-size="11" fill="#999">持续 2.0s</text>
+
+  <line x1="180" y1="105" x2="860" y2="105" stroke="#ddd" stroke-width="1"/>
+  <g font-size="10" fill="#999">
+    <text x="180" y="100" text-anchor="middle">0ms</text>
+    <text x="350" y="100" text-anchor="middle">500ms</text>
+    <text x="520" y="100" text-anchor="middle">1000ms</text>
+    <text x="690" y="100" text-anchor="middle">1500ms</text>
+    <text x="860" y="100" text-anchor="middle">2000ms</text>
+  </g>
+  <g stroke="#eee" stroke-width="1" stroke-dasharray="2,3">
+    <line x1="350" y1="105" x2="350" y2="280"/>
+    <line x1="520" y1="105" x2="520" y2="280"/>
+    <line x1="690" y1="105" x2="690" y2="280"/>
+  </g>
+
+  <text x="160" y="135" text-anchor="end" font-size="12" font-weight="600" fill="#4A90E2">order-api</text>
+  <rect x="180" y="122" width="680" height="22" rx="3" fill="#E3F2FD" stroke="#4A90E2" stroke-width="1.5"/>
+  <text x="200" y="138" font-size="10" fill="#4A90E2">POST /order</text>
+
+  <text x="160" y="170" text-anchor="end" font-size="12" font-weight="600" fill="#4A90E2">inventory</text>
+  <rect x="220" y="157" width="60" height="22" rx="3" fill="#E3F2FD" stroke="#4A90E2" stroke-width="1.5"/>
+  <text x="232" y="173" font-size="10" fill="#4A90E2">GET stock</text>
+  <text x="285" y="173" font-size="9" fill="#888">30ms ✓</text>
+
+  <text x="160" y="205" text-anchor="end" font-size="12" font-weight="600" fill="#E74C3C">payment ⚠</text>
+  <rect x="240" y="192" width="580" height="22" rx="3" fill="#FFEBEE" stroke="#E74C3C" stroke-width="2"/>
+  <text x="252" y="208" font-size="10" fill="#E74C3C">POST /charge</text>
+  <text x="820" y="208" text-anchor="end" font-size="10" fill="#E74C3C" font-weight="600">1700ms ⚠</text>
+
+  <text x="160" y="240" text-anchor="end" font-size="11" fill="#666">↳ pgx.Query</text>
+  <rect x="660" y="227" width="160" height="22" rx="3" fill="#FFEBEE" stroke="#E74C3C" stroke-width="2"/>
+  <text x="672" y="243" font-size="10" fill="#E74C3C">postgres.Exec</text>
+  <text x="820" y="243" text-anchor="end" font-size="10" fill="#E74C3C" font-weight="600">timeout</text>
+
+  <text x="160" y="270" text-anchor="end" font-size="11" fill="#888">↳ retry</text>
+  <rect x="700" y="258" width="100" height="14" rx="3" fill="#FFF3E0" stroke="#E67E22" stroke-width="1"/>
+  <text x="710" y="269" font-size="9" fill="#E67E22">retry x3</text>
+
+  <line x1="740" y1="285" x2="740" y2="310" stroke="#E74C3C" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <text x="745" y="300" font-size="10" fill="#E74C3C" font-weight="600">↓ 根因在这里</text>
+
+  <text x="40" y="350" font-size="13" font-weight="600" fill="#444">跨数据源跳转（trace_id 串联一切）</text>
+
+  <g filter="url(#sh)">
+    <rect x="40" y="370" width="220" height="160" rx="8" fill="#fff" stroke="#E6522C" stroke-width="2"/>
+    <text x="150" y="395" text-anchor="middle" font-size="14" font-weight="700" fill="#E6522C">① Prometheus</text>
+    <text x="150" y="412" text-anchor="middle" font-size="10" fill="#888">Metrics</text>
+    <text x="55" y="438" font-size="11" font-weight="600" fill="#444">p99 延迟告警</text>
+    <rect x="55" y="445" width="190" height="55" rx="3" fill="#FFF5F4"/>
+    <text x="62" y="462" font-size="10" fill="#444" font-family="monospace">http_duration_p99</text>
+    <text x="62" y="478" font-size="10" fill="#444" font-family="monospace">{svc="order-api"}</text>
+    <text x="62" y="494" font-size="10" fill="#E74C3C" font-family="monospace">exemplar: abc123</text>
+  </g>
+
+  <g filter="url(#sh)">
+    <rect x="340" y="370" width="220" height="160" rx="8" fill="#fff" stroke="#9B59B6" stroke-width="2"/>
+    <text x="450" y="395" text-anchor="middle" font-size="14" font-weight="700" fill="#9B59B6">② Tempo</text>
+    <text x="450" y="412" text-anchor="middle" font-size="10" fill="#888">Traces</text>
+    <text x="355" y="438" font-size="11" font-weight="600" fill="#444">定位慢 span</text>
+    <rect x="355" y="445" width="190" height="55" rx="3" fill="#F9F0F8"/>
+    <text x="362" y="462" font-size="10" fill="#444" font-family="monospace">trace_id=abc123</text>
+    <text x="362" y="478" font-size="10" fill="#444" font-family="monospace">payment: 1700ms ⚠</text>
+    <text x="362" y="494" font-size="10" fill="#444" font-family="monospace">↳ pgx.Query timeout</text>
+  </g>
+
+  <g filter="url(#sh)">
+    <rect x="640" y="370" width="220" height="160" rx="8" fill="#fff" stroke="#F5A623" stroke-width="2"/>
+    <text x="750" y="395" text-anchor="middle" font-size="14" font-weight="700" fill="#F5A623">③ Loki</text>
+    <text x="750" y="412" text-anchor="middle" font-size="10" fill="#888">Logs</text>
+    <text x="655" y="438" font-size="11" font-weight="600" fill="#444">查错误上下文</text>
+    <rect x="655" y="445" width="190" height="55" rx="3" fill="#FFFAF0"/>
+    <text x="662" y="462" font-size="10" fill="#444" font-family="monospace">level=ERROR trace=abc123</text>
+    <text x="662" y="478" font-size="10" fill="#E74C3C" font-family="monospace">"connection refused:</text>
+    <text x="662" y="494" font-size="10" fill="#E74C3C" font-family="monospace"> postgres primary"</text>
+  </g>
+
+  <line x1="260" y1="450" x2="335" y2="450" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="297" y="442" text-anchor="middle" font-size="10" fill="#555">Exemplar</text>
+
+  <line x1="560" y1="450" x2="635" y2="450" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="597" y="442" text-anchor="middle" font-size="10" fill="#555">trace_id</text>
+
+  <g filter="url(#sh)">
+    <rect x="280" y="555" width="340" height="50" rx="8" fill="#FFEBEE" stroke="#E74C3C" stroke-width="2"/>
+    <text x="450" y="575" text-anchor="middle" font-size="12" font-weight="700" fill="#E74C3C">④ 根因</text>
+    <text x="450" y="593" text-anchor="middle" font-size="11" fill="#666">postgres primary 节点磁盘 IO 饱和 → 连接拒绝</text>
+  </g>
+
+  <path d="M 750 530 L 450 552" stroke="#E74C3C" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrow-red)" fill="none"/>
+  <text x="640" y="545" font-size="10" fill="#E74C3C">推导出</text>
+
+  <text x="40" y="555" font-size="11" font-weight="600" fill="#444">排查耗时：&lt; 5 min</text>
+</svg>

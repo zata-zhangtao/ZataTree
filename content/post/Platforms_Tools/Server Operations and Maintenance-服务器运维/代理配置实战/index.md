@@ -2,6 +2,7 @@
 title: 代理配置与环境变量实战
 description: 涵盖 macOS 系统代理、Shell 环境变量、NO_PROXY 绕过，以及 Git/Docker/包管理器等常见工具的代理配置
 date: 2026-06-06T10:00:00+08:00
+image: images/index/index.png
 categories:
     - Platforms_Tools
 tags:

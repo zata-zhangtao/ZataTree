@@ -2,6 +2,7 @@
 title: DeepSeek_NSA
 description: DeepSeek_NSA论文阅读
 date: 2025-02-24
+image: images/index/index.png
 slug: DeepSeek_NSA/index.md ## 必填，文件夹名/index.md
 # image: helena-hertz-wWZzXlDpMog-unsplash.jpg
 categories:

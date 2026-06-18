@@ -2,6 +2,7 @@
 title: 简洁架构（Clean Architecture）：让业务逻辑永远不依赖框架
 description: "深入解析 Uncle Bob 提出的简洁架构（Clean Architecture），从同心圆模型、依赖规则到 Python 完整落地示例。"
 date: 2026-04-12T11:00:00+08:00
+image: images/index/index.png
 categories:
     - Design
 tags:

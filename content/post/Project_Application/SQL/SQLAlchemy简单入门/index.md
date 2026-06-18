@@ -2,6 +2,7 @@
 title: SQLAlchemy简单入门
 description: ""
 date: 2025-03-11T09:43:28+08:00
+image: images/index/index.png
 # image: images/index/index.png
 categories:
     - Library

@@ -2,6 +2,7 @@
 title: 大语言模型-赵鑫-03-微调与对齐
 description: ""
 date: 2025-03-12T11:31:41+08:00
+image: images/index/index.png
 # image: images/index/index.png
 categories:
     - Book

@@ -2,6 +2,7 @@
 title: 1panel使用教程｜云服务器使用教程
 description: ""
 date: 2025-03-09T16:14:31+08:00
+image: images/index/index.png
 # image: images/index/index.png
 categories:
     - Knowledge

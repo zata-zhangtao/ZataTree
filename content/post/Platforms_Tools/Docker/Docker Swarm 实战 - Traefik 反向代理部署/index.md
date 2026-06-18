@@ -2,6 +2,7 @@
 title: "Docker Swarm 实战（二）：Traefik 反向代理部署"
 description: 在 Docker Swarm 集群上部署 Traefik v2 作为反向代理，含 HTTPS 自动证书和踩坑记录。
 date: 2026-04-12T11:00:00+08:00
+image: images/index/index.png
 slug: docker-swarm-traefik-deployment
 categories:
     - Platforms&Tools
