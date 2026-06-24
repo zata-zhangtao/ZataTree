@@ -38,6 +38,12 @@ tmux attach -t mysession
 # 临时退出会话（后台运行）
 # 快捷键：Ctrl-b 松开后按 d
 
+# 重命名当前会话
+tmux rename-session 新名字
+
+# 重命名指定会话
+tmux rename-session -t 旧名字 新名字
+
 # 彻底关闭某个会话
 tmux kill-session -t mysession
 ```
@@ -47,6 +53,7 @@ tmux kill-session -t mysession
 | 快捷键 | 作用 |
 |--------|------|
 | `Ctrl-b d` | 退出会话（ detach，程序继续在后台跑） |
+| `Ctrl-b $` | 重命名当前会话 |
 | `Ctrl-b c` | 新建窗口 |
 | `Ctrl-b n` / `Ctrl-b p` | 下一个 / 上一个窗口 |
 | `Ctrl-b %` | 垂直分屏 |
@@ -293,6 +300,82 @@ tmux new -s dev
 | `prefix Ctrl-s` | 保存当前环境 |
 | `prefix Ctrl-r` | 恢复保存的环境 |
 
+## 进阶技巧
+
+### 1. 同步输入到所有窗格
+
+需要在多台机器或同一组窗口里执行相同命令时，可以打开**输入同步**：
+
+```bash
+# 在 tmux 命令行执行
+setw synchronize-panes on
+```
+
+快捷键绑定（加入 `~/.tmux.conf`）：
+
+```bash
+bind S setw synchronize-panes \; display-message "Sync panes: #{?synchronize-panes,ON,OFF}"
+```
+
+然后按 `prefix S` 即可切换同步状态。再次关闭：`setw synchronize-panes off`。
+
+### 2. 用脚本一键搭建开发环境
+
+把常用布局写成脚本，避免每次手动分屏：
+
+```bash
+#!/bin/bash
+# start-dev.sh
+SESSION="dev"
+
+tmux has-session -t $SESSION 2>/dev/null
+if [ $? != 0 ]; then
+    tmux new-session -d -s $SESSION -n editor
+    tmux send-keys -t $SESSION:editor 'vim .' C-m
+    tmux split-window -h -t $SESSION:editor
+    tmux send-keys -t $SESSION:editor.right 'npm run dev' C-m
+    tmux split-window -v -t $SESSION:editor.right
+    tmux send-keys -t $SESSION:editor.bottom 'git status' C-m
+fi
+
+tmux attach -t $SESSION
+```
+
+### 3. 嵌套 tmux（本地 + 远程）
+
+如果你本地开了 tmux，SSH 到远程服务器后又开了 tmux，两个 `Ctrl-b` 会冲突。常见解决办法：
+
+- 本地用 `Ctrl-b`，远程用 `Ctrl-a`：
+  ```bash
+  # 远程服务器的 ~/.tmux.conf
+  set -g prefix C-a
+  unbind C-b
+  bind C-a send-prefix
+  ```
+- 或者在本地 tmux 里按 `Ctrl-b b`，把 prefix 透传给远程 tmux。
+
+### 4. 查看并重新连接 detached 的会话
+
+```bash
+# 列出 detached 的会话
+tmux ls
+
+# 如果只有一个 detached 会话，直接 attach
+tmux attach
+```
+
+### 5. 调整颜色与终端兼容
+
+如果 vim/neovim 在 tmux 里颜色显示异常，加这几行：
+
+```bash
+# ~/.tmux.conf
+set -g default-terminal "screen-256color"
+set -ag terminal-overrides ",xterm-256color:RGB"
+```
+
+并确保外部终端也支持 256 色 / true color。
+
 ## 命令速查表
 
 ```bash
@@ -300,6 +383,8 @@ tmux new -s dev
 tmux new -s <name>          # 新建会话
 tmux ls                      # 列出会话
 tmux attach -t <name>        # 接入会话
+tmux detach                  # 退出当前会话（后台运行）
+tmux rename-session -t <old> <new>  # 重命名会话
 tmux kill-session -t <name>  # 结束会话
 tmux kill-server             # 结束所有会话
 
@@ -308,15 +393,35 @@ prefix c   # 新建窗口
 prefix ,   # 重命名窗口
 prefix n   # 下一个窗口
 prefix p   # 上一个窗口
+prefix w   # 可视化选择窗口
+prefix 0-9 # 切换到对应编号窗口
 prefix &   # 关闭窗口
 
 # 窗格（在 tmux 内）
 prefix %   # 垂直分割
 prefix "   # 水平分割
 prefix o   # 切换窗格
+prefix 方向键 # 按方向切换窗格
 prefix x   # 关闭窗格
 prefix z   # 最大化/还原窗格
+prefix 空格 # 切换窗格布局
+prefix !   # 把当前窗格拆成独立窗口
+
+# 复制模式
+prefix [   # 进入复制/滚动模式
+prefix ]   # 粘贴
 ```
+
+## 常见问题
+
+| 问题 | 原因 / 解决 |
+|------|-------------|
+| 滚轮不能翻历史 | 按 `prefix [` 进入复制模式后再滚；或开启 `set -g mouse on`。 |
+| `Ctrl-b` 没反应 | 先松开 `Ctrl-b` 再按功能键；或者 prefix 被改成了 `Ctrl-a`。 |
+| 中文显示乱码 | 检查终端编码为 UTF-8，并在 `~/.tmux.conf` 里加 `setw -g utf8 on`（较新版本已默认支持）。 |
+| vim 里按 ESC 有延迟 | 加 `set -sg escape-time 10` 到 `~/.tmux.conf`。 |
+| 关闭终端后程序被杀死 | 确保程序是跑在 tmux 会话里，并且你是按 `prefix d` 分离，而不是直接关窗口。 |
+| 状态栏不显示 | 确认配置文件没有语法错误，执行 `tmux source-file ~/.tmux.conf` 查看报错。 |
 
 ## 小贴士
 

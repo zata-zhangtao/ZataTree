@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5b87bf"/>
+      <stop offset="100%" stop-color="#00b0ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="860" y="180" width="260" height="160" rx="14" fill="#5b87bf" opacity="0.10" stroke="#5b87bf" stroke-width="2"/>
+<rect x="835" y="210" width="260" height="160" rx="14" fill="#e040fb" opacity="0.10" stroke="#e040fb" stroke-width="2"/>
+<rect x="810" y="240" width="260" height="160" rx="14" fill="#00b0ff" opacity="0.10" stroke="#00b0ff" stroke-width="2"/>
+  <rect x="60" y="420" width="120" height="6" rx="3" fill="url(#accent)"/>
+  <text x="80" y="160" font-family="PingFang SC, Microsoft YaHei, Hiragino Sans GB, sans-serif" font-size="56" fill="#f8fafc">
+    <tspan x="80" dy="66" font-weight="700">Figma MCP + Cl</tspan>
+<tspan x="80" dy="70" font-weight="700">aude Code</tspan>
+  </text>
+  <text x="80" y="310" font-family="PingFang SC, Microsoft YaHei, Hiragino Sans GB, sans-serif" font-size="28" fill="#94a3b8">
+    <tspan x="80" dy="40" font-weight="400">从设计稿到上线的全过程</tspan>
+  </text>
+  <text x="80" y="580" font-family="PingFang SC, Microsoft YaHei, Hiragino Sans GB, sans-serif" font-size="22" fill="#5b87bf">
+    AI-Frontend · Figma
+  </text>
+</svg>

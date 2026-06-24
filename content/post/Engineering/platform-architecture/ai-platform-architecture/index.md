@@ -3,7 +3,7 @@ title: 企业AI工具平台架构设计：拥抱快速变化的AI生态
 description: 探讨如何设计一个高扩展性、模块化的企业AI工具平台，支持多容器、多项目、用户管理以及各类AI工具的统一集成。
 date: 2025-01-15T10:00:00+08:00
 slug: ai-platform-architecture
-image: images/index/cover.png
+image: images/index/index.svg
 categories:
     - Engineering
 tags:

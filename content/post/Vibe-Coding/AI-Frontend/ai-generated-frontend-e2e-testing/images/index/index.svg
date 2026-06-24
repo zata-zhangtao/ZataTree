@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5b87bf"/>
+      <stop offset="100%" stop-color="#00bfa5"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- browser window -->
+  <rect x="780" y="120" width="360" height="240" rx="12" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <rect x="780" y="120" width="360" height="28" rx="12" fill="#334155"/>
+  <circle cx="800" cy="134" r="5" fill="#ef4444"/>
+  <circle cx="818" cy="134" r="5" fill="#f59e0b"/>
+  <circle cx="836" cy="134" r="5" fill="#22c55e"/>
+  <rect x="800" y="170" width="120" height="80" rx="6" fill="#5b87bf" opacity="0.2"/>
+  <rect x="940" y="170" width="180" height="12" rx="6" fill="#94a3b8" opacity="0.3"/>
+  <rect x="940" y="198" width="140" height="12" rx="6" fill="#94a3b8" opacity="0.2"/>
+  <rect x="940" y="226" width="160" height="12" rx="6" fill="#94a3b8" opacity="0.25"/>
+  <rect x="800" y="270" width="320" height="12" rx="6" fill="#5b87bf" opacity="0.15"/>
+  <rect x="800" y="294" width="260" height="12" rx="6" fill="#5b87bf" opacity="0.1"/>
+  <!-- checkmarks -->
+  <circle cx="1000" cy="380" r="28" fill="none" stroke="#00bfa5" stroke-width="4"/>
+  <path d="M986 380 L996 390 L1014 372" fill="none" stroke="#00bfa5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="1060" cy="440" r="20" fill="none" stroke="#5b87bf" stroke-width="3" opacity="0.6"/>
+  <path d="M1050 440 L1057 447 L1069 435" fill="none" stroke="#5b87bf" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="60" y="420" width="120" height="6" rx="3" fill="url(#accent)"/>
+  <text x="80" y="160" font-family="PingFang SC, Microsoft YaHei, Hiragino Sans GB, sans-serif" font-size="56" fill="#f8fafc" font-weight="700">
+    <tspan x="80" dy="66">AI 生成前端的</tspan>
+    <tspan x="80" dy="70">E2E 实践</tspan>
+  </text>
+  <text x="80" y="330" font-family="PingFang SC, Microsoft YaHei, Hiragino Sans GB, sans-serif" font-size="28" fill="#94a3b8">
+    <tspan x="80" dy="40">用 Playwright 做视觉回归和功能兜底</tspan>
+  </text>
+  <text x="80" y="580" font-family="PingFang SC, Microsoft YaHei, Hiragino Sans GB, sans-serif" font-size="22" fill="#5b87bf">
+    AI-Frontend · E2E Testing
+  </text>
+</svg>

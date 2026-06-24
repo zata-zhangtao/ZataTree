@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5b87bf"/>
+      <stop offset="100%" stop-color="#607d8b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="820" y="140" width="180" height="12" rx="6" fill="#5b87bf" opacity="0.12"/>
+<rect x="820" y="195" width="260" height="12" rx="6" fill="#ff5722" opacity="0.12"/>
+<rect x="820" y="250" width="340" height="12" rx="6" fill="#607d8b" opacity="0.12"/>
+<rect x="820" y="305" width="180" height="12" rx="6" fill="#5b87bf" opacity="0.12"/>
+<rect x="820" y="360" width="260" height="12" rx="6" fill="#ff5722" opacity="0.12"/>
+<rect x="820" y="415" width="340" height="12" rx="6" fill="#607d8b" opacity="0.12"/>
+<rect x="820" y="470" width="180" height="12" rx="6" fill="#5b87bf" opacity="0.12"/>
+<rect x="820" y="525" width="260" height="12" rx="6" fill="#ff5722" opacity="0.12"/>
+  <rect x="60" y="420" width="120" height="6" rx="3" fill="url(#accent)"/>
+  <text x="80" y="160" font-family="PingFang SC, Microsoft YaHei, Hiragino Sans GB, sans-serif" font-size="56" fill="#f8fafc">
+    <tspan x="80" dy="66" font-weight="700">前端 .mdc rules </tspan>
+<tspan x="80" dy="70" font-weight="700">模板</tspan>
+  </text>
+  <text x="80" y="310" font-family="PingFang SC, Microsoft YaHei, Hiragino Sans GB, sans-serif" font-size="28" fill="#94a3b8">
+    <tspan x="80" dy="40" font-weight="400">一份能直接抄的规范</tspan>
+  </text>
+  <text x="80" y="580" font-family="PingFang SC, Microsoft YaHei, Hiragino Sans GB, sans-serif" font-size="22" fill="#5b87bf">
+    AI-Frontend · Rules
+  </text>
+</svg>
