@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" font-family="'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#1a1a2e"/><stop offset="100%" style="stop-color:#16213e"/></linearGradient>
+    <linearGradient id="gen" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#667eea"/><stop offset="100%" style="stop-color:#764ba2"/></linearGradient>
+    <linearGradient id="critic" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#f093fb"/><stop offset="100%" style="stop-color:#f5576c"/></linearGradient>
+    <linearGradient id="pass" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#43e97b"/><stop offset="100%" style="stop-color:#38f9d7"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.3"/></filter>
+    <marker id="arrow" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto"><path d="M0,0 L12,5 L0,10 Z" fill="#cbd5e0"/></marker>
+    <marker id="arrow-yes" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto"><path d="M0,0 L12,5 L0,10 Z" fill="#43e97b"/></marker>
+    <marker id="arrow-no" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto"><path d="M0,0 L12,5 L0,10 Z" fill="#f5576c"/></marker>
+  </defs>
+
+  <rect width="900" height="480" rx="16" fill="url(#bg)"/>
+  <rect x="0" y="0" width="900" height="60" rx="16" fill="#0f0f23"/>
+  <rect x="0" y="40" width="900" height="20" fill="#0f0f23"/>
+  <text x="450" y="38" text-anchor="middle" fill="#e2e8f0" font-size="20" font-weight="bold">Reflection Loop:生成 → 反思 → 重写</text>
+
+  <!-- Generator (left) -->
+  <rect x="60" y="180" width="180" height="100" rx="12" fill="url(#gen)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="150" y="220" text-anchor="middle" fill="#fff" font-size="17" font-weight="bold">✍️ Generator</text>
+  <text x="150" y="245" text-anchor="middle" fill="#fff" font-size="11" opacity="0.9">LLM 生成初稿 answer_0</text>
+  <text x="150" y="262" text-anchor="middle" fill="#fff" font-size="10" opacity="0.8">基于 prompt 与上下文</text>
+
+  <!-- Critic (middle) -->
+  <rect x="320" y="180" width="180" height="100" rx="12" fill="url(#critic)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="410" y="220" text-anchor="middle" fill="#fff" font-size="17" font-weight="bold">🔍 Critic</text>
+  <text x="410" y="245" text-anchor="middle" fill="#fff" font-size="11" opacity="0.9">score · issues · improved</text>
+  <text x="410" y="262" text-anchor="middle" fill="#fff" font-size="10" opacity="0.8">质量评估 + 改进建议</text>
+
+  <!-- Decision diamond (right-middle) -->
+  <polygon points="620,150 720,230 620,310 520,230" fill="#2d3748" stroke="#fbbf24" stroke-width="2"/>
+  <text x="620" y="220" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="bold">score ≥</text>
+  <text x="620" y="240" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="bold">threshold?</text>
+
+  <!-- Final output (far right) -->
+  <rect x="740" y="180" width="140" height="100" rx="12" fill="url(#pass)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="810" y="220" text-anchor="middle" fill="#fff" font-size="17" font-weight="bold">✅ improved</text>
+  <text x="810" y="245" text-anchor="middle" fill="#fff" font-size="11" opacity="0.9">最终答案</text>
+  <text x="810" y="262" text-anchor="middle" fill="#fff" font-size="10" opacity="0.8">返回用户</text>
+
+  <!-- Arrows -->
+  <!-- Gen → Critic -->
+  <path d="M 240 230 L 320 230" stroke="#cbd5e0" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <text x="280" y="220" text-anchor="middle" fill="#cbd5e0" font-size="11">answer_n</text>
+
+  <!-- Critic → Decision -->
+  <path d="M 500 230 L 520 230" stroke="#cbd5e0" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- Decision YES → final (right) -->
+  <path d="M 720 230 L 740 230" stroke="#43e97b" stroke-width="2" fill="none" marker-end="url(#arrow-yes)"/>
+  <text x="730" y="220" text-anchor="middle" fill="#43e97b" font-size="12" font-weight="bold">YES</text>
+
+  <!-- Decision NO → loop back to Generator (bottom) -->
+  <path d="M 620 310 L 620 380 L 150 380 L 150 280" stroke="#f5576c" stroke-width="3" fill="none" stroke-dasharray="6 4" marker-end="url(#arrow-no)"/>
+  <text x="380" y="400" text-anchor="middle" fill="#f5576c" font-size="13" font-weight="bold">NO · 用 improved 替换 draft,重写下一轮</text>
+
+  <!-- bottom note -->
+  <text x="450" y="455" text-anchor="middle" fill="#94a3b8" font-size="11">↻ round = 0..N,直至 score ≥ threshold 或达到 max_rounds</text>
+</svg>

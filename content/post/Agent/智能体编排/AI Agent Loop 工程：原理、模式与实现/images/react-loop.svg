@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#1a1a2e"/><stop offset="100%" style="stop-color:#16213e"/></linearGradient>
+    <linearGradient id="llm" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#667eea"/><stop offset="100%" style="stop-color:#764ba2"/></linearGradient>
+    <linearGradient id="tool" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#43e97b"/><stop offset="100%" style="stop-color:#38f9d7"/></linearGradient>
+    <linearGradient id="finish" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#fa709a"/><stop offset="100%" style="stop-color:#fee140"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.3"/></filter>
+    <marker id="arrow" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto"><path d="M0,0 L12,5 L0,10 Z" fill="#cbd5e0"/></marker>
+    <marker id="arrow-loop" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto"><path d="M0,0 L12,5 L0,10 Z" fill="#fbbf24"/></marker>
+  </defs>
+
+  <rect width="900" height="620" rx="16" fill="url(#bg)"/>
+  <rect x="0" y="0" width="900" height="60" rx="16" fill="#0f0f23"/>
+  <rect x="0" y="40" width="900" height="20" fill="#0f0f23"/>
+  <text x="450" y="38" text-anchor="middle" fill="#e2e8f0" font-size="20" font-weight="bold">ReAct Loop:Thought → Action → Observation</text>
+
+  <!-- LLM center -->
+  <rect x="360" y="270" width="180" height="90" rx="14" fill="url(#llm)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="450" y="305" text-anchor="middle" fill="#fff" font-size="18" font-weight="bold">🤖 LLM</text>
+  <text x="450" y="328" text-anchor="middle" fill="#fff" font-size="11" opacity="0.9">生成 Thought + Action</text>
+  <text x="450" y="345" text-anchor="middle" fill="#fff" font-size="10" opacity="0.8">append 到 messages</text>
+
+  <!-- Thought (top-left) -->
+  <rect x="60" y="130" width="220" height="80" rx="12" fill="#2d3748" stroke="#667eea" stroke-width="2"/>
+  <text x="170" y="160" text-anchor="middle" fill="#cbd5e0" font-size="15" font-weight="bold">💭 Thought</text>
+  <text x="170" y="182" text-anchor="middle" fill="#a0aec0" font-size="11">"我需要先查询订单状态"</text>
+  <text x="170" y="198" text-anchor="middle" fill="#a0aec0" font-size="10" opacity="0.7">LLM 的推理</text>
+
+  <!-- Action (top-right) -->
+  <rect x="620" y="130" width="220" height="80" rx="12" fill="#2d3748" stroke="#f5576c" stroke-width="2"/>
+  <text x="730" y="160" text-anchor="middle" fill="#cbd5e0" font-size="15" font-weight="bold">⚡ Action</text>
+  <text x="730" y="182" text-anchor="middle" fill="#a0aec0" font-size="11">get_order(order_id="12345")</text>
+  <text x="730" y="198" text-anchor="middle" fill="#a0aec0" font-size="10" opacity="0.7">工具调用 JSON</text>
+
+  <!-- Observation (bottom-right) -->
+  <rect x="620" y="430" width="220" height="80" rx="12" fill="#2d3748" stroke="#43e97b" stroke-width="2"/>
+  <text x="730" y="460" text-anchor="middle" fill="#cbd5e0" font-size="15" font-weight="bold">👁 Observation</text>
+  <text x="730" y="482" text-anchor="middle" fill="#a0aec0" font-size="11">{status: shipped, eta: 6/28}</text>
+  <text x="730" y="498" text-anchor="middle" fill="#a0aec0" font-size="10" opacity="0.7">工具返回结果</text>
+
+  <!-- Finish (bottom-left) -->
+  <rect x="60" y="430" width="220" height="80" rx="12" fill="url(#finish)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="170" y="460" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">🏁 finish(answer)</text>
+  <text x="170" y="482" text-anchor="middle" fill="#fff" font-size="11" opacity="0.9">"您的订单预计 6/28 送达"</text>
+  <text x="170" y="498" text-anchor="middle" fill="#fff" font-size="10" opacity="0.8">返回最终答案</text>
+
+  <!-- Arrows: clean LLM → top boxes -->
+  <path d="M 380 270 L 280 210" stroke="#667eea" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <text x="305" y="225" fill="#cbd5e0" font-size="11" font-weight="bold">Thought</text>
+
+  <path d="M 520 270 L 620 210" stroke="#f5576c" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <text x="595" y="225" fill="#cbd5e0" font-size="11" font-weight="bold">Action</text>
+
+  <!-- Action → Observation (right side, downward) -->
+  <path d="M 730 210 L 730 430" stroke="#43e97b" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <text x="745" y="320" fill="#cbd5e0" font-size="11" font-weight="bold">执行</text>
+
+  <!-- Observation → Finish (decision: if finish action → go to finish) -->
+  <path d="M 620 470 L 280 470" stroke="#a0aec0" stroke-width="2" fill="none" marker-end="url(#arrow)" stroke-dasharray="6 4"/>
+  <text x="450" y="460" text-anchor="middle" fill="#cbd5e0" font-size="11" font-weight="bold">if finish()</text>
+
+  <!-- Loop back: Observation → LLM (append to messages, next round) -->
+  <path d="M 620 500 Q 450 580 450 360" stroke="#fbbf24" stroke-width="3" fill="none" marker-end="url(#arrow-loop)"/>
+  <text x="290" y="560" fill="#fbbf24" font-size="12" font-weight="bold">↻ 下一轮 LLM 调用(Observation 追加到 messages)</text>
+
+  <!-- bottom note -->
+  <text x="450" y="600" text-anchor="middle" fill="#94a3b8" font-size="11">循环至 finish() 被调用,或达到 max_steps</text>
+</svg>

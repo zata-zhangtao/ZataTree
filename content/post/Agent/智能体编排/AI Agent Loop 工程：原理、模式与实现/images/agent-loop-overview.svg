@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 580" font-family="'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#1a1a2e"/><stop offset="100%" style="stop-color:#16213e"/></linearGradient>
+    <linearGradient id="state" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#667eea"/><stop offset="100%" style="stop-color:#764ba2"/></linearGradient>
+    <linearGradient id="policy" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#f093fb"/><stop offset="100%" style="stop-color:#f5576c"/></linearGradient>
+    <linearGradient id="action" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4facfe"/><stop offset="100%" style="stop-color:#00f2fe"/></linearGradient>
+    <linearGradient id="obs" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#43e97b"/><stop offset="100%" style="stop-color:#38f9d7"/></linearGradient>
+    <linearGradient id="term" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#fa709a"/><stop offset="100%" style="stop-color:#fee140"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.3"/></filter>
+    <marker id="arrow" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto"><path d="M0,0 L12,5 L0,10 Z" fill="#cbd5e0"/></marker>
+  </defs>
+
+  <rect width="900" height="580" rx="16" fill="url(#bg)"/>
+  <rect x="0" y="0" width="900" height="60" rx="16" fill="#0f0f23"/>
+  <rect x="0" y="40" width="900" height="20" fill="#0f0f23"/>
+  <text x="450" y="38" text-anchor="middle" fill="#e2e8f0" font-size="20" font-weight="bold">Agent Loop 总览:五角色循环</text>
+
+  <!-- 5 boxes arranged in clear horizontal flow with arrows above/below -->
+  <!-- Box layout: x positions 50, 230, 410, 590, 770; all y=240; w=130 h=110 -->
+
+  <!-- Terminator -->
+  <rect x="50" y="240" width="130" height="110" rx="12" fill="url(#term)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="115" y="280" text-anchor="middle" fill="#fff" font-size="17" font-weight="bold">🏁 Terminator</text>
+  <text x="115" y="305" text-anchor="middle" fill="#fff" font-size="11" opacity="0.9">是否结束</text>
+  <text x="115" y="322" text-anchor="middle" fill="#fff" font-size="11" opacity="0.9">收敛判断</text>
+
+  <!-- State -->
+  <rect x="230" y="240" width="130" height="110" rx="12" fill="url(#state)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="295" y="280" text-anchor="middle" fill="#fff" font-size="17" font-weight="bold">🧠 State</text>
+  <text x="295" y="305" text-anchor="middle" fill="#fff" font-size="11" opacity="0.9">状态 / 记忆</text>
+  <text x="295" y="322" text-anchor="middle" fill="#fff" font-size="11" opacity="0.9">对话历史</text>
+
+  <!-- Policy (center) -->
+  <rect x="410" y="240" width="130" height="110" rx="12" fill="url(#policy)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="475" y="280" text-anchor="middle" fill="#fff" font-size="17" font-weight="bold">🧭 Policy</text>
+  <text x="475" y="305" text-anchor="middle" fill="#fff" font-size="11" opacity="0.9">LLM 决策</text>
+  <text x="475" y="322" text-anchor="middle" fill="#fff" font-size="11" opacity="0.9">下一步动作</text>
+
+  <!-- Action -->
+  <rect x="590" y="240" width="130" height="110" rx="12" fill="url(#action)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="655" y="280" text-anchor="middle" fill="#fff" font-size="17" font-weight="bold">⚙️ Action</text>
+  <text x="655" y="305" text-anchor="middle" fill="#fff" font-size="11" opacity="0.9">调工具</text>
+  <text x="655" y="322" text-anchor="middle" fill="#fff" font-size="11" opacity="0.9">子 Agent</text>
+
+  <!-- Observer -->
+  <rect x="770" y="240" width="130" height="110" rx="12" fill="url(#obs)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="835" y="280" text-anchor="middle" fill="#fff" font-size="17" font-weight="bold">👁 Observer</text>
+  <text x="835" y="305" text-anchor="middle" fill="#fff" font-size="11" opacity="0.9">结果回填</text>
+  <text x="835" y="322" text-anchor="middle" fill="#fff" font-size="11" opacity="0.9">到 State</text>
+
+  <!-- Top row arrows (left to right) -->
+  <path d="M 180 280 L 230 280" stroke="#cbd5e0" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M 360 280 L 410 280" stroke="#cbd5e0" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M 540 280 L 590 280" stroke="#cbd5e0" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M 720 280 L 770 280" stroke="#cbd5e0" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- Bottom return arrow (Observer -> State, the loop closure) -->
+  <path d="M 835 350 Q 835 460 475 460 Q 295 460 295 350" stroke="#fbbf24" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <text x="565" y="485" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="bold">↻ 循环:Observer 把结果回填到 State,准备下一轮</text>
+
+  <!-- Step numbers (above each arrow) -->
+  <text x="205" y="265" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="bold">①</text>
+  <text x="385" y="265" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="bold">②</text>
+  <text x="565" y="265" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="bold">③</text>
+  <text x="745" y="265" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="bold">④</text>
+
+  <!-- Step labels (below each arrow) -->
+  <text x="205" y="305" text-anchor="middle" fill="#94a3b8" font-size="11">检查终止</text>
+  <text x="385" y="305" text-anchor="middle" fill="#94a3b8" font-size="11">读状态</text>
+  <text x="565" y="305" text-anchor="middle" fill="#94a3b8" font-size="11">决定动作</text>
+  <text x="745" y="305" text-anchor="middle" fill="#94a3b8" font-size="11">执行动作</text>
+
+  <!-- Bottom note -->
+  <text x="450" y="545" text-anchor="middle" fill="#94a3b8" font-size="12">所有经典模式(ReAct / Reflection / Reflexion)都是这 5 个角色的不同组合与重组</text>
+</svg>
