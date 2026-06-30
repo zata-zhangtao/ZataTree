@@ -10,6 +10,54 @@ tags:
     - 简易使用
 ---
 
+## 安装
+
+### macOS
+
+```bash
+# 用 Homebrew（推荐）
+brew install tmux
+
+# 用 MacPorts
+sudo port install tmux
+```
+
+### Ubuntu / Debian
+
+```bash
+sudo apt update
+sudo apt install tmux
+```
+
+> Ubuntu 自带的 tmux 版本通常较老（1.8），功能受限。需要新版（如 3.x 的 true color 支持等）可以加 PPA：
+>
+> ```bash
+> sudo add-apt-repository ppa:tmux-stable/ppa
+> sudo apt update
+> sudo apt install tmux
+> ```
+
+### Windows
+
+Windows 原生没有 tmux，常见方案：
+
+- **WSL（推荐）**：在 WSL（Ubuntu 等发行版）里 `sudo apt install tmux`，然后通过 Windows Terminal 使用。
+- **MSYS2**：自带包管理器：
+  ```bash
+  pacman -S tmux
+  ```
+- 不愿用 Linux 子系统的话，可考虑 Windows Terminal 自带的 panes/tabs 作为替代。
+
+### 验证安装
+
+```bash
+tmux -V
+```
+
+输出形如 `tmux 3.4` 即安装成功。
+
+---
+
 ## 什么是 tmux
 
 tmux（Terminal Multiplexer）是一个终端复用器。它允许你在一个终端窗口里运行多个会话（session），每个会话里又能打开多个窗口（window）和窗格（pane）。最实用的好处是：**关闭 SSH 连接或终端窗口后，tmux 会话里的程序仍在后台运行，下次可以原样恢复**。
