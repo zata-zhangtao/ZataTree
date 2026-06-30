@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 560" role="img" aria-label="Memory 4-Layer (L0..L3) with MESI coherence">
+  <defs>
+    <linearGradient id="l0" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#fef3c7"/><stop offset="100%" stop-color="#fcd34d"/></linearGradient>
+    <linearGradient id="l1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#fde68a"/><stop offset="100%" stop-color="#fbbf24"/></linearGradient>
+    <linearGradient id="l2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#fcd34d"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient>
+    <linearGradient id="l3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#d97706"/></linearGradient>
+    <style>
+      .t { font-family: -apple-system, "PingFang SC", "Segoe UI", Helvetica, Arial, sans-serif; fill:#0f172a; }
+      .ts { font-family: -apple-system, "PingFang SC", "Segoe UI", Helvetica, Arial, sans-serif; fill:#475569; }
+      .b { font-weight:700; }
+      .mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+    </style>
+  </defs>
+
+  <rect width="1100" height="560" fill="#fafaf9"/>
+
+  <text x="40" y="48" class="t b" font-size="22">4-Layer Memory · CPU Cache 启发的多 Agent 记忆</text>
+  <text x="40" y="72" class="ts" font-size="13">L0 Sled+Qdrant · L1 Context · L2 Oxigraph RDF · L3 SPARQL Projection  ·  + MESI Coherence</text>
+
+  <!-- 4 层从下到上绘制(=越往下越快) -->
+  <g transform="translate(40,110)">
+    <!-- L0 -->
+    <g>
+      <rect x="0" y="280" width="720" height="64" rx="12" fill="url(#l0)" stroke="#b45309" stroke-width="1"/>
+      <text x="24" y="312" class="mono b" font-size="22" fill="#7c2d12">L0</text>
+      <text x="78" y="308" class="t b" font-size="16">Sled KV + Qdrant Vector</text>
+      <text x="78" y="332" class="ts" font-size="12">寄存器/缓存 · Read ~1ms · 1000 ops/s · 磁盘 KV + 向量</text>
+    </g>
+    <g>
+      <rect x="0" y="200" width="720" height="64" rx="12" fill="url(#l1)" stroke="#b45309" stroke-width="1"/>
+      <text x="24" y="232" class="mono b" font-size="22" fill="#7c2d12">L1</text>
+      <text x="78" y="228" class="t b" font-size="16">Context Window</text>
+      <text x="78" y="252" class="ts" font-size="12">L1 Cache · 当前会话上下文 · 由 LLM 决定容量</text>
+    </g>
+    <g>
+      <rect x="0" y="120" width="720" height="64" rx="12" fill="url(#l2)" stroke="#92400e" stroke-width="1.2"/>
+      <text x="24" y="152" class="mono b" font-size="22" fill="#7c2d12">L2</text>
+      <text x="78" y="148" class="t b" font-size="16">Oxigraph RDF Triples</text>
+      <text x="78" y="172" class="ts" font-size="12">L2 Cache · Write ~2ms · 500 ops/s · 跨 Agent 共享事实层</text>
+    </g>
+    <g>
+      <rect x="0" y="40" width="720" height="64" rx="12" fill="url(#l3)" stroke="#92400e" stroke-width="1.2"/>
+      <text x="24" y="72" class="mono b" font-size="22" fill="#7c2d12">L3</text>
+      <text x="78" y="68" class="t b" font-size="16">SPARQL Projection</text>
+      <text x="78" y="92" class="ts" font-size="12">L3 Cache · Query ~15ms · 66 ops/s · 投影视图,按需构建</text>
+    </g>
+
+    <!-- Agent 请求箭头 -->
+    <g stroke="#0f766e" fill="none">
+      <path d="M 760,72 L 900,72" stroke-width="2"/>
+      <polygon points="900,66 916,72 900,78" fill="#0f766e"/>
+      <path d="M 760,152 L 900,152" stroke-width="2"/>
+      <polygon points="900,146 916,152 900,158" fill="#0f766e"/>
+      <path d="M 760,232 L 900,232" stroke-width="2"/>
+      <polygon points="900,226 916,232 900,238" fill="#0f766e"/>
+      <path d="M 760,312 L 900,312" stroke-width="2"/>
+      <polygon points="900,306 916,312 900,318" fill="#0f766e"/>
+    </g>
+    <g>
+      <text x="940" y="78" class="t b" font-size="14">GET</text>
+      <text x="940" y="158" class="t b" font-size="14">SPARQL</text>
+      <text x="940" y="238" class="t b" font-size="14">RDF / ctx</text>
+      <text x="940" y="318" class="t b" font-size="14">read/write</text>
+    </g>
+  </g>
+
+  <!-- MESI 状态图 -->
+  <g transform="translate(40,460)">
+    <rect width="1020" height="80" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="20" y="30" class="t b" font-size="16">MESI 多 Agent 共享一致性</text>
+    <text x="20" y="50" class="ts" font-size="12">解决"多个 Agent 同时持有同一记忆副本"导致的不一致问题</text>
+
+    <g transform="translate(20,60)" font-family="-apple-system, PingFang SC, sans-serif">
+      <g><rect width="80" height="14" rx="4" fill="#22c55e"/><text x="8" y="11" font-size="10" fill="#fff" class="b">M</text><text x="22" y="11" font-size="10" fill="#0f172a">Modified</text></g>
+      <g transform="translate(150,0)"><rect width="80" height="14" rx="4" fill="#3b82f6"/><text x="8" y="11" font-size="10" fill="#fff" class="b">E</text><text x="22" y="11" font-size="10" fill="#0f172a">Exclusive</text></g>
+      <g transform="translate(310,0)"><rect width="80" height="14" rx="4" fill="#a855f7"/><text x="8" y="11" font-size="10" fill="#fff" class="b">S</text><text x="22" y="11" font-size="10" fill="#0f172a">Shared</text></g>
+      <g transform="translate(450,0)"><rect width="80" height="14" rx="4" fill="#94a3b8"/><text x="8" y="11" font-size="10" fill="#fff" class="b">I</text><text x="22" y="11" font-size="10" fill="#0f172a">Invalid</text></g>
+    </g>
+
+    <text x="510" y="70" text-anchor="middle" class="ts" font-size="11" opacity="0.85">+ Spreading-Activation Prefetch · 感知延迟 ↓ 90%</text>
+  </g>
+</svg>

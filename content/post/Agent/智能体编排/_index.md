@@ -8,6 +8,9 @@ description: "从单 Agent 设计到多智能体协作，系统学习智能体�
 ## 系列目录
 
 1. [智能体编排设计工程师学习指南](./01-智能体编排设计工程师学习指南/index.md)
+2. [AI Agent Loop 工程:原理、模式与实现](./AI%20Agent%20Loop%20工程：原理、模式与实现/index.md)
+3. [记忆模块技术文档](./记忆模块技术文档/index.md)
+4. [Gliding Horse Agent OS 介绍:Rust 构建的工业级 AI Agent 操作系统](./Gliding%20Horse%20Agent%20OS%20介绍/index.md)
 
 ## 什么是智能体编排？
 

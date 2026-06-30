@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" role="img" aria-label="PDCA 7-Level Adaptive Execution">
+  <defs>
+    <linearGradient id="l0" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#a7f3d0"/><stop offset="100%" stop-color="#34d399"/></linearGradient>
+    <linearGradient id="l1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#bae6fd"/><stop offset="100%" stop-color="#38bdf8"/></linearGradient>
+    <linearGradient id="l2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#ddd6fe"/><stop offset="100%" stop-color="#a78bfa"/></linearGradient>
+    <linearGradient id="l3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#fbcfe8"/><stop offset="100%" stop-color="#f472b6"/></linearGradient>
+    <linearGradient id="l4" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#fed7aa"/><stop offset="100%" stop-color="#fb923c"/></linearGradient>
+    <linearGradient id="l5" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#fecaca"/><stop offset="100%" stop-color="#ef4444"/></linearGradient>
+    <linearGradient id="l6" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1f2937"/><stop offset="100%" stop-color="#0f172a"/></linearGradient>
+    <style>
+      .t { font-family: -apple-system, "PingFang SC", "Segoe UI", Helvetica, Arial, sans-serif; fill:#0f172a; }
+      .tw { fill:#fff; }
+      .ts { font-family: -apple-system, "PingFang SC", "Segoe UI", Helvetica, Arial, sans-serif; fill:#475569; }
+      .b { font-weight:700; }
+    </style>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="1100" height="520" fill="#f8fafc"/>
+
+  <!-- 标题 -->
+  <text x="40" y="48" class="t b" font-size="22">PDCA 7-Level Adaptive Execution</text>
+  <text x="40" y="72" class="ts" font-size="13">同一套引擎,从「即时响应」到「应急接管」,按 5W2H 元数据动态选择</text>
+
+  <!-- 7 个等级卡(横向铺开,逐步放大颜色加深表示复杂度上升) -->
+  <g transform="translate(40,110)">
+    <!-- L0 -->
+    <g transform="translate(0,0)">
+      <rect width="135" height="160" rx="14" fill="url(#l0)"/>
+      <text x="14" y="28" class="t b" font-size="20">L0</text>
+      <text x="14" y="58" class="t b" font-size="14">即时响应</text>
+      <text x="14" y="82" class="t" font-size="12">简单问答</text>
+      <text x="14" y="100" class="t" font-size="12">无工具</text>
+      <text x="14" y="142" class="ts" font-size="11">~ms 级</text>
+    </g>
+    <!-- L1 -->
+    <g transform="translate(150,0)">
+      <rect width="135" height="160" rx="14" fill="url(#l1)"/>
+      <text x="14" y="28" class="t b" font-size="20">L1</text>
+      <text x="14" y="58" class="t b" font-size="14">单步工具</text>
+      <text x="14" y="82" class="t" font-size="12">搜索</text>
+      <text x="14" y="100" class="t" font-size="12">代码执行</text>
+      <text x="14" y="142" class="ts" font-size="11">~1s</text>
+    </g>
+    <!-- L2 -->
+    <g transform="translate(300,0)">
+      <rect width="135" height="160" rx="14" fill="url(#l2)"/>
+      <text x="14" y="28" class="t b" font-size="20">L2</text>
+      <text x="14" y="58" class="t b" font-size="14">多步推理</text>
+      <text x="14" y="82" class="t" font-size="12">ReAct 循环</text>
+      <text x="14" y="100" class="t" font-size="12">需要思考</text>
+      <text x="14" y="142" class="ts" font-size="11">~5–30s</text>
+    </g>
+    <!-- L3 -->
+    <g transform="translate(450,0)">
+      <rect width="135" height="160" rx="14" fill="url(#l3)"/>
+      <text x="14" y="28" class="t b" font-size="20">L3</text>
+      <text x="14" y="58" class="t b" font-size="14">子任务分解</text>
+      <text x="14" y="82" class="t" font-size="12">拆解后并行</text>
+      <text x="14" y="100" class="t" font-size="12">协同调度</text>
+      <text x="14" y="142" class="ts" font-size="11">~min</text>
+    </g>
+    <!-- L4 -->
+    <g transform="translate(600,0)">
+      <rect width="135" height="160" rx="14" fill="url(#l4)"/>
+      <text x="14" y="28" class="t b" font-size="20">L4</text>
+      <text x="14" y="58" class="t b" font-size="14">长链 Pipeline</text>
+      <text x="14" y="82" class="t" font-size="12">req → design</text>
+      <text x="14" y="100" class="t" font-size="12">→ code → test</text>
+      <text x="14" y="142" class="ts" font-size="11">~hour</text>
+    </g>
+    <!-- L5 -->
+    <g transform="translate(750,0)">
+      <rect width="135" height="160" rx="14" fill="url(#l5)"/>
+      <text x="14" y="28" class="tw b" font-size="20">L5</text>
+      <text x="14" y="58" class="tw b" font-size="14">递归 PDCA</text>
+      <text x="14" y="82" class="tw" font-size="12">任务作为</text>
+      <text x="14" y="100" class="tw" font-size="12">其他任务节点</text>
+      <text x="14" y="142" class="tw" font-size="11" opacity="0.85">~天</text>
+    </g>
+    <!-- L6 -->
+    <g transform="translate(900,0)">
+      <rect width="135" height="160" rx="14" fill="url(#l6)"/>
+      <text x="14" y="28" class="tw b" font-size="20">L6</text>
+      <text x="14" y="58" class="tw b" font-size="14">应急模式</text>
+      <text x="14" y="82" class="tw" font-size="12">异常升级</text>
+      <text x="14" y="100" class="tw" font-size="12">人工接管</text>
+      <text x="14" y="142" class="tw" font-size="11" opacity="0.7">视情而定</text>
+    </g>
+  </g>
+
+  <!-- 复杂度上升箭头 -->
+  <g>
+    <line x1="40" y1="305" x2="1060" y2="305" stroke="#94a3b8" stroke-width="2"/>
+    <polygon points="1060,300 1075,305 1060,310" fill="#94a3b8"/>
+    <text x="550" y="295" text-anchor="middle" class="ts" font-size="12">复杂度 / 时延 / 资源开销  ↑</text>
+  </g>
+
+  <!-- 5W2H 选择器 -->
+  <g transform="translate(40,335)">
+    <rect width="1020" height="146" rx="14" fill="#fff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="20" y="32" class="t b" font-size="16">5W2H 元数据 → 选择执行级别</text>
+    <text x="20" y="52" class="ts" font-size="12">What / Why / How / Where / When / HowMuch (+ Which) — 由感知引擎从 10 个触发器实时采集</text>
+
+    <g transform="translate(20,72)" font-size="12" font-family="-apple-system, PingFang SC, Segoe UI, sans-serif">
+      <g><circle cx="6" cy="9" r="5" fill="#10b981"/><text x="20" y="13" class="t">What · 任务类型</text></g>
+      <g transform="translate(180,0)"><circle cx="6" cy="9" r="5" fill="#22c55e"/><text x="20" y="13" class="t">Why · 决策理由</text></g>
+      <g transform="translate(370,0)"><circle cx="6" cy="9" r="5" fill="#84cc16"/><text x="20" y="13" class="t">How · 执行方法</text></g>
+      <g transform="translate(540,0)"><circle cx="6" cy="9" r="5" fill="#eab308"/><text x="20" y="13" class="t">Where · 上下文/环境</text></g>
+      <g transform="translate(20,32)"><circle cx="6" cy="9" r="5" fill="#f59e0b"/><text x="20" y="13" class="t">When · 时序/截止</text></g>
+      <g transform="translate(180,32)"><circle cx="6" cy="9" r="5" fill="#ef4444"/><text x="20" y="13" class="t">HowMuch · 资源预算</text></g>
+      <g transform="translate(370,32)"><circle cx="6" cy="9" r="5" fill="#7c3aed"/><text x="20" y="13" class="t">Which · 角色/工具</text></g>
+    </g>
+
+    <text x="510" y="138" text-anchor="middle" class="ts" font-size="11" opacity="0.9">同 PDCA 闭环:Plan(选级) → Do → Check(7维独立审计) → Act(失败重选下一级)</text>
+  </g>
+</svg>
