@@ -201,3 +201,26 @@ View -> Output -> GitHub Pull Requests
 gh pr list --repo OWNER/REPO --state all --limit 10
 gh pr view PR_NUMBER --repo OWNER/REPO
 ```
+
+### macOS 下按 Cmd+Q 直接退出 VSCode
+
+在 macOS 上使用 VSCode / Cursor 时, 按下 `Cmd+Q` 会触发 macOS 的"退出应用"快捷键, 直接把整个 VSCode 进程关掉 (而不是仅关闭当前窗口), 容易丢失未保存的内容。
+
+解决方法是在 VSCode 的快捷键设置里把 `Cmd+Q` 绑定的命令移除或改成无害操作:
+
+1. 打开 `Cmd+K Cmd+S` (Keyboard Shortcuts) 或者 `File → Preferences → Keyboard Shortcuts`。
+2. 搜索 `cmd+q` 或 `Quit`, 找到 `Quit` / `workbench.action.quit` 这一项。
+3. 双击该项, 选择 `Remove Keybinding` (删除快捷键), 或者改成 `Cmd+Q` 之外的其他组合 (比如改成 `Cmd+Shift+Q` 之类的)。
+
+也可以直接编辑 `keybindings.json` (命令面板 `Preferences: Open Keyboard Shortcuts (JSON)`), 写入:
+
+```json
+[
+  {
+    "key": "cmd+q",
+    "command": "-workbench.action.quit"
+  }
+]
+```
+
+加负号 `-` 表示解除该命令的快捷键绑定。保存后重启 VSCode 生效, 此后按 `Cmd+Q` 不会再退出 VSCode, 只会由 macOS 提示要不要退出 (或者完全没反应), 避免误触丢工作内容。
