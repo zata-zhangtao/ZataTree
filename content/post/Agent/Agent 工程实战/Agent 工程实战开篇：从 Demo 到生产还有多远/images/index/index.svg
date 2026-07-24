@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a1828"/>
+      <stop offset="100%" stop-color="#1e3a5f"/>
+    </linearGradient>
+    <linearGradient id="code" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0d1e35"/>
+      <stop offset="100%" stop-color="#14283f"/>
+    </linearGradient>
+    <linearGradient id="prod" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1f3a6b"/>
+      <stop offset="100%" stop-color="#2a4d8a"/>
+    </linearGradient>
+    <linearGradient id="arrow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff9a3c"/>
+      <stop offset="100%" stop-color="#ff6b6b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- subtle grid -->
+  <g stroke="#1c3559" stroke-width="1" opacity="0.5">
+    <line x1="0" y1="105" x2="1200" y2="105"/>
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="525" x2="1200" y2="525"/>
+    <line x1="240" y1="0" x2="240" y2="630"/>
+    <line x1="480" y1="0" x2="480" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/>
+    <line x1="960" y1="0" x2="960" y2="630"/>
+  </g>
+
+  <!-- left card: demo -->
+  <rect x="80" y="170" width="380" height="290" rx="14" fill="url(#code)" stroke="#4f9eff" stroke-width="2" opacity="0.95"/>
+  <text x="100" y="205" fill="#7fb3ff" font-family="monospace" font-size="16"># demo_agent.py</text>
+  <text x="100" y="245" fill="#a8d0ff" font-family="monospace" font-size="15">def run(user_input):</text>
+  <text x="120" y="275" fill="#dce8ff" font-family="monospace" font-size="15">if "天气" in user_input:</text>
+  <text x="140" y="305" fill="#dce8ff" font-family="monospace" font-size="15">return get_weather(...)</text>
+  <text x="120" y="335" fill="#dce8ff" font-family="monospace" font-size="15">response = llm.chat(</text>
+  <text x="140" y="365" fill="#dce8ff" font-family="monospace" font-size="15">prompt=build_prompt(...)</text>
+  <text x="120" y="395" fill="#dce8ff" font-family="monospace" font-size="15">)</text>
+  <text x="100" y="435" fill="#ff9a3c" font-family="monospace" font-size="15"># 看起来能跑 ✓</text>
+
+  <!-- right card: production -->
+  <rect x="740" y="170" width="380" height="290" rx="14" fill="url(#prod)" stroke="#7c5cff" stroke-width="2" opacity="0.95"/>
+  <text x="760" y="205" fill="#b8a5ff" font-family="monospace" font-size="16"># production_agent/</text>
+  <text x="760" y="240" fill="#d4c5ff" font-family="monospace" font-size="13">├── prompts/        # 版本化</text>
+  <text x="760" y="265" fill="#d4c5ff" font-family="monospace" font-size="13">├── tools/          # schema + 权限</text>
+  <text x="760" y="290" fill="#d4c5ff" font-family="monospace" font-size="13">├── loop/           # 状态机 + 上限</text>
+  <text x="760" y="315" fill="#d4c5ff" font-family="monospace" font-size="13">├── observability/  # trace + 成本</text>
+  <text x="760" y="340" fill="#d4c5ff" font-family="monospace" font-size="13">├── eval/           # 离线 + 线上</text>
+  <text x="760" y="365" fill="#d4c5ff" font-family="monospace" font-size="13">├── guardrails/     # 安全 + 审计</text>
+  <text x="760" y="390" fill="#d4c5ff" font-family="monospace" font-size="13">└── router/         # 模型路由</text>
+  <text x="760" y="430" fill="#ff9a3c" font-family="monospace" font-size="13"># 99% 可用 · 可观测 · 可控</text>
+
+  <!-- arrow -->
+  <g>
+    <path d="M 470 315 L 720 315" stroke="url(#arrow)" stroke-width="4" fill="none"/>
+    <polygon points="720,305 740,315 720,325" fill="#ff6b6b"/>
+  </g>
+  <text x="595" y="295" text-anchor="middle" fill="#ff9a3c" font-family="Arial, sans-serif" font-size="18" font-weight="bold">工程化</text>
+
+  <!-- title -->
+  <text x="600" y="100" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="42" font-weight="bold">从 Demo 到生产还有多远</text>
+
+  <!-- subtitle -->
+  <text x="600" y="135" text-anchor="middle" fill="#a8c5e8" font-family="Arial, sans-serif" font-size="18">Agent 工程实战 · 开篇</text>
+
+  <!-- footer tags -->
+  <g font-family="Arial, sans-serif" font-size="13" fill="#a8c5e8">
+    <rect x="120" y="520" width="80" height="26" rx="4" fill="#1e3a5f" stroke="#4f9eff"/>
+    <text x="160" y="538" text-anchor="middle">可观测</text>
+    <rect x="220" y="520" width="80" height="26" rx="4" fill="#1e3a5f" stroke="#4f9eff"/>
+    <text x="260" y="538" text-anchor="middle">可评估</text>
+    <rect x="320" y="520" width="80" height="26" rx="4" fill="#1e3a5f" stroke="#4f9eff"/>
+    <text x="360" y="538" text-anchor="middle">可治理</text>
+    <rect x="420" y="520" width="80" height="26" rx="4" fill="#1e3a5f" stroke="#7c5cff"/>
+    <text x="460" y="538" text-anchor="middle">成本可控</text>
+    <rect x="520" y="520" width="80" height="26" rx="4" fill="#1e3a5f" stroke="#7c5cff"/>
+    <text x="560" y="538" text-anchor="middle">安全合规</text>
+    <rect x="620" y="520" width="80" height="26" rx="4" fill="#1e3a5f" stroke="#7c5cff"/>
+    <text x="660" y="538" text-anchor="middle">可扩展</text>
+  </g>
+
+  <text x="600" y="595" text-anchor="middle" fill="#5d7ba0" font-family="Arial, sans-serif" font-size="14" letter-spacing="2">AGENT ENGINEERING IN PRACTICE · EP.01</text>
+</svg>
