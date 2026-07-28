@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a2c80"/>
+      <stop offset="100%" stop-color="#2b5876"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <text x="600" y="290" font-family="PingFang SC, Microsoft YaHei, Hiragino Sans GB, sans-serif" font-size="84" font-weight="700" fill="#ffffff" opacity="0.96" text-anchor="middle">扩展式 RPA</text>
+  <text x="600" y="380" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="48" font-weight="600" fill="#ffffff" opacity="0.92" text-anchor="middle">Chrome Extension + Playwright</text>
+  <text x="600" y="450" font-family="PingFang SC, Microsoft YaHei, Hiragino Sans GB, sans-serif" font-size="28" fill="#ffffff" opacity="0.78" text-anchor="middle">从原理到实战方案</text>
+</svg>

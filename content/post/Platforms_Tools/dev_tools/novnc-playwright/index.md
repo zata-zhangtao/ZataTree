@@ -9,6 +9,7 @@ tags:
     - Docker
     - Playwright
     - VNC
+    - Browser-Automation
 ---
 
 ## 背景

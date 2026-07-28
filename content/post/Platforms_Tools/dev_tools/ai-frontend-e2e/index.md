@@ -11,6 +11,7 @@ tags:
     - E2E-Testing
     - Playwright
     - Visual-Regression
+    - Browser-Automation
 toc: true
 draft: false
 ---
