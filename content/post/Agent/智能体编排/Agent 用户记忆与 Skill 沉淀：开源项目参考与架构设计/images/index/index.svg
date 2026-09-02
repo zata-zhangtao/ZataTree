@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Agent 用户记忆与 Skill 沉淀</title>
+  <desc id="desc">由记忆节点、技能模块和 Agent 组成的抽象技术封面</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101b36"/>
+      <stop offset="0.55" stop-color="#182c52"/>
+      <stop offset="1" stop-color="#263766"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5b87bf"/>
+      <stop offset="0.5" stop-color="#7d72d8"/>
+      <stop offset="1" stop-color="#48b8ad"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1040" cy="90" r="210" fill="#5b87bf" opacity="0.08"/>
+  <circle cx="1080" cy="570" r="260" fill="#48b8ad" opacity="0.07"/>
+  <path d="M720 160 L870 95 L1030 185 L1005 365 L845 470 L695 370 Z" fill="none" stroke="url(#accent)" stroke-width="3" opacity="0.7"/>
+  <g stroke="#789fd0" stroke-width="2" opacity="0.65">
+    <path d="M720 160L845 270L870 95M845 270L1030 185M845 270L1005 365M845 270L845 470M695 370L845 270"/>
+  </g>
+  <g fill="#b9d2ee" filter="url(#glow)">
+    <circle cx="720" cy="160" r="10"/>
+    <circle cx="870" cy="95" r="13"/>
+    <circle cx="1030" cy="185" r="10"/>
+    <circle cx="1005" cy="365" r="12"/>
+    <circle cx="845" cy="470" r="11"/>
+    <circle cx="695" cy="370" r="9"/>
+    <circle cx="845" cy="270" r="23" fill="#72c9bd"/>
+  </g>
+  <g font-family="sans-serif" fill="#eff6ff">
+    <text x="80" y="175" font-size="28" letter-spacing="5" fill="#7fa9da">AGENT HARNESS</text>
+    <text x="80" y="260" font-size="56" font-weight="700">用户记忆与</text>
+    <text x="80" y="335" font-size="64" font-weight="700" fill="url(#accent)">Skill 沉淀</text>
+    <text x="82" y="405" font-size="25" fill="#bdd0e7">Memory · Provenance · Evaluation · Evolution</text>
+  </g>
+  <g transform="translate(82 472)" font-family="sans-serif" font-size="18">
+    <rect width="142" height="42" rx="21" fill="#5b87bf" opacity="0.24" stroke="#739bd0"/>
+    <text x="71" y="27" text-anchor="middle" fill="#dbeaff">可治理记忆</text>
+    <rect x="160" width="142" height="42" rx="21" fill="#7d72d8" opacity="0.24" stroke="#958be4"/>
+    <text x="231" y="27" text-anchor="middle" fill="#e9e4ff">版本化 Skill</text>
+    <rect x="320" width="142" height="42" rx="21" fill="#48b8ad" opacity="0.24" stroke="#65cfc4"/>
+    <text x="391" y="27" text-anchor="middle" fill="#dcfffb">跨 Agent 携带</text>
+  </g>
+</svg>

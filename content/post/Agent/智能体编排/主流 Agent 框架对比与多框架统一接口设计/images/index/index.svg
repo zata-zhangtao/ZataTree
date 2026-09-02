@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">主流 Agent 框架对比与多框架统一接口设计</title>
+  <desc id="desc">多个 Agent 框架通过统一适配层连接到业务接口的抽象示意图</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#17233a"/>
+      <stop offset="1" stop-color="#253a59"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5b87bf"/>
+      <stop offset="0.52" stop-color="#7d6bc4"/>
+      <stop offset="1" stop-color="#42a9a1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1080" cy="90" r="160" fill="#5b87bf" opacity="0.08"/>
+  <circle cx="105" cy="570" r="210" fill="#42a9a1" opacity="0.07"/>
+
+  <g fill="none" stroke="#9fb9dc" stroke-width="3" opacity="0.65">
+    <path d="M195 170 C310 170 335 280 450 280"/>
+    <path d="M195 270 C310 270 335 305 450 305"/>
+    <path d="M195 370 C310 370 335 330 450 330"/>
+    <path d="M195 470 C310 470 335 355 450 355"/>
+    <path d="M750 317 H965"/>
+  </g>
+
+  <g font-family="sans-serif" text-anchor="middle">
+    <g fill="#21334e" stroke="#5b87bf" stroke-width="2">
+      <rect x="75" y="130" width="240" height="72" rx="18"/>
+      <rect x="75" y="230" width="240" height="72" rx="18"/>
+      <rect x="75" y="330" width="240" height="72" rx="18"/>
+      <rect x="75" y="430" width="240" height="72" rx="18"/>
+    </g>
+    <g fill="#dce9f8" font-size="22">
+      <text x="195" y="174">Deep Agents</text>
+      <text x="195" y="274">LangGraph</text>
+      <text x="195" y="374">OpenAI / PydanticAI</text>
+      <text x="195" y="474">ADK / Microsoft</text>
+    </g>
+
+    <rect x="450" y="235" width="300" height="165" rx="28" fill="url(#accent)"/>
+    <text x="600" y="305" fill="#ffffff" font-size="30" font-weight="700">统一 Adapter</text>
+    <text x="600" y="347" fill="#edf5ff" font-size="19">Request · Response · Event</text>
+
+    <rect x="965" y="267" width="175" height="100" rx="24" fill="#17263d" stroke="#42a9a1" stroke-width="3"/>
+    <text x="1052" y="309" fill="#ffffff" font-size="24" font-weight="700">业务 API</text>
+    <text x="1052" y="339" fill="#a9c9cb" font-size="17">HTTP / SSE</text>
+  </g>
+
+  <g font-family="sans-serif">
+    <text x="75" y="70" fill="#ffffff" font-size="40" font-weight="700">主流 Agent 框架对比</text>
+    <text x="75" y="108" fill="#a9bfdc" font-size="24">多框架选型与统一接口设计</text>
+    <rect x="75" y="548" width="430" height="5" rx="2.5" fill="url(#accent)"/>
+    <text x="75" y="590" fill="#8ca8ca" font-size="18">Agent · Orchestration · Adapter</text>
+  </g>
+</svg>
